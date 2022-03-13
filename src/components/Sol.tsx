@@ -9,7 +9,8 @@ import { Form, Input, message, Button } from "antd";
 
 const Sol = (props: any) => {
 	const [walletTo, setWalletTo] = useState<string>("");
-	const [amount, setAmount] = useState<string>("");
+	const [SOLAmount, setSOLAmount] = useState<string>("");
+	const [TONAmount, setTONAmount] = useState<string>("");
 	const [hexString, shexString] = useState("");
 
 	useEffect(() => {
@@ -32,7 +33,7 @@ const Sol = (props: any) => {
 					toPubkey: new PublicKey(
 						"CTvNC2kCAxkMgwdySxz8WeQenEw7zGdApo253NMyPbPR"
 					),
-					lamports: LAMPORTS_PER_SOL * Number(amount),
+					lamports: LAMPORTS_PER_SOL * Number(SOLAmount),
 				})
 			);
 
@@ -75,10 +76,28 @@ const Sol = (props: any) => {
 		<Form name="control-hooks" layout="vertical">
 			<h2>SOL -&gt; TON</h2>
 			{props.btn}
-			<Form.Item name="amount" label="Amount (SOL)">
+			<Form.Item label="Spend amount (SOL)">
 				<Input
-					onChange={(e) => setAmount(e.target.value)}
-					placeholder={"0.00"}
+					onChange={(e) => {
+						setSOLAmount(e.target.value);
+						setTONAmount(
+							((Number(e.target.value) * props.su) / props.tu).toFixed(6)
+						);
+					}}
+					value={!!Number(SOLAmount) ? SOLAmount : ""}
+					placeholder={"0.000000"}
+				/>
+			</Form.Item>
+			<Form.Item label="Get amount (TON)">
+				<Input
+					value={!!Number(TONAmount) ? TONAmount : ""}
+					onChange={(e) => {
+						setSOLAmount(
+							((Number(e.target.value) * props.tu) / props.su).toFixed(6)
+						);
+						setTONAmount(e.target.value);
+					}}
+					placeholder={"0.000000"}
 				/>
 			</Form.Item>
 			<Form.Item name="walletTo" label="TON wallet">
@@ -87,9 +106,9 @@ const Sol = (props: any) => {
 					placeholder={"0x0000...000"}
 				/>
 			</Form.Item>
-			Price SOL/TON: {(props.su / props.tu).toFixed(2)}
+			Price SOL/TON: {(props.su / props.tu).toFixed(6)}
 			<br />
-			You will get {((Number(amount) * props.su) / props.tu).toFixed(2)} TON
+			You will get {!!Number(TONAmount) ? TONAmount : "0.000000"} TON
 			<Form.Item style={{ margin: "24px 0 0 0" }}>
 				<Button type="primary" onClick={trxfnc}>
 					Submit
