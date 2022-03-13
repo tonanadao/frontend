@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button } from "antd";
-import Ton from "./Ton";
-import Sol from "./Sol";
+import Ton from "./components/Ton";
+import Sol from "./components/Sol";
 import bnn from "./static/img/bnn.png";
-import web3, {
-	SystemProgram,
+import {
 	PublicKey,
 	Transaction,
-	LAMPORTS_PER_SOL,
 	Connection,
 	clusterApiUrl,
 } from "@solana/web3.js";
@@ -39,7 +37,7 @@ interface PhantomProvider {
 	request: (method: PhantomRequestMethod, params: any) => Promise<unknown>;
 }
 
-function App() {
+const App = () => {
 	const [tu, stu] = useState(0);
 	const [su, ssu] = useState(0);
 	const [ex, sex] = useState(true);
@@ -88,14 +86,24 @@ function App() {
 				console.log(response.publicKey.toString());
 				setWalletKey(response.publicKey.toString());
 			} catch (err) {
-				// { code: 4001, message: 'User rejected the request.' }
+				console.log(err);
 			}
 		}
 	};
 
+	const btn = (
+		<Button
+			type="primary"
+			onClick={connectWallet}
+			style={{ margin: "0 0 24px 0" }}>
+			{walletKey ? "Connected!" : "Connect"}
+		</Button>
+	);
+
 	return (
 		<div className="App">
 			<h1>TONANA bridge</h1>
+
 			<img
 				src={bnn}
 				onClick={() => sex(!ex)}
@@ -113,14 +121,7 @@ function App() {
 					walletKey={walletKey}
 					provider={provider}
 					sisload={sisload}
-					btn={
-						<Button
-							type="primary"
-							onClick={connectWallet}
-							style={{ margin: "0 0 24px 0" }}>
-							{walletKey ? "Connected!" : "Connect"}
-						</Button>
-					}
+					btn={btn}
 				/>
 			) : (
 				<Ton
@@ -128,19 +129,13 @@ function App() {
 					su={su}
 					walletKey={walletKey}
 					sisload={sisload}
-					btn={
-						<Button
-							type="primary"
-							onClick={connectWallet}
-							style={{ margin: "0 0 24px 0" }}>
-							{walletKey ? "Connected!" : "Connect"}
-						</Button>
-					}
+					btn={btn}
 				/>
 			)}
+
 			{isload ? <Loader src={bnn} /> : null}
 		</div>
 	);
-}
+};
 
 export default App;
