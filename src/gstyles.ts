@@ -39,6 +39,11 @@ const Gstyles = createGlobalStyle`
 
 	button {
 		background: linear-gradient(214.02deg, #B75CFF 6.04%, #671AE4 92.95%) !important;
+
+		/* background-color: #f17425!important;
+    border: 1px solid #f17425!important;
+    box-shadow: 0 3px 5px 0 rgb(241 116 37 / 30%); */
+
 		border-radius: 10px !important;
 		padding: 16px 24px !important;
 		display: flex !important;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button } from "antd";
+import { Button, Layout, Divider } from "antd";
 import Ton from "./components/Ton";
 import Sol from "./components/Sol";
 import bnn from "./static/img/bnn.png";
@@ -9,7 +9,9 @@ import {
 	Connection,
 	clusterApiUrl,
 } from "@solana/web3.js";
-import { Loader } from "./style";
+import { DevLinks, Loader, Links } from "./style";
+const { Buffer } = require("buffer");
+const bs58 = require("bs58");
 
 type DisplayEncoding = "utf8" | "hex";
 type PhantomEvent = "disconnect" | "connect" | "accountChanged";
@@ -42,16 +44,14 @@ const App = () => {
 	const [su, ssu] = useState(0);
 	const [ex, sex] = useState(true);
 	const [isload, sisload] = useState(false);
-
-	const [walletKey, setWalletKey] = useState<PhantomProvider | undefined>(
-		undefined
-	);
-	const [provider, setProvider] = useState<PhantomProvider | undefined>(
-		undefined
-	);
+	const [SOLwalletKey, setSOLWalletKey] = useState("");
+	const [TONwalletKey, setTONwalletKey] = useState("");
+	const [SOLMaxAmount, setSOLMaxAmount] = useState();
+	const [TONMaxAmount, setTONMaxAmount] = useState();
+	var connection = new Connection(clusterApiUrl("devnet"));
 
 	useEffect(() => {
-		fetch("https://sepezho.com:5555/https://ftx.com/api/markets")
+		fetch("https://ftx.com/api/markets")
 			.then((e) => e.json())
 			.then((e) => {
 				stu(
@@ -59,51 +59,92 @@ const App = () => {
 				);
 				ssu(e.result.filter((item: any) => item.name === "SOL/USD")[0].price);
 			});
-		setTimeout(() => {
-			const provider = getProvider();
-			if (provider) setProvider(provider);
-			else setProvider(undefined);
-		}, 1000);
 	}, []);
 
-	var connection = new Connection(clusterApiUrl("devnet"));
-
-	const getProvider = (): PhantomProvider | undefined => {
-		if ("solana" in window) {
-			// @ts-ignore
-			const provider = window.solana as any;
-			if (provider.isPhantom) return provider as PhantomProvider;
-		}
-	};
-
-	const connectWallet = async () => {
-		// @ts-ignore
-		const { solana } = window;
-
-		if (solana) {
+	const connectWalletTON = async () => {
+		//@ts-ignore
+		const ton = window.ton;
+		if (ton) {
 			try {
-				const response = await solana.connect();
-				console.log(response.publicKey.toString());
-				setWalletKey(response.publicKey.toString());
+				const accounts = await ton.send("ton_requestWallets");
+				setTONwalletKey(accounts[0].address);
 			} catch (err) {
 				console.log(err);
 			}
 		}
 	};
 
+	const connectWalletSOL = async () => {
+		// @ts-ignore
+		const solana = window.solana;
+		if (solana) {
+			try {
+				const response = await solana.connect();
+				setSOLWalletKey(response.publicKey.toString());
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	};
+
+	useEffect(() => {
+		fetch(
+			`https://toncenter.com/api/v2/getAddressInformation?address=${process.env.REACT_APP_BACK_TON_WALLET}`,
+			{ method: "GET" }
+		)
+			.then((e) => e.json())
+			.then((e: any) => {
+				setTONMaxAmount(e.result.balance);
+			});
+
+		fetch("https://api.devnet.solana.com/", {
+			method: "POST",
+			headers: {
+				Accept: "application/json, text/plain, */*",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				jsonrpc: "2.0",
+				id: 1,
+				method: "getAccountInfo",
+				params: [
+					process.env.REACT_APP_BACK_SOL_WALLET,
+					{
+						encoding: "base58",
+					},
+				],
+			}),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				setSOLMaxAmount(res.result.value.lamports);
+			});
+	}, []);
+
+	console.log(TONMaxAmount);
+	console.log(SOLMaxAmount);
+
 	const btn = (
-		<Button
-			type="primary"
-			onClick={connectWallet}
-			style={{ margin: "0 0 24px 0" }}>
-			{walletKey ? "Connected!" : "Connect"}
-		</Button>
+		<>
+			<Button
+				type="primary"
+				onClick={connectWalletSOL}
+				style={{ margin: "0 0 24px 0" }}>
+				{SOLwalletKey ? "SOL wallet connected!" : "Connect SOL wallet"}
+			</Button>
+			<Button
+				type="primary"
+				onClick={connectWalletTON}
+				style={{ margin: "0 0 24px 0" }}>
+				{TONwalletKey ? "TON wallet connected!" : "Connect TON wallet"}
+			</Button>
+			<Divider dashed />
+		</>
 	);
 
 	return (
 		<div className="App">
 			<h1>TONANA bridge</h1>
-
 			<img
 				src={bnn}
 				onClick={() => sex(!ex)}
@@ -111,28 +152,48 @@ const App = () => {
 					transform: ex ? "rotate3d(0, 1, 0, 180deg)" : "rotate3d(0, 1, 0, 0)",
 				}}
 			/>
-
 			{ex ? (
 				<Sol
 					tu={tu}
 					su={su}
 					connection={connection}
-					getProvider={getProvider}
-					walletKey={walletKey}
-					provider={provider}
+					SOLwalletKey={SOLwalletKey}
+					TONwalletKey={TONwalletKey}
 					sisload={sisload}
 					btn={btn}
+					TONMaxAmount={TONMaxAmount}
 				/>
 			) : (
 				<Ton
 					tu={tu}
 					su={su}
-					walletKey={walletKey}
+					SOLwalletKey={SOLwalletKey}
+					TONwalletKey={TONwalletKey}
 					sisload={sisload}
 					btn={btn}
+					SOLMaxAmount={SOLMaxAmount}
 				/>
 			)}
-
+			<Divider dashed />
+			<h2>Stay connected!</h2>
+			<Links>
+				<a href={"https://twitter.com/TonanaBridge"}>Twitter</a>
+				<a href={"https://t.me/tonanadao"}>Telegram</a>
+				<a
+					href={
+						"https://www.linkedin.com/company/tonana/?trk=companies_directory&originalSubdomain=cz"
+					}>
+					LinkedIn
+				</a>
+				<a href={"https://github.com/tonanabridge"}>GitHub</a>
+			</Links>
+			<Divider dashed />
+			<h2>Devs:</h2>
+			<DevLinks>
+				<a href={"t.me/sepezho"}>Sepezho</a>
+				<a href={"t.me/gthlp_coordinator"}>Gthlp_coordinator</a>
+				<a href={"t.me/cybergangsta"}>Cybergangsta</a>
+			</DevLinks>
 			{isload ? <Loader src={bnn} /> : null}
 		</div>
 	);

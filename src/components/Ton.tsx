@@ -1,53 +1,53 @@
 import { useEffect, useState } from "react";
 import { message, Form, Input, Button } from "antd";
+import TonWeb from "tonweb";
 
 const Ton = (props: any) => {
-	const [walletTo, setWalletTo] = useState<string>(props.walletKey);
+	const [walletTo, setWalletTo] = useState<string>(props.SOLwalletKey);
 	const [SOLAmount, setSOLAmount] = useState<string>("");
 	const [TONAmount, setTONAmount] = useState<string>("");
-	const [hexString, shexString] = useState("");
 
 	useEffect(() => {
-		shexString(
-			Array(16)
-				.fill("")
-				.map(() => Math.round(Math.random() * 0xf).toString(16))
-				.join("")
-		);
-	}, []);
+		setWalletTo(props.SOLwalletKey);
+	}, [props.SOLwalletKey]);
+
+	const makeTrx = () => {
+		//@ts-ignore
+		const ton = window.ton;
+		ton.send("ton_sendTransaction", [
+			{
+				to: process.env.REACT_APP_BACK_TON_WALLET,
+				value: TonWeb.utils.toNano(Number(TONAmount)).toString(),
+				data: `SOL_WALLET_${walletTo}`,
+			},
+		]);
+		listener();
+	};
 
 	const listener = () => {
 		props.sisload(true);
 		const int = setInterval(() => {
 			fetch(
-				"https://testnet.toncenter.com/api/v2/getTransactions?address=EQAxrdp9z7P73aYWc_CJSb1z_C2fF6cFpyfAUszgtzgc-iCu&limit=10&to_lt=0&archival=false"
+				`https://toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=10&to_lt=0&archival=false`
 			)
 				.then((e) => e.json())
 				.then((e) => {
 					const data = e.result.filter(
-						(e: any) => e.in_msg.message === `TRX_ID_${hexString}${walletTo}`
+						(e: any) => e.in_msg.message === `SOL_WALLET_${walletTo}`
 					);
-					console.log(e.result);
 					if (data[0]) {
-						const dataObj = {
-							trxId: hexString,
-							walletTo: walletTo,
-							price: props.tu / props.su,
-							sarsTarget: "SOL",
-						};
-
-						console.log(dataObj);
-
-						const url = `https://us-central1-hoteloffice-293914.cloudfunctions.net/solana_ton_bridge/attr?=${walletTo}/${(
-							(Number(TONAmount) * props.tu) /
-							props.su
-						).toFixed(6)}`;
-
-						fetch(url, {
-							method: "POST",
-						})
-							.then(console.log)
+						fetch(
+							`https://us-central1-hoteloffice-293914.cloudfunctions.net/solana_ton_bridge/attr?=${walletTo}/${(
+								(Number(TONAmount) * props.tu) /
+								props.su
+							).toFixed(6)}`,
+							{
+								method: "GET",
+							}
+						)
+							.then((e) => e.json)
 							.then(() => {
+								console.log(e);
 								props.sisload(false);
 								message.success("Done!");
 								clearInterval(int);
@@ -63,7 +63,9 @@ const Ton = (props: any) => {
 			{props.btn}
 			<Form.Item label="Spend amount (TON)">
 				<Input
-					value={!!Number(TONAmount) ? TONAmount : ""}
+					value={
+						!isNaN(Number(TONAmount)) ? (SOLAmount === "" ? "" : TONAmount) : ""
+					}
 					onChange={(e) => {
 						setSOLAmount(
 							((Number(e.target.value) * props.tu) / props.su).toFixed(6)
@@ -81,7 +83,9 @@ const Ton = (props: any) => {
 							((Number(e.target.value) * props.su) / props.tu).toFixed(6)
 						);
 					}}
-					value={!!Number(SOLAmount) ? SOLAmount : ""}
+					value={
+						!isNaN(Number(SOLAmount)) ? (TONAmount === "" ? "" : SOLAmount) : ""
+					}
 					placeholder={"0.000000"}
 				/>
 			</Form.Item>
@@ -93,19 +97,17 @@ const Ton = (props: any) => {
 					placeholder={"0x0000...000"}
 				/>
 			</Form.Item>
-			Price TON/SOL: {(props.tu / props.su).toFixed(6)}
+			Price TON: {(props.tu / props.su).toFixed(6)} SOL
+			<br />
+			Max amount:{" "}
+			{Number(TonWeb.utils.fromNano(Number(props.SOLMaxAmount))).toFixed(6)} SOL
 			<br />
 			You will get {!!Number(SOLAmount) ? SOLAmount : "0.000000"} SOL
 			<Form.Item style={{ margin: "24px 0 0 0" }}>
-				<a
-					href={`ton://transfer/EQAxrdp9z7P73aYWc_CJSb1z_C2fF6cFpyfAUszgtzgc-iCu?amount=${
-						+1000000000 * Number(TONAmount)
-					}&text=TRX_ID_${hexString}${walletTo}`}>
-					<span style={{ display: "none" }}>{walletTo}</span>
-					<Button type="primary" onClick={listener}>
-						Submit
-					</Button>
-				</a>
+				<span style={{ display: "none" }}>{walletTo}</span>
+				<Button type="primary" onClick={makeTrx}>
+					Submit
+				</Button>
 			</Form.Item>
 		</Form>
 	);

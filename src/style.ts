@@ -6,7 +6,21 @@ export const Loader = styled.img`
   animation-iteration-count: infinite;
   animation-timing-function: linear; 
   width: 80px !important;
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
+`
+
+export const Links = styled.span`
+  display: flex;
+  justify-content: center;
+  a {
+    margin: 0 4px;
+  }
+`
+
+export const DevLinks = styled.span`
+ display: flex;
+ flex-direction: column;
+ align-items: center;
 `
