@@ -1,43 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button, Layout, Divider } from "antd";
+import { Button, message, Divider } from "antd";
 import Ton from "./components/Ton";
 import Sol from "./components/Sol";
 import bnn from "./static/img/bnn.png";
-import {
-	PublicKey,
-	Transaction,
-	Connection,
-	clusterApiUrl,
-} from "@solana/web3.js";
-import { DevLinks, Loader, Links } from "./style";
-const { Buffer } = require("buffer");
-const bs58 = require("bs58");
-
-type DisplayEncoding = "utf8" | "hex";
-type PhantomEvent = "disconnect" | "connect" | "accountChanged";
-type PhantomRequestMethod =
-	| "connect"
-	| "disconnect"
-	| "signTransaction"
-	| "signAllTransactions"
-	| "signMessage";
-interface ConnectOpts {
-	onlyIfTrusted: boolean;
-}
-interface PhantomProvider {
-	publicKey: PublicKey | null;
-	isConnected: boolean | null;
-	signTransaction: (transaction: Transaction) => Promise<Transaction>;
-	signAllTransactions: (transactions: Transaction[]) => Promise<Transaction[]>;
-	signMessage: (
-		message: Uint8Array | string,
-		display?: DisplayEncoding
-	) => Promise<any>;
-	connect: (opts?: Partial<ConnectOpts>) => Promise<{ publicKey: PublicKey }>;
-	disconnect: () => Promise<void>;
-	on: (event: PhantomEvent, handler: (args: any) => void) => void;
-	request: (method: PhantomRequestMethod, params: any) => Promise<unknown>;
-}
+import { Connection, clusterApiUrl } from "@solana/web3.js";
+import { DevLinks, Loader, Links, Version } from "./style";
 
 const App = () => {
 	const [tu, stu] = useState(0);
@@ -48,10 +15,23 @@ const App = () => {
 	const [TONwalletKey, setTONwalletKey] = useState("");
 	const [SOLMaxAmount, setSOLMaxAmount] = useState();
 	const [TONMaxAmount, setTONMaxAmount] = useState();
-	var connection = new Connection(clusterApiUrl("devnet"));
+	const [hexString, shexString] = useState("");
+	var connection = new Connection(clusterApiUrl("mainnet-beta"));
 
 	useEffect(() => {
-		fetch("https://ftx.com/api/markets")
+		shexString(
+			Array(16)
+				.fill("")
+				.map(() => Math.round(Math.random() * 0xf).toString(16))
+				.join("")
+		);
+		message.success("Use Chrome with TonWallet & Phantom extensions", 10);
+		message.success("Connect both and make trx, then wait a little bit", 11);
+		message.success("We will take 0% fee!", 12);
+	}, []);
+
+	useEffect(() => {
+		fetch("https://sepezho.com:5555/https://ftx.com/api/markets")
 			.then((e) => e.json())
 			.then((e) => {
 				stu(
@@ -62,15 +42,18 @@ const App = () => {
 	}, []);
 
 	const connectWalletTON = async () => {
-		//@ts-ignore
-		const ton = window.ton;
-		if (ton) {
-			try {
+		try {
+			//@ts-ignore
+			const ton = window.ton;
+			if (ton) {
 				const accounts = await ton.send("ton_requestWallets");
 				setTONwalletKey(accounts[0].address);
-			} catch (err) {
-				console.log(err);
 			}
+		} catch (err) {
+			message.error(
+				"Install TonWallet. Close all TonWallet windows and try again pls",
+				5
+			);
 		}
 	};
 
@@ -97,7 +80,7 @@ const App = () => {
 				setTONMaxAmount(e.result.balance);
 			});
 
-		fetch("https://api.devnet.solana.com/", {
+		fetch("https://api.mainnet-beta.solana.com/", {
 			method: "POST",
 			headers: {
 				Accept: "application/json, text/plain, */*",
@@ -120,9 +103,6 @@ const App = () => {
 				setSOLMaxAmount(res.result.value.lamports);
 			});
 	}, []);
-
-	console.log(TONMaxAmount);
-	console.log(SOLMaxAmount);
 
 	const btn = (
 		<>
@@ -162,6 +142,8 @@ const App = () => {
 					sisload={sisload}
 					btn={btn}
 					TONMaxAmount={TONMaxAmount}
+					hexString={hexString}
+					isload={isload}
 				/>
 			) : (
 				<Ton
@@ -172,6 +154,8 @@ const App = () => {
 					sisload={sisload}
 					btn={btn}
 					SOLMaxAmount={SOLMaxAmount}
+					hexString={hexString}
+					isload={isload}
 				/>
 			)}
 			<Divider dashed />
@@ -190,10 +174,17 @@ const App = () => {
 			<Divider dashed />
 			<h2>Devs:</h2>
 			<DevLinks>
-				<a href={"t.me/sepezho"}>Sepezho</a>
-				<a href={"t.me/gthlp_coordinator"}>Gthlp_coordinator</a>
-				<a href={"t.me/cybergangsta"}>Cybergangsta</a>
+				<a href={"https://t.me/sepezho"}>Sepezho (FE dev / founder)</a>
+				<a href={"https://t.me/gthlp_coordinator"}>
+					Gthlp_coordinator (BE dev / co-founder)
+				</a>
+				<a href={"https://t.me/cybergangsta"}>Cybergangsta (JUN FE dev)</a>
 			</DevLinks>
+
+			<Version>
+				<a href={"https://tonana.org"}>lending tonana.org</a>
+			</Version>
+			<Version>v0.0.1.4 (alfa)</Version>
 			{isload ? <Loader src={bnn} /> : null}
 		</div>
 	);

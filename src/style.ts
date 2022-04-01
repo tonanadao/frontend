@@ -24,3 +24,10 @@ export const DevLinks = styled.span`
  flex-direction: column;
  align-items: center;
 `
+
+export const Version = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 10px;
+  margin: 48px auto -48px auto;
+`
