@@ -63,36 +63,42 @@ const Ton = (props: any) => {
 						const int2 = setInterval(() => {
 							message.success("Wallet trx pending...", 2);
 
-							fetch("https://api.mainnet-beta.solana.com/", {
-								method: "POST",
-								headers: {
-									Accept: "application/json, text/plain, */*",
-									"Content-Type": "application/json",
-								},
-								body: JSON.stringify({
-									jsonrpc: "2.0",
-									id: 1,
-									method: "getSignaturesForAddress",
-									params: [walletTo, { limit: 1 }],
-								}),
-							})
+							fetch(
+								`https://api.${process.env.REACT_APP_SOL_NET}.solana.com/`,
+								{
+									method: "POST",
+									headers: {
+										Accept: "application/json, text/plain, */*",
+										"Content-Type": "application/json",
+									},
+									body: JSON.stringify({
+										jsonrpc: "2.0",
+										id: 1,
+										method: "getSignaturesForAddress",
+										params: [walletTo, { limit: 1 }],
+									}),
+								}
+							)
 								.then((res) => res.json())
 								.then(async (res) => {
 									console.log(res);
 									res.result.forEach((e: any) => {
-										fetch("https://api.mainnet-beta.solana.com/", {
-											method: "POST",
-											headers: {
-												Accept: "application/json, text/plain, */*",
-												"Content-Type": "application/json",
-											},
-											body: JSON.stringify({
-												jsonrpc: "2.0",
-												id: 1,
-												method: "getTransaction",
-												params: [e.signature, "json"],
-											}),
-										})
+										fetch(
+											`https://api.${process.env.REACT_APP_SOL_NET}.solana.com/`,
+											{
+												method: "POST",
+												headers: {
+													Accept: "application/json, text/plain, */*",
+													"Content-Type": "application/json",
+												},
+												body: JSON.stringify({
+													jsonrpc: "2.0",
+													id: 1,
+													method: "getTransaction",
+													params: [e.signature, "json"],
+												}),
+											}
+										)
 											.then((res) => res.json())
 											.then(async (res: any) => {
 												console.log(res);

@@ -16,7 +16,11 @@ const App = () => {
 	const [SOLMaxAmount, setSOLMaxAmount] = useState();
 	const [TONMaxAmount, setTONMaxAmount] = useState();
 	const [hexString, shexString] = useState("");
-	var connection = new Connection(clusterApiUrl("mainnet-beta"));
+	var connection = new Connection(
+		clusterApiUrl(
+			process.env.REACT_APP_SOL_NET as "devnet" | "testnet" | "mainnet-beta"
+		)
+	);
 
 	useEffect(() => {
 		shexString(
@@ -80,7 +84,7 @@ const App = () => {
 				setTONMaxAmount(e.result.balance);
 			});
 
-		fetch("https://api.mainnet-beta.solana.com/", {
+		fetch(`https://api.${process.env.REACT_APP_SOL_NET}.solana.com/`, {
 			method: "POST",
 			headers: {
 				Accept: "application/json, text/plain, */*",

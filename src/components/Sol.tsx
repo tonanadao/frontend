@@ -47,7 +47,7 @@ const Sol = (props: any) => {
 			message.success("Wait BE trx pending...", 2);
 			await connection.confirmTransaction(signature);
 			const int = setInterval(() => {
-				fetch("https://api.mainnet-beta.solana.com/", {
+				fetch(`https://api.${process.env.REACT_APP_SOL_NET}.solana.com/`, {
 					method: "POST",
 					headers: {
 						Accept: "application/json, text/plain, */*",
