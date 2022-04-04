@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-import { PublicKey, TransactionInstruction } from "@solana/web3.js";
 import { Form, Input, message, Button } from "antd";
-const bs58 = require("bs58");
-const { Buffer } = require("buffer");
-const web3 = require("@solana/web3.js");
-const axios = require("axios").default;
+import MakeSOLTrx from "../logic/transaction/MakeSOLTrx";
 
 const Sol = (props: any) => {
 	const [walletTo, setWalletTo] = useState<string>(props.TONwalletKey);
@@ -13,98 +9,23 @@ const Sol = (props: any) => {
 	const activeBtn =
 		!!walletTo && !!SOLAmount && !props.isload && props.SOLwalletKey;
 
+	const SOLtrx = () =>
+		MakeSOLTrx(
+			activeBtn,
+			props.setIsload,
+			props.connection,
+			props.SOLwalletKey,
+			walletTo,
+			SOLAmount
+		);
+
 	useEffect(() => {
 		setWalletTo(props.TONwalletKey);
 	}, [props.TONwalletKey]);
 
-	const trxfnc = async () => {
-		if (activeBtn) {
-			props.sisload(true);
-			let connection = props.connection;
-			let recentBlockhash = await connection.getRecentBlockhash();
-			let allocateTransaction = new web3.Transaction({
-				recentBlockhash: recentBlockhash.blockhash,
-				feePayer: new PublicKey(props.SOLwalletKey),
-			});
-
-			const instructionMessage = await new TransactionInstruction({
-				keys: [],
-				programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
-				data: Buffer.from(`TON_WALLET_${walletTo}`),
-			});
-			const instructionTransfer = web3.SystemProgram.transfer({
-				fromPubkey: new PublicKey(props.SOLwalletKey),
-				toPubkey: new PublicKey(
-					process.env.REACT_APP_BACK_SOL_WALLET as string
-				),
-				lamports: Number(SOLAmount) * 1000000000,
-			});
-			allocateTransaction.add(instructionMessage).add(instructionTransfer);
-			//@ts-ignore
-			const { signature } = await window.solana.signAndSendTransaction(
-				allocateTransaction
-			);
-			message.success("Wait BE trx pending...", 2);
-			await connection.confirmTransaction(signature);
-			const int = setInterval(() => {
-				fetch(`https://api.${process.env.REACT_APP_SOL_NET}.solana.com/`, {
-					method: "POST",
-					headers: {
-						Accept: "application/json, text/plain, */*",
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						jsonrpc: "2.0",
-						id: 1,
-						method: "getTransaction",
-						params: [signature, "json"],
-					}),
-				})
-					.then((res) => res.json())
-					.then(async (res) => {
-						if (res.result == null) {
-							console.log("res: null ");
-							return false;
-						}
-						const buf = bs58.decode(
-							res.result.transaction.message.instructions[0].data.toString(16)
-						);
-						if (buf.toString() === `TON_WALLET_${walletTo}`) {
-							clearInterval(int);
-							message.success("Done BE trx!", 10);
-
-							axios.get(
-								`https://us-central1-hoteloffice-293914.cloudfunctions.net/ton_solana_bridge/attr?=${signature}`
-							);
-
-							const int2 = setInterval(() => {
-								message.success("Wallet trx pending...", 2);
-
-								fetch(
-									`https://toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=10&to_lt=0&archival=false`
-								)
-									.then((e: any) => e.json())
-									.then((e: any) => {
-										console.log(e.result);
-										const data = e.result.filter((e: any) =>
-											e.out_msgs[0]
-												? e.out_msgs[0].message === signature
-												: false
-										);
-										if (data[0]) {
-											clearInterval(int2);
-											props.sisload(false);
-											message.success("Done wallet trx, check it!", 10);
-										}
-									});
-							}, 10000);
-						}
-					});
-			}, 5000);
-		} else {
-			message.error("Fill all forms and connect wallets!", 10);
-		}
-	};
+	useEffect(() => {
+		setTONAmount(String(((Number(SOLAmount) * props.su) / props.tu) * 0.975));
+	}, [props.tu, props.su]);
 
 	return (
 		<Form name="control-hooks" layout="vertical">
@@ -119,7 +40,10 @@ const Sol = (props: any) => {
 						) {
 							setSOLAmount(e.target.value);
 							setTONAmount(
-								((Number(e.target.value) * props.su) / props.tu).toFixed(6)
+								(
+									((Number(e.target.value) * props.su) / props.tu) *
+									0.975
+								).toFixed(6)
 							);
 						} else {
 							message.error(
@@ -151,7 +75,10 @@ const Sol = (props: any) => {
 							(0.8 * Number(props.TONMaxAmount)) / 1000000000
 						) {
 							setSOLAmount(
-								((Number(e.target.value) * props.tu) / props.su).toFixed(6)
+								(
+									((Number(e.target.value) * props.tu) / props.su) *
+									1.025
+								).toFixed(6)
 							);
 							setTONAmount(e.target.value);
 						} else {
@@ -181,13 +108,17 @@ const Sol = (props: any) => {
 			)}{" "}
 			TON
 			<br />
-			You will get {!!Number(TONAmount) ? TONAmount : "0.000000"} TON
+			You will get{" "}
+			{!!Number(TONAmount)
+				? (Number(TONAmount) * 0.975).toFixed(6)
+				: "0.000000"}{" "}
+			TON
 			<Form.Item
 				style={{
 					margin: "24px 0 0 0",
 					filter: !activeBtn ? "grayscale(50%) contrast(50%)" : "",
 				}}>
-				<Button type="primary" onClick={trxfnc}>
+				<Button type="primary" onClick={SOLtrx}>
 					Submit
 				</Button>
 			</Form.Item>

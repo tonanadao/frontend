@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import Gstyles from "./gstyles";
+import Gstyles from "./styles/gstyles";
 import "antd/dist/antd.css";
 
 ReactDOM.render(
