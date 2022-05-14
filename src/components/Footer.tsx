@@ -18,19 +18,19 @@ const Footer = () => {
 				<a href={"https://github.com/tonanabridge"}>GitHub</a>
 			</Links>
 			<Divider dashed />
-			<h2>Devs:</h2>
+			<h2>Devs / Co-Founders:</h2>
 			<DevLinks>
-				<a href={"https://t.me/sepezho"}>Sepezho (FE dev / founder)</a>
+				<a href={"https://t.me/sepezho"}>Sepezho (FE dev / co-founder)</a>
 				<a href={"https://t.me/gthlp_coordinator"}>
 					Gthlp_coordinator (BE dev / co-founder)
 				</a>
-				<a href={"https://t.me/cybergangsta"}>Cybergangsta (JUN FE dev)</a>
+				<a href={"https://t.me/cyber_ea"}>Cyber_ea (FE dev / co-founder)</a>
 			</DevLinks>
 
 			<Version>
-				<a href={"https://tonana.org"}>lending tonana.org</a>
+				<a href={"https://tonana.org"}>tonana.org</a>
 			</Version>
-			<Version>v0.0.1.5 (alfa)</Version>
+			<Version>v0.0.2.0 (alfa)</Version>
 		</div>
 	);
 };
