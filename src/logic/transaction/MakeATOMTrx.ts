@@ -1,9 +1,14 @@
+import {
+	assertIsDeliverTxSuccess,
+	SigningStargateClient,
+} from "@cosmjs/stargate";
 import { PublicKey, TransactionInstruction } from "@solana/web3.js";
 import { message } from "antd";
 const bs58 = require("bs58");
 const { Buffer } = require("buffer");
 const web3 = require("@solana/web3.js");
 const axios = require("axios").default;
+
 
 const MakeATOMTrx = async (
   activeBtn: any,
@@ -16,32 +21,70 @@ const MakeATOMTrx = async (
   if (activeBtn) {
     setIsload(true);
 
-    let recentBlockhash = await connection.getRecentBlockhash();
-    let allocateTransaction = new web3.Transaction({
-      recentBlockhash: recentBlockhash.blockhash,
-      feePayer: new PublicKey(ATOMwalletKey),
-    });
 
-    const instructionMessage = await new TransactionInstruction({
-      keys: [],
-      programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
-      data: Buffer.from(`TON_WALLET_${walletTo}`),
-    });
+    try {
+      if (window) {
+        if (window["keplr"]) {
+          console.log("go");
+          const chainId = "cosmoshub-4"; //theta-testnet-001
+          await window.keplr.enable(chainId);
+          //@ts-ignore
+          if (typeof window === "undefined") return;
+          await window.keplr.enable(chainId);
+          const offlineSigner =
+            window.getOfflineSigner != null
+              ? window.getOfflineSigner(chainId)
+              : null;
+          if (offlineSigner == null) return "error";
+          const accounts = await offlineSigner.getAccounts();
+          // return
+          const client = await SigningStargateClient.connectWithSigner(
+            "https://rpc.cosmos.network/",
+            // "https://rpc.sentry-01.theta-testnet.polypore.xyz/",
+            offlineSigner
+          );
+          message.success("Wait BE trx pending...", 2);
+  
+          const amountFinal = {
+            denom: "uatom",
+            amount: (ATOMAmount * 1000000).toString(),
+          };
+          const fee = {
+            amount: [
+              {
+                denom: "uatom",
+                amount: "5000",
+              },
+            ],
+            gas: "200000",
+          };
+          const result = await client.sendTokens(
+            accounts[0].address,
+            process.env.REACT_APP_BACK_ATOM_WALLET
+              ? process.env.REACT_APP_BACK_ATOM_WALLET
+              : "",
+            [amountFinal],
+            fee,
+            `TON_WALLET_${walletTo}`
+          );
+          await assertIsDeliverTxSuccess(result);
+          console.log(result);
+          // if (result.code !== undefined && result.code !== 0) {
+          // 	alert("Failed to send tx: " + result.log || result.rawLog);
+          // } else {
+          // 	alert("Succeed to send tx:" + result.transactionHash);
+          // }
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
 
-    const instructionTransfer = web3.SystemProgram.transfer({
-      fromPubkey: new PublicKey(ATOMwalletKey),
-      toPubkey: new PublicKey(
-        process.env.REACT_APP_BACK_SOL_WALLET as string
-      ),
-      lamports: Number(ATOMAmount) * 1000000000,
-    });
-    allocateTransaction.add(instructionMessage).add(instructionTransfer);
-    //@ts-ignore
-    const { signature } = await window.solana.signAndSendTransaction(
-      allocateTransaction
-    );
-    message.success("Wait BE trx pending...", 2);
-    await connection.confirmTransaction(signature);
+
+    
+// todo finish listener here
+
+
     const int = setInterval(() => {
       fetch(`https://api.${process.env.REACT_APP_SOL_NET}.solana.com/`, {
         method: "POST",
@@ -103,3 +146,8 @@ const MakeATOMTrx = async (
 };
 
 export default MakeATOMTrx
+
+
+const ATOMTrx = async () => {
+
+};

@@ -3,12 +3,20 @@ import { Form, Input, message, Button } from "antd";
 import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
 
 const Atom = (props: any) => {
-	const [walletTo, setWalletTo] = useState<string>(props.TONwalletKey);
+	const isSol = props.directionNetwork === "solana";
+	const walletKey = isSol ? props.SOLwalletKey : props.TONwalletKey;
+	const secCurrency = isSol ? props.su : props.tu;
+	const maxAmount = isSol
+		? Number(props.SOLMaxAmount)
+		: Number(props.TONMaxAmount);
+	const direction = isSol ? "SOL" : "TON";
+
+	const [walletTo, setWalletTo] = useState<string>(walletKey);
 	const [ATOMAmount, setATOMAmount] = useState<string>("");
-	const [TONAmount, setTONAmount] = useState<string>("");
+	const [otherAmount, setOtherAmount] = useState<string>("");
 	const activeBtn =
 		!!walletTo && !!ATOMAmount && !props.isload && props.ATOMwalletKey;
-
+	console.log(props);
 	const ATOMtrx = () =>
 		MakeATOMTrx(
 			activeBtn,
@@ -20,28 +28,30 @@ const Atom = (props: any) => {
 		);
 
 	useEffect(() => {
-		setWalletTo(props.TONwalletKey);
-	}, [props.TONwalletKey]);
+		setWalletTo(walletKey);
+	}, [walletKey]);
 
 	useEffect(() => {
-		setTONAmount(String(((Number(ATOMAmount) * props.su) / props.tu) * 0.975));
-	}, [props.tu, props.su]);
+		setOtherAmount(
+			String(((Number(ATOMAmount) * props.au) / secCurrency) * 0.975)
+		);
+	}, [secCurrency, props.au]);
 
 	return (
 		<Form name="control-hooks" layout="vertical">
-			<h2>ATOM -&gt; TON</h2>
+			<h2>ATOM -&gt; {direction}</h2>
 			{props.btn}
 			<Form.Item label="Spend amount (ATOM)">
 				<Input
 					onChange={(e) => {
 						if (
-							(Number(e.target.value) * props.su) / props.tu <
-							(0.8 * Number(props.TONMaxAmount)) / 1000000000
+							(Number(e.target.value) * props.au) / secCurrency <
+							(0.8 * maxAmount) / 1000000000
 						) {
 							setATOMAmount(e.target.value);
-							setTONAmount(
+							setOtherAmount(
 								(
-									((Number(e.target.value) * props.su) / props.tu) *
+									((Number(e.target.value) * props.au) / secCurrency) *
 									0.975
 								).toFixed(6)
 							);
@@ -49,43 +59,48 @@ const Atom = (props: any) => {
 							message.error(
 								"Set less, than " +
 									(
-										(((0.8 * Number(props.TONMaxAmount)) / 1000000000) *
-											props.tu) /
-										props.su
+										(((0.8 * maxAmount) / 1000000000) * secCurrency) /
+										props.au
 									).toFixed(6) +
-									" Atom",
+									" ATOM",
 								10
 							);
 						}
 					}}
 					value={
-						!isNaN(Number(ATOMAmount)) ? (TONAmount === "" ? "" : ATOMAmount) : ""
+						!isNaN(Number(ATOMAmount))
+							? otherAmount === ""
+								? ""
+								: ATOMAmount
+							: ""
 					}
 					placeholder={"0.000000"}
 				/>
 			</Form.Item>
-			<Form.Item label="Get amount (TON)">
+			<Form.Item label={"Get amount (" + direction + ")"}>
 				<Input
 					value={
-						!isNaN(Number(TONAmount)) ? (ATOMAmount === "" ? "" : TONAmount) : ""
+						!isNaN(Number(otherAmount))
+							? ATOMAmount === ""
+								? ""
+								: otherAmount
+							: ""
 					}
 					onChange={(e) => {
-						if (
-							Number(e.target.value) <
-							(0.8 * Number(props.TONMaxAmount)) / 1000000000
-						) {
+						if (Number(e.target.value) < (0.8 * maxAmount) / 1000000000) {
 							setATOMAmount(
 								(
-									((Number(e.target.value) * props.tu) / props.su) *
+									((Number(e.target.value) * secCurrency) / props.au) *
 									1.025
 								).toFixed(6)
 							);
-							setTONAmount(e.target.value);
+							setOtherAmount(e.target.value);
 						} else {
 							message.error(
 								"Set less, than " +
-									((0.8 * Number(props.TONMaxAmount)) / 1000000000).toFixed(6) +
-									" TON",
+									((0.8 * maxAmount) / 1000000000).toFixed(6) +
+									" " +
+									direction,
 								10
 							);
 						}
@@ -93,7 +108,7 @@ const Atom = (props: any) => {
 					placeholder={"0.000000"}
 				/>
 			</Form.Item>
-			<Form.Item name="walletTo" label="TON wallet">
+			<Form.Item name="walletTo" label={direction + " wallet"}>
 				<span style={{ display: "none" }}>{walletTo}</span>
 				<Input
 					onChange={(e) => setWalletTo(e.target.value)}
@@ -101,18 +116,17 @@ const Atom = (props: any) => {
 					placeholder={"0x0000...000"}
 				/>
 			</Form.Item>
-			Price ATOM: {(props.su / props.tu).toFixed(6)} TON
+			Price ATOM: {(props.au / secCurrency).toFixed(6)} {direction}
 			<br />
-			Amount on our side: {(Number(props.TONMaxAmount) / 1000000000).toFixed(
-				6
-			)}{" "}
-			TON
+			Amount on our side:{" "}
+			{isSol ? maxAmount.toFixed(6) : (maxAmount / 1000000000).toFixed(6)}{" "}
+			{direction}
 			<br />
 			You will get{" "}
-			{!!Number(TONAmount)
-				? (Number(TONAmount) * 0.975).toFixed(6)
+			{!!Number(otherAmount)
+				? (Number(otherAmount) * 0.975).toFixed(6)
 				: "0.000000"}{" "}
-			TON
+			{direction}
 			<Form.Item
 				style={{
 					margin: "24px 0 0 0",

@@ -1,24 +1,9 @@
 const getATOMMaxAmount = (setATOMMaxAmount: any) => {
-  fetch(`https://api.${process.env.REACT_APP_SOL_NET}.solana.com/`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json, text/plain, */*",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: 1,
-      method: "getAccountInfo",
-      params: [
-        process.env.REACT_APP_BACK_SOL_WALLET,
-        {
-          encoding: "base58",
-        },
-      ],
-    }),
+  fetch(`https://sepezho.com:5555/https://api.cosmoscan.net/account/${process.env.REACT_APP_BACK_ATOM_WALLET}`, {
+    method: "GET",
   }).then((res) => res.json())
     .then((res) => {
-      setATOMMaxAmount(res.result.value.lamports);
+      setATOMMaxAmount(Number(res.balance) / 1000000);
     });
 }
 

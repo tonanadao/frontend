@@ -18,7 +18,7 @@ const getSOLMaxAmount = (setSOLMaxAmount: any) => {
     }),
   }).then((res) => res.json())
     .then((res) => {
-      setSOLMaxAmount(res.result.value.lamports);
+      setSOLMaxAmount(res.result.value.lamports / 1000000000);
     });
 }
 
