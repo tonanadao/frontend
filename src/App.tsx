@@ -14,7 +14,7 @@ import fetchMarkets from "./logic/fetch/fetchMarkets";
 import connectWalletSOL from "./logic/wallet/connectWalletSOL";
 import connectWalletATOM from "./logic/wallet/connectWalletATOM";
 import connectWalletTON from "./logic/wallet/connectWalletTON";
-import { Tabs } from "antd";
+import { Tabs, Dropdown, Menu, Space } from "antd";
 import "antd/dist/antd.css";
 
 const { TabPane } = Tabs;
@@ -32,7 +32,9 @@ const App = () => {
 	const [TONMaxAmount, setTONMaxAmount] = useState();
 	const [ATOMMaxAmount, setATOMMaxAmount] = useState();
 	const [hexString, sHexString] = useState("");
-	const [activeTab, setActiveTab] = useState("1");
+
+	const [networkSource, setNetworkSource] = useState("SOL");
+	const [networkDestination, setNetworkDestination] = useState("TON");
 
 	var connection = new Connection(
 		clusterApiUrl(
@@ -64,9 +66,88 @@ const App = () => {
 		message.success("Connect both and make trx, then wait a little bit", 11);
 	}, []);
 
+	const menuSource = (
+		<Menu
+			items={[
+				networkDestination !== "SOL"
+					? {
+							key: "SOL",
+							label: <div onClick={() => setNetworkSource("SOL")}>SOL</div>,
+					  }
+					: null,
+				networkDestination !== "COSMOS"
+					? {
+							key: "COSMOS",
+							label: (
+								<div onClick={() => setNetworkSource("COSMOS")}>COSMOS</div>
+							),
+					  }
+					: null,
+
+				networkDestination !== "TON"
+					? {
+							key: "TON",
+							label: <div onClick={() => setNetworkSource("TON")}>TON</div>,
+					  }
+					: null,
+			]}
+		/>
+	);
+
+	const menuDestination = (
+		<Menu
+			items={[
+				networkSource !== "SOL"
+					? {
+							key: "SOL",
+							label: (
+								<div onClick={() => setNetworkDestination("SOL")}>SOL</div>
+							),
+					  }
+					: null,
+
+				networkSource !== "COSMOS"
+					? {
+							key: "COSMOS",
+							label: (
+								<div onClick={() => setNetworkDestination("COSMOS")}>
+									COSMOS
+								</div>
+							),
+					  }
+					: null,
+
+				networkSource !== "TON"
+					? {
+							key: "TON",
+							label: (
+								<div onClick={() => setNetworkDestination("TON")}>TON</div>
+							),
+					  }
+					: null,
+			]}
+		/>
+	);
+
+	const swap = () => {
+		setNetworkDestination(networkSource);
+		setNetworkSource(networkDestination);
+		sex(!ex);
+	};
+
 	const btn = (
 		<>
-			{activeTab !== "2" ? (
+			<Dropdown overlay={menuSource} placement="bottom">
+				<Button style={{ margin: "0 0 24px 0" }}>
+					Select source ({networkSource})
+				</Button>
+			</Dropdown>
+			<Dropdown overlay={menuDestination} placement="bottom">
+				<Button style={{ margin: "0 0 24px 0" }}>
+					Select direction ({networkDestination})
+				</Button>
+			</Dropdown>
+			{networkSource !== "COSMOS" ? (
 				<Button
 					type="primary"
 					onClick={() => connectWalletSOL(setSOLWalletKey)}
@@ -74,7 +155,7 @@ const App = () => {
 					{SOLwalletKey ? "SOL wallet connected!" : "Connect SOL wallet"}
 				</Button>
 			) : null}
-			{activeTab !== "3" ? (
+			{networkSource !== "TON" ? (
 				<Button
 					type="primary"
 					onClick={() => connectWalletTON(setTONwalletKey)}
@@ -82,7 +163,7 @@ const App = () => {
 					{TONwalletKey ? "TON wallet connected!" : "Connect TON wallet"}
 				</Button>
 			) : null}
-			{activeTab !== "1" ? (
+			{networkSource !== "SOL" ? (
 				<Button
 					type="primary"
 					onClick={() => connectWalletATOM(setATOMwalletKey)}
@@ -97,123 +178,69 @@ const App = () => {
 	return (
 		<div className="App">
 			<h1>TONANA bridge</h1>
+
 			<img
 				src={bnn}
-				onClick={() => sex(!ex)}
+				onClick={swap}
 				alt="banana"
 				style={{
 					transform: ex ? "rotate3d(0, 1, 0, 180deg)" : "rotate3d(0, 1, 0, 0)",
 				}}
 			/>
-			<Tabs defaultActiveKey="1" onChange={setActiveTab}>
-				<TabPane tab="Sol / Ton" key="1">
-					{ex ? (
-						<Sol
-							tu={tu}
-							su={su}
-							au={au}
-							connection={connection}
-							SOLwalletKey={SOLwalletKey}
-							TONwalletKey={TONwalletKey}
-							directionNetwork="ton"
-							setIsload={setIsload}
-							btn={btn}
-							TONMaxAmount={TONMaxAmount}
-							ATOMMaxAmount={ATOMMaxAmount}
-							hexString={hexString}
-							isload={isload}
-						/>
-					) : (
-						<Ton
-							tu={tu}
-							su={su}
-							au={au}
-							ATOMwalletKey={ATOMwalletKey}
-							SOLwalletKey={SOLwalletKey}
-							TONwalletKey={TONwalletKey}
-							setIsload={setIsload}
-							btn={btn}
-							ATOMMaxAmount={ATOMMaxAmount}
-							SOLMaxAmount={SOLMaxAmount}
-							hexString={hexString}
-							isload={isload}
-							directionNetwork="solana"
-						/>
-					)}
-				</TabPane>
-				<TabPane tab="Cosmos / Ton" key="2">
-					{ex ? (
-						<Atom
-							tu={tu}
-							su={su}
-							au={au}
-							directionNetwork="ton"
-							connection={connection}
-							ATOMwalletKey={ATOMwalletKey}
-							TONwalletKey={TONwalletKey}
-							ATOMMaxAmount={ATOMMaxAmount}
-							setIsload={setIsload}
-							btn={btn}
-							TONMaxAmount={TONMaxAmount}
-							hexString={hexString}
-							isload={isload}
-						/>
-					) : (
-						<Ton
-							tu={tu}
-							su={su}
-							au={au}
-							ATOMwalletKey={ATOMwalletKey}
-							TONwalletKey={TONwalletKey}
-							setIsload={setIsload}
-							btn={btn}
-							ATOMMaxAmount={ATOMMaxAmount}
-							hexString={hexString}
-							isload={isload}
-							directionNetwork="cosmos"
-						/>
-					)}
-				</TabPane>
-				<TabPane tab="Sol / Cosmos" key="3">
-					{ex ? (
-						<Atom
-							tu={tu}
-							su={su}
-							au={au}
-							connection={connection}
-							SOLwalletKey={SOLwalletKey}
-							TONwalletKey={TONwalletKey}
-							setIsload={setIsload}
-							btn={btn}
-							ATOMwalletKey={ATOMwalletKey}
-							ATOMMaxAmount={ATOMMaxAmount}
-							TONMaxAmount={TONMaxAmount}
-							directionNetwork="solana"
-							hexString={hexString}
-							SOLMaxAmount={SOLMaxAmount}
-							isload={isload}
-						/>
-					) : (
-						<Sol
-							tu={tu}
-							su={su}
-							au={au}
-							connection={connection}
-							SOLwalletKey={SOLwalletKey}
-							ATOMMaxAmount={ATOMMaxAmount}
-							ATOMwalletKey={ATOMwalletKey}
-							TONwalletKey={TONwalletKey}
-							directionNetwork="cosmos"
-							setIsload={setIsload}
-							btn={btn}
-							TONMaxAmount={TONMaxAmount}
-							hexString={hexString}
-							SOLMaxAmount={SOLMaxAmount}
-							isload={isload}
-						/>
-					)}
-				</TabPane>
-			</Tabs>
+
+			{networkSource === "SOL" ? (
+				<Sol
+					tu={tu}
+					su={su}
+					au={au}
+					connection={connection}
+					SOLwalletKey={SOLwalletKey}
+					ATOMMaxAmount={ATOMMaxAmount}
+					ATOMwalletKey={ATOMwalletKey}
+					TONwalletKey={TONwalletKey}
+					directionNetwork={networkDestination.toLowerCase()}
+					setIsload={setIsload}
+					btn={btn}
+					TONMaxAmount={TONMaxAmount}
+					hexString={hexString}
+					SOLMaxAmount={SOLMaxAmount}
+					isload={isload}
+				/>
+			) : networkSource === "COSMOS" ? (
+				<Atom
+					tu={tu}
+					su={su}
+					au={au}
+					connection={connection}
+					SOLwalletKey={SOLwalletKey}
+					TONwalletKey={TONwalletKey}
+					setIsload={setIsload}
+					btn={btn}
+					ATOMwalletKey={ATOMwalletKey}
+					ATOMMaxAmount={ATOMMaxAmount}
+					TONMaxAmount={TONMaxAmount}
+					hexString={hexString}
+					SOLMaxAmount={SOLMaxAmount}
+					directionNetwork={networkDestination.toLowerCase()}
+					isload={isload}
+				/>
+			) : networkSource === "TON" ? (
+				<Ton
+					tu={tu}
+					su={su}
+					au={au}
+					ATOMwalletKey={ATOMwalletKey}
+					SOLwalletKey={SOLwalletKey}
+					TONwalletKey={TONwalletKey}
+					setIsload={setIsload}
+					btn={btn}
+					ATOMMaxAmount={ATOMMaxAmount}
+					SOLMaxAmount={SOLMaxAmount}
+					hexString={hexString}
+					isload={isload}
+					directionNetwork={networkDestination.toLowerCase()}
+				/>
+			) : null}
 
 			<Footer />
 			{isload ? <Loader src={bnn} /> : null}

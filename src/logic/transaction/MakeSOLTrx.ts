@@ -11,6 +11,7 @@ const MakeSOLTrx = async (
   connection: any,
   SOLwalletKey: any,
   walletTo: any,
+  netTo: string,
   SOLAmount: any
 ) => {
   if (activeBtn) {
@@ -25,7 +26,7 @@ const MakeSOLTrx = async (
     const instructionMessage = await new TransactionInstruction({
       keys: [],
       programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
-      data: Buffer.from(`TON_WALLET_${walletTo}`),
+      data: Buffer.from(`${netTo}_${walletTo}`),
     });
 
     const instructionTransfer = web3.SystemProgram.transfer({
@@ -65,7 +66,7 @@ const MakeSOLTrx = async (
           const buf = bs58.decode(
             res.result.transaction.message.instructions[0].data.toString(16)
           );
-          if (buf.toString() === `TON_WALLET_${walletTo}`) {
+          if (buf.toString() === `${netTo}_${walletTo}`) {
             clearInterval(int);
             message.success("Done BE trx!", 10);
 

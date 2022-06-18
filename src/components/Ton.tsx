@@ -28,6 +28,7 @@ const Ton = (props: any) => {
 			props.setIsload,
 			TONAmount,
 			walletTo,
+			direction,
 			props.hexString
 		);
 

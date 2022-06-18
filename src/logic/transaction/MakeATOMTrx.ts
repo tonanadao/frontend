@@ -16,6 +16,7 @@ const MakeATOMTrx = async (
   connection: any,
   ATOMwalletKey: any,
   walletTo: any,
+  netTo: string,
   ATOMAmount: any
 ) => {
   if (activeBtn) {
@@ -65,27 +66,17 @@ const MakeATOMTrx = async (
               : "",
             [amountFinal],
             fee,
-            `TON_WALLET_${walletTo}`
+            `${netTo}_${walletTo}`
           );
           await assertIsDeliverTxSuccess(result);
           console.log(result);
-          // if (result.code !== undefined && result.code !== 0) {
-          // 	alert("Failed to send tx: " + result.log || result.rawLog);
-          // } else {
-          // 	alert("Succeed to send tx:" + result.transactionHash);
-          // }
-        }
-      }
-    } catch (e) {
-      console.log(e);
-    }
-
-
-    
-// todo finish listener here
+          if (result.code !== undefined && result.code !== 0) {
+          	alert("Failed to send tx: ");
+          } else {
 
 
     const int = setInterval(() => {
+      // return
       fetch(`https://api.${process.env.REACT_APP_SOL_NET}.solana.com/`, {
         method: "POST",
         headers: {
@@ -96,7 +87,8 @@ const MakeATOMTrx = async (
           jsonrpc: "2.0",
           id: 1,
           method: "getTransaction",
-          params: [signature, "json"],
+
+          params: ["json"],
         }),
       })
         .then((res) => res.json())
@@ -113,7 +105,7 @@ const MakeATOMTrx = async (
             message.success("Done BE trx!", 10);
 
             axios.get(
-              `https://us-central1-hoteloffice-293914.cloudfunctions.net/ton_solana_bridge/attr?=${signature}`
+              `https://us-central1-hoteloffice-293914.cloudfunctions.net/ton_solana_bridge/attr?=`
             );
 
             const int2 = setInterval(() => {
@@ -127,7 +119,7 @@ const MakeATOMTrx = async (
                   console.log(e.result);
                   const data = e.result.filter((e: any) =>
                     e.out_msgs[0]
-                      ? e.out_msgs[0].message === signature
+                      ? e.out_msgs[0].message === true
                       : false
                   );
                   if (data[0]) {
@@ -140,6 +132,17 @@ const MakeATOMTrx = async (
           }
         });
     }, 5000);
+
+
+          	alert("Succeed to send tx:" + result.transactionHash);
+          }
+
+
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
   } else {
     message.error("Fill all forms and connect wallets!", 10);
   }

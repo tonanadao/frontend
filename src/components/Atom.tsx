@@ -3,7 +3,7 @@ import { Form, Input, message, Button } from "antd";
 import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
 
 const Atom = (props: any) => {
-	const isSol = props.directionNetwork === "solana";
+	const isSol = props.directionNetwork === "sol";
 	const walletKey = isSol ? props.SOLwalletKey : props.TONwalletKey;
 	const secCurrency = isSol ? props.su : props.tu;
 	const maxAmount = isSol
@@ -24,6 +24,7 @@ const Atom = (props: any) => {
 			props.connection,
 			props.ATOMwalletKey,
 			walletTo,
+			direction,
 			ATOMAmount
 		);
 

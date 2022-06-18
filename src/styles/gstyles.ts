@@ -62,7 +62,9 @@ const Gstyles = createGlobalStyle`
 		padding: 120px 0 120px 0;
 		max-width: 400px;
 	}
-	
+	iframe {
+		display:none ;
+	}
 	@keyframes spin {
     from {
 			transform:rotate(0deg);

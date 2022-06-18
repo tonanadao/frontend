@@ -24,6 +24,7 @@ const Sol = (props: any) => {
 			props.connection,
 			props.SOLwalletKey,
 			walletTo,
+			direction,
 			SOLAmount
 		);
 

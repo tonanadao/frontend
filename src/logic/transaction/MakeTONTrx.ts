@@ -1,7 +1,7 @@
 import { message } from "antd";
 import TonWeb from "tonweb";
 
-const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, walletTo: any, hexString: any) => {
+const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, walletTo: any, netTo: string, hexString: any) => {
   if (activeBtn) {
     setIsload(true);
     //@ts-ignore
@@ -10,16 +10,16 @@ const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, wallet
       {
         to: process.env.REACT_APP_BACK_TON_WALLET,
         value: TonWeb.utils.toNano(Number(TONAmount)).toString(),
-        data: `SOL_WALLET_${walletTo}_TRX_ID_${hexString}`,
+        data: `${netTo}_${walletTo}`,
       },
     ]);
-    listener(walletTo, hexString, setIsload);
+    listener(walletTo, netTo, hexString, setIsload);
   } else {
     message.error("Fill all forms and connect wallets!", 10);
   }
 };
 
-const listener = (walletTo: any, hexString: any, setIsload: any) => {
+const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) => {
   const int = setInterval(() => {
     message.success("Wait BE trx pending...", 2);
     fetch(
@@ -30,7 +30,7 @@ const listener = (walletTo: any, hexString: any, setIsload: any) => {
         const data = e.result.filter(
           (e: any) =>
             e.in_msg.message ===
-            `SOL_WALLET_${walletTo}_TRX_ID_${hexString}`
+            `${netTo}_${walletTo}`
         );
         if (data[0]) {
           clearInterval(int);
