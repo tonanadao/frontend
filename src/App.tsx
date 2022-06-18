@@ -147,7 +147,7 @@ const App = () => {
 					Select direction ({networkDestination})
 				</Button>
 			</Dropdown>
-			{networkSource !== "COSMOS" ? (
+			{networkSource === "SOL" || networkDestination === "SOL" ? (
 				<Button
 					type="primary"
 					onClick={() => connectWalletSOL(setSOLWalletKey)}
@@ -155,7 +155,7 @@ const App = () => {
 					{SOLwalletKey ? "SOL wallet connected!" : "Connect SOL wallet"}
 				</Button>
 			) : null}
-			{networkSource !== "TON" ? (
+			{networkSource === "TON" || networkDestination === "TON" ? (
 				<Button
 					type="primary"
 					onClick={() => connectWalletTON(setTONwalletKey)}
@@ -163,7 +163,7 @@ const App = () => {
 					{TONwalletKey ? "TON wallet connected!" : "Connect TON wallet"}
 				</Button>
 			) : null}
-			{networkSource !== "SOL" ? (
+			{networkSource === "COSMOS" || networkDestination === "COSMOS" ? (
 				<Button
 					type="primary"
 					onClick={() => connectWalletATOM(setATOMwalletKey)}
