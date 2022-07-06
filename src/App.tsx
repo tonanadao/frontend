@@ -10,10 +10,12 @@ import { Loader } from "./styles/style";
 import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
 import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
+import getNEARMaxAmount from "./logic/fetch/getNEARMaxAmount";
 import fetchMarkets from "./logic/fetch/fetchMarkets";
 import connectWalletSOL from "./logic/wallet/connectWalletSOL";
 import connectWalletATOM from "./logic/wallet/connectWalletATOM";
 import connectWalletTON from "./logic/wallet/connectWalletTON";
+import connectWalletNEAR from "./logic/wallet/connectWalletNEAR";
 import { Tabs, Dropdown, Menu, Space } from "antd";
 import "antd/dist/antd.css";
 
@@ -23,14 +25,18 @@ const App = () => {
 	const [tu, stu] = useState(0);
 	const [su, ssu] = useState(0);
 	const [au, sau] = useState(0);
+	const [nu, snu] = useState(0);
 	const [ex, sex] = useState(true);
 	const [isload, setIsload] = useState(false);
 	const [SOLwalletKey, setSOLWalletKey] = useState("");
 	const [TONwalletKey, setTONwalletKey] = useState("");
+	const [NEARwalletKey, setNEARwalletKey] = useState("");
 	const [ATOMwalletKey, setATOMwalletKey] = useState("");
 	const [SOLMaxAmount, setSOLMaxAmount] = useState();
 	const [TONMaxAmount, setTONMaxAmount] = useState();
 	const [ATOMMaxAmount, setATOMMaxAmount] = useState();
+	const [NEARMaxAmount, setNEARMaxAmount] = useState();
+
 	const [hexString, sHexString] = useState("");
 
 	const [networkSource, setNetworkSource] = useState("SOL");
@@ -46,15 +52,15 @@ const App = () => {
 		document.getElementsByTagName("iframe")[0].style.display =
 			"none !important";
 
-	console.log(ATOMMaxAmount);
 	useEffect(() => {
 		getTONMaxAmount(setTONMaxAmount);
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);
+		getNEARMaxAmount(setNEARMaxAmount);
 
-		fetchMarkets(stu, ssu, sau);
+		fetchMarkets(stu, ssu, sau, snu);
 		setInterval(() => {
-			fetchMarkets(stu, ssu, sau);
+			fetchMarkets(stu, ssu, sau, snu);
 		}, 15000);
 		sHexString(
 			Array(16)
@@ -163,6 +169,14 @@ const App = () => {
 					{TONwalletKey ? "TON wallet connected!" : "Connect TON wallet"}
 				</Button>
 			) : null}
+			{networkSource === "NEAR" || networkDestination === "NEAR" ? (
+				<Button
+					type="primary"
+					onClick={() => connectWalletNEAR(setNEARwalletKey)}
+					style={{ margin: "0 0 24px 0" }}>
+					{NEARwalletKey ? "NEAR wallet connected!" : "Connect NEAR wallet"}
+				</Button>
+			) : null}
 			{networkSource === "COSMOS" || networkDestination === "COSMOS" ? (
 				<Button
 					type="primary"
@@ -174,6 +188,8 @@ const App = () => {
 			<Divider dashed />
 		</>
 	);
+
+	console.log(ATOMMaxAmount);
 
 	return (
 		<div className="App">
@@ -199,6 +215,9 @@ const App = () => {
 					ATOMwalletKey={ATOMwalletKey}
 					TONwalletKey={TONwalletKey}
 					directionNetwork={networkDestination.toLowerCase()}
+					nu={nu}
+					NEARwalletKey={NEARwalletKey}
+					NEARMaxAmount={NEARMaxAmount}
 					setIsload={setIsload}
 					btn={btn}
 					TONMaxAmount={TONMaxAmount}
@@ -214,6 +233,9 @@ const App = () => {
 					connection={connection}
 					SOLwalletKey={SOLwalletKey}
 					TONwalletKey={TONwalletKey}
+					nu={nu}
+					NEARwalletKey={NEARwalletKey}
+					NEARMaxAmount={NEARMaxAmount}
 					setIsload={setIsload}
 					btn={btn}
 					ATOMwalletKey={ATOMwalletKey}
@@ -236,11 +258,14 @@ const App = () => {
 					btn={btn}
 					ATOMMaxAmount={ATOMMaxAmount}
 					SOLMaxAmount={SOLMaxAmount}
+					nu={nu}
+					NEARwalletKey={NEARwalletKey}
+					NEARMaxAmount={NEARMaxAmount}
 					hexString={hexString}
 					isload={isload}
 					directionNetwork={networkDestination.toLowerCase()}
 				/>
-			) : null}
+			) : networkSource === "NEAR" ? null : null}
 
 			<Footer />
 			{isload ? <Loader src={bnn} /> : null}

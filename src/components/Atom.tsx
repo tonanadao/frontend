@@ -6,9 +6,11 @@ const Atom = (props: any) => {
 	const isSol = props.directionNetwork === "sol";
 	const walletKey = isSol ? props.SOLwalletKey : props.TONwalletKey;
 	const secCurrency = isSol ? props.su : props.tu;
-	const maxAmount = isSol
-		? Number(props.SOLMaxAmount)
-		: Number(props.TONMaxAmount);
+	const maxAmount = Number(
+		isSol
+			? Number(props.SOLMaxAmount * 10).toFixed(6)
+			: (Number(props.TONMaxAmount) / 1000000000).toFixed(6)
+	);
 	const direction = isSol ? "SOL" : "TON";
 
 	const [walletTo, setWalletTo] = useState<string>(walletKey);
@@ -47,7 +49,7 @@ const Atom = (props: any) => {
 					onChange={(e) => {
 						if (
 							(Number(e.target.value) * props.au) / secCurrency <
-							(0.8 * maxAmount) / 1000000000
+							0.8 * maxAmount
 						) {
 							setATOMAmount(e.target.value);
 							setOtherAmount(
@@ -59,10 +61,7 @@ const Atom = (props: any) => {
 						} else {
 							message.error(
 								"Set less, than " +
-									(
-										(((0.8 * maxAmount) / 1000000000) * secCurrency) /
-										props.au
-									).toFixed(6) +
+									((0.8 * maxAmount * secCurrency) / props.au).toFixed(6) +
 									" ATOM",
 								10
 							);
@@ -88,7 +87,7 @@ const Atom = (props: any) => {
 							: ""
 					}
 					onChange={(e) => {
-						if (Number(e.target.value) < (0.8 * maxAmount) / 1000000000) {
+						if (Number(e.target.value) < 0.8 * maxAmount) {
 							setATOMAmount(
 								(
 									((Number(e.target.value) * secCurrency) / props.au) *
@@ -99,7 +98,7 @@ const Atom = (props: any) => {
 						} else {
 							message.error(
 								"Set less, than " +
-									((0.8 * maxAmount) / 1000000000).toFixed(6) +
+									(0.8 * maxAmount).toFixed(6) +
 									" " +
 									direction,
 								10
@@ -119,9 +118,7 @@ const Atom = (props: any) => {
 			</Form.Item>
 			Price ATOM: {(props.au / secCurrency).toFixed(6)} {direction}
 			<br />
-			Amount on our side:{" "}
-			{isSol ? maxAmount.toFixed(6) : (maxAmount / 1000000000).toFixed(6)}{" "}
-			{direction}
+			Amount on our side: {maxAmount} {direction}
 			<br />
 			You will get{" "}
 			{!!Number(otherAmount)

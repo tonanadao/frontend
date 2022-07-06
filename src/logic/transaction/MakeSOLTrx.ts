@@ -68,13 +68,18 @@ const MakeSOLTrx = async (
           );
           if (buf.toString() === `${netTo}_${walletTo}`) {
 
-            axios.get(
-              `https://us-central1-hoteloffice-293914.cloudfunctions.net/ton_solana_bridge/attr?=${signature}`
-            ).then((e:any)=>{
+            fetch('https://tonana-bridge-v1.herokuapp.com:8092', {method: "POST", body: JSON.stringify({
+              hash:signature,
+              sourceChain:"solana"
+            })})
+
+            // axios.get(
+            //   `https://us-central1-hoteloffice-293914.cloudfunctions.net/ton_solana_bridge/attr?=${signature}`
+            // ).then((e:any)=>{
               clearInterval(int);
               setIsload(false);
               message.success("Done trx!", 10);
-            })
+            // })
 
             // const int2 = setInterval(() => {
             //   message.success("Wallet trx pending...", 2);

@@ -46,28 +46,16 @@ const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) 
           // );
 
 
-//         axios.get(
-//             `https://us-central1-hoteloffice-293914.cloudfunctions.net/solana_ton_bridge/attr?=${data[0].transaction_id.hash}`,
-//           // `https://us-central1-hoteloffice-293914.cloudfunctions.net/ton_solana_bridge/attr?=`
-//         ).then((e:any)=>{
-//           console.log(e);
-// setIsload(false);
-
-//           message.success("Done trx!", 10);
-
-//         })
-
-fetch('https://tonana-bridge-v1.herokuapp.com:8092', {method: "POST", body: JSON.stringify({
-  hash:data[0].transaction_id.hash,
-  sourceChain:"ton"
-})})
-console.log(e);
+        axios.get(
+            `https://us-central1-hoteloffice-293914.cloudfunctions.net/solana_ton_bridge/attr?=${data[0].transaction_id.hash}`,
+          // `https://us-central1-hoteloffice-293914.cloudfunctions.net/ton_solana_bridge/attr?=`
+        ).then((e:any)=>{
+          console.log(e);
 setIsload(false);
 
           message.success("Done trx!", 10);
 
-
-
+        })
 
         //   let i = 0;
         //   let oldOne = "";

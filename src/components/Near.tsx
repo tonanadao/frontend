@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { message, Form, Input, Button } from "antd";
-import TonWeb from "tonweb";
+import NearWeb from "tonweb";
 import MakeTONTrx from "../logic/transaction/MakeTONTrx";
 
-const Ton = (props: any) => {
+const Near = (props: any) => {
 	const isAtom = props.directionNetwork === "cosmos";
 	const walletKey = isAtom ? props.ATOMwalletKey : props.SOLwalletKey;
 	const secCurrency = isAtom ? props.au : props.su;
 	const MaxAmount = isAtom
-		? Number(props.ATOMMaxAmount) * 1000000
+		? Number(props.ATOMMaxAmount)
 		: Number(props.SOLMaxAmount);
 	const direction = isAtom ? "ATOM" : "SOL";
 
@@ -115,7 +115,9 @@ const Ton = (props: any) => {
 			</Form.Item>
 			Price TON: {(props.tu / secCurrency).toFixed(6)} {direction}
 			<br />
-			Amount on our side: {isAtom ? MaxAmount : MaxAmount.toFixed(6)}{" "}
+			Amount on our side: {isAtom
+				? 1000000 * MaxAmount
+				: MaxAmount.toFixed(6)}{" "}
 			{direction}
 			<br />
 			You will get{" "}
@@ -135,4 +137,4 @@ const Ton = (props: any) => {
 	);
 };
 
-export default Ton;
+export default Near;

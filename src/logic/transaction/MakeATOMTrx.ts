@@ -38,7 +38,7 @@ const MakeATOMTrx = async (
           const accounts = await offlineSigner.getAccounts();
           // return
           const client = await SigningStargateClient.connectWithSigner(
-            "https://rpc.cosmos.network/",
+            "https://sepezho.com:5555/https://rpc.cosmos.network/",
             // "https://rpc.sentry-01.theta-testnet.polypore.xyz/",
             offlineSigner
           );
@@ -59,8 +59,8 @@ const MakeATOMTrx = async (
           };
           const result = await client.sendTokens(
             accounts[0].address,
-            process.env.REACT_APP_BACK_ATOM_WALLET
-              ? process.env.REACT_APP_BACK_ATOM_WALLET
+            process.env.REACT_APP_BACK_COSMOS_WALLET
+              ? process.env.REACT_APP_BACK_COSMOS_WALLET
               : "",
             [amountFinal],
             fee,
@@ -71,16 +71,24 @@ const MakeATOMTrx = async (
           if (result.code !== undefined && result.code !== 0) {
           	alert("Failed to send tx: ");
           } else {
+            console.log(result);
 
-        axios.get(
-              `https://us-central1-hoteloffice-293914.cloudfunctions.net/ton_solana_bridge/attr?=`
-            ).then((e:any)=>{
-              console.log(e);
-    setIsload(false);
-
+            fetch('https://tonana-bridge-v1.herokuapp.com:8092', {method: "POST", body: JSON.stringify({
+              hash:result.transactionHash,
+              sourceChain:"cosmos"
+            })})
+              setIsload(false);
               message.success("Done trx!", 10);
 
-            })
+    //     axios.get(
+    //           `https://us-central1-hoteloffice-293914.cloudfunctions.net/ton_solana_bridge/attr?=`
+    //         ).then((e:any)=>{
+    //           console.log(e);
+    // setIsload(false);
+
+    //           message.success("Done trx!", 10);
+
+    //         })
 
     // const int = setInterval(() => {
     //   // return

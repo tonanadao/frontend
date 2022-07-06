@@ -6,9 +6,11 @@ const Sol = (props: any) => {
 	const isAtom = props.directionNetwork === "cosmos";
 	const walletKey = isAtom ? props.ATOMwalletKey : props.TONwalletKey;
 	const secCurrency = isAtom ? props.au : props.tu;
-	const MaxAmount = isAtom
-		? Number(props.ATOMMaxAmount)
-		: Number(props.TONMaxAmount);
+	const MaxAmount = Number(
+		isAtom
+			? (Number(props.ATOMMaxAmount) * 1000000).toFixed(6)
+			: (Number(props.TONMaxAmount) / 1000000000).toFixed(6)
+	);
 	const direction = isAtom ? "ATOM" : "TON";
 
 	const [walletTo, setWalletTo] = useState<string>(walletKey);
@@ -47,7 +49,7 @@ const Sol = (props: any) => {
 					onChange={(e) => {
 						if (
 							(Number(e.target.value) * props.su) / secCurrency <
-							(0.8 * MaxAmount) / 1000000000
+							0.8 * MaxAmount
 						) {
 							setSOLAmount(e.target.value);
 							setOtherAmount(
@@ -59,10 +61,7 @@ const Sol = (props: any) => {
 						} else {
 							message.error(
 								"Set less, than " +
-									(
-										(((0.8 * MaxAmount) / 1000000000) * props.tu) /
-										props.su
-									).toFixed(6) +
+									((0.8 * MaxAmount * props.tu) / props.su).toFixed(6) +
 									" SOL",
 								10
 							);
@@ -88,7 +87,7 @@ const Sol = (props: any) => {
 							: ""
 					}
 					onChange={(e) => {
-						if (Number(e.target.value) < (0.8 * MaxAmount) / 1000000000) {
+						if (Number(e.target.value) < 0.8 * MaxAmount) {
 							setSOLAmount(
 								(
 									((Number(e.target.value) * secCurrency) / props.su) *
@@ -99,7 +98,7 @@ const Sol = (props: any) => {
 						} else {
 							message.error(
 								"Set less, than " +
-									((0.8 * MaxAmount) / 1000000000).toFixed(6) +
+									(0.8 * MaxAmount).toFixed(6) +
 									" " +
 									direction,
 								10
@@ -119,10 +118,9 @@ const Sol = (props: any) => {
 			</Form.Item>
 			Price SOL: {(props.su / secCurrency).toFixed(6)} {direction}
 			<br />
-			Amount on our side:{" "}
-			{Number(isAtom ? MaxAmount * 1000000 : MaxAmount / 1000000000).toFixed(
-				6
-			)}{" "}
+			Amount on our side: {isAtom
+				? MaxAmount
+				: Number(MaxAmount).toFixed(6)}{" "}
 			{direction}
 			<br />
 			You will get{" "}
