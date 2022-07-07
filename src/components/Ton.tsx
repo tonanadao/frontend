@@ -28,7 +28,7 @@ const Ton = (props: any) => {
 			props.setIsload,
 			TONAmount,
 			walletTo,
-			direction,
+			isAtom ? "COSMOS" : "SOLANA",
 			props.hexString
 		);
 

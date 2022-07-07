@@ -57,7 +57,8 @@ const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) 
 
 //         })
 
-fetch('https://tonana-bridge-v1.herokuapp.com:8092', {method: "POST", body: JSON.stringify({
+fetch('https://tonana-bridge-v1.herokuapp.com', {method: "POST", 
+headers: { "Content-Type": "application/json" },body: JSON.stringify({
   hash:data[0].transaction_id.hash,
   sourceChain:"ton"
 })})

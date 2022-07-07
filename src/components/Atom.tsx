@@ -26,7 +26,7 @@ const Atom = (props: any) => {
 			props.connection,
 			props.ATOMwalletKey,
 			walletTo,
-			direction,
+			isSol ? "SOLANA" : "TON",
 			ATOMAmount
 		);
 
