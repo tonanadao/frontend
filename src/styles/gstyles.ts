@@ -9,11 +9,11 @@ const Gstyles = createGlobalStyle`
 
 	* {
 		font-family: "Baloo";
-		color: #671AE4 !important;
+		color: #FFC916 !important;
   }
 
 	body {
-		background: linear-gradient(113.49deg, #FF897E -30.3%, #FFC916 58.12%);
+		background: #161c2d;
 		display: flex;
 		justify-content: center;
 		background-repeat: no-repeat;
@@ -21,12 +21,12 @@ const Gstyles = createGlobalStyle`
 	}
 
 	h1 {
-		color:  #671AE4 !important;
+		color:  #FFC916 !important;
 		text-align: center;
 	}
 
 	h2 {
-		color:  #671AE4 !important;
+		color:  #FFC916 !important;
 		text-align: center;
 	}
 
@@ -38,7 +38,7 @@ const Gstyles = createGlobalStyle`
 	}
 
 	button {
-		background: linear-gradient(214.02deg, #B75CFF 6.04%, #671AE4 92.95%) !important;
+		background: #FFC916 !important;
 		border-radius: 10px !important;
 		padding: 16px 24px !important;
 		display: flex !important;
@@ -46,7 +46,7 @@ const Gstyles = createGlobalStyle`
 		align-items: center !important;
 		width: 100%;
 		* {
-			color: white !important;
+			color: #212529 !important;
 		}
 	}
 

@@ -22,6 +22,7 @@ import "antd/dist/antd.css";
 const { TabPane } = Tabs;
 
 const App = () => {
+	
 	const [tu, stu] = useState(0);
 	const [su, ssu] = useState(0);
 	const [au, sau] = useState(0);
@@ -73,6 +74,7 @@ const App = () => {
 	}, []);
 
 	const menuSource = (
+		
 		<Menu
 			items={[
 				networkDestination !== "SOL"
@@ -99,8 +101,10 @@ const App = () => {
 			]}
 		/>
 	);
+	
 
 	const menuDestination = (
+		
 		<Menu
 			items={[
 				networkSource !== "SOL"
@@ -192,7 +196,9 @@ const App = () => {
 	console.log(ATOMMaxAmount);
 
 	return (
+		
 		<div className="App">
+			
 			<h1>TONANA bridge</h1>
 
 			<img
