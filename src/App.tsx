@@ -5,6 +5,8 @@ import Ton from "./components/Ton";
 import Atom from "./components/Atom";
 import Sol from "./components/Sol";
 import Near from "./components/Near";
+import SwapForm from "./components/SwapForm";
+
 import Footer from "./components/Footer";
 import bnn from "./static/img/bnn.png";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
@@ -478,6 +480,7 @@ const App = () => {
 		hexString,
 		changeDirection,
 		directionNetwork: networkDestination.toLowerCase(),
+		networkSource: networkSource.toLowerCase(),
 	};
 
 	const mainForm = (direction: string) => (
@@ -505,7 +508,9 @@ const App = () => {
 				transform: ex ? "rotate3d(0, 1, 0, 180deg)" : "rotate3d(0, 1, 0, 0)",
 			}}
 		/> */}
-			{mainForm(networkSource)}
+			{/* {mainForm(networkSource)} */}
+
+			<SwapForm {...fromProps} />
 			{/* <Footer /> */}
 			{isload ? <Loader src={bnn} /> : null}
 		</div>
