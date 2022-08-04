@@ -19,7 +19,7 @@ import connectWalletATOM from "./logic/wallet/connectWalletATOM";
 import connectWalletTON from "./logic/wallet/connectWalletTON";
 import connectWalletNEAR from "./logic/wallet/connectWalletNEAR";
 import { Dropdown, Menu } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import { BrowserRouter as Router, useSearchParams } from "react-router-dom";
 import phantom from "./static/img/phantom.png";
@@ -152,7 +152,7 @@ const App = () => {
 
 		if (transactionHashes) {
 			console.log(transactionHashes);
-			fetch("https://app.tonana.org:8092/", {
+			fetch("https://tonana-bridge-v1.herokuapp.com/", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -454,114 +454,58 @@ const App = () => {
 		</>
 	);
 
+	const changeDirection = <SwapOutlined onClick={swap} />;
+
+	const fromProps = {
+		au,
+		su,
+		tu,
+		nu,
+		ATOMwalletKey,
+		SOLwalletKey,
+		TONwalletKey,
+		NEARwalletKey,
+		ATOMMaxAmount,
+		SOLMaxAmount,
+		TONMaxAmount,
+		NEARMaxAmount,
+		btnSelectSource,
+		btnSelectDirection,
+		btnDest,
+		btnSource,
+		setIsload,
+		isload,
+		hexString,
+		changeDirection,
+		directionNetwork: networkDestination.toLowerCase(),
+	};
+
+	const mainForm = (direction: string) => (
+		<>
+			{direction === "SOL" ? (
+				<Sol {...fromProps} />
+			) : direction === "COSMOS" ? (
+				<Atom {...fromProps} />
+			) : direction === "TON" ? (
+				<Ton {...fromProps} />
+			) : direction === "NEAR" ? (
+				<Near {...fromProps} />
+			) : null}
+		</>
+	);
+
 	return (
 		<div className="App">
 			{/* <h1>TONANA bridge</h1> */}
-
 			{/* <img
-				src={bnn}
-				onClick={swap}
-				alt="banana"
-				style={{
-					transform: ex ? "rotate3d(0, 1, 0, 180deg)" : "rotate3d(0, 1, 0, 0)",
-				}}
-			/> */}
-
-			{networkSource === "SOL" ? (
-				<Sol
-					tu={tu}
-					su={su}
-					au={au}
-					connection={connection}
-					SOLwalletKey={SOLwalletKey}
-					ATOMMaxAmount={ATOMMaxAmount}
-					ATOMwalletKey={ATOMwalletKey}
-					TONwalletKey={TONwalletKey}
-					directionNetwork={networkDestination.toLowerCase()}
-					nu={nu}
-					NEARwalletKey={NEARwalletKey}
-					NEARMaxAmount={NEARMaxAmount}
-					setIsload={setIsload}
-					btnSelectSource={btnSelectSource}
-					btnSelectDirection={btnSelectDirection}
-					TONMaxAmount={TONMaxAmount}
-					hexString={hexString}
-					SOLMaxAmount={SOLMaxAmount}
-					isload={isload}
-					btnDest={btnDest}
-					btnSource={btnSource}
-				/>
-			) : networkSource === "COSMOS" ? (
-				<Atom
-					tu={tu}
-					su={su}
-					au={au}
-					connection={connection}
-					SOLwalletKey={SOLwalletKey}
-					TONwalletKey={TONwalletKey}
-					nu={nu}
-					NEARwalletKey={NEARwalletKey}
-					NEARMaxAmount={NEARMaxAmount}
-					setIsload={setIsload}
-					btnSelectSource={btnSelectSource}
-					btnSelectDirection={btnSelectDirection}
-					ATOMwalletKey={ATOMwalletKey}
-					ATOMMaxAmount={ATOMMaxAmount}
-					TONMaxAmount={TONMaxAmount}
-					hexString={hexString}
-					SOLMaxAmount={SOLMaxAmount}
-					directionNetwork={networkDestination.toLowerCase()}
-					isload={isload}
-					btnDest={btnDest}
-					btnSource={btnSource}
-				/>
-			) : networkSource === "TON" ? (
-				<Ton
-					tu={tu}
-					su={su}
-					au={au}
-					ATOMwalletKey={ATOMwalletKey}
-					SOLwalletKey={SOLwalletKey}
-					TONwalletKey={TONwalletKey}
-					setIsload={setIsload}
-					btnSelectSource={btnSelectSource}
-					btnSelectDirection={btnSelectDirection}
-					ATOMMaxAmount={ATOMMaxAmount}
-					SOLMaxAmount={SOLMaxAmount}
-					nu={nu}
-					NEARwalletKey={NEARwalletKey}
-					NEARMaxAmount={NEARMaxAmount}
-					hexString={hexString}
-					isload={isload}
-					directionNetwork={networkDestination.toLowerCase()}
-					btnDest={btnDest}
-					btnSource={btnSource}
-				/>
-			) : networkSource === "NEAR" ? (
-				<Near
-					tu={tu}
-					su={su}
-					au={au}
-					nu={nu}
-					ATOMwalletKey={ATOMwalletKey}
-					SOLwalletKey={SOLwalletKey}
-					TONwalletKey={TONwalletKey}
-					setIsload={setIsload}
-					btnSelectSource={btnSelectSource}
-					btnSelectDirection={btnSelectDirection}
-					ATOMMaxAmount={ATOMMaxAmount}
-					SOLMaxAmount={SOLMaxAmount}
-					NEARwalletKey={NEARwalletKey}
-					NEARMaxAmount={NEARMaxAmount}
-					TONMaxAmount={TONMaxAmount}
-					hexString={hexString}
-					isload={isload}
-					directionNetwork={networkDestination.toLowerCase()}
-					btnDest={btnDest}
-					btnSource={btnSource}
-				/>
-			) : null}
-
+			src={bnn}
+			
+			alt="banana"
+			style={{
+				transform: ex ? "rotate3d(0, 1, 0, 180deg)" : "rotate3d(0, 1, 0, 0)",
+			}}
+		/> */}
+			{mainForm(networkSource)}
 			{/* <Footer /> */}
 			{isload ? <Loader src={bnn} /> : null}
 		</div>

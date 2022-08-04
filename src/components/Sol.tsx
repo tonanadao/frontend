@@ -91,6 +91,7 @@ const Sol = (props: any) => {
 				{props.btnSelectSource}
 				{props.btnSource}
 			</Form.Item>
+			{props.changeDirection}
 			<Form.Item label={`TO`}>
 				<Input
 					value={

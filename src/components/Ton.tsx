@@ -84,6 +84,7 @@ const Ton = (props: any) => {
 				{props.btnSelectSource}
 				{props.btnSource}
 			</Form.Item>
+			{props.changeDirection}
 			<Form.Item label={`TO`}>
 				<Input
 					onChange={(e) => {
