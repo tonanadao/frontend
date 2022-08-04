@@ -79,19 +79,6 @@ const SwapForm = (props: any) => {
 		? props.su
 		: null;
 
-	// const MaxAmount = Number(
-	// 	isAtom
-	// 		? (Number(props.ATOMMaxAmount) * 1000000).toFixed(6)
-	// 		: (Number(props.TONMaxAmount) / 1000000000).toFixed(6)
-	// );
-
-	// const MaxAmount = isAtom
-	// 	? Number(props.ATOMMaxAmount)
-	// 	: // ? Number(props.ATOMMaxAmount) * 1000000
-	// 	isNear
-	// 	? Number(props.NEARMaxAmount)
-	// 	: Number(props.TONwalletKey);
-
 	const MaxDirAmount = Number(
 		isDirAtom
 			? props.ATOMMaxAmount
@@ -126,8 +113,8 @@ const SwapForm = (props: any) => {
 		? "SOL"
 		: null;
 
-	const [firstCurrAmount, setFirstCurrAmount] = useState<number>(0);
-	const [secCurrAmount, setSecCurrAmount] = useState<number>(0);
+	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
+	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
 
 	const activeBtn =
 		!!walletDirKey && !!firstCurrAmount && !props.isload && walletSouKey;
@@ -161,7 +148,6 @@ const SwapForm = (props: any) => {
 			firstCurrAmount,
 			walletDirKey,
 			TRXDir,
-
 			props.hexString
 		);
 
@@ -176,20 +162,16 @@ const SwapForm = (props: any) => {
 			firstCurrAmount
 		);
 
-	// useEffect(() => {
-	// 	setWalletTo(walletKey);
-	// }, [walletKey]);
-
 	// ???????
-	useEffect(() => {
-		setFirstCurrAmount(
-			((Number(secCurrAmount) * secCurrency) / currency) * 1.025
-		);
+	// useEffect(() => {
+	// 	setFirstCurrAmount(
+	// 		((Number(secCurrAmount) * secCurrency) / currency) * 1.025
+	// 	);
 
-		setSecCurrAmount(
-			((Number(firstCurrAmount) * currency) / secCurrency) * 0.975
-		);
-	}, [currency, secCurrency]);
+	// 	setSecCurrAmount(
+	// 		((Number(firstCurrAmount) * currency) / secCurrency) * 0.975
+	// 	);
+	// }, [currency, secCurrency]);
 
 	return (
 		<Form name="control-hooks" layout="vertical">
@@ -201,9 +183,9 @@ const SwapForm = (props: any) => {
 							(Number(e.target.value) * currency) / secCurrency <
 							0.8 * MaxDirAmount
 						) {
-							setFirstCurrAmount(Number(e.target.value));
+							setFirstCurrAmount(e.target.value);
 							setSecCurrAmount(
-								((Number(e.target.value) * currency) / secCurrency) * 0.975
+								((Number(e.target.value) * currency) / secCurrency) * 0.975 + ""
 							);
 						} else {
 							message.error(
@@ -216,7 +198,7 @@ const SwapForm = (props: any) => {
 					}}
 					value={
 						!isNaN(Number(firstCurrAmount))
-							? secCurrAmount === 0
+							? secCurrAmount === ""
 								? ""
 								: firstCurrAmount
 							: ""
@@ -231,7 +213,7 @@ const SwapForm = (props: any) => {
 				<Input
 					value={
 						!isNaN(Number(secCurrAmount))
-							? firstCurrAmount === 0
+							? firstCurrAmount === ""
 								? ""
 								: secCurrAmount
 							: ""
@@ -239,9 +221,9 @@ const SwapForm = (props: any) => {
 					onChange={(e) => {
 						if (Number(e.target.value) < 0.8 * MaxDirAmount) {
 							setFirstCurrAmount(
-								((Number(e.target.value) * secCurrency) / currency) * 1.025
+								((Number(e.target.value) * secCurrency) / currency) * 1.025 + ""
 							);
-							setSecCurrAmount(Number(e.target.value));
+							setSecCurrAmount(e.target.value);
 						} else {
 							message.error(
 								`Set less, than ${0.8 * MaxDirAmount} ${directionCurrencyName}`,
@@ -271,6 +253,7 @@ const SwapForm = (props: any) => {
 				}}>
 				<Button
 					type="primary"
+					id={"submitBtn"}
 					onClick={
 						isSouAtom
 							? ATOMtrx

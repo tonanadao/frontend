@@ -62,22 +62,29 @@ const Gstyles = createGlobalStyle`
 		img {
 			width: 24px;
 			height: 24px;
+			margin: 0 6px 0 0;
 		}
 	}
+#submitBtn{
+		width: 100%;
 
+}
 	input {
-		background: #FFC916 !important;
+		background: #1E1E1E !important;
 		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25)!important;
 		border-radius: 10px!important;
+		border: none !important;
 		width: 100% !important;
-		color: black !important;
-		padding: 30px 100px !important;
+		color: white !important;
+		padding: 30px 130px !important;
+		font-size: 28px!important;
+		/* box-sizing: border-box!important; */
 	}
 
 	.App {
 		margin: 120px 0 120px 0;
-		padding: 24px;
-		max-width: 548px;
+		padding: 34px;
+		max-width: 648px;
 		background: black;
 		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25)!important;
 		border-radius: 25px!important;
@@ -85,6 +92,21 @@ const Gstyles = createGlobalStyle`
 	}
 	iframe {
 		display:none ;
+	}
+	#directionBtn{
+		display: flex;
+		justify-content: center;
+		svg{
+			width: 18px;
+			height: 18px;
+		}
+	}
+	#connectWalletBtn{
+
+	border: none !important;
+	background: #FC9110!important;
+	margin: -30px 12px 24px 0;
+	float: right;
 	}
 	@keyframes spin {
     from {
