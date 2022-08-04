@@ -1,32 +1,40 @@
 import { createGlobalStyle } from "styled-components";
-import Baloo from "../static/Baloo.ttf";
+// import Baloo from "../static/Inter-roman.var.woff2";
 
 const Gstyles = createGlobalStyle`
 	@font-face {
 		font-family: "Baloo";
-		src: local("Baloo"), url(${Baloo});
+		src: local("Baloo"), url("../static/Inter-roman.var.woff2");
 	}
 
 	* {
-		font-family: "Baloo";
-		color: #671AE4 !important;
+		font-family: "Baloo", sans-serif;
+    font-weight: 500;
   }
 
 	body {
-		background: linear-gradient(113.49deg, #FF897E -30.3%, #FFC916 58.12%);
+		background: #1E1E1E;
 		display: flex;
 		justify-content: center;
 		background-repeat: no-repeat;
     background-attachment: fixed;
-	}
 
+	}
+	form{
+		color: #FFFFFF !important;
+
+	}
+	.ant-form-item-label > * {
+		color: #FFFFFF !important;
+
+	}
 	h1 {
-		color:  #671AE4 !important;
+		color:  #FFFFFF !important;
 		text-align: center;
 	}
 
 	h2 {
-		color:  #671AE4 !important;
+		color:  #FFFFFF !important;
 		text-align: center;
 	}
 
@@ -36,17 +44,24 @@ const Gstyles = createGlobalStyle`
 		cursor: pointer;
 		transform: rotate3d(0, 1, 0, 180deg)
 	}
+	#selectCoin{
+		margin: -100px 0 100px 0;
+	}
 
 	button {
-		background: linear-gradient(214.02deg, #B75CFF 6.04%, #671AE4 92.95%) !important;
+		background: none !important;
 		border-radius: 10px !important;
-		padding: 16px 24px !important;
+		/* padding: 16px 24px !important; */
 		display: flex !important;
 		justify-content: center !important;
 		align-items: center !important;
-		width: 100%;
+		/* width: 100%; */
 		* {
 			color: white !important;
+		}
+		img {
+			width: 24px;
+			height: 24px;
 		}
 	}
 
@@ -56,11 +71,17 @@ const Gstyles = createGlobalStyle`
 		border-radius: 10px!important;
 		width: 100% !important;
 		color: black !important;
+		padding: 30px 100px !important;
 	}
 
 	.App {
-		padding: 120px 0 120px 0;
-		max-width: 400px;
+		margin: 120px 0 120px 0;
+		padding: 24px;
+		max-width: 548px;
+		background: black;
+		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25)!important;
+		border-radius: 25px!important;
+
 	}
 	iframe {
 		display:none ;

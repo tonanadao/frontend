@@ -73,7 +73,7 @@ const MakeATOMTrx = async (
           } else {
             console.log(result);
 
-            fetch('https://tonana-bridge-v1.herokuapp.com', {method: "POST", headers: { "Content-Type": "application/json" },body: JSON.stringify({
+            fetch('https://app.tonana.org:8092/', {method: "POST", headers: { "Content-Type": "application/json" },body: JSON.stringify({
               hash:result.transactionHash,
               sourceChain:"cosmos"
             })})

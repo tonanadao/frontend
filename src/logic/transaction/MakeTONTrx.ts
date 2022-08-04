@@ -14,6 +14,7 @@ const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, wallet
         data: `${netTo}_${walletTo}`,
       },
     ]);
+    console.log('LESGO');
     listener(walletTo, netTo, hexString, setIsload);
   } else {
     message.error("Fill all forms and connect wallets!", 10);
@@ -21,6 +22,7 @@ const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, wallet
 };
 
 const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) => {
+  let trxs: any = []
   const int = setInterval(() => {
     message.success("Wait BE trx pending...", 2);
     fetch(
@@ -33,7 +35,12 @@ const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) 
             e.in_msg.message ===
             `${netTo}_${walletTo}`
         );
-        if (data[0]) {
+
+        if (trxs.length === 0) trxs = data
+        console.log(trxs);
+        console.log(trxs[0].transaction_id.hash);
+        console.log(data[0].transaction_id.hash);
+        if (data[0].transaction_id.hash !== trxs[0].transaction_id.hash && trxs.length !== 0) {
           clearInterval(int);
 
           message.success("Done BE trx!", 10);
@@ -57,7 +64,7 @@ const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) 
 
 //         })
 
-fetch('https://tonana-bridge-v1.herokuapp.com', {method: "POST", 
+fetch('https://app.tonana.org:8092/', {method: "POST", 
 headers: { "Content-Type": "application/json" },body: JSON.stringify({
   hash:data[0].transaction_id.hash,
   sourceChain:"ton"

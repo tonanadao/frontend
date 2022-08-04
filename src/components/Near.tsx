@@ -1,88 +1,97 @@
 import { useEffect, useState } from "react";
 import { message, Form, Input, Button } from "antd";
-import NearWeb from "tonweb";
-import MakeTONTrx from "../logic/transaction/MakeTONTrx";
+import MakeNEARTrx from "../logic/transaction/MakeNEARTrx";
 
 const Near = (props: any) => {
 	const isAtom = props.directionNetwork === "cosmos";
-	const walletKey = isAtom ? props.ATOMwalletKey : props.SOLwalletKey;
-	const secCurrency = isAtom ? props.au : props.su;
+	const isTon = props.directionNetwork === "ton";
+	const walletKey = isAtom
+		? props.ATOMwalletKey
+		: isTon
+		? props.TONwalletKey
+		: props.SOLwalletKey;
+	const secCurrency = isAtom ? props.au : isTon ? props.tu : props.su;
 	const MaxAmount = isAtom
 		? Number(props.ATOMMaxAmount)
+		: isTon
+		? Number(props.TONMaxAmount)
 		: Number(props.SOLMaxAmount);
-	const direction = isAtom ? "ATOM" : "SOL";
+	console.log(MaxAmount);
+	const direction = isAtom ? "ATOM" : isTon ? "TON" : "SOL";
 
 	const [walletTo, setWalletTo] = useState<string>(walletKey);
 	const [otherAmount, setOtherAmount] = useState<string>("");
-	const [TONAmount, setTONAmount] = useState<string>("");
+	const [NEARAmount, setNEARAmount] = useState<string>("");
 	const activeBtn =
-		!!walletTo && !!TONAmount && !props.isload && props.TONwalletKey;
+		!!walletTo && !!NEARAmount && !props.isload && props.NEARwalletKey;
 
 	useEffect(() => {
 		setWalletTo(walletKey);
 	}, [walletKey]);
 
-	const TONTrx = () =>
-		MakeTONTrx(
+	const NEARTrx = () =>
+		MakeNEARTrx(
 			activeBtn,
 			props.setIsload,
-			TONAmount,
+			props.NEARwalletKey,
+			NEARAmount,
 			walletTo,
-			direction,
+			isAtom ? "COSMOS" : isTon ? "TON" : "SOLANA",
 			props.hexString
 		);
 
 	useEffect(() => {
 		setOtherAmount(
-			(((Number(TONAmount) * props.tu) / secCurrency) * 0.975).toFixed(6)
+			(((Number(NEARAmount) * props.nu) / secCurrency) * 0.975).toFixed(6)
 		);
-	}, [props.tu, secCurrency]);
+	}, [props.nu, secCurrency]);
 
 	return (
 		<Form name="control-hooks" layout="vertical">
-			<h2>TON -&gt; {direction}</h2>
 			{props.btn}
-			<Form.Item label="Spend amount (TON)">
+			<Form.Item label="FROM">
 				<Input
 					value={
-						!isNaN(Number(TONAmount))
+						!isNaN(Number(NEARAmount))
 							? otherAmount === ""
 								? ""
-								: TONAmount
+								: NEARAmount
 							: ""
 					}
 					onChange={(e) => {
 						if (
-							(Number(e.target.value) * props.tu) / secCurrency <
+							(Number(e.target.value) * props.nu) / secCurrency <
 							MaxAmount * 0.8
 						) {
 							setOtherAmount(
 								(
-									((Number(e.target.value) * props.tu) / secCurrency) *
+									((Number(e.target.value) * props.nu) / secCurrency) *
 									0.975
 								).toFixed(6)
 							);
-							setTONAmount(e.target.value);
+							setNEARAmount(e.target.value);
 						} else {
 							message.error(
 								"Set less, than " +
-									((0.8 * MaxAmount * secCurrency) / props.tu).toFixed(6) +
-									" TON",
+									((0.8 * MaxAmount * secCurrency) / props.nu).toFixed(6) +
+									" NEAR",
 								10
 							);
 						}
 					}}
 					placeholder={"0.000000"}
 				/>
+				{props.btnSelectSource}
+				{props.btnSource}
 			</Form.Item>
-			<Form.Item label={`Get amount (${direction})`}>
+			<Form.Item label={`TO`}>
 				<Input
 					onChange={(e) => {
 						if (Number(e.target.value) < 0.8 * MaxAmount) {
 							setOtherAmount(e.target.value);
-							setTONAmount(
+							setNEARAmount(
 								(
-									((Number(e.target.value) * secCurrency) / props.tu) *
+									((Number(e.target.value) * secCurrency) / props.nu) *
 									1.025
 								).toFixed(6)
 							);
@@ -97,28 +106,27 @@ const Near = (props: any) => {
 					}}
 					value={
 						!isNaN(Number(otherAmount))
-							? TONAmount === ""
+							? NEARAmount === ""
 								? ""
 								: otherAmount
 							: ""
 					}
 					placeholder={"0.000000"}
 				/>
+				{props.btnSelectDirection}
+				{props.btnDest}
 			</Form.Item>
-			<Form.Item name="walletTo" label={`${direction} wallet`}>
+			{/* <Form.Item name="walletTo" label={`${direction} wallet`}>
 				<span style={{ display: "none" }}>{walletTo}</span>
 				<Input
 					onChange={(e) => setWalletTo(e.target.value)}
 					value={walletTo}
 					placeholder={"0x0000...000"}
 				/>
-			</Form.Item>
-			Price TON: {(props.tu / secCurrency).toFixed(6)} {direction}
+			</Form.Item> */}
+			Price NEAR: {(props.nu / secCurrency).toFixed(6)} {direction}
 			<br />
-			Amount on our side: {isAtom
-				? 1000000 * MaxAmount
-				: MaxAmount.toFixed(6)}{" "}
-			{direction}
+			Amount on our side: {MaxAmount} {direction}
 			<br />
 			You will get{" "}
 			{!!Number(otherAmount) ? Number(otherAmount) * 0.975 : "0.000000"}{" "}
@@ -129,7 +137,7 @@ const Near = (props: any) => {
 					filter: !activeBtn ? "grayscale(50%) contrast(50%)" : "",
 				}}>
 				<span style={{ display: "none" }}>{walletTo}</span>
-				<Button type="primary" onClick={TONTrx}>
+				<Button type="primary" onClick={NEARTrx}>
 					Submit
 				</Button>
 			</Form.Item>

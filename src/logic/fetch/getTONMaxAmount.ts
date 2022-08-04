@@ -1,3 +1,5 @@
+import TonWeb from "tonweb"
+
 
 const getTONMaxAmount = (setTONMaxAmount: any) => {
   fetch(
@@ -5,7 +7,7 @@ const getTONMaxAmount = (setTONMaxAmount: any) => {
     { method: "GET" }
   ).then((e) => e.json())
     .then((e: any) => {
-      setTONMaxAmount(e.result.balance);
+      setTONMaxAmount(Number(TonWeb.utils.fromNano(Number(e.result.balance))));
     });
 }
 

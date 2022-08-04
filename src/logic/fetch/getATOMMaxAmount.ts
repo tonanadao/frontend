@@ -3,7 +3,8 @@ const getATOMMaxAmount = (setATOMMaxAmount: any) => {
     method: "GET",
   }).then((res) => res.json())
     .then((res) => {
-      setATOMMaxAmount(Number(res.balance) / 1000000);
+      console.log(res.balance);
+      setATOMMaxAmount(Number(res.balance) );
     });
 }
 

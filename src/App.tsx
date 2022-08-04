@@ -1,8 +1,10 @@
+import { connect, Contract, keyStores, WalletConnection } from "near-api-js";
 import { useEffect, useState } from "react";
 import { Button, message, Divider } from "antd";
 import Ton from "./components/Ton";
 import Atom from "./components/Atom";
 import Sol from "./components/Sol";
+import Near from "./components/Near";
 import Footer from "./components/Footer";
 import bnn from "./static/img/bnn.png";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
@@ -16,10 +18,19 @@ import connectWalletSOL from "./logic/wallet/connectWalletSOL";
 import connectWalletATOM from "./logic/wallet/connectWalletATOM";
 import connectWalletTON from "./logic/wallet/connectWalletTON";
 import connectWalletNEAR from "./logic/wallet/connectWalletNEAR";
-import { Tabs, Dropdown, Menu, Space } from "antd";
+import { Dropdown, Menu } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
+import { BrowserRouter as Router, useSearchParams } from "react-router-dom";
+import phantom from "./static/img/phantom.png";
+import near from "./static/img/near.png";
+import keplr from "./static/img/keplr.png";
+import tonwallet from "./static/img/tonwallet.png";
 
-const { TabPane } = Tabs;
+import atomIco from "./static/img/atom.png";
+import nearIco from "./static/img/nearcoin.png";
+import tonIco from "./static/img/ton.png";
+import solIco from "./static/img/solana.png";
 
 const App = () => {
 	const [tu, stu] = useState(0);
@@ -29,14 +40,22 @@ const App = () => {
 	const [ex, sex] = useState(true);
 	const [isload, setIsload] = useState(false);
 	const [SOLwalletKey, setSOLWalletKey] = useState("");
+	console.log("SOLwalletKey: ", SOLwalletKey);
 	const [TONwalletKey, setTONwalletKey] = useState("");
+	console.log("TONwalletKey: ", TONwalletKey);
 	const [NEARwalletKey, setNEARwalletKey] = useState("");
+	console.log("NEARwalletKey: ", NEARwalletKey);
 	const [ATOMwalletKey, setATOMwalletKey] = useState("");
-	const [SOLMaxAmount, setSOLMaxAmount] = useState();
-	const [TONMaxAmount, setTONMaxAmount] = useState();
-	const [ATOMMaxAmount, setATOMMaxAmount] = useState();
-	const [NEARMaxAmount, setNEARMaxAmount] = useState();
-
+	console.log("ATOMwalletKey: ", ATOMwalletKey);
+	console.log("-------------------------------------------");
+	const [SOLMaxAmount, setSOLMaxAmount] = useState(0);
+	console.log("SOLMaxAmount: ", SOLMaxAmount);
+	const [TONMaxAmount, setTONMaxAmount] = useState(0);
+	console.log("TONMaxAmount: ", TONMaxAmount);
+	const [ATOMMaxAmount, setATOMMaxAmount] = useState(0);
+	console.log("ATOMMaxAmount: ", ATOMMaxAmount);
+	const [NEARMaxAmount, setNEARMaxAmount] = useState(0);
+	console.log("NEARMaxAmount: ", NEARMaxAmount);
 	const [hexString, sHexString] = useState("");
 
 	const [networkSource, setNetworkSource] = useState("SOL");
@@ -52,11 +71,15 @@ const App = () => {
 		document.getElementsByTagName("iframe")[0].style.display =
 			"none !important";
 
+	const [searchParams, setSearchParams] = useSearchParams();
+	const transactionHashes = searchParams.get("transactionHashes");
+	const nearAccountId = searchParams.get("account_id");
+
 	useEffect(() => {
 		getTONMaxAmount(setTONMaxAmount);
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);
-		getNEARMaxAmount(setNEARMaxAmount);
+		// getNEARMaxAmount(setNEARMaxAmount);
 
 		fetchMarkets(stu, ssu, sau, snu);
 		setInterval(() => {
@@ -68,9 +91,111 @@ const App = () => {
 				.map(() => Math.round(Math.random() * 0xf).toString(16))
 				.join("")
 		);
+
+		if (localStorage.getItem("tonana_data") && nearAccountId) {
+			//@ts-ignore
+			const storedData = JSON.parse(localStorage.getItem("tonana_data"));
+			sex(storedData.ex);
+			setSOLWalletKey(storedData.SOLwalletKey);
+			setTONwalletKey(storedData.TONwalletKey);
+			setNEARwalletKey(storedData.NEARwalletKey);
+			setATOMwalletKey(storedData.ATOMwalletKey);
+			sHexString(storedData.hexString);
+			setNetworkSource(storedData.networkSource);
+			setNetworkDestination(storedData.networkDestination);
+		}
+
+		const nearWallet = async () => {
+			const connectionConfig = {
+				networkId: "mainnet",
+				keyStore: new keyStores.BrowserLocalStorageKeyStore(),
+				nodeUrl: "https://rpc.mainnet.near.org",
+				walletUrl: "https://wallet.mainnet.near.org",
+				helperUrl: "https://helper.mainnet.near.org",
+				explorerUrl: "https://explorer.mainnet.near.org",
+			};
+
+			const receiver = process.env.REACT_APP_NEAR_CONTRACT
+				? process.env.REACT_APP_NEAR_CONTRACT
+				: "";
+
+			const nearConnection = await connect(connectionConfig as any);
+			const walletConnection = new WalletConnection(nearConnection, receiver);
+
+			const account = await nearConnection.account(
+				process.env.REACT_APP_BACK_NEAR_WALLET
+					? process.env.REACT_APP_BACK_NEAR_WALLET
+					: ""
+			);
+			setNEARMaxAmount(
+				Number((await account.state()).amount) / 1000000000000000000000000
+			);
+
+			console.log(walletConnection.isSignedIn());
+			if (walletConnection.isSignedIn()) {
+				const walletAccountId = walletConnection.getAccountId();
+				console.log(walletAccountId);
+				setNEARwalletKey(walletAccountId);
+
+				//@ts-ignore
+				window.contract = await new Contract(
+					walletConnection.account(),
+					receiver,
+					{
+						changeMethods: ["payToWallet"],
+						viewMethods: [],
+					}
+				);
+			}
+		};
+		nearWallet();
+
+		if (transactionHashes) {
+			console.log(transactionHashes);
+			fetch("https://app.tonana.org:8092/", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					hash: transactionHashes,
+					sourceChain: "near",
+				}),
+			})
+				.then((e) => e.text())
+				.then((e) => {
+					if (e === "Done!") {
+						searchParams.delete("transactionHashes");
+						setSearchParams(searchParams);
+					}
+				});
+		}
+
 		message.success("Use Chrome with TonWallet & Phantom extensions", 10);
 		message.success("Connect both and make trx, then wait a little bit", 11);
 	}, []);
+
+	useEffect(() => {
+		const dataToSave = {
+			ex: ex,
+			SOLwalletKey: SOLwalletKey,
+			TONwalletKey: TONwalletKey,
+			NEARwalletKey: NEARwalletKey,
+			ATOMwalletKey: ATOMwalletKey,
+			hexString: hexString,
+			networkSource: networkSource,
+			networkDestination: networkDestination,
+		};
+
+		localStorage.setItem("tonana_data", JSON.stringify(dataToSave));
+	}, [
+		ex,
+		SOLwalletKey,
+		TONwalletKey,
+		NEARwalletKey,
+		ATOMwalletKey,
+		hexString,
+		networkSource,
+		networkDestination,
+	]);
 
 	const menuSource = (
 		<Menu
@@ -94,6 +219,12 @@ const App = () => {
 					? {
 							key: "TON",
 							label: <div onClick={() => setNetworkSource("TON")}>TON</div>,
+					  }
+					: null,
+				networkDestination !== "NEAR"
+					? {
+							key: "NEAR",
+							label: <div onClick={() => setNetworkSource("NEAR")}>NEAR</div>,
 					  }
 					: null,
 			]}
@@ -131,6 +262,14 @@ const App = () => {
 							),
 					  }
 					: null,
+				networkSource !== "NEAR"
+					? {
+							key: "NEAR",
+							label: (
+								<div onClick={() => setNetworkDestination("NEAR")}>NEAR</div>
+							),
+					  }
+					: null,
 			]}
 		/>
 	);
@@ -141,68 +280,192 @@ const App = () => {
 		sex(!ex);
 	};
 
-	const btn = (
+	const coinIco =
+		networkSource === "SOL"
+			? solIco
+			: networkSource === "NEAR"
+			? nearIco
+			: networkSource === "TON"
+			? tonIco
+			: atomIco;
+
+	const coinIcoDest =
+		networkDestination === "SOL"
+			? solIco
+			: networkDestination === "NEAR"
+			? nearIco
+			: networkDestination === "TON"
+			? tonIco
+			: atomIco;
+	const btnSelectSource = (
 		<>
 			<Dropdown overlay={menuSource} placement="bottom">
-				<Button style={{ margin: "0 0 24px 0" }}>
-					Select source ({networkSource})
+				<Button
+					style={{ margin: "-60px 0 0 0", border: "none" }}
+					id={"selectCoin"}>
+					<img src={coinIco} alt={"#"} />
+					{networkSource}
+					<DownOutlined />
 				</Button>
 			</Dropdown>
+		</>
+	);
+	const btnSelectDirection = (
+		<>
 			<Dropdown overlay={menuDestination} placement="bottom">
-				<Button style={{ margin: "0 0 24px 0" }}>
-					Select direction ({networkDestination})
+				<Button
+					style={{ margin: "-60px 0 0 0", border: "none" }}
+					id={"selectCoin"}>
+					<img src={coinIcoDest} alt={"#"} />
+					{networkDestination}
+					<DownOutlined />
 				</Button>
 			</Dropdown>
-			{networkSource === "SOL" || networkDestination === "SOL" ? (
+		</>
+	);
+	const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
+	const btnDest = (
+		<>
+			{networkDestination === "SOL" ? (
 				<Button
 					type="primary"
 					onClick={() => connectWalletSOL(setSOLWalletKey)}
-					style={{ margin: "0 0 24px 0" }}>
-					{SOLwalletKey ? "SOL wallet connected!" : "Connect SOL wallet"}
+					style={{ margin: "-30px 0 24px 0", float: "right" }}>
+					{SOLwalletKey ? (
+						<>
+							<img src={phantom} alt={"#"} />
+							{zipName(SOLwalletKey)}
+						</>
+					) : (
+						"Connect wallet"
+					)}
 				</Button>
 			) : null}
-			{networkSource === "TON" || networkDestination === "TON" ? (
+			{networkDestination === "TON" ? (
 				<Button
 					type="primary"
 					onClick={() => connectWalletTON(setTONwalletKey)}
-					style={{ margin: "0 0 24px 0" }}>
-					{TONwalletKey ? "TON wallet connected!" : "Connect TON wallet"}
+					style={{ margin: "-30px 0 24px 0", float: "right" }}>
+					{TONwalletKey ? (
+						<>
+							<img src={tonIco} alt={"#"} />
+							{zipName(TONwalletKey)}
+						</>
+					) : (
+						"Connect wallet"
+					)}
 				</Button>
 			) : null}
-			{networkSource === "NEAR" || networkDestination === "NEAR" ? (
+			{networkDestination === "NEAR" ? (
 				<Button
 					type="primary"
 					onClick={() => connectWalletNEAR(setNEARwalletKey)}
-					style={{ margin: "0 0 24px 0" }}>
-					{NEARwalletKey ? "NEAR wallet connected!" : "Connect NEAR wallet"}
+					style={{ margin: "-30px 0 24px 0", float: "right" }}>
+					{NEARwalletKey ? (
+						<>
+							<img src={near} alt={"#"} />
+							{zipName(NEARwalletKey)}
+						</>
+					) : (
+						"Connect wallet"
+					)}
 				</Button>
 			) : null}
-			{networkSource === "COSMOS" || networkDestination === "COSMOS" ? (
+			{networkDestination === "COSMOS" ? (
 				<Button
 					type="primary"
 					onClick={() => connectWalletATOM(setATOMwalletKey)}
-					style={{ margin: "0 0 24px 0" }}>
-					{ATOMwalletKey ? "ATOM wallet connected!" : "Connect ATOM wallet"}
+					style={{ margin: "-30px 0 24px 0", float: "right" }}>
+					{ATOMwalletKey ? (
+						<>
+							<img src={keplr} alt={"#"} />
+							{zipName(ATOMwalletKey)}
+						</>
+					) : (
+						"Connect wallet"
+					)}
 				</Button>
 			) : null}
-			<Divider dashed />
 		</>
 	);
 
-	console.log(ATOMMaxAmount);
+	const btnSource = (
+		<>
+			{networkSource === "SOL" ? (
+				<Button
+					type="primary"
+					onClick={() => connectWalletSOL(setSOLWalletKey)}
+					style={{ margin: "-30px 0 24px 0", float: "right" }}>
+					{SOLwalletKey ? (
+						<>
+							<img src={phantom} alt={"#"} />
+							{zipName(SOLwalletKey)}
+						</>
+					) : (
+						"Connect wallet"
+					)}
+				</Button>
+			) : null}
+			{networkSource === "TON" ? (
+				<Button
+					type="primary"
+					onClick={() => connectWalletTON(setTONwalletKey)}
+					style={{ margin: "-30px 0 24px 0", float: "right" }}>
+					{TONwalletKey ? (
+						<>
+							<img src={tonwallet} alt={"#"} />
+							{zipName(TONwalletKey)}
+						</>
+					) : (
+						"Connect wallet"
+					)}
+				</Button>
+			) : null}
+			{networkSource === "NEAR" ? (
+				<Button
+					type="primary"
+					onClick={() => connectWalletNEAR(setNEARwalletKey)}
+					style={{ margin: "-30px 0 24px 0", float: "right" }}>
+					{NEARwalletKey ? (
+						<>
+							<img src={near} alt={"#"} />
+							{zipName(NEARwalletKey)}
+						</>
+					) : (
+						"Connect wallet"
+					)}
+				</Button>
+			) : null}
+			{networkSource === "COSMOS" ? (
+				<Button
+					type="primary"
+					onClick={() => connectWalletATOM(setATOMwalletKey)}
+					style={{ margin: "-30px 0 24px 0", float: "right" }}>
+					{ATOMwalletKey ? (
+						<>
+							<img src={keplr} alt={"#"} />
+							{zipName(ATOMwalletKey)}
+						</>
+					) : (
+						"Connect wallet"
+					)}
+				</Button>
+			) : null}
+		</>
+	);
 
 	return (
 		<div className="App">
-			<h1>TONANA bridge</h1>
+			{/* <h1>TONANA bridge</h1> */}
 
-			<img
+			{/* <img
 				src={bnn}
 				onClick={swap}
 				alt="banana"
 				style={{
 					transform: ex ? "rotate3d(0, 1, 0, 180deg)" : "rotate3d(0, 1, 0, 0)",
 				}}
-			/>
+			/> */}
 
 			{networkSource === "SOL" ? (
 				<Sol
@@ -219,11 +482,14 @@ const App = () => {
 					NEARwalletKey={NEARwalletKey}
 					NEARMaxAmount={NEARMaxAmount}
 					setIsload={setIsload}
-					btn={btn}
+					btnSelectSource={btnSelectSource}
+					btnSelectDirection={btnSelectDirection}
 					TONMaxAmount={TONMaxAmount}
 					hexString={hexString}
 					SOLMaxAmount={SOLMaxAmount}
 					isload={isload}
+					btnDest={btnDest}
+					btnSource={btnSource}
 				/>
 			) : networkSource === "COSMOS" ? (
 				<Atom
@@ -237,7 +503,8 @@ const App = () => {
 					NEARwalletKey={NEARwalletKey}
 					NEARMaxAmount={NEARMaxAmount}
 					setIsload={setIsload}
-					btn={btn}
+					btnSelectSource={btnSelectSource}
+					btnSelectDirection={btnSelectDirection}
 					ATOMwalletKey={ATOMwalletKey}
 					ATOMMaxAmount={ATOMMaxAmount}
 					TONMaxAmount={TONMaxAmount}
@@ -245,6 +512,8 @@ const App = () => {
 					SOLMaxAmount={SOLMaxAmount}
 					directionNetwork={networkDestination.toLowerCase()}
 					isload={isload}
+					btnDest={btnDest}
+					btnSource={btnSource}
 				/>
 			) : networkSource === "TON" ? (
 				<Ton
@@ -255,7 +524,8 @@ const App = () => {
 					SOLwalletKey={SOLwalletKey}
 					TONwalletKey={TONwalletKey}
 					setIsload={setIsload}
-					btn={btn}
+					btnSelectSource={btnSelectSource}
+					btnSelectDirection={btnSelectDirection}
 					ATOMMaxAmount={ATOMMaxAmount}
 					SOLMaxAmount={SOLMaxAmount}
 					nu={nu}
@@ -264,10 +534,35 @@ const App = () => {
 					hexString={hexString}
 					isload={isload}
 					directionNetwork={networkDestination.toLowerCase()}
+					btnDest={btnDest}
+					btnSource={btnSource}
 				/>
-			) : networkSource === "NEAR" ? null : null}
+			) : networkSource === "NEAR" ? (
+				<Near
+					tu={tu}
+					su={su}
+					au={au}
+					nu={nu}
+					ATOMwalletKey={ATOMwalletKey}
+					SOLwalletKey={SOLwalletKey}
+					TONwalletKey={TONwalletKey}
+					setIsload={setIsload}
+					btnSelectSource={btnSelectSource}
+					btnSelectDirection={btnSelectDirection}
+					ATOMMaxAmount={ATOMMaxAmount}
+					SOLMaxAmount={SOLMaxAmount}
+					NEARwalletKey={NEARwalletKey}
+					NEARMaxAmount={NEARMaxAmount}
+					TONMaxAmount={TONMaxAmount}
+					hexString={hexString}
+					isload={isload}
+					directionNetwork={networkDestination.toLowerCase()}
+					btnDest={btnDest}
+					btnSource={btnSource}
+				/>
+			) : null}
 
-			<Footer />
+			{/* <Footer /> */}
 			{isload ? <Loader src={bnn} /> : null}
 		</div>
 	);

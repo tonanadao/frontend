@@ -4,14 +4,27 @@ import MakeSOLTrx from "../logic/transaction/MakeSOLTrx";
 
 const Sol = (props: any) => {
 	const isAtom = props.directionNetwork === "cosmos";
-	const walletKey = isAtom ? props.ATOMwalletKey : props.TONwalletKey;
-	const secCurrency = isAtom ? props.au : props.tu;
-	const MaxAmount = Number(
-		isAtom
-			? (Number(props.ATOMMaxAmount) * 1000000).toFixed(6)
-			: (Number(props.TONMaxAmount) / 1000000000).toFixed(6)
-	);
-	const direction = isAtom ? "ATOM" : "TON";
+	const isNear = props.directionNetwork === "near";
+	const walletKey = isAtom
+		? props.ATOMwalletKey
+		: isNear
+		? props.NEARwalletKey
+		: props.TONwalletKey;
+	const secCurrency = isAtom ? props.au : isNear ? props.nu : props.tu;
+	// const MaxAmount = Number(
+	// 	isAtom
+	// 		? (Number(props.ATOMMaxAmount) * 1000000).toFixed(6)
+	// 		: (Number(props.TONMaxAmount) / 1000000000).toFixed(6)
+	// );
+
+	const MaxAmount = isAtom
+		? Number(props.ATOMMaxAmount)
+		: // ? Number(props.ATOMMaxAmount) * 1000000
+		isNear
+		? Number(props.NEARMaxAmount)
+		: Number(props.TONwalletKey);
+
+	const direction = isAtom ? "ATOM" : isNear ? "NEAR" : "TON";
 
 	const [walletTo, setWalletTo] = useState<string>(walletKey);
 	const [otherAmount, setOtherAmount] = useState<string>("");
@@ -26,7 +39,7 @@ const Sol = (props: any) => {
 			props.connection,
 			props.SOLwalletKey,
 			walletTo,
-			isAtom ? "COSMOS" : "TON",
+			isAtom ? "COSMOS" : isNear ? "NEAR" : "TON",
 			SOLAmount
 		);
 
@@ -38,13 +51,12 @@ const Sol = (props: any) => {
 		setOtherAmount(
 			(((Number(SOLAmount) * props.su) / secCurrency) * 0.975).toFixed(6)
 		);
-	}, [props.tu, props.su]);
+	}, [secCurrency, props.su]);
 
 	return (
 		<Form name="control-hooks" layout="vertical">
-			<h2>SOL -&gt; {direction}</h2>
 			{props.btn}
-			<Form.Item label={`Spend amount (SOL)`}>
+			<Form.Item label={`FROM`}>
 				<Input
 					onChange={(e) => {
 						if (
@@ -76,8 +88,10 @@ const Sol = (props: any) => {
 					}
 					placeholder={"0.000000"}
 				/>
+				{props.btnSelectSource}
+				{props.btnSource}
 			</Form.Item>
-			<Form.Item label={`Get amount (${direction})`}>
+			<Form.Item label={`TO`}>
 				<Input
 					value={
 						!isNaN(Number(otherAmount))
@@ -107,21 +121,20 @@ const Sol = (props: any) => {
 					}}
 					placeholder={"0.000000"}
 				/>
+				{props.btnSelectDirection}
+				{props.btnDest}
 			</Form.Item>
-			<Form.Item name="walletTo" label={direction + " wallet"}>
+			{/* <Form.Item name="walletTo" label={direction + " wallet"}>
 				<span style={{ display: "none" }}>{walletTo}</span>
 				<Input
 					onChange={(e) => setWalletTo(e.target.value)}
 					value={walletTo}
 					placeholder={"0x0000...000"}
 				/>
-			</Form.Item>
+			</Form.Item> */}
 			Price SOL: {(props.su / secCurrency).toFixed(6)} {direction}
 			<br />
-			Amount on our side: {isAtom
-				? MaxAmount
-				: Number(MaxAmount).toFixed(6)}{" "}
-			{direction}
+			Amount on our side: {MaxAmount} {direction}
 			<br />
 			You will get{" "}
 			{!!Number(otherAmount)

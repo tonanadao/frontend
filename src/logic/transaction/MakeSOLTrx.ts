@@ -68,7 +68,7 @@ const MakeSOLTrx = async (
           );
           if (buf.toString() === `${netTo}_${walletTo}`) {
 
-            fetch('https://tonana-bridge-v1.herokuapp.com', {method: "POST",
+            fetch('https://app.tonana.org:8092/', {method: "POST",
             headers: { "Content-Type": "application/json" }, body: JSON.stringify({
               hash:signature,
               sourceChain:"solana"
