@@ -46,7 +46,7 @@ const MakeATOMTrx = async (
   
           const amountFinal = {
             denom: "uatom",
-            amount: (ATOMAmount * 1000000).toString(),
+            amount: (Number(ATOMAmount) * 1000000).toString(),
           };
           const fee = {
             amount: [

@@ -5,7 +5,9 @@ const connectWalletTON = async (setTONwalletKey: any) => {
     //@ts-ignore
     const ton = window.ton;
     if (ton) {
+      console.log(ton);
       const accounts = await ton.send("ton_requestWallets");
+      console.log(accounts);
       setTONwalletKey(accounts[0].address);
     }
   } catch (err) {

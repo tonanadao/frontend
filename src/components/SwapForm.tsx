@@ -31,12 +31,12 @@ import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
 const SwapForm = (props: any) => {
 	const isDirAtom = props.directionNetwork === "cosmos";
 	const isDirNear = props.directionNetwork === "near";
-	const isDirSol = props.directionNetwork === "solana";
+	const isDirSol = props.directionNetwork === "sol";
 	const isDirTon = props.directionNetwork === "ton";
 
 	const isSouAtom = props.networkSource === "cosmos";
 	const isSouNear = props.networkSource === "near";
-	const isSouSol = props.networkSource === "solana";
+	const isSouSol = props.networkSource === "sol";
 	const isSouTon = props.networkSource === "ton";
 
 	const walletDirKey = isDirAtom
@@ -65,10 +65,11 @@ const SwapForm = (props: any) => {
 		? props.nu
 		: isDirTon
 		? props.tu
-		: isSouSol
+		: isDirSol
 		? props.su
 		: null;
-
+	console.log(props.networkSource);
+	console.log(props.directionNetwork);
 	const currency = isSouAtom
 		? props.au
 		: isSouNear
@@ -85,13 +86,15 @@ const SwapForm = (props: any) => {
 			: isDirNear
 			? props.NEARMaxAmount
 			: isDirTon
-			? props.TONwalletKey
-			: isSouSol
-			? props.SOLwalletKey
+			? props.TONMaxAmount
+			: isDirSol
+			? props.SOLMaxAmount
 			: null
 	);
 
-	const TRXDir = props.directionNetwork.toUpperCase();
+	const TRXDir = (
+		props.directionNetwork === "sol" ? "SOLANA" : props.directionNetwork
+	).toUpperCase();
 
 	const sourceCurrencyName = isSouAtom
 		? "ATOM"
@@ -109,12 +112,12 @@ const SwapForm = (props: any) => {
 		? "NEAR"
 		: isDirTon
 		? "TON"
-		: isSouSol
+		: isDirSol
 		? "SOL"
 		: null;
 
-	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
-	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
+	const [firstCurrAmount, setFirstCurrAmount] = useState<number>(0);
+	const [secCurrAmount, setSecCurrAmount] = useState<number>(0);
 
 	const activeBtn =
 		!!walletDirKey && !!firstCurrAmount && !props.isload && walletSouKey;
@@ -123,7 +126,7 @@ const SwapForm = (props: any) => {
 		MakeTONTrx(
 			activeBtn,
 			props.setIsload,
-			firstCurrAmount,
+			firstCurrAmount + "",
 			walletDirKey,
 			TRXDir,
 			props.hexString
@@ -137,7 +140,7 @@ const SwapForm = (props: any) => {
 			props.SOLwalletKey,
 			walletDirKey,
 			TRXDir,
-			firstCurrAmount
+			firstCurrAmount + ""
 		);
 
 	const NEARTrx = () =>
@@ -159,50 +162,43 @@ const SwapForm = (props: any) => {
 			props.ATOMwalletKey,
 			walletDirKey,
 			TRXDir,
-			firstCurrAmount
+			firstCurrAmount + ""
 		);
 
 	// ???????
-	// useEffect(() => {
-	// 	setFirstCurrAmount(
-	// 		((Number(secCurrAmount) * secCurrency) / currency) * 1.025
-	// 	);
+	useEffect(() => {
+		// setFirstCurrAmount(
+		// 	((Number(secCurrAmount) * secCurrency) / currency) * 1.025
+		// );
 
-	// 	setSecCurrAmount(
-	// 		((Number(firstCurrAmount) * currency) / secCurrency) * 0.975
-	// 	);
-	// }, [currency, secCurrency]);
+		setSecCurrAmount(((firstCurrAmount * currency) / secCurrency) * 0.975);
+	}, [currency, secCurrency]);
 
 	return (
 		<Form name="control-hooks" layout="vertical">
 			{props.btn}
 			<Form.Item label={`FROM`}>
 				<Input
+					type="number"
 					onChange={(e) => {
 						if (
 							(Number(e.target.value) * currency) / secCurrency <
 							0.8 * MaxDirAmount
 						) {
-							setFirstCurrAmount(e.target.value);
+							setFirstCurrAmount(Number(e.target.value));
 							setSecCurrAmount(
-								((Number(e.target.value) * currency) / secCurrency) * 0.975 + ""
+								((Number(e.target.value) * currency) / secCurrency) * 0.975
 							);
 						} else {
 							message.error(
 								`Set less, than ${
 									(0.8 * MaxDirAmount * secCurrency) / currency
 								} ${sourceCurrencyName}`,
-								10
+								3
 							);
 						}
 					}}
-					value={
-						!isNaN(Number(firstCurrAmount))
-							? secCurrAmount === ""
-								? ""
-								: firstCurrAmount
-							: ""
-					}
+					value={firstCurrAmount}
 					placeholder={"0.000"}
 				/>
 				{props.btnSelectSource}
@@ -211,23 +207,18 @@ const SwapForm = (props: any) => {
 			{props.changeDirection}
 			<Form.Item label={`TO`}>
 				<Input
-					value={
-						!isNaN(Number(secCurrAmount))
-							? firstCurrAmount === ""
-								? ""
-								: secCurrAmount
-							: ""
-					}
+					type="number"
+					value={secCurrAmount}
 					onChange={(e) => {
 						if (Number(e.target.value) < 0.8 * MaxDirAmount) {
 							setFirstCurrAmount(
-								((Number(e.target.value) * secCurrency) / currency) * 1.025 + ""
+								((Number(e.target.value) * secCurrency) / currency) * 1.025
 							);
-							setSecCurrAmount(e.target.value);
+							setSecCurrAmount(Number(e.target.value));
 						} else {
 							message.error(
 								`Set less, than ${0.8 * MaxDirAmount} ${directionCurrencyName}`,
-								10
+								3
 							);
 						}
 					}}

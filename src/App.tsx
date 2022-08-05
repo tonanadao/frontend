@@ -14,6 +14,7 @@ import connectWalletSOL from "./logic/wallet/connectWalletSOL";
 import connectWalletATOM from "./logic/wallet/connectWalletATOM";
 import connectWalletTON from "./logic/wallet/connectWalletTON";
 import connectWalletNEAR from "./logic/wallet/connectWalletNEAR";
+import { Connection, clusterApiUrl } from "@solana/web3.js";
 
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
@@ -52,6 +53,12 @@ const App = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const transactionHashes = searchParams.get("transactionHashes");
 	const nearAccountId = searchParams.get("account_id");
+
+	var connection = new Connection(
+		clusterApiUrl(
+			process.env.REACT_APP_SOL_NET as "devnet" | "testnet" | "mainnet-beta"
+		)
+	);
 
 	useEffect(() => {
 		getTONMaxAmount(setTONMaxAmount);
@@ -398,6 +405,7 @@ const App = () => {
 		isload,
 		hexString,
 		changeDirection,
+		connection,
 		directionNetwork: networkDestination.toLowerCase(),
 		networkSource: networkSource.toLowerCase(),
 	};

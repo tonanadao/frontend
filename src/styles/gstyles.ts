@@ -77,7 +77,7 @@ const Gstyles = createGlobalStyle`
 		width: 100% !important;
 		color: white !important;
 		padding: 30px 130px !important;
-		font-size: 28px!important;
+		/* font-size: 28px!important; */
 		/* box-sizing: border-box!important; */
 	}
 
