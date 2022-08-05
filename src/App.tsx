@@ -6,6 +6,7 @@ import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
 
 import SwapForm from "./components/SwapForm";
+import Social from "./components/Social";
 import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
 import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
@@ -30,7 +31,11 @@ import bnn from "./static/img/bnn.png";
 
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
+
+
+
 const App = () => {
+
 	const [ex, sex] = useState(true);
 	const [tu, stu] = useState(0);
 	const [su, ssu] = useState(0);
@@ -403,10 +408,12 @@ const App = () => {
 	};
 
 	return (
+
 		<div className="App">
 			<SwapForm {...fromProps} />
 			{isload ? <Loader src={bnn} /> : null}
 		</div>
+
 	);
 };
 

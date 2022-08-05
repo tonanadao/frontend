@@ -249,7 +249,7 @@ const SwapForm = (props: any) => {
 			<Form.Item
 				style={{
 					margin: "24px 0 0 0",
-					filter: !activeBtn ? "grayscale(50%) contrast(50%)" : "",
+					// filter: !activeBtn ? "grayscale(50%) contrast(50%)" : "",
 				}}>
 				<Button
 					type="primary"
