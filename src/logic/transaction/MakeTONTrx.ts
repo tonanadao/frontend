@@ -5,6 +5,8 @@ const axios = require("axios").default;
 const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, walletTo: any, netTo: string, hexString: any) => {
   if (activeBtn) {
     setIsload(true);
+    listener(walletTo, netTo, hexString, setIsload);
+
     //@ts-ignore
     const ton = window.ton;
     ton.send("ton_sendTransaction", [
@@ -15,7 +17,6 @@ const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, wallet
       },
     ]);
     console.log('LESGO');
-    listener(walletTo, netTo, hexString, setIsload);
   } else {
     message.error("Fill all forms and connect wallets!", 10);
   }
@@ -36,7 +37,9 @@ const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) 
             `${netTo}_${walletTo}`
         );
 
-        if (trxs.length === 0) trxs = data
+        if (!data[0] && trxs.length === 0) trxs.push({transaction_id:{hash:'test'}})
+        if (trxs.length === 0 && data[0]) trxs = data
+
         console.log(trxs);
         console.log(trxs[0].transaction_id.hash);
         console.log(data[0].transaction_id.hash);
