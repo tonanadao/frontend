@@ -40,7 +40,7 @@ const Social = () => {
 
 <li className="list-inline-item me-1">
   <a
-    href="https://linkedin.com/tonanadao"
+    href="https://www.linkedin.com/company/tonana/"
     target="_blank"
     className="icon-hover rounded"
   >

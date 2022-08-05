@@ -27,7 +27,7 @@ import atomIco from "./static/img/atom.png";
 import nearIco from "./static/img/nearcoin.png";
 import tonIco from "./static/img/ton.png";
 import solIco from "./static/img/solana.png";
-import bnn from "./static/img/bnn.png";
+import bnn from "./static/img/logo.svg";
 
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
@@ -408,7 +408,7 @@ const App = () => {
 	};
 
 	return (
-
+		
 		<div className="App">
 			<SwapForm {...fromProps} />
 			{isload ? <Loader src={bnn} /> : null}

@@ -90,7 +90,21 @@ const Gstyles = createGlobalStyle`
     box-shadow: transparent;
 	color: 
 }
-
+.ant-dropdown-menu {
+	background: #3c4858 !important;
+		span {
+			color: #d9d9d9 !important;
+			:hover {
+				color: #3c4858 !important;
+			}
+			:focus {
+				color: #3c4858 !important;
+			}
+			:active {
+				color: #3c4858 !important;
+			}
+	}
+}
 	input {
 		background: #161c2d !important;
 		border-radius: 10px!important;
