@@ -136,17 +136,6 @@ const Gstyles = createGlobalStyle`
 		stroke-width: 2;
 	  }
 	  
-	  .social-icon li a:hover {
-		background-color: transparent !important;
-		border-color: transparent !important;
-		color: #ffffff !important;
-	  }
-	  
-	  .social-icon li a:hover .fea-social {
-		fill: #2f55d4;
-		color: #ffffff !important;
-	  }
-	  
 	  .social-icon.social li a {
 		color: #fff;
 		border-color: #adb5bd;
@@ -159,10 +148,22 @@ const Gstyles = createGlobalStyle`
 	  .social-icon svg {
 		width:32px;
 		height:32px;
+			:selection {
+				color: #FFC916 !important;
+			}
+			:hover {
+				color: #FFC916 !important;
+			}
+			:active {
+				color: #FFC916 !important;
+			}
+			:focus {
+				color: #FFC916 !important;
+			}
 	  } 
 	  
 	.App {
-		margin: 120px 0 120px 0;
+		margin: 20px 0 120px 0;
 		padding: 34px;
 		display: flex !important;
 		justify-content:center !important;
