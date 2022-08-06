@@ -12,7 +12,7 @@ console.log(await window.contract.account._signAndSendTransaction({
   receiverId:process.env.REACT_APP_NEAR_CONTRACT, actions:[transactions.functionCall('payToWallet',  {
     target: process.env.REACT_APP_BACK_NEAR_WALLET,
     message: `${netTo}_${walletTo}`
-}, 40000000000000, utils.format.parseNearAmount(amount+''))]}));
+}, 40000000000000, utils.format.parseNearAmount(amount))]}));
 
 } else {
     message.error("Fill all forms and connect wallets!", 10);
