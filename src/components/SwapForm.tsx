@@ -254,7 +254,7 @@ const SwapForm = (props: any) => {
 				}}>
 				<Button
 					type="primary"
-					id={"submitBtn"}
+					id={activeBtn ? "submitBtn" : "nonactivesubmitBtn"}
 					onClick={
 						isSouAtom
 							? ATOMtrx

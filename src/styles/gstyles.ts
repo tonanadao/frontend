@@ -26,7 +26,6 @@ const Gstyles = createGlobalStyle`
 	}
 	form{
 		color: #FFFFFF !important;
-
 	}
 	.ant-form-item-label > * {
 		color: #FFFFFF !important;
@@ -70,9 +69,21 @@ const Gstyles = createGlobalStyle`
 		}
 	}
 #submitBtn{
+	width: 100%;
 	background: #FFC916 !important;
-	span {
-	}
+	
+}
+#submitBtn:hover{
+	color: black !important;
+}
+#nonactivesubmitBtn:hover{
+	color: black !important;
+}
+#nonactivesubmitBtn{
+	width: 100%;
+	background: #FFC916 !important;
+	filter: grayscale(100%) contrast(50%) !important;
+	opacity: .3;
 }
 #topnav {
 	width:100%;
@@ -111,7 +122,7 @@ const Gstyles = createGlobalStyle`
 		border: none !important;
 		width: 100% !important;
 		color: white !important;
-		padding: 30px 130px !important;
+		padding: 30px 130px 30px 130px !important;
 		/* font-size: 28px!important; */
 		/* box-sizing: border-box!important; */
 	}
@@ -170,8 +181,10 @@ const Gstyles = createGlobalStyle`
 		align-items:center !important;
 		max-width: 648px;
 		background: #161c2d;
-		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25)!important;
+		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.35)!important;
 		border-radius: 25px!important;
+		/* background: black ; */
+
 	}
 	.Container {
 		width:100vw;
@@ -179,6 +192,7 @@ const Gstyles = createGlobalStyle`
 		flex-direction: row;
 		align-items:center;
 		justify-content: space-around;
+
 	}
 	iframe {
 		display:none ;
