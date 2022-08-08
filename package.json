@@ -2,7 +2,8 @@
 	"name": "bc-lending",
 	"version": "0.1.0",
 	"private": true,
-	"dependencies": {
+  "homepage": "https://app.tonana.org",
+  "dependencies": {
 		"@ant-design/icons": "^4.7.0",
 		"@cosmjs/cosmwasm-stargate": "^0.28.4",
 		"@cosmjs/proto-signing": "^0.28.4",
@@ -33,7 +34,9 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
-		"build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+		"build": "CI='false' react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},
