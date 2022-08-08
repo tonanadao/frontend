@@ -137,7 +137,7 @@ const App = () => {
 
 		if (transactionHashes) {
 			console.log(transactionHashes);
-			fetch("https://tonana-bridge-v1.herokuapp.com/", {
+			fetch("https://api.tonana.org/", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
