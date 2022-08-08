@@ -38,7 +38,7 @@ const MakeATOMTrx = async (
           const accounts = await offlineSigner.getAccounts();
           // return
           const client = await SigningStargateClient.connectWithSigner(
-            "https://tonana-proxy.herokuapp.com/https://rpc.cosmos.network/",
+            "https://proxy.tonana.org/https://rpc.cosmos.network/",
             // "https://rpc.sentry-01.theta-testnet.polypore.xyz/",
             offlineSigner
           );

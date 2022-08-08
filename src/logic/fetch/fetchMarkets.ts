@@ -1,5 +1,5 @@
 const fetchMarkets = (stu: any, ssu: any, sau: any, snu:any) => {
-	fetch("https://tonana-proxy.herokuapp.com/https://ftx.com/api/markets")
+	fetch("https://proxy.tonana.org/https://ftx.com/api/markets")
 		.then((e) => e.json())
 		.then((e) => {
 			stu(e.result.filter((item: any) => item.name === "TONCOIN/USD")[0].price);
