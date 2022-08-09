@@ -105,7 +105,7 @@ const Gstyles = createGlobalStyle`
     position: absolute;
 		@media (max-width: 1024px) {
 			left: 50%;
-			transform: translate(-50%);
+			transform: translate(-50%),  rotate3d(0, 1, 0, 180deg);
 		}
 }
 
