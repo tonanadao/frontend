@@ -286,9 +286,7 @@ const App = () => {
 	const btnSelectSource = (
 		<>
 			<Dropdown overlay={menuSource} placement="bottom">
-				<Button
-					style={{ margin: "-60px 0 0 0", border: "none" }}
-					id={"selectCoin"}>
+				<Button id={"selectCoin"}>
 					<img src={coinIco} alt={"#"} />
 					{networkSource}
 					<DownOutlined />
@@ -300,9 +298,7 @@ const App = () => {
 	const btnSelectDirection = (
 		<>
 			<Dropdown overlay={menuDestination} placement="bottom">
-				<Button
-					style={{ margin: "-60px 0 0 0", border: "none" }}
-					id={"selectCoin"}>
+				<Button id={"selectCoin"}>
 					<img src={coinIcoDest} alt={"#"} />
 					{networkDestination}
 					<DownOutlined />

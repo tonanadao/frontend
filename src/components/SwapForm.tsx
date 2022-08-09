@@ -4,6 +4,7 @@ import MakeSOLTrx from "../logic/transaction/MakeSOLTrx";
 import MakeNEARTrx from "../logic/transaction/MakeNEARTrx";
 import MakeTONTrx from "../logic/transaction/MakeTONTrx";
 import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
+import useResponsive from "../logic/Responsive";
 
 // au,
 // su,
@@ -38,6 +39,8 @@ const SwapForm = (props: any) => {
 	const isSouNear = props.networkSource === "near";
 	const isSouSol = props.networkSource === "sol";
 	const isSouTon = props.networkSource === "ton";
+
+	const isMobile = useResponsive("(max-width: 480px)", true);
 
 	const walletDirKey = isDirAtom
 		? props.ATOMwalletKey
@@ -178,6 +181,8 @@ const SwapForm = (props: any) => {
 		<Form name="control-hooks" layout="vertical">
 			{props.btn}
 			<Form.Item label={`FROM`}>
+				{isMobile ? props.btnSelectSource : null}
+				{isMobile ? props.btnSource : null}
 				<Input
 					onChange={(e) => {
 						if (
@@ -206,11 +211,13 @@ const SwapForm = (props: any) => {
 					}
 					placeholder={"0.000"}
 				/>
-				{props.btnSelectSource}
-				{props.btnSource}
+				{!isMobile ? props.btnSelectSource : null}
+				{!isMobile ? props.btnSource : null}
 			</Form.Item>
 			{props.changeDirection}
 			<Form.Item label={`TO`}>
+				{isMobile ? props.btnSelectDirection : null}
+				{isMobile ? props.btnDest : null}
 				<Input
 					value={
 						!isNaN(Number(secCurrAmount))
@@ -234,8 +241,8 @@ const SwapForm = (props: any) => {
 					}}
 					placeholder={"0.000"}
 				/>
-				{props.btnSelectDirection}
-				{props.btnDest}
+				{!isMobile ? props.btnSelectDirection : null}
+				{!isMobile ? props.btnDest : null}
 			</Form.Item>
 			Price {sourceCurrencyName}: {currency / secCurrency}{" "}
 			{directionCurrencyName}

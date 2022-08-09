@@ -47,10 +47,17 @@ const Gstyles = createGlobalStyle`
 		cursor: pointer;
 		transform: rotate3d(0, 1, 0, 180deg)
 	}
+	/* style={{ margin: "-60px 0 0 0", border: "none" }} */
+
 	#selectCoin{
-		margin: -100px 0 100px 0;
+		margin: -60px 0 0 0;
+		border: none;
 		span {
 			color: #d9d9d9;
+		}
+		@media (max-width: 480px) {
+		margin: 0 0 -56px 0;
+
 		}
 	}
 
@@ -88,18 +95,26 @@ const Gstyles = createGlobalStyle`
 #topnav {
 	width:100%;
 	height:12vh;
+		@media (max-width: 1024px) {
+	margin: 0 0 64px 0;
 }
+}
+
 .logo {
     left: 0;
     position: absolute;
+		@media (max-width: 1024px) {
+			left: 50%;
+			transform: translate(-50%);
+		}
 }
+
 .ant-btn-primary {
     color: #212529;
     border-color: transparent;
     background: #1890ff;
     text-shadow: transparent;
     box-shadow: transparent;
-	color: 
 }
 .ant-dropdown-menu {
 	background: #3c4858 !important;
@@ -125,6 +140,10 @@ const Gstyles = createGlobalStyle`
 		padding: 30px 130px 30px 130px !important;
 		/* font-size: 28px!important; */
 		/* box-sizing: border-box!important; */
+		@media (max-width: 480px) {
+		padding: 8px 12px !important;
+			
+		}
 	}
 	.social-icon {
 		list-style:none;
@@ -184,6 +203,7 @@ const Gstyles = createGlobalStyle`
 		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.35)!important;
 		border-radius: 25px!important;
 		/* background: black ; */
+	
 
 	}
 	.Container {
@@ -204,6 +224,7 @@ const Gstyles = createGlobalStyle`
 			width: 18px;
 			height: 18px;
 		}
+		
 	}
 	#connectWalletBtn{
 		color: #212529 !important;
@@ -213,6 +234,10 @@ const Gstyles = createGlobalStyle`
 		float: right;
 
 		span {
+		}
+		@media (max-width: 480px) {
+		margin: 24px 0;
+			
 		}
 
 	}
