@@ -49,7 +49,7 @@ const App = () => {
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
 	const [networkSource, setNetworkSource] = useState("SOL");
-	const [networkDestination, setNetworkDestination] = useState("wNEAR (TON)");
+	const [networkDestination, setNetworkDestination] = useState("TON");
 
 	const [searchParams, setSearchParams] = useSearchParams();
 	const transactionHashes = searchParams.get("transactionHashes");
@@ -185,13 +185,13 @@ const App = () => {
 	const menuSource = (
 		<Menu
 			items={[
-				networkDestination !== "SOL"
+				networkDestination !== "SOL" && networkDestination !== "wNEAR (TON)"
 					? {
 							key: "SOL",
 							label: <div onClick={() => setNetworkSource("SOL")}>SOL</div>,
 					  }
 					: null,
-				networkDestination !== "COSMOS"
+				networkDestination !== "COSMOS" && networkDestination !== "wNEAR (TON)"
 					? {
 							key: "COSMOS",
 							label: (
@@ -200,13 +200,13 @@ const App = () => {
 					  }
 					: null,
 
-				networkDestination !== "TON"
+				networkDestination !== "TON" && networkDestination !== "wNEAR (TON)"
 					? {
 							key: "TON",
 							label: <div onClick={() => setNetworkSource("TON")}>TON</div>,
 					  }
 					: null,
-				networkDestination !== "wNEAR (TON)"
+				networkDestination !== "wNEAR (TON)" && networkDestination === "NEAR"
 					? {
 							key: "wNEAR (TON)",
 							label: (
@@ -229,7 +229,7 @@ const App = () => {
 	const menuDestination = (
 		<Menu
 			items={[
-				networkSource !== "SOL"
+				networkSource !== "SOL" && networkSource !== "wNEAR (TON)"
 					? {
 							key: "SOL",
 							label: (
@@ -238,7 +238,7 @@ const App = () => {
 					  }
 					: null,
 
-				networkSource !== "COSMOS"
+				networkSource !== "COSMOS" && networkSource !== "wNEAR (TON)"
 					? {
 							key: "COSMOS",
 							label: (
@@ -249,7 +249,7 @@ const App = () => {
 					  }
 					: null,
 
-				networkSource !== "TON"
+				networkSource !== "TON" && networkSource !== "wNEAR (TON)"
 					? {
 							key: "TON",
 							label: (
@@ -258,7 +258,7 @@ const App = () => {
 					  }
 					: null,
 
-				networkSource !== "wNEAR (TON)"
+				networkSource !== "wNEAR (TON)" && networkSource === "NEAR"
 					? {
 							key: "wNEAR (TON)",
 							label: (
