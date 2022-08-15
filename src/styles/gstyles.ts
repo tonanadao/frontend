@@ -26,6 +26,9 @@ const Gstyles = createGlobalStyle`
 	}
 	form{
 		color: #FFFFFF !important;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
 	}
 	.ant-form-item-label > * {
 		color: #FFFFFF !important;
@@ -55,6 +58,7 @@ const Gstyles = createGlobalStyle`
 		span {
 			color: #d9d9d9;
 		}
+		margin: 0 0 -56px 0;
 		@media (max-width: 480px) {
 		margin: 0 0 -56px 0;
 
@@ -140,8 +144,10 @@ const Gstyles = createGlobalStyle`
 		padding: 30px 130px 30px 130px !important;
 		/* font-size: 28px!important; */
 		/* box-sizing: border-box!important; */
+		padding: 8px 12px !important;
 		@media (max-width: 480px) {
 		padding: 8px 12px !important;
+
 			
 		}
 	}
@@ -198,12 +204,13 @@ const Gstyles = createGlobalStyle`
 		display: flex !important;
 		justify-content:center !important;
 		align-items:center !important;
-		max-width: 648px;
+		max-width: 480px;
+		/* width: 648px; */
 		background: #161c2d;
 		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.35)!important;
 		border-radius: 25px!important;
 		/* background: black ; */
-	
+		width: 480px;
 
 	}
 	.Container {
@@ -235,6 +242,7 @@ const Gstyles = createGlobalStyle`
 
 		span {
 		}
+		margin: 24px 0;
 		@media (max-width: 480px) {
 		margin: 24px 0;
 			

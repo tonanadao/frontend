@@ -212,8 +212,8 @@ const SwapForm = (props: any) => {
 		<Form name="control-hooks" layout="vertical">
 			{props.btn}
 			<Form.Item label={`FROM`}>
-				{isMobile ? props.btnSelectSource : null}
-				{isMobile ? props.btnSource : null}
+				{props.btnSelectSource}
+				{props.btnSource}
 				<Input
 					onChange={(e) => {
 						if (
@@ -242,13 +242,13 @@ const SwapForm = (props: any) => {
 					}
 					placeholder={"0.000"}
 				/>
-				{!isMobile ? props.btnSelectSource : null}
-				{!isMobile ? props.btnSource : null}
+				{/* {!isMobile ? props.btnSelectSource : null}
+				{!isMobile ? props.btnSource : null} */}
 			</Form.Item>
 			{props.changeDirection}
 			<Form.Item label={`TO`}>
-				{isMobile ? props.btnSelectDirection : null}
-				{isMobile ? props.btnDest : null}
+				{props.btnSelectDirection}
+				{props.btnDest}
 				<Input
 					value={
 						!isNaN(Number(secCurrAmount))
@@ -272,8 +272,8 @@ const SwapForm = (props: any) => {
 					}}
 					placeholder={"0.000"}
 				/>
-				{!isMobile ? props.btnSelectDirection : null}
-				{!isMobile ? props.btnDest : null}
+				{/* {!isMobile ? props.btnSelectDirection : null}
+				{!isMobile ? props.btnDest : null} */}
 			</Form.Item>
 			Price {sourceCurrencyName}: {currency / secCurrency}{" "}
 			{directionCurrencyName}

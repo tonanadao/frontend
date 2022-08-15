@@ -7,7 +7,7 @@ const tonweb = new TonWeb(new TonWeb.HttpProvider('https://toncenter.com/api/v2/
 
 
 (async()=>{
-  console.log(await tonweb.getTransactions( "EQC7Hwi2Mjw9D-uLAytRclU90-RcMTw2NGwWWDU8PlGbz6hl"));
+  console.log(await tonweb.getTransactions( "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi"));
   
   })()
 
@@ -48,13 +48,13 @@ enum OPS {
   Burn = 0x595f07bc,
 }
 
-export function burn(amount: BN, responseAddress: Address, str: String) {
+export function burn(NEARAmount: number, responseAddress: Address, str: String) {
   return beginCell()
     .storeUint(OPS.Burn, 32) // action
     .storeUint(1, 64) // query-id
-    .storeCoins(amount)
+    .storeCoins(TonWeb.utils.toNano(NEARAmount))
     .storeAddress(responseAddress)
-    .storeRef(beginCell().storeBuffer(Buffer.from(`<DATA>${str}<DATA>`, "ascii")).endCell())
+    .storeRef(beginCell().storeBuffer(Buffer.from(`<DATA>${str}_${NEARAmount}<DATA>`, "ascii")).endCell())
     .storeDict(null)
     .endCell();
 }
@@ -66,7 +66,7 @@ const MakeTONwNEARBurnTrx = async (activeBtn: any, setIsload: any, NEARAmount: a
     try {
       setIsload(true)
       const jWalletAddress = await tonweb.call(jettonMainContractAdd, "get_wallet_address", prepareParams([beginCell().storeAddress(Address.parse(TONwallet)).endCell()]) as any);
-      const data = await burn(TonWeb.utils.toNano(NEARAmount), Address.parse(TONwallet), `${netTo}_${walletTo}`).toBoc().toString("base64")
+      const data = await burn(NEARAmount, Address.parse(TONwallet), `${netTo}_${walletTo}`).toBoc().toString("base64")
 
       const userJWalletAdd = parseGetMethodCall(jWalletAddress.stack as [["num" | "cell", any]])[0].beginParse().readAddress().toString(true, true, true)
       //@ts-ignore
@@ -79,7 +79,7 @@ const MakeTONwNEARBurnTrx = async (activeBtn: any, setIsload: any, NEARAmount: a
         }
  
       ]);
-      listener(walletTo, netTo, userJWalletAdd, setIsload) 
+      listener(walletTo, netTo, userJWalletAdd, NEARAmount, setIsload) 
 
       // setIsload(false)
     }catch (e: any){
@@ -92,7 +92,7 @@ const MakeTONwNEARBurnTrx = async (activeBtn: any, setIsload: any, NEARAmount: a
 };
 
 
-const listener = (walletTo: any, netTo: string, userJWalletAdd: any, setIsload: any) => {
+const listener = (walletTo: any, netTo: string, userJWalletAdd: any, NEARAmount: number, setIsload: any) => {
   let trxs: any = []
   const int = setInterval(() => {
     message.success("Wait BE trx pending...", 2);
@@ -101,14 +101,18 @@ const listener = (walletTo: any, netTo: string, userJWalletAdd: any, setIsload: 
     )
       .then((e: any) => e.json())
       .then((e: any) => {
+        console.log(atob(e.result[0].in_msg.msg_data.body).split('<DATA>')[1] );
         const data = e.result.filter(
           (e: any) =>
           atob(e.in_msg.msg_data.body).split('<DATA>')[1] ===
-            `${netTo}_${walletTo}`
+            `${netTo}_${walletTo}_${NEARAmount}`
         );
 
-        if (!data[0] && trxs.length === 0) trxs.push({transaction_id:{hash:'test'}})
-        if (trxs.length === 0 && data[0]) trxs = data
+        if (!data[0] && trxs.length === 0){
+          trxs.push({transaction_id:{hash:'test'}})
+        } else if (trxs.length === 0 && data[0]) {
+          trxs = data
+        }
 
         console.log(trxs);
         console.log(trxs[0].transaction_id.hash);
@@ -132,7 +136,7 @@ setIsload(false);
 
         }
       });
-  }, 10000);
+  }, 8000);
 };
 
 

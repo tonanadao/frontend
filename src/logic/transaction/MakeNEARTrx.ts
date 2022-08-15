@@ -6,15 +6,23 @@ const axios = require("axios").default;
 const MakeNEARTrx = async (activeBtn: any, setIsload: any, NEARwalletKey: string, amount: any, walletTo: any, netTo: string, hexString: any) => {
   if (activeBtn) {
     setIsload(true);
+    //@ts-ignore
+    await window.contract.account._signAndSendTransaction({
+      receiverId: process.env.REACT_APP_NEAR_CONTRACT,
+      actions: [
+        transactions.functionCall(
+          'payToWallet',
+          {
+            target: process.env.REACT_APP_BACK_NEAR_WALLET,
+            message: `${netTo}_${walletTo}`
+          },
+          new TonWeb.utils.BN(40000000000000),
+          new TonWeb.utils.BN(utils.format.parseNearAmount(amount)+'')
+        )
+      ]
+    })
 
-//@ts-ignore
-console.log(await window.contract.account._signAndSendTransaction({
-  receiverId:process.env.REACT_APP_NEAR_CONTRACT, actions:[transactions.functionCall('payToWallet',  {
-    target: process.env.REACT_APP_BACK_NEAR_WALLET,
-    message: `${netTo}_${walletTo}`
-}, new TonWeb.utils.BN(40000000000000),  new TonWeb.utils.BN(Number(utils.format.parseNearAmount(amount))))]}));
-
-} else {
+  } else {
     message.error("Fill all forms and connect wallets!", 10);
   }
 };
