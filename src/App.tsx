@@ -49,7 +49,7 @@ const App = () => {
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
 	const [networkSource, setNetworkSource] = useState("SOL");
-	const [networkDestination, setNetworkDestination] = useState("COSMOS");
+	const [networkDestination, setNetworkDestination] = useState("wNEAR (TON)");
 
 	const [searchParams, setSearchParams] = useSearchParams();
 	const transactionHashes = searchParams.get("transactionHashes");
@@ -206,6 +206,16 @@ const App = () => {
 							label: <div onClick={() => setNetworkSource("TON")}>TON</div>,
 					  }
 					: null,
+				networkDestination !== "wNEAR (TON)"
+					? {
+							key: "wNEAR (TON)",
+							label: (
+								<div onClick={() => setNetworkSource("wNEAR (TON)")}>
+									wNEAR (TON)
+								</div>
+							),
+					  }
+					: null,
 				networkDestination !== "NEAR"
 					? {
 							key: "NEAR",
@@ -247,6 +257,17 @@ const App = () => {
 							),
 					  }
 					: null,
+
+				networkSource !== "wNEAR (TON)"
+					? {
+							key: "wNEAR (TON)",
+							label: (
+								<div onClick={() => setNetworkDestination("wNEAR (TON)")}>
+									wNEAR (TON)
+								</div>
+							),
+					  }
+					: null,
 				networkSource !== "NEAR"
 					? {
 							key: "NEAR",
@@ -272,7 +293,11 @@ const App = () => {
 			? nearIco
 			: networkSource === "TON"
 			? tonIco
-			: atomIco;
+			: networkSource === "ATOM"
+			? atomIco
+			: networkSource === "wNEAR (TON)"
+			? nearIco
+			: "";
 
 	const coinIcoDest =
 		networkDestination === "SOL"
@@ -281,7 +306,11 @@ const App = () => {
 			? nearIco
 			: networkDestination === "TON"
 			? tonIco
-			: atomIco;
+			: networkDestination === "ATOM"
+			? atomIco
+			: networkDestination === "wNEAR (TON)"
+			? nearIco
+			: "";
 
 	const btnSelectSource = (
 		<>
@@ -325,6 +354,21 @@ const App = () => {
 				</Button>
 			) : null}
 			{currencyName === "TON" ? (
+				<Button
+					type="primary"
+					id={"connectWalletBtn"}
+					onClick={() => connectWalletTON(setTONwalletKey)}>
+					{TONwalletKey ? (
+						<>
+							<img src={tonIco} alt={"#"} />
+							{zipName(TONwalletKey)}
+						</>
+					) : (
+						"Connect wallet"
+					)}
+				</Button>
+			) : null}
+			{currencyName === "wNEAR (TON)" ? (
 				<Button
 					type="primary"
 					id={"connectWalletBtn"}

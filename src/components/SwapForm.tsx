@@ -5,7 +5,7 @@ import MakeNEARTrx from "../logic/transaction/MakeNEARTrx";
 import MakeTONTrx from "../logic/transaction/MakeTONTrx";
 import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
 import useResponsive from "../logic/Responsive";
-
+import MakeTONwNEARBurnTrx from "../logic/transaction/MakeTONwNEARBurnTrx";
 // au,
 // su,
 // tu,
@@ -34,11 +34,13 @@ const SwapForm = (props: any) => {
 	const isDirNear = props.directionNetwork === "near";
 	const isDirSol = props.directionNetwork === "sol";
 	const isDirTon = props.directionNetwork === "ton";
+	const isDirwNEARTON = props.directionNetwork === "wnear (ton)";
 
 	const isSouAtom = props.networkSource === "cosmos";
 	const isSouNear = props.networkSource === "near";
 	const isSouSol = props.networkSource === "sol";
 	const isSouTon = props.networkSource === "ton";
+	const isSouNEARTON = props.networkSource === "wnear (ton)";
 
 	const isMobile = useResponsive("(max-width: 480px)", true);
 
@@ -50,6 +52,8 @@ const SwapForm = (props: any) => {
 		? props.TONwalletKey
 		: isDirSol
 		? props.SOLwalletKey
+		: isDirwNEARTON
+		? props.TONwalletKey
 		: null;
 
 	const walletSouKey = isSouAtom
@@ -60,6 +64,8 @@ const SwapForm = (props: any) => {
 		? props.TONwalletKey
 		: isSouSol
 		? props.SOLwalletKey
+		: isSouNEARTON
+		? props.TONwalletKey
 		: null;
 
 	const secCurrency = isDirAtom
@@ -70,7 +76,10 @@ const SwapForm = (props: any) => {
 		? props.tu
 		: isDirSol
 		? props.su
+		: isDirwNEARTON
+		? props.nu
 		: null;
+
 	console.log(props.networkSource);
 	console.log(props.directionNetwork);
 	const currency = isSouAtom
@@ -81,6 +90,8 @@ const SwapForm = (props: any) => {
 		? props.tu
 		: isSouSol
 		? props.su
+		: isSouNEARTON
+		? props.nu
 		: null;
 
 	const MaxDirAmount = Number(
@@ -92,11 +103,17 @@ const SwapForm = (props: any) => {
 			? props.TONMaxAmount
 			: isDirSol
 			? props.SOLMaxAmount
+			: isDirwNEARTON
+			? props.NEARMaxAmount
 			: null
 	);
 
 	const TRXDir = (
-		props.directionNetwork === "sol" ? "SOLANA" : props.directionNetwork
+		props.directionNetwork === "sol"
+			? "SOLANA"
+			: props.directionNetwork === "wnear (ton)"
+			? "TONwNEAR"
+			: props.directionNetwork
 	).toUpperCase();
 
 	const sourceCurrencyName = isSouAtom
@@ -107,6 +124,8 @@ const SwapForm = (props: any) => {
 		? "TON"
 		: isSouSol
 		? "SOL"
+		: isSouNEARTON
+		? "wNEAR"
 		: null;
 
 	const directionCurrencyName = isDirAtom
@@ -117,6 +136,8 @@ const SwapForm = (props: any) => {
 		? "TON"
 		: isDirSol
 		? "SOL"
+		: isDirwNEARTON
+		? "wNEAR"
 		: null;
 
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
@@ -168,6 +189,16 @@ const SwapForm = (props: any) => {
 			firstCurrAmount
 		);
 
+	//TODO BURN WRAPS HERE
+	const TONwNEARTrx = () =>
+		MakeTONwNEARBurnTrx(
+			activeBtn,
+			props.setIsload,
+			firstCurrAmount,
+			props.TONwalletKey,
+			TRXDir,
+			walletDirKey
+		);
 	// ???????
 	// useEffect(() => {
 	// 	// setFirstCurrAmount(
@@ -271,6 +302,8 @@ const SwapForm = (props: any) => {
 							? TONTrx
 							: isSouSol
 							? SOLtrx
+							: isSouNEARTON
+							? TONwNEARTrx
 							: () => {}
 					}>
 					Submit
