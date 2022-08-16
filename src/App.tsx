@@ -185,32 +185,72 @@ const App = () => {
 	const menuSource = (
 		<Menu
 			items={[
-				networkDestination !== "SOL" && networkDestination !== "wNEAR (TON)"
+				networkDestination !== "SOL"
 					? {
 							key: "SOL",
-							label: <div onClick={() => setNetworkSource("SOL")}>SOL</div>,
+							label: (
+								<div
+									className={
+										networkDestination === "wNEAR (TON)" ? "cantSelect" : ""
+									}
+									onClick={() =>
+										networkDestination !== "wNEAR (TON)"
+											? setNetworkSource("SOL")
+											: null
+									}>
+									SOL
+								</div>
+							),
 					  }
 					: null,
-				networkDestination !== "COSMOS" && networkDestination !== "wNEAR (TON)"
+				networkDestination !== "COSMOS"
 					? {
 							key: "COSMOS",
 							label: (
-								<div onClick={() => setNetworkSource("COSMOS")}>COSMOS</div>
+								<div
+									className={
+										networkDestination === "wNEAR (TON)" ? "cantSelect" : ""
+									}
+									onClick={() =>
+										networkDestination !== "wNEAR (TON)"
+											? setNetworkSource("COSMOS")
+											: null
+									}>
+									COSMOS
+								</div>
 							),
 					  }
 					: null,
 
-				networkDestination !== "TON" && networkDestination !== "wNEAR (TON)"
+				networkDestination !== "TON"
 					? {
 							key: "TON",
-							label: <div onClick={() => setNetworkSource("TON")}>TON</div>,
+							label: (
+								<div
+									className={
+										networkDestination === "wNEAR (TON)" ? "cantSelect" : ""
+									}
+									onClick={() =>
+										networkDestination !== "wNEAR (TON)"
+											? setNetworkSource("TON")
+											: null
+									}>
+									TON
+								</div>
+							),
 					  }
 					: null,
-				networkDestination !== "wNEAR (TON)" && networkDestination === "NEAR"
+				networkDestination !== "wNEAR (TON)"
 					? {
 							key: "wNEAR (TON)",
 							label: (
-								<div onClick={() => setNetworkSource("wNEAR (TON)")}>
+								<div
+									className={networkDestination !== "NEAR" ? "cantSelect" : ""}
+									onClick={() =>
+										networkDestination === "NEAR"
+											? setNetworkSource("wNEAR (TON)")
+											: null
+									}>
 									wNEAR (TON)
 								</div>
 							),
@@ -229,40 +269,74 @@ const App = () => {
 	const menuDestination = (
 		<Menu
 			items={[
-				networkSource !== "SOL" && networkSource !== "wNEAR (TON)"
+				networkSource !== "SOL"
 					? {
 							key: "SOL",
 							label: (
-								<div onClick={() => setNetworkDestination("SOL")}>SOL</div>
+								<div
+									className={
+										networkSource === "wNEAR (TON)" ? "cantSelect" : ""
+									}
+									onClick={() =>
+										networkSource !== "wNEAR (TON)"
+											? setNetworkDestination("SOL")
+											: null
+									}>
+									SOL
+								</div>
 							),
 					  }
 					: null,
 
-				networkSource !== "COSMOS" && networkSource !== "wNEAR (TON)"
+				networkSource !== "COSMOS"
 					? {
 							key: "COSMOS",
 							label: (
-								<div onClick={() => setNetworkDestination("COSMOS")}>
+								<div
+									className={
+										networkSource === "wNEAR (TON)" ? "cantSelect" : ""
+									}
+									onClick={() =>
+										networkSource !== "wNEAR (TON)"
+											? setNetworkDestination("COSMOS")
+											: null
+									}>
 									COSMOS
 								</div>
 							),
 					  }
 					: null,
 
-				networkSource !== "TON" && networkSource !== "wNEAR (TON)"
+				networkSource !== "TON"
 					? {
 							key: "TON",
 							label: (
-								<div onClick={() => setNetworkDestination("TON")}>TON</div>
+								<div
+									className={
+										networkSource === "wNEAR (TON)" ? "cantSelect" : ""
+									}
+									onClick={() =>
+										networkSource !== "wNEAR (TON)"
+											? setNetworkDestination("TON")
+											: null
+									}>
+									TON
+								</div>
 							),
 					  }
 					: null,
 
-				networkSource !== "wNEAR (TON)" && networkSource === "NEAR"
+				networkSource !== "wNEAR (TON)"
 					? {
 							key: "wNEAR (TON)",
 							label: (
-								<div onClick={() => setNetworkDestination("wNEAR (TON)")}>
+								<div
+									className={networkSource !== "NEAR" ? "cantSelect" : ""}
+									onClick={() =>
+										networkSource === "NEAR"
+											? setNetworkDestination("wNEAR (TON)")
+											: null
+									}>
 									wNEAR (TON)
 								</div>
 							),
@@ -293,7 +367,7 @@ const App = () => {
 			? nearIco
 			: networkSource === "TON"
 			? tonIco
-			: networkSource === "ATOM"
+			: networkSource === "COSMOS"
 			? atomIco
 			: networkSource === "wNEAR (TON)"
 			? nearIco
@@ -306,7 +380,7 @@ const App = () => {
 			? nearIco
 			: networkDestination === "TON"
 			? tonIco
-			: networkDestination === "ATOM"
+			: networkDestination === "COSMOS"
 			? atomIco
 			: networkDestination === "wNEAR (TON)"
 			? nearIco

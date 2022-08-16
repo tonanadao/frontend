@@ -34,6 +34,10 @@ const Gstyles = createGlobalStyle`
 		color: #FFFFFF !important;
 
 	}
+	.cantSelect{
+		color: gray;
+		cursor: not-allowed;
+	}
 	h1 {
 		color:  #FFFFFF !important;
 		text-align: center;
@@ -48,7 +52,7 @@ const Gstyles = createGlobalStyle`
 		width: 300px;
 		transition: .3s;
 		cursor: pointer;
-		transform: rotate3d(0, 1, 0, 180deg)
+		/* transform: rotate3d(0, 1, 0, 180deg) */
 	}
 	/* style={{ margin: "-60px 0 0 0", border: "none" }} */
 
@@ -59,7 +63,7 @@ const Gstyles = createGlobalStyle`
 			color: #d9d9d9;
 		}
 		margin: 0 0 -56px 0;
-		@media (max-width: 480px) {
+		@media (max-width: 520px) {
 		margin: 0 0 -56px 0;
 
 		}
@@ -107,9 +111,11 @@ const Gstyles = createGlobalStyle`
 .logo {
     left: 0;
     position: absolute;
+		transform:   rotate3d(0, 1, 0, 180deg);
+
 		@media (max-width: 1024px) {
 			left: 50%;
-			transform: translate(-50%),  rotate3d(0, 1, 0, 180deg);
+			transform: translate( -50%) rotate3d(0, 1, 0, 180deg);
 		}
 }
 
@@ -145,7 +151,7 @@ const Gstyles = createGlobalStyle`
 		/* font-size: 28px!important; */
 		/* box-sizing: border-box!important; */
 		padding: 8px 12px !important;
-		@media (max-width: 480px) {
+		@media (max-width: 520px) {
 		padding: 8px 12px !important;
 
 			
@@ -211,6 +217,12 @@ const Gstyles = createGlobalStyle`
 		border-radius: 25px!important;
 		/* background: black ; */
 		width: 480px;
+		@media (max-width: 520px) {
+		max-width: auto;
+		width: auto;
+		margin: 20px 10px 120px 10px ;
+
+		}
 
 	}
 	.Container {
@@ -243,7 +255,7 @@ const Gstyles = createGlobalStyle`
 		span {
 		}
 		margin: 24px 0;
-		@media (max-width: 480px) {
+		@media (max-width: 520px) {
 		margin: 24px 0;
 			
 		}
