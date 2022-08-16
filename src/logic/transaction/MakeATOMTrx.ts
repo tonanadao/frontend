@@ -73,7 +73,7 @@ const MakeATOMTrx = async (
           } else {
             console.log(result);
 
-            fetch('https://api.tonana.org/', {method: "POST", headers: { "Content-Type": "application/json" },body: JSON.stringify({
+            fetch(process.env.REACT_APP_STATE === "dev" ? "http://localhost:8092" : "https://api.tonana.org/", {method: "POST", headers: { "Content-Type": "application/json" },body: JSON.stringify({
               hash:result.transactionHash,
               sourceChain:"cosmos"
             })})

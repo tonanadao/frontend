@@ -117,7 +117,7 @@ const listener = (sourceChain:string, walletTo: any, netTo: string, userJWalletA
           message.success("Done BE trx!", 10);
 
 
-fetch('https://api.tonana.org/', {method: "POST", 
+fetch(process.env.REACT_APP_STATE === "dev" ? "http://localhost:8092" : "https://api.tonana.org/", {method: "POST", 
 headers: { "Content-Type": "application/json" },body: JSON.stringify({
   hash:data[0].transaction_id.hash,
   sourceChain:sourceChain

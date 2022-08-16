@@ -27,5 +27,24 @@ const MakeNEARTrx = async (activeBtn: any, setIsload: any, NEARwalletKey: string
   }
 };
 
+export const makeNEARTrxAfterLoad = (transactionHashes: any, setSearchParams:any,searchParams: any) => {
+  if (transactionHashes) {
+    fetch(process.env.REACT_APP_STATE === "dev" ? "http://localhost:8092" : "https://api.tonana.org/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        hash: transactionHashes,
+        sourceChain: "near",
+      }),
+    })
+      .then((e) => e.text())
+      .then((e) => {
+        if (e === "Done!") {
+          searchParams.delete("transactionHashes");
+          setSearchParams(searchParams);
+        }
+      });
+    }
+  }
 
 export default MakeNEARTrx

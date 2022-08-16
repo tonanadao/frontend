@@ -68,7 +68,7 @@ const MakeSOLTrx = async (
           );
           if (buf.toString() === `${netTo}#${walletTo}`) {
 
-            fetch('https://api.tonana.org/', {method: "POST",
+            fetch(process.env.REACT_APP_STATE === "dev" ? "http://localhost:8092" : "https://api.tonana.org/", {method: "POST",
             headers: { "Content-Type": "application/json" }, body: JSON.stringify({
               hash:signature,
               sourceChain:"solana"
