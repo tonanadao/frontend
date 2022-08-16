@@ -64,7 +64,7 @@ const MakeATOMTrx = async (
               : "",
             [amountFinal],
             fee,
-            `${netTo}_${walletTo}`
+            `${netTo}#${walletTo}`
           );
           await assertIsDeliverTxSuccess(result);
           console.log(result);

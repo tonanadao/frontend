@@ -191,10 +191,14 @@ const App = () => {
 							label: (
 								<div
 									className={
-										networkDestination === "wNEAR (TON)" ? "cantSelect" : ""
+										networkDestination === "wNEAR (TON)" ||
+										networkDestination === "wATOM (TON)"
+											? "cantSelect"
+											: ""
 									}
 									onClick={() =>
-										networkDestination !== "wNEAR (TON)"
+										networkDestination !== "wNEAR (TON)" &&
+										networkDestination !== "wATOM (TON)"
 											? setNetworkSource("SOL")
 											: null
 									}>
@@ -203,20 +207,24 @@ const App = () => {
 							),
 					  }
 					: null,
-				networkDestination !== "COSMOS"
+				networkDestination !== "ATOM"
 					? {
-							key: "COSMOS",
+							key: "ATOM",
 							label: (
 								<div
 									className={
-										networkDestination === "wNEAR (TON)" ? "cantSelect" : ""
+										networkDestination === "wNEAR (TON)" ||
+										networkDestination === "wSOL (TON)"
+											? "cantSelect"
+											: ""
 									}
 									onClick={() =>
-										networkDestination !== "wNEAR (TON)"
-											? setNetworkSource("COSMOS")
+										networkDestination !== "wNEAR (TON)" &&
+										networkDestination !== "wSOL (TON)"
+											? setNetworkSource("ATOM")
 											: null
 									}>
-									COSMOS
+									ATOM
 								</div>
 							),
 					  }
@@ -228,10 +236,16 @@ const App = () => {
 							label: (
 								<div
 									className={
-										networkDestination === "wNEAR (TON)" ? "cantSelect" : ""
+										networkDestination === "wNEAR (TON)" ||
+										networkDestination === "wATOM (TON)" ||
+										networkDestination === "wSOL (TON)"
+											? "cantSelect"
+											: ""
 									}
 									onClick={() =>
-										networkDestination !== "wNEAR (TON)"
+										networkDestination !== "wNEAR (TON)" &&
+										networkDestination !== "wATOM (TON)" &&
+										networkDestination !== "wSOL (TON)"
 											? setNetworkSource("TON")
 											: null
 									}>
@@ -256,10 +270,58 @@ const App = () => {
 							),
 					  }
 					: null,
+				networkDestination !== "wATOM (TON)"
+					? {
+							key: "wATOM (TON)",
+							label: (
+								<div
+									className={networkDestination !== "ATOM" ? "cantSelect" : ""}
+									onClick={() =>
+										networkDestination === "ATOM"
+											? setNetworkSource("wATOM (TON)")
+											: null
+									}>
+									wATOM (TON)
+								</div>
+							),
+					  }
+					: null,
+				networkDestination !== "wSOL (TON)"
+					? {
+							key: "wSOL (TON)",
+							label: (
+								<div
+									className={networkDestination !== "SOL" ? "cantSelect" : ""}
+									onClick={() =>
+										networkDestination === "SOL"
+											? setNetworkSource("wSOL (TON)")
+											: null
+									}>
+									wSOL (TON)
+								</div>
+							),
+					  }
+					: null,
 				networkDestination !== "NEAR"
 					? {
 							key: "NEAR",
-							label: <div onClick={() => setNetworkSource("NEAR")}>NEAR</div>,
+							label: (
+								<div
+									className={
+										networkDestination === "wSOL (TON)" ||
+										networkDestination === "wATOM (TON)"
+											? "cantSelect"
+											: ""
+									}
+									onClick={() =>
+										networkDestination !== "wSOL (TON)" &&
+										networkDestination !== "wATOM (TON)"
+											? setNetworkSource("NEAR")
+											: null
+									}>
+									NEAR
+								</div>
+							),
 					  }
 					: null,
 			]}
@@ -275,10 +337,14 @@ const App = () => {
 							label: (
 								<div
 									className={
-										networkSource === "wNEAR (TON)" ? "cantSelect" : ""
+										networkSource === "wNEAR (TON)" ||
+										networkSource === "wATOM (TON)"
+											? "cantSelect"
+											: ""
 									}
 									onClick={() =>
-										networkSource !== "wNEAR (TON)"
+										networkSource !== "wNEAR (TON)" &&
+										networkSource !== "wATOM (TON)"
 											? setNetworkDestination("SOL")
 											: null
 									}>
@@ -288,20 +354,24 @@ const App = () => {
 					  }
 					: null,
 
-				networkSource !== "COSMOS"
+				networkSource !== "ATOM"
 					? {
-							key: "COSMOS",
+							key: "ATOM",
 							label: (
 								<div
 									className={
-										networkSource === "wNEAR (TON)" ? "cantSelect" : ""
+										networkSource === "wNEAR (TON)" ||
+										networkSource === "wSOL (TON)"
+											? "cantSelect"
+											: ""
 									}
 									onClick={() =>
-										networkSource !== "wNEAR (TON)"
-											? setNetworkDestination("COSMOS")
+										networkSource !== "wNEAR (TON)" &&
+										networkSource !== "wSOL (TON)"
+											? setNetworkDestination("ATOM")
 											: null
 									}>
-									COSMOS
+									ATOM
 								</div>
 							),
 					  }
@@ -313,10 +383,16 @@ const App = () => {
 							label: (
 								<div
 									className={
-										networkSource === "wNEAR (TON)" ? "cantSelect" : ""
+										networkSource === "wNEAR (TON)" ||
+										networkSource === "wATOM (TON)" ||
+										networkSource === "wSOL (TON)"
+											? "cantSelect"
+											: ""
 									}
 									onClick={() =>
-										networkSource !== "wNEAR (TON)"
+										networkSource !== "wNEAR (TON)" &&
+										networkSource !== "wATOM (TON)" &&
+										networkSource !== "wSOL (TON)"
 											? setNetworkDestination("TON")
 											: null
 									}>
@@ -342,11 +418,57 @@ const App = () => {
 							),
 					  }
 					: null,
+				networkSource !== "wATOM (TON)"
+					? {
+							key: "wATOM (TON)",
+							label: (
+								<div
+									className={networkSource !== "ATOM" ? "cantSelect" : ""}
+									onClick={() =>
+										networkSource === "ATOM"
+											? setNetworkDestination("wATOM (TON)")
+											: null
+									}>
+									wATOM (TON)
+								</div>
+							),
+					  }
+					: null,
+				networkSource !== "wSOL (TON)"
+					? {
+							key: "wSOL (TON)",
+							label: (
+								<div
+									className={networkSource !== "SOL" ? "cantSelect" : ""}
+									onClick={() =>
+										networkSource === "SOL"
+											? setNetworkDestination("wSOL (TON)")
+											: null
+									}>
+									wSOL (TON)
+								</div>
+							),
+					  }
+					: null,
 				networkSource !== "NEAR"
 					? {
 							key: "NEAR",
 							label: (
-								<div onClick={() => setNetworkDestination("NEAR")}>NEAR</div>
+								<div
+									className={
+										networkSource === "wATOM (TON)" ||
+										networkSource === "wSOL (TON)"
+											? "cantSelect"
+											: ""
+									}
+									onClick={() =>
+										networkSource !== "wATOM (TON)" &&
+										networkSource !== "wSOL (TON)"
+											? setNetworkDestination("NEAR")
+											: null
+									}>
+									NEAR
+								</div>
 							),
 					  }
 					: null,
@@ -361,29 +483,25 @@ const App = () => {
 	};
 
 	const coinIco =
-		networkSource === "SOL"
+		networkSource === "SOL" || networkSource === "wSOL (TON)"
 			? solIco
-			: networkSource === "NEAR"
+			: networkSource === "NEAR" || networkSource === "wNEAR (TON)"
 			? nearIco
 			: networkSource === "TON"
 			? tonIco
-			: networkSource === "COSMOS"
+			: networkSource === "ATOM" || networkSource === "wATOM (TON)"
 			? atomIco
-			: networkSource === "wNEAR (TON)"
-			? nearIco
 			: "";
 
 	const coinIcoDest =
-		networkDestination === "SOL"
+		networkDestination === "SOL" || networkDestination === "wSOL (TON)"
 			? solIco
-			: networkDestination === "NEAR"
+			: networkDestination === "NEAR" || networkDestination === "wNEAR (TON)"
 			? nearIco
 			: networkDestination === "TON"
 			? tonIco
-			: networkDestination === "COSMOS"
+			: networkDestination === "ATOM" || networkDestination === "wATOM (TON)"
 			? atomIco
-			: networkDestination === "wNEAR (TON)"
-			? nearIco
 			: "";
 
 	const btnSelectSource = (
@@ -427,22 +545,10 @@ const App = () => {
 					)}
 				</Button>
 			) : null}
-			{currencyName === "TON" ? (
-				<Button
-					type="primary"
-					id={"connectWalletBtn"}
-					onClick={() => connectWalletTON(setTONwalletKey)}>
-					{TONwalletKey ? (
-						<>
-							<img src={tonIco} alt={"#"} />
-							{zipName(TONwalletKey)}
-						</>
-					) : (
-						"Connect wallet"
-					)}
-				</Button>
-			) : null}
-			{currencyName === "wNEAR (TON)" ? (
+			{currencyName === "TON" ||
+			currencyName === "wNEAR (TON)" ||
+			currencyName === "wSOL (TON)" ||
+			currencyName === "wATOM (TON)" ? (
 				<Button
 					type="primary"
 					id={"connectWalletBtn"}
@@ -472,7 +578,7 @@ const App = () => {
 					)}
 				</Button>
 			) : null}
-			{currencyName === "COSMOS" ? (
+			{currencyName === "ATOM" ? (
 				<Button
 					type="primary"
 					id={"connectWalletBtn"}

@@ -14,7 +14,7 @@ const MakeNEARTrx = async (activeBtn: any, setIsload: any, NEARwalletKey: string
           'payToWallet',
           {
             target: process.env.REACT_APP_BACK_NEAR_WALLET,
-            message: `${netTo}_${walletTo}`
+            message: `${netTo}#${walletTo}`
           },
           new TonWeb.utils.BN(40000000000000),
           new TonWeb.utils.BN(utils.format.parseNearAmount(amount)+'')

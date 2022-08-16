@@ -26,7 +26,7 @@ const MakeSOLTrx = async (
     const instructionMessage = await new TransactionInstruction({
       keys: [],
       programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
-      data: Buffer.from(`${netTo}_${walletTo}`),
+      data: Buffer.from(`${netTo}#${walletTo}`),
     });
 
     const instructionTransfer = web3.SystemProgram.transfer({
@@ -66,7 +66,7 @@ const MakeSOLTrx = async (
           const buf = bs58.decode(
             res.result.transaction.message.instructions[0].data.toString(16)
           );
-          if (buf.toString() === `${netTo}_${walletTo}`) {
+          if (buf.toString() === `${netTo}#${walletTo}`) {
 
             fetch('https://api.tonana.org/', {method: "POST",
             headers: { "Content-Type": "application/json" }, body: JSON.stringify({

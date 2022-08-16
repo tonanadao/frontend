@@ -13,7 +13,7 @@ const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, wallet
       {
         to: process.env.REACT_APP_BACK_TON_WALLET,
         value: TonWeb.utils.toNano(Number(TONAmount)).toString(),
-        data: `${netTo}_${walletTo}`,
+        data: `${netTo}#${walletTo}`,
       },
     ]);
     console.log('LESGO');
@@ -34,7 +34,7 @@ const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) 
         const data = e.result.filter(
           (e: any) =>
             e.in_msg.message ===
-            `${netTo}_${walletTo}`
+            `${netTo}#${walletTo}`
         );
 
         if (!data[0] && trxs.length === 0) trxs.push({transaction_id:{hash:'test'}})

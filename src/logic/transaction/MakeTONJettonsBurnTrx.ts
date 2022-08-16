@@ -5,12 +5,6 @@ import TonWeb from "tonweb";
 
 const tonweb = new TonWeb(new TonWeb.HttpProvider('https://toncenter.com/api/v2/jsonRPC', {apiKey: '3cb4d4625d129371c869ab603a3523e22c6a7507307380bf1de59b32be2630ec'}));
 
-
-(async()=>{
-  console.log(await tonweb.getTransactions( "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi"));
-  
-  })()
-
 const prepareParams = (params: Cell[] = []) => {
   return params.map((p) => {
     if (p instanceof Cell) {
@@ -48,25 +42,25 @@ enum OPS {
   Burn = 0x595f07bc,
 }
 
-export function burn(NEARAmount: number, responseAddress: Address, str: String) {
+export function burn(JettonAmount: number, responseAddress: Address, str: String) {
   return beginCell()
     .storeUint(OPS.Burn, 32) // action
     .storeUint(1, 64) // query-id
-    .storeCoins(TonWeb.utils.toNano(NEARAmount))
+    .storeCoins(TonWeb.utils.toNano(JettonAmount))
     .storeAddress(responseAddress)
-    .storeRef(beginCell().storeBuffer(Buffer.from(`<DATA>${str}_${NEARAmount}<DATA>`, "ascii")).endCell())
+    .storeRef(beginCell().storeBuffer(Buffer.from(`<DATA>${str}#${JettonAmount}<DATA>`, "ascii")).endCell())
     .storeDict(null)
     .endCell();
 }
 
-const jettonMainContractAdd = "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi"
+// const jettonMainContractAdd = 
 
-const MakeTONwNEARBurnTrx = async (activeBtn: any, setIsload: any, NEARAmount: any, TONwallet: any, netTo: string, walletTo: any) => {
+const MakeTONJettonsBurnTrx = async (sourceChain:string, jettonMainContractAdd:string, activeBtn: any, setIsload: any, JettonAmount: any, TONwallet: any, netTo: string, walletTo: any) => {
   if (activeBtn) {
     try {
       setIsload(true)
       const jWalletAddress = await tonweb.call(jettonMainContractAdd, "get_wallet_address", prepareParams([beginCell().storeAddress(Address.parse(TONwallet)).endCell()]) as any);
-      const data = await burn(NEARAmount, Address.parse(TONwallet), `${netTo}_${walletTo}`).toBoc().toString("base64")
+      const data = await burn(JettonAmount, Address.parse(TONwallet), `${netTo}#${walletTo}`).toBoc().toString("base64")
 
       const userJWalletAdd = parseGetMethodCall(jWalletAddress.stack as [["num" | "cell", any]])[0].beginParse().readAddress().toString(true, true, true)
       //@ts-ignore
@@ -79,7 +73,7 @@ const MakeTONwNEARBurnTrx = async (activeBtn: any, setIsload: any, NEARAmount: a
         }
  
       ]);
-      listener(walletTo, netTo, userJWalletAdd, NEARAmount, setIsload) 
+      listener(sourceChain, walletTo, netTo, userJWalletAdd, JettonAmount, setIsload) 
 
       // setIsload(false)
     }catch (e: any){
@@ -92,7 +86,7 @@ const MakeTONwNEARBurnTrx = async (activeBtn: any, setIsload: any, NEARAmount: a
 };
 
 
-const listener = (walletTo: any, netTo: string, userJWalletAdd: any, NEARAmount: number, setIsload: any) => {
+const listener = (sourceChain:string, walletTo: any, netTo: string, userJWalletAdd: any, JettonAmount: number, setIsload: any) => {
   let trxs: any = []
   const int = setInterval(() => {
     message.success("Wait BE trx pending...", 2);
@@ -105,7 +99,7 @@ const listener = (walletTo: any, netTo: string, userJWalletAdd: any, NEARAmount:
         const data = e.result.filter(
           (e: any) =>
           atob(e.in_msg.msg_data.body).split('<DATA>')[1] ===
-            `${netTo}_${walletTo}_${NEARAmount}`
+            `${netTo}#${walletTo}#${JettonAmount}`
         );
 
         if (!data[0] && trxs.length === 0){
@@ -126,7 +120,7 @@ const listener = (walletTo: any, netTo: string, userJWalletAdd: any, NEARAmount:
 fetch('https://api.tonana.org/', {method: "POST", 
 headers: { "Content-Type": "application/json" },body: JSON.stringify({
   hash:data[0].transaction_id.hash,
-  sourceChain:"TONwNEAR"
+  sourceChain:sourceChain
 })})
 console.log(e);
 setIsload(false);
@@ -140,4 +134,4 @@ setIsload(false);
 };
 
 
-export default MakeTONwNEARBurnTrx
+export default MakeTONJettonsBurnTrx

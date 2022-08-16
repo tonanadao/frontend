@@ -5,7 +5,7 @@ import MakeNEARTrx from "../logic/transaction/MakeNEARTrx";
 import MakeTONTrx from "../logic/transaction/MakeTONTrx";
 import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
 import useResponsive from "../logic/Responsive";
-import MakeTONwNEARBurnTrx from "../logic/transaction/MakeTONwNEARBurnTrx";
+import MakeTONJettonsBurnTrx from "../logic/transaction/MakeTONJettonsBurnTrx";
 // au,
 // su,
 // tu,
@@ -30,17 +30,37 @@ import MakeTONwNEARBurnTrx from "../logic/transaction/MakeTONwNEARBurnTrx";
 // networkSource
 
 const SwapForm = (props: any) => {
-	const isDirAtom = props.directionNetwork === "cosmos";
+	const isDirAtom = props.directionNetwork === "atom";
 	const isDirNear = props.directionNetwork === "near";
 	const isDirSol = props.directionNetwork === "sol";
 	const isDirTon = props.directionNetwork === "ton";
+	const isDirwSOLTON = props.directionNetwork === "wsol (ton)";
 	const isDirwNEARTON = props.directionNetwork === "wnear (ton)";
+	const isDirwATOMTON = props.directionNetwork === "watom (ton)";
 
-	const isSouAtom = props.networkSource === "cosmos";
+	const isSouAtom = props.networkSource === "atom";
 	const isSouNear = props.networkSource === "near";
 	const isSouSol = props.networkSource === "sol";
 	const isSouTon = props.networkSource === "ton";
-	const isSouNEARTON = props.networkSource === "wnear (ton)";
+	const isSouwSOLTON = props.networkSource === "wsol (ton)";
+	const isSouwATOMTON = props.networkSource === "watom (ton)";
+	const isSouwNEARTON = props.networkSource === "wnear (ton)";
+
+	const sourceChain = isSouwSOLTON
+		? "TONwSOL"
+		: isSouwATOMTON
+		? "TONwATOM"
+		: isSouwNEARTON
+		? "TONwNEAR"
+		: "";
+
+	const TONJettonContractAdd = isSouwSOLTON
+		? "EQC4cCygTZPKIP9cCsWx7DW5i5MQPOsEcfKkKwBZKkRCCfaW"
+		: isSouwATOMTON
+		? "EQCa5-xswEfQM5x_CBb5f53ghfy8ZYTAMCohgqSO6rBYMlkD"
+		: isSouwNEARTON
+		? "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi"
+		: "";
 
 	const isMobile = useResponsive("(max-width: 480px)", true);
 
@@ -48,63 +68,59 @@ const SwapForm = (props: any) => {
 		? props.ATOMwalletKey
 		: isDirNear
 		? props.NEARwalletKey
-		: isDirTon
+		: isDirTon || isDirwSOLTON || isDirwNEARTON || isDirwATOMTON
 		? props.TONwalletKey
 		: isDirSol
 		? props.SOLwalletKey
-		: isDirwNEARTON
-		? props.TONwalletKey
 		: null;
 
 	const walletSouKey = isSouAtom
 		? props.ATOMwalletKey
 		: isSouNear
 		? props.NEARwalletKey
-		: isSouTon
+		: isSouTon || isSouwATOMTON || isSouwNEARTON || isSouwSOLTON
 		? props.TONwalletKey
 		: isSouSol
 		? props.SOLwalletKey
-		: isSouNEARTON
-		? props.TONwalletKey
 		: null;
 
-	const secCurrency = isDirAtom
-		? props.au
-		: isDirNear
-		? props.nu
-		: isDirTon
-		? props.tu
-		: isDirSol
-		? props.su
-		: isDirwNEARTON
-		? props.nu
-		: null;
+	const secCurrency =
+		isDirAtom || isDirwATOMTON
+			? props.au
+			: isDirNear || isDirwNEARTON
+			? props.nu
+			: isDirTon
+			? props.tu
+			: isDirSol || isDirwSOLTON
+			? props.su
+			: null;
 
 	console.log(props.networkSource);
 	console.log(props.directionNetwork);
-	const currency = isSouAtom
-		? props.au
-		: isSouNear
-		? props.nu
-		: isSouTon
-		? props.tu
-		: isSouSol
-		? props.su
-		: isSouNEARTON
-		? props.nu
-		: null;
+
+	const currency =
+		isSouAtom || isSouwATOMTON
+			? props.au
+			: isSouNear || isSouwNEARTON
+			? props.nu
+			: isSouTon
+			? props.tu
+			: isSouSol || isSouwSOLTON
+			? props.su
+			: null;
+
+	console.log(currency);
+	console.log(secCurrency);
 
 	const MaxDirAmount = Number(
-		isDirAtom
+		isDirAtom || isDirwATOMTON
 			? props.ATOMMaxAmount
-			: isDirNear
+			: isDirNear || isDirwNEARTON
 			? props.NEARMaxAmount
 			: isDirTon
 			? props.TONMaxAmount
-			: isDirSol
+			: isDirSol || isDirwSOLTON
 			? props.SOLMaxAmount
-			: isDirwNEARTON
-			? props.NEARMaxAmount
 			: null
 	);
 
@@ -113,6 +129,12 @@ const SwapForm = (props: any) => {
 			? "SOLANA"
 			: props.directionNetwork === "wnear (ton)"
 			? "TONwNEAR"
+			: props.directionNetwork === "wsol (ton)"
+			? "TONwSOL"
+			: props.directionNetwork === "watom (ton)"
+			? "TONwATOM"
+			: props.directionNetwork === "atom"
+			? "COSMOS"
 			: props.directionNetwork
 	).toUpperCase();
 
@@ -124,8 +146,12 @@ const SwapForm = (props: any) => {
 		? "TON"
 		: isSouSol
 		? "SOL"
-		: isSouNEARTON
+		: isSouwNEARTON
 		? "wNEAR"
+		: isSouwSOLTON
+		? "wSOL"
+		: isSouwATOMTON
+		? "wATOM"
 		: null;
 
 	const directionCurrencyName = isDirAtom
@@ -138,6 +164,10 @@ const SwapForm = (props: any) => {
 		? "SOL"
 		: isDirwNEARTON
 		? "wNEAR"
+		: isDirwATOMTON
+		? "wATOM"
+		: isDirwSOLTON
+		? "wSOL"
 		: null;
 
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
@@ -190,8 +220,10 @@ const SwapForm = (props: any) => {
 		);
 
 	//TODO BURN WRAPS HERE
-	const TONwNEARTrx = () =>
-		MakeTONwNEARBurnTrx(
+	const TONJettonsBurnTrx = () =>
+		MakeTONJettonsBurnTrx(
+			sourceChain,
+			TONJettonContractAdd,
 			activeBtn,
 			props.setIsload,
 			firstCurrAmount,
@@ -302,8 +334,8 @@ const SwapForm = (props: any) => {
 							? TONTrx
 							: isSouSol
 							? SOLtrx
-							: isSouNEARTON
-							? TONwNEARTrx
+							: isSouwNEARTON || isSouwSOLTON || isSouwATOMTON
+							? TONJettonsBurnTrx
 							: () => {}
 					}>
 					Submit
