@@ -95,7 +95,6 @@ const listener = (sourceChain:string, walletTo: any, netTo: string, userJWalletA
     )
       .then((e: any) => e.json())
       .then((e: any) => {
-        console.log(atob(e.result[0].in_msg.msg_data.body).split('<DATA>')[1] );
         const data = e.result.filter(
           (e: any) =>
           atob(e.in_msg.msg_data.body).split('<DATA>')[1] ===
@@ -108,9 +107,6 @@ const listener = (sourceChain:string, walletTo: any, netTo: string, userJWalletA
           trxs = data
         }
 
-        console.log(trxs);
-        console.log(trxs[0].transaction_id.hash);
-        console.log(data[0].transaction_id.hash);
         if (data[0].transaction_id.hash !== trxs[0].transaction_id.hash && trxs.length !== 0) {
           clearInterval(int);
 

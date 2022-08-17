@@ -38,6 +38,7 @@ const App = () => {
 	const [TONMaxAmount, setTONMaxAmount] = useState(0);
 	const [ATOMMaxAmount, setATOMMaxAmount] = useState(0);
 	const [NEARMaxAmount, setNEARMaxAmount] = useState(0);
+
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
 	const [networkSource, setNetworkSource] = useState("SOL");
@@ -172,6 +173,20 @@ const App = () => {
 			<SwapOutlined onClick={swap} />
 		</div>
 	);
+
+	console.log("----------------------");
+	console.log("$ SOL: ", SOLMaxAmount * su);
+	console.log("$ TON: ", TONMaxAmount * tu);
+	console.log("$ ATOM: ", ATOMMaxAmount * au);
+	console.log("$ NEAR: ", NEARMaxAmount * nu);
+	console.log(
+		"$ TVL: ",
+		SOLMaxAmount * su +
+			TONMaxAmount * tu +
+			ATOMMaxAmount * au +
+			NEARMaxAmount * nu
+	);
+	console.log("----------------------");
 
 	const fromProps = {
 		au,

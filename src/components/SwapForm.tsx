@@ -95,9 +95,6 @@ const SwapForm = (props: any) => {
 			? props.su
 			: null;
 
-	console.log(props.networkSource);
-	console.log(props.directionNetwork);
-
 	const currency =
 		isSouAtom || isSouwATOMTON
 			? props.au
@@ -108,9 +105,6 @@ const SwapForm = (props: any) => {
 			: isSouSol || isSouwSOLTON
 			? props.su
 			: null;
-
-	console.log(currency);
-	console.log(secCurrency);
 
 	const MaxDirAmount = Number(
 		isDirAtom || isDirwATOMTON

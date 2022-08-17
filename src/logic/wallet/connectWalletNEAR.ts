@@ -28,11 +28,7 @@ window.contract = await new Contract(walletConnection.account(), receiver, {
 })
     if (walletConnection.isSignedIn()) {
       const walletAccountId = walletConnection.getAccountId();
-      console.log(walletAccountId);
       setNearWalletKey(walletAccountId);
-
-
-
     } else {
       await walletConnection.requestSignIn(
         {

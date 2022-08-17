@@ -60,7 +60,6 @@ const MakeSOLTrx = async (
         .then((res) => res.json())
         .then(async (res) => {
           if (res.result == null) {
-            console.log("res: null ");
             return false;
           }
           const buf = bs58.decode(

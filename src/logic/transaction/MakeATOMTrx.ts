@@ -24,7 +24,6 @@ const MakeATOMTrx = async (
     try {
       if (window) {
         if (window["keplr"]) {
-          console.log("go");
           const chainId = "cosmoshub-4"; //theta-testnet-001
           await window.keplr.enable(chainId);
           //@ts-ignore
@@ -67,11 +66,9 @@ const MakeATOMTrx = async (
             `${netTo}#${walletTo}`
           );
           await assertIsDeliverTxSuccess(result);
-          console.log(result);
           if (result.code !== undefined && result.code !== 0) {
           	alert("Failed to send tx: ");
           } else {
-            console.log(result);
 
             fetch(process.env.REACT_APP_STATE === "dev" ? "http://localhost:8092" : "https://api.tonana.org/", {method: "POST", headers: { "Content-Type": "application/json" },body: JSON.stringify({
               hash:result.transactionHash,

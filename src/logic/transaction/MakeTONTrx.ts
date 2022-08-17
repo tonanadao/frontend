@@ -16,7 +16,6 @@ const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, wallet
         data: `${netTo}#${walletTo}`,
       },
     ]);
-    console.log('LESGO');
   } else {
     message.error("Fill all forms and connect wallets!", 10);
   }
@@ -40,9 +39,6 @@ const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) 
         if (!data[0] && trxs.length === 0) trxs.push({transaction_id:{hash:'test'}})
         if (trxs.length === 0 && data[0]) trxs = data
 
-        console.log(trxs);
-        console.log(trxs[0].transaction_id.hash);
-        console.log(data[0].transaction_id.hash);
         if (data[0].transaction_id.hash !== trxs[0].transaction_id.hash && trxs.length !== 0) {
           clearInterval(int);
 
@@ -72,7 +68,6 @@ headers: { "Content-Type": "application/json" },body: JSON.stringify({
   hash:data[0].transaction_id.hash,
   sourceChain:"ton"
 })})
-console.log(e);
 setIsload(false);
 
           message.success("Done trx!", 10);
