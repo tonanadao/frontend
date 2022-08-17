@@ -61,14 +61,12 @@ const Social = () => {
   </a>
 </li>
 
-{/* <li className="list-inline-item me-1">
-  <a href="" target="_blank" className="icon-hover rounded">
-    <FaDiscord
-      icon="discord"
-      className="fea icon-sm fea-social text-dark"
-    />
+<li className="list-inline-item me-1">
+  <a href="https://discord.gg/wy9x6jF8PC" target="_blank" className="icon-hover rounded">
+     <FaDiscord
+    className="fea icon-sm fea-social text-dark" />
   </a>
-</li> */}
+</li>
 
 </ul>
     );
