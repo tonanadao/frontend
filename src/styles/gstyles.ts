@@ -162,6 +162,8 @@ const Gstyles = createGlobalStyle`
 		display:flex;
 		justify-content:center;
 		align-items:center;
+    padding-left: 0px;
+
 	}
 	.social-icon li a {
 		fill:#FFC916;
@@ -172,6 +174,8 @@ const Gstyles = createGlobalStyle`
 		transition: all 0.4s ease;
 		overflow: hidden;
 		position: relative;
+
+
 	  }
 	  
 	  .social-icon li a .fea-social {
