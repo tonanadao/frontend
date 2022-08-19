@@ -6,7 +6,11 @@ import { Button } from "antd";
 
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
-export const generateBtn = (currencyName: string, btnProps: any) => (
+export const generateBtn = (
+	currencyName: string,
+	btnProps: any,
+	isMobile: boolean
+) => (
 	<>
 		{currencyName === "SOL" ? (
 			<Button
@@ -27,19 +31,38 @@ export const generateBtn = (currencyName: string, btnProps: any) => (
 		currencyName === "wNEAR (TON)" ||
 		currencyName === "wSOL (TON)" ||
 		currencyName === "wATOM (TON)" ? (
-			<Button
-				type="primary"
-				id={"connectWalletBtn"}
-				onClick={() => btnProps.connectWalletTON(btnProps.setTONwalletKey)}>
-				{btnProps.TONwalletKey ? (
-					<>
-						<img src={tonIco} alt={"#"} />
-						{zipName(btnProps.TONwalletKey)}
-					</>
-				) : (
-					"Connect wallet"
-				)}
-			</Button>
+			isMobile ? (
+				<a
+					href={
+						"https://app.tonkeeper.com/ton-login/api.tonana.org/authRequest"
+					}>
+					<Button type="primary" id={"connectWalletBtn"}>
+						{btnProps.TONwalletKey ? (
+							<>
+								<img src={tonIco} alt={"#"} />
+								{zipName(btnProps.TONwalletKey)}
+							</>
+						) : (
+							"Connect wallet"
+						)}
+					</Button>
+				</a>
+			) : (
+				<Button
+					type="primary"
+					id={"connectWalletBtn"}
+					// onClick={() => btnProps.connectWalletTON(btnProps.setTONwalletKey)}
+				>
+					{btnProps.TONwalletKey ? (
+						<>
+							<img src={tonIco} alt={"#"} />
+							{zipName(btnProps.TONwalletKey)}
+						</>
+					) : (
+						"Connect wallet"
+					)}
+				</Button>
+			)
 		) : null}
 		{currencyName === "NEAR" ? (
 			<Button
