@@ -17,9 +17,7 @@ import { menuBuilder } from "./components/MenuBuilder";
 import { generateBtn } from "./components/BtnBuilder";
 import { icoBuilder } from "./components/IcoBuilder";
 import { initializeWalletNEAR } from "./logic/wallet/initializeWalletNEAR";
-import initializeWalletTON from "./logic/wallet/initializeWalletTON";
 import { makeNEARTrxAfterLoad } from "./logic/transaction/MakeNEARTrx";
-import useResponsive from "./logic/Responsive";
 
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
@@ -49,8 +47,6 @@ const App = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const transactionHashes = searchParams.get("transactionHashes");
 	const nearAccountId = searchParams.get("account_id");
-	const tonWalletParam = searchParams.get("tonwallet");
-	const isMobile = useResponsive("(max-width: 520px)", true);
 
 	var connection = new Connection(
 		clusterApiUrl(
@@ -89,12 +85,6 @@ const App = () => {
 		}
 
 		initializeWalletNEAR(setNEARMaxAmount, setNEARwalletKey);
-		initializeWalletTON(
-			tonWalletParam ? tonWalletParam : "",
-			setSearchParams,
-			setTONwalletKey,
-			searchParams
-		);
 		makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
 
 		message.success("Use Chrome with TonWallet & Phantom extensions", 10);
@@ -145,8 +135,8 @@ const App = () => {
 	const menuDestination = menuBuilder(networkSource, setNetworkDestination);
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
-	const btnDest = generateBtn(networkDestination, btnProps, isMobile);
-	const btnSource = generateBtn(networkSource, btnProps, isMobile);
+	const btnDest = generateBtn(networkDestination, btnProps);
+	const btnSource = generateBtn(networkSource, btnProps);
 
 	const swap = () => {
 		setNetworkDestination(networkSource);
@@ -226,7 +216,6 @@ const App = () => {
 
 	return (
 		<div className="App">
-			{/* {JSON.stringify(searchParams)} */}
 			<SwapForm {...fromProps} />
 			{isload ? <Loader src={bnn} /> : null}
 		</div>

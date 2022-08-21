@@ -4,6 +4,7 @@ import MakeSOLTrx from "../logic/transaction/MakeSOLTrx";
 import MakeNEARTrx from "../logic/transaction/MakeNEARTrx";
 import MakeTONTrx from "../logic/transaction/MakeTONTrx";
 import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
+import useResponsive from "../logic/Responsive";
 import MakeTONJettonsBurnTrx from "../logic/transaction/MakeTONJettonsBurnTrx";
 // au,
 // su,
@@ -60,6 +61,8 @@ const SwapForm = (props: any) => {
 		: isSouwNEARTON
 		? "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi"
 		: "";
+
+	const isMobile = useResponsive("(max-width: 480px)", true);
 
 	const walletDirKey = isDirAtom
 		? props.ATOMwalletKey
