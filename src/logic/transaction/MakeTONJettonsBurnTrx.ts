@@ -3,7 +3,7 @@ import { message } from "antd";
 import BN from "bn.js";
 import TonWeb from "tonweb";
 
-const tonweb = new TonWeb(new TonWeb.HttpProvider('https://toncenter.com/api/v2/jsonRPC', {apiKey: '3cb4d4625d129371c869ab603a3523e22c6a7507307380bf1de59b32be2630ec'}));
+const tonweb = new TonWeb(new TonWeb.HttpProvider('https://toncenter.com/api/v2/jsonRPC', {apiKey: '0e864b650c2d3fed65729622d72fc8b40686f38242e0c187bf2aafe7a028ac59'}));
 
 const prepareParams = (params: Cell[] = []) => {
   return params.map((p) => {
