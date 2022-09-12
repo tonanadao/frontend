@@ -11,6 +11,7 @@ import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
 import fetchMarkets from "./logic/fetch/fetchMarkets";
 import connectWalletSOL from "./logic/wallet/connectWalletSOL";
 import connectWalletATOM from "./logic/wallet/connectWalletATOM";
+import connectWalletAUR from "./logic/wallet/connectWalletAUR";
 import connectWalletTON from "./logic/wallet/connectWalletTON";
 import connectWalletNEAR from "./logic/wallet/connectWalletNEAR";
 import { menuBuilder } from "./components/MenuBuilder";
@@ -18,6 +19,7 @@ import { generateBtn } from "./components/BtnBuilder";
 import { icoBuilder } from "./components/IcoBuilder";
 import { initializeWalletNEAR } from "./logic/wallet/initializeWalletNEAR";
 import { makeNEARTrxAfterLoad } from "./logic/transaction/MakeNEARTrx";
+import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
@@ -30,10 +32,13 @@ const App = () => {
 	const [su, ssu] = useState(0);
 	const [au, sau] = useState(0);
 	const [nu, snu] = useState(0);
+	const [auru, sauruu] = useState(0);
 	const [SOLwalletKey, setSOLWalletKey] = useState("");
 	const [TONwalletKey, setTONwalletKey] = useState("");
 	const [NEARwalletKey, setNEARwalletKey] = useState("");
 	const [ATOMwalletKey, setATOMwalletKey] = useState("");
+	const [AURwalletKey, setAURwalletKey] = useState("");
+	const [AURMaxAmount, setAURMaxAmount] = useState(0);
 	const [SOLMaxAmount, setSOLMaxAmount] = useState(0);
 	const [TONMaxAmount, setTONMaxAmount] = useState(0);
 	const [ATOMMaxAmount, setATOMMaxAmount] = useState(0);
@@ -58,10 +63,11 @@ const App = () => {
 		getTONMaxAmount(setTONMaxAmount);
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);
+		getAURMaxAmount(setAURMaxAmount);
 
-		fetchMarkets(stu, ssu, sau, snu);
+		fetchMarkets(stu, ssu, sau, snu, sauruu);
 		setInterval(() => {
-			fetchMarkets(stu, ssu, sau, snu);
+			fetchMarkets(stu, ssu, sau, snu, sauruu);
 		}, 15000);
 
 		sHexString(
@@ -77,6 +83,7 @@ const App = () => {
 			sex(storedData.ex);
 			setSOLWalletKey(storedData.SOLwalletKey);
 			setTONwalletKey(storedData.TONwalletKey);
+			setAURwalletKey(storedData.AURwalletKey);
 			setNEARwalletKey(storedData.NEARwalletKey);
 			setATOMwalletKey(storedData.ATOMwalletKey);
 			sHexString(storedData.hexString);
@@ -98,6 +105,7 @@ const App = () => {
 				ex,
 				SOLwalletKey,
 				TONwalletKey,
+				AURwalletKey,
 				NEARwalletKey,
 				ATOMwalletKey,
 				hexString,
@@ -109,6 +117,7 @@ const App = () => {
 		ex,
 		SOLwalletKey,
 		TONwalletKey,
+		AURwalletKey,
 		NEARwalletKey,
 		ATOMwalletKey,
 		hexString,
@@ -121,11 +130,14 @@ const App = () => {
 		setSOLWalletKey,
 		connectWalletTON,
 		setTONwalletKey,
+		setAURwalletKey,
 		connectWalletNEAR,
 		setNEARwalletKey,
 		connectWalletATOM,
+		connectWalletAUR,
 		setATOMwalletKey,
 		TONwalletKey,
+		AURwalletKey,
 		SOLwalletKey,
 		NEARwalletKey,
 		ATOMwalletKey,
@@ -193,12 +205,15 @@ const App = () => {
 		su,
 		tu,
 		nu,
+		auru,
 		ATOMwalletKey,
 		SOLwalletKey,
 		TONwalletKey,
+		AURwalletKey,
 		NEARwalletKey,
 		ATOMMaxAmount,
 		SOLMaxAmount,
+		AURMaxAmount,
 		TONMaxAmount,
 		NEARMaxAmount,
 		btnSelectSource,

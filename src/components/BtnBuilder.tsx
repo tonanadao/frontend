@@ -2,6 +2,8 @@ import phantom from "../static/img/phantom.png";
 import near from "../static/img/near.png";
 import tonIco from "../static/img/ton.png";
 import keplr from "../static/img/keplr.png";
+import metamask from "../static/img/metamask.png";
+
 import { Button } from "antd";
 
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
@@ -26,6 +28,7 @@ export const generateBtn = (currencyName: string, btnProps: any) => (
 		{currencyName === "TON" ||
 		currencyName === "wNEAR (TON)" ||
 		currencyName === "wSOL (TON)" ||
+		currencyName === "wAURORA (TON)" ||
 		currencyName === "wATOM (TON)" ? (
 			<Button
 				type="primary"
@@ -65,6 +68,21 @@ export const generateBtn = (currencyName: string, btnProps: any) => (
 					<>
 						<img src={keplr} alt={"#"} />
 						{zipName(btnProps.ATOMwalletKey)}
+					</>
+				) : (
+					"Connect wallet"
+				)}
+			</Button>
+		) : null}
+		{currencyName === "AURORA" ? (
+			<Button
+				type="primary"
+				id={"connectWalletBtn"}
+				onClick={() => btnProps.connectWalletAUR(btnProps.setAURwalletKey)}>
+				{btnProps.AURwalletKey ? (
+					<>
+						<img src={metamask} alt={"#"} />
+						{zipName(btnProps.AURwalletKey)}
 					</>
 				) : (
 					"Connect wallet"
