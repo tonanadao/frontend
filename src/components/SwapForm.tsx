@@ -46,7 +46,7 @@ const SwapForm = (props: any) => {
 	const isSouNear = props.networkSource === "near";
 	const isSouSol = props.networkSource === "sol";
 	const isSouTon = props.networkSource === "ton";
-	const isSouAur = props.networkSource === "aurora";
+	const isSouAur = props.networkSource === "ton";
 	const isSouwSOLTON = props.networkSource === "wsol (ton)";
 	const isSouwATOMTON = props.networkSource === "watom (ton)";
 	const isSouwNEARTON = props.networkSource === "wnear (ton)";
@@ -246,7 +246,7 @@ const SwapForm = (props: any) => {
 			activeBtn,
 			props.setIsload,
 			props.connection,
-			props.AURwalletKey,
+			props.ATOMwalletKey,
 			walletDirKey,
 			TRXDir,
 			firstCurrAmount
