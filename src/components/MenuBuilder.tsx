@@ -27,30 +27,30 @@ export const menuBuilder = (net: string, set: any) => (
 						),
 				  }
 				: null,
-			net !== "AURORA"
-				? {
-						key: "AURORA",
-						label: (
-							<div
-								className={
-									net === "wNEAR (TON)" ||
-									net === "wATOM (TON)" ||
-									net === "wSOL (TON)"
-										? "cantSelect"
-										: ""
-								}
-								onClick={() =>
-									net !== "wNEAR (TON)" &&
-									net !== "wATOM (TON)" &&
-									net !== "wSOL (TON)"
-										? set("AURORA")
-										: null
-								}>
-								AURORA
-							</div>
-						),
-				  }
-				: null,
+			// net !== "AURORA"
+			// 	? {
+			// 			key: "AURORA",
+			// 			label: (
+			// 				<div
+			// 					className={
+			// 						net === "wNEAR (TON)" ||
+			// 						net === "wATOM (TON)" ||
+			// 						net === "wSOL (TON)"
+			// 							? "cantSelect"
+			// 							: ""
+			// 					}
+			// 					onClick={() =>
+			// 						net !== "wNEAR (TON)" &&
+			// 						net !== "wATOM (TON)" &&
+			// 						net !== "wSOL (TON)"
+			// 							? set("AURORA")
+			// 							: null
+			// 					}>
+			// 					AURORA
+			// 				</div>
+			// 			),
+			// 	  }
+			// 	: null,
 			net !== "ATOM"
 				? {
 						key: "ATOM",
@@ -162,20 +162,20 @@ export const menuBuilder = (net: string, set: any) => (
 						),
 				  }
 				: null,
-			net !== "wAURORA (TON)"
-				? {
-						key: "wAURORA (TON)",
-						label: (
-							<div
-								className={net !== "AURORA" ? "cantSelect" : ""}
-								onClick={() =>
-									net === "AURORA" ? set("wAURORA (TON)") : null
-								}>
-								wAURORA (TON)
-							</div>
-						),
-				  }
-				: null,
-		]}
+		// 	net !== "wAURORA (TON)"
+		// 		? {
+		// 				key: "wAURORA (TON)",
+		// 				label: (
+		// 					<div
+		// 						className={net !== "AURORA" ? "cantSelect" : ""}
+		// 						onClick={() =>
+		// 							net === "AURORA" ? set("wAURORA (TON)") : null
+		// 						}>
+		// 						wAURORA (TON)
+		// 					</div>
+		// 				),
+		// 		  }
+		// 		: null,
+		// ]}
 	/>
 );
