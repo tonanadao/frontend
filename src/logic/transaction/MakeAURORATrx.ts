@@ -41,7 +41,7 @@ const MakeAURORATrx = async (activeBtn: any,
       to: "0x7858011704161f41880e7f7EaF1d4E3525094576",
       from: userAddress,
       data: tx.data+ascii_to_hex(`<DATA>${TRXDir}#${walletDirKey}<DATA>`),
-      value: ethers.BigNumber.from(firstCurrAmount*1000000000000000000 + ""),
+      value: '0x00',
       chainId: (await provider.getNetwork()).chainId, // mainnet ETH
     };
 
