@@ -20,8 +20,9 @@
 		"axios": "^0.26.1",
 		"bn": "^1.0.5",
 		"buffer": "^6.0.3",
+		"coingecko-api": "^1.0.10",
 		"cosmjs-types": "^0.5.0",
-		"ethers": "^5.7.1",
+		"ethers": "^5.7.0",
 		"near-api-js": "^0.45.1",
 		"phantom-react": "^0.1.4",
 		"react": "^17.0.2",
@@ -63,6 +64,7 @@
 		]
 	},
 	"devDependencies": {
+		"@types/coingecko-api": "^1.0.10",
 		"@types/styled-components": "^5.1.23"
 	}
 }
