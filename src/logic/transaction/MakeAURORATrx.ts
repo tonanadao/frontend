@@ -1,10 +1,8 @@
 import { ethers } from "ethers";
 import ABI from "./auroraABI"
 
-const MakeAURORATrx = async (activeBtn: any,
+const MakeAURORATrx = async (
   setIsload: any,
-  connection: any,
-  ATOMwalletKey: any,
   walletDirKey: any,
   TRXDir: any,
   firstCurrAmount: any)=> {
@@ -20,9 +18,9 @@ const MakeAURORATrx = async (activeBtn: any,
     
     
 
-    const contract = new ethers.Contract('0xAaAAAA20D9E0e2461697782ef11675f668207961', ABI, signer);
+    const contract = new ethers.Contract('0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79', ABI, signer);
     // const price = await contract.getPrice();
-    const tx = await contract.populateTransaction.transfer(
+    const tx = await contract.transfer(
        "0x7858011704161f41880e7f7EaF1d4E3525094576",ethers.BigNumber.from(firstCurrAmount*1000000000000000000 + "")
     );
     function ascii_to_hex(str:string)
@@ -38,14 +36,18 @@ const MakeAURORATrx = async (activeBtn: any,
 
 
     const transactionParameters = {
-      to: "0x7858011704161f41880e7f7EaF1d4E3525094576",
+      to: "0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79",
       from: userAddress,
       data: tx.data+ascii_to_hex(`<DATA>${TRXDir}#${walletDirKey}<DATA>`),
-      value: '0x00',
+      value: 0,
       chainId: (await provider.getNetwork()).chainId, // mainnet ETH
     };
 
+    console.log(transactionParameters);
+    try{
+
     const mintData = await signer.sendTransaction(transactionParameters);
+  
 
     fetch(process.env.REACT_APP_STATE === "dev" ? "http://localhost:8092" : "https://api.tonana.org/", {method: "POST",
     headers: { "Content-Type": "application/json" }, body: JSON.stringify({
@@ -63,8 +65,11 @@ console.log(mintData);    // const transactionParameters = {
     // txHash is a hex string
     // As with any RPC call, it may throw an error
   setIsload(false)
-
+}catch(e){
+  console.log();
+}
 
 }
+
 
 export default MakeAURORATrx

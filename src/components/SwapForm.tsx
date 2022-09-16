@@ -8,6 +8,7 @@ import MakeAURORATrx from "../logic/transaction/MakeAURORATrx";
 
 import useResponsive from "../logic/Responsive";
 import MakeTONJettonsBurnTrx from "../logic/transaction/MakeTONJettonsBurnTrx";
+
 // au,
 // su,
 // tu,
@@ -240,17 +241,8 @@ const SwapForm = (props: any) => {
 			TRXDir,
 			firstCurrAmount
 		);
-
 	const AURORAtrx = () =>
-		MakeAURORATrx(
-			activeBtn,
-			props.setIsload,
-			props.connection,
-			props.AURwalletKey,
-			walletDirKey,
-			TRXDir,
-			firstCurrAmount
-		);
+		MakeAURORATrx(props.setIsload, walletDirKey, TRXDir, firstCurrAmount);
 	const TONJettonsBurnTrx = () =>
 		MakeTONJettonsBurnTrx(
 			sourceChain,
