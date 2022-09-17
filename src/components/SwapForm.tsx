@@ -193,17 +193,14 @@ const SwapForm = (props: any) => {
 		? "wSOL"
 		: null;
 
-	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
-	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
-
 	const activeBtn =
-		!!walletDirKey && !!firstCurrAmount && !props.isload && walletSouKey;
+		!!walletDirKey && !!props.firstCurrAmount && !props.isload && walletSouKey;
 
 	const TONTrx = () =>
 		MakeTONTrx(
 			activeBtn,
 			props.setIsload,
-			firstCurrAmount,
+			props.firstCurrAmount,
 			walletDirKey,
 			TRXDir,
 			props.hexString
@@ -217,7 +214,7 @@ const SwapForm = (props: any) => {
 			props.SOLwalletKey,
 			walletDirKey,
 			TRXDir,
-			firstCurrAmount
+			props.firstCurrAmount
 		);
 
 	const NEARTrx = () =>
@@ -225,7 +222,7 @@ const SwapForm = (props: any) => {
 			activeBtn,
 			props.setIsload,
 			props.NEARwalletKey,
-			firstCurrAmount,
+			props.firstCurrAmount,
 			walletDirKey,
 			TRXDir,
 			props.hexString
@@ -239,17 +236,19 @@ const SwapForm = (props: any) => {
 			props.ATOMwalletKey,
 			walletDirKey,
 			TRXDir,
-			firstCurrAmount
+			props.firstCurrAmount
 		);
+		
 	const AURORAtrx = () =>
-		MakeAURORATrx(props.setIsload, walletDirKey, TRXDir, firstCurrAmount);
+		MakeAURORATrx(props.setIsload, walletDirKey, TRXDir, props.firstCurrAmount);
+
 	const TONJettonsBurnTrx = () =>
 		MakeTONJettonsBurnTrx(
 			sourceChain,
 			TONJettonContractAdd,
 			activeBtn,
 			props.setIsload,
-			firstCurrAmount,
+			props.firstCurrAmount,
 			props.TONwalletKey,
 			TRXDir,
 			walletDirKey
@@ -267,8 +266,8 @@ const SwapForm = (props: any) => {
 							(Number(e.target.value) * currency) / secCurrency <
 							0.8 * MaxDirAmount
 						) {
-							setFirstCurrAmount(e.target.value);
-							setSecCurrAmount(
+							props.setFirstCurrAmount(e.target.value);
+							props.setSecCurrAmount(
 								((Number(e.target.value) * currency) / secCurrency) * 0.975 + ""
 							);
 						} else {
@@ -281,10 +280,10 @@ const SwapForm = (props: any) => {
 						}
 					}}
 					value={
-						!isNaN(Number(firstCurrAmount))
-							? secCurrAmount === ""
+						!isNaN(Number(props.firstCurrAmount))
+							? props.secCurrAmount === ""
 								? ""
-								: firstCurrAmount
+								: props.firstCurrAmount
 							: ""
 					}
 					placeholder={"0.000"}
@@ -298,18 +297,18 @@ const SwapForm = (props: any) => {
 				{props.btnDest}
 				<Input
 					value={
-						!isNaN(Number(secCurrAmount))
-							? firstCurrAmount === ""
+						!isNaN(Number(props.secCurrAmount))
+							? props.firstCurrAmount === ""
 								? ""
-								: secCurrAmount
+								: props.secCurrAmount
 							: ""
 					}
 					onChange={(e) => {
 						if (Number(e.target.value) < 0.8 * MaxDirAmount) {
-							setFirstCurrAmount(
+							props.setFirstCurrAmount(
 								((Number(e.target.value) * secCurrency) / currency) * 1.025 + ""
 							);
-							setSecCurrAmount(e.target.value);
+							props.setSecCurrAmount(e.target.value);
 						} else {
 							message.error(
 								`Set less, than ${0.8 * MaxDirAmount} ${directionCurrencyName}`,

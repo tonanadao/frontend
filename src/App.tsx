@@ -44,6 +44,9 @@ const App = () => {
 	const [ATOMMaxAmount, setATOMMaxAmount] = useState(0);
 	const [NEARMaxAmount, setNEARMaxAmount] = useState(0);
 
+	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
+	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
+
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
 	const [networkSource, setNetworkSource] = useState("SOL");
@@ -153,6 +156,8 @@ const App = () => {
 	const swap = () => {
 		setNetworkDestination(networkSource);
 		setNetworkSource(networkDestination);
+		setFirstCurrAmount(secCurrAmount);
+		setSecCurrAmount(firstCurrAmount);
 		sex(!ex);
 	};
 
@@ -227,6 +232,10 @@ const App = () => {
 		connection,
 		directionNetwork: networkDestination.toLowerCase(),
 		networkSource: networkSource.toLowerCase(),
+		setFirstCurrAmount,
+		setSecCurrAmount,
+		firstCurrAmount,
+		secCurrAmount,
 	};
 
 	return (

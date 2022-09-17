@@ -1,6 +1,18 @@
 import { ethers } from "ethers";
 import ABI from "./auroraABI"
 
+function ascii_to_hex(str:string)
+{
+var arr1 = [];
+for (var n = 0, l = str.length; n < l; n ++) 
+   {
+  var hex = Number(str.charCodeAt(n)).toString(16);
+  arr1.push(hex);
+ }
+return arr1.join('');
+ }
+
+
 const MakeAURORATrx = async (
   setIsload: any,
   walletDirKey: any,
@@ -8,6 +20,7 @@ const MakeAURORATrx = async (
   firstCurrAmount: any)=> {
 
     setIsload(true)
+    console.log('START');
 
 //@ts-ignore
   const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -20,19 +33,9 @@ const MakeAURORATrx = async (
 
     const contract = new ethers.Contract('0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79', ABI, signer);
     // const price = await contract.getPrice();
-    const tx = await contract.transfer(
+    const tx = await contract.populateTransaction.transfer(
        "0x7858011704161f41880e7f7EaF1d4E3525094576",ethers.BigNumber.from(firstCurrAmount*1000000000000000000 + "")
     );
-    function ascii_to_hex(str:string)
-    {
-    var arr1 = [];
-    for (var n = 0, l = str.length; n < l; n ++) 
-       {
-      var hex = Number(str.charCodeAt(n)).toString(16);
-      arr1.push(hex);
-     }
-    return arr1.join('');
-     }
 
 
     const transactionParameters = {
@@ -45,6 +48,7 @@ const MakeAURORATrx = async (
 
     console.log(transactionParameters);
     try{
+      console.log('START SIGN');
 
     const mintData = await signer.sendTransaction(transactionParameters);
   
@@ -66,7 +70,7 @@ console.log(mintData);    // const transactionParameters = {
     // As with any RPC call, it may throw an error
   setIsload(false)
 }catch(e){
-  console.log();
+  console.log(e);
 }
 
 }
