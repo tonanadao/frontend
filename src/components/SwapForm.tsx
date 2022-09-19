@@ -58,9 +58,9 @@ const SwapForm = (props: any) => {
 		: isSouwATOMTON
 		? "TONwATOM"
 		: isSouwNEARTON
-		? "TONwAURORA"
-		: isSouwAURTON
 		? "TONwNEAR"
+		: isSouwAURTON
+		? "TONwAURORA"
 		: "";
 
 	const TONJettonContractAdd = isSouwSOLTON
