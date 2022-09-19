@@ -70,7 +70,7 @@ const SwapForm = (props: any) => {
 		: isSouwNEARTON
 		? "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi"
 		: isSouwAURTON
-		? "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi"
+		? "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut"
 		: "";
 
 	const walletDirKey = isDirAtom
@@ -238,7 +238,7 @@ const SwapForm = (props: any) => {
 			TRXDir,
 			props.firstCurrAmount
 		);
-		
+
 	const AURORAtrx = () =>
 		MakeAURORATrx(props.setIsload, walletDirKey, TRXDir, props.firstCurrAmount);
 
