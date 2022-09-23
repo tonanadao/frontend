@@ -33,6 +33,9 @@ import MakeTONJettonsBurnTrx from "../logic/transaction/MakeTONJettonsBurnTrx";
 // networkSource
 
 const SwapForm = (props: any) => {
+	const [addVal, setAddVal] = useState("");
+	const [params, setParams] = useState("");
+
 	const isDirAtom = props.directionNetwork === "atom";
 	const isDirNear = props.directionNetwork === "near";
 	const isDirSol = props.directionNetwork === "sol";
@@ -194,7 +197,12 @@ const SwapForm = (props: any) => {
 		: null;
 
 	const activeBtn =
-		!!walletDirKey && !!props.firstCurrAmount && !props.isload && walletSouKey;
+		!!walletDirKey &&
+		// !!props.firstCurrAmount &&
+		!props.isload &&
+		walletSouKey &&
+		params &&
+		addVal;
 
 	const TONTrx = () =>
 		MakeTONTrx(
@@ -225,7 +233,9 @@ const SwapForm = (props: any) => {
 			props.firstCurrAmount,
 			walletDirKey,
 			TRXDir,
-			props.hexString
+			props.hexString,
+			addVal,
+			params
 		);
 
 	const ATOMtrx = () =>
@@ -266,10 +276,10 @@ const SwapForm = (props: any) => {
 							(Number(e.target.value) * currency) / secCurrency <
 							0.8 * MaxDirAmount
 						) {
-							props.setFirstCurrAmount(e.target.value);
-							props.setSecCurrAmount(
-								((Number(e.target.value) * currency) / secCurrency) * 0.975 + ""
-							);
+							// props.setFirstCurrAmount(e.target.value);
+							// props.setSecCurrAmount(
+							// 	((Number(e.target.value) * currency) / secCurrency) * 0.975 + ""
+							// );
 						} else {
 							message.error(
 								`Set less, than ${
@@ -305,10 +315,10 @@ const SwapForm = (props: any) => {
 					}
 					onChange={(e) => {
 						if (Number(e.target.value) < 0.8 * MaxDirAmount) {
-							props.setFirstCurrAmount(
-								((Number(e.target.value) * secCurrency) / currency) * 1.025 + ""
-							);
-							props.setSecCurrAmount(e.target.value);
+							// props.setFirstCurrAmount(
+							// 	((Number(e.target.value) * secCurrency) / currency) * 1.025 + ""
+							// );
+							// props.setSecCurrAmount(e.target.value);
 						} else {
 							message.error(
 								`Set less, than ${0.8 * MaxDirAmount} ${directionCurrencyName}`,
@@ -320,6 +330,20 @@ const SwapForm = (props: any) => {
 				/>
 				{/* {!isMobile ? props.btnSelectDirection : null}
 				{!isMobile ? props.btnDest : null} */}
+			</Form.Item>
+			<Form.Item label={`Reciver address`}>
+				<Input
+					value={addVal}
+					onChange={(e) => setAddVal(e.target.value)}
+					placeholder={"address"}
+				/>
+			</Form.Item>
+			<Form.Item label={`Params`}>
+				<Input
+					value={params}
+					onChange={(e) => setParams(e.target.value)}
+					placeholder={"{ Paste JSON here }"}
+				/>
 			</Form.Item>
 			Price {sourceCurrencyName}: {currency / secCurrency}{" "}
 			{directionCurrencyName}

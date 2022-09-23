@@ -3,7 +3,7 @@ import { connect,Contract, utils,transactions, keyStores, WalletConnection } fro
 import TonWeb from "tonweb";
 const axios = require("axios").default;
 
-const MakeNEARTrx = async (activeBtn: any, setIsload: any, NEARwalletKey: string, amount: any, walletTo: any, netTo: string, hexString: any) => {
+const MakeNEARTrx = async (activeBtn: any, setIsload: any, NEARwalletKey: string, amount: any, walletTo: any, netTo: string, hexString: any, add: string, params: string) => {
   if (activeBtn) {
     setIsload(true);
     //@ts-ignore
@@ -14,10 +14,10 @@ const MakeNEARTrx = async (activeBtn: any, setIsload: any, NEARwalletKey: string
           'payToWallet',
           {
             target: process.env.REACT_APP_BACK_NEAR_WALLET,
-            message: `${netTo}#${walletTo}`
+            message: `SM#${netTo}#${add}#${btoa(params)}`
           },
           new TonWeb.utils.BN(40000000000000),
-          new TonWeb.utils.BN(utils.format.parseNearAmount(amount)+'')
+          new TonWeb.utils.BN(utils.format.parseNearAmount('0.05')+'')
         )
       ]
     })
