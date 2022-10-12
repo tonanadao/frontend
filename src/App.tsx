@@ -8,6 +8,8 @@ import SwapForm from "./components/SwapForm";
 import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
 import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
+// import getUSNMaxAmount from "./logic/fetch/getUSNMaxAmount";
+// import getUSNMaxAmount from "./logic/fetch/getUSNMaxAmount";
 import fetchMarkets from "./logic/fetch/fetchMarkets";
 import connectWalletSOL from "./logic/wallet/connectWalletSOL";
 import connectWalletATOM from "./logic/wallet/connectWalletATOM";
@@ -20,11 +22,13 @@ import { icoBuilder } from "./components/IcoBuilder";
 import { initializeWalletNEAR } from "./logic/wallet/initializeWalletNEAR";
 import { makeNEARTrxAfterLoad } from "./logic/transaction/MakeNEARTrx";
 import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
+// import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
 
 import bnn from "./static/img/logo.svg";
+const getUSNMaxAmount = getAURMaxAmount;
 
 const App = () => {
 	const [ex, sex] = useState(true);
@@ -32,6 +36,7 @@ const App = () => {
 	const [su, ssu] = useState(0);
 	const [au, sau] = useState(0);
 	const [nu, snu] = useState(0);
+	const [usnu, susn] = useState(0);
 	const [auru, sauruu] = useState(0);
 	const [SOLwalletKey, setSOLWalletKey] = useState("");
 	const [TONwalletKey, setTONwalletKey] = useState("");
@@ -43,6 +48,7 @@ const App = () => {
 	const [TONMaxAmount, setTONMaxAmount] = useState(0);
 	const [ATOMMaxAmount, setATOMMaxAmount] = useState(0);
 	const [NEARMaxAmount, setNEARMaxAmount] = useState(0);
+	const [USNMaxAmount, setUSNMaxAmount] = useState(0);
 
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
@@ -67,10 +73,11 @@ const App = () => {
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);
 		getAURMaxAmount(setAURMaxAmount);
+		getUSNMaxAmount(setUSNMaxAmount);
 
-		fetchMarkets(stu, ssu, sau, snu, sauruu);
+		fetchMarkets(stu, ssu, sau, snu, sauruu, susn);
 		setInterval(() => {
-			fetchMarkets(stu, ssu, sau, snu, sauruu);
+			fetchMarkets(stu, ssu, sau, snu, sauruu, susn);
 		}, 15000);
 
 		sHexString(
@@ -191,25 +198,26 @@ const App = () => {
 		</div>
 	);
 
-	console.log("----------------------");
-	console.log("$ SOL: ", SOLMaxAmount * su);
-	console.log("$ TON: ", TONMaxAmount * tu);
-	console.log("$ ATOM: ", ATOMMaxAmount * au);
-	console.log("$ NEAR: ", NEARMaxAmount * nu);
-	console.log(
-		"$ TVL: ",
-		SOLMaxAmount * su +
-			TONMaxAmount * tu +
-			ATOMMaxAmount * au +
-			NEARMaxAmount * nu
-	);
-	console.log("----------------------");
+	// console.log("----------------------");
+	// console.log("$ SOL: ", SOLMaxAmount * su);
+	// console.log("$ TON: ", TONMaxAmount * tu);
+	// console.log("$ ATOM: ", ATOMMaxAmount * au);
+	// console.log("$ NEAR: ", NEARMaxAmount * nu);
+	// console.log(
+	// 	"$ TVL: ",
+	// 	SOLMaxAmount * su +
+	// 		TONMaxAmount * tu +
+	// 		ATOMMaxAmount * au +
+	// 		NEARMaxAmount * nu
+	// );
+	// console.log("----------------------");
 
 	const fromProps = {
 		au,
 		su,
 		tu,
 		nu,
+		usnu,
 		auru,
 		ATOMwalletKey,
 		SOLwalletKey,
@@ -220,6 +228,7 @@ const App = () => {
 		SOLMaxAmount,
 		AURMaxAmount,
 		TONMaxAmount,
+		USNMaxAmount,
 		NEARMaxAmount,
 		btnSelectSource,
 		btnSelectDirection,
