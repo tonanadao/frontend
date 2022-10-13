@@ -29,7 +29,6 @@ export const generateBtn = (currencyName: string, btnProps: any) => (
 		currencyName === "wNEAR (TON)" ||
 		currencyName === "wSOL (TON)" ||
 		currencyName === "wAURORA (TON)" ||
-		currencyName === "wUSN (TON)" ||
 		currencyName === "wATOM (TON)" ? (
 			<Button
 				type="primary"
@@ -45,7 +44,7 @@ export const generateBtn = (currencyName: string, btnProps: any) => (
 				)}
 			</Button>
 		) : null}
-		{ currencyName === "USN"|| currencyName === "NEAR" ? (
+		{currencyName === "NEAR" ? (
 			<Button
 				type="primary"
 				id={"connectWalletBtn"}
