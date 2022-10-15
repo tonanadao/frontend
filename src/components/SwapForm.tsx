@@ -4,6 +4,7 @@ import MakeSOLTrx from "../logic/transaction/MakeSOLTrx";
 import MakeNEARTrx from "../logic/transaction/MakeNEARTrx";
 import MakeTONTrx from "../logic/transaction/MakeTONTrx";
 import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
+import MakeUSNTrx from "../logic/transaction/MakeUSNTrx";
 import MakeAURORATrx from "../logic/transaction/MakeAURORATrx";
 
 import useResponsive from "../logic/Responsive";
@@ -83,7 +84,7 @@ const SwapForm = (props: any) => {
 		: isSouwAURTON
 		? "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut"
 		: isSouwUSNTON
-		? "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut" // TODO UPDATE
+		? "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI" // TODO UPDATE
 		: "";
 
 	useEffect(() => {
@@ -294,7 +295,7 @@ const SwapForm = (props: any) => {
 		);
 
 	const USNtrx = () =>
-		MakeNEARTrx(
+		MakeUSNTrx(
 			activeBtn,
 			props.setIsload,
 			props.NEARwalletKey,

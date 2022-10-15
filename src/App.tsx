@@ -21,6 +21,8 @@ import { generateBtn } from "./components/BtnBuilder";
 import { icoBuilder } from "./components/IcoBuilder";
 import { initializeWalletNEAR } from "./logic/wallet/initializeWalletNEAR";
 import { makeNEARTrxAfterLoad } from "./logic/transaction/MakeNEARTrx";
+import { makeUSNTrxAfterLoad } from "./logic/transaction/MakeUSNTrx";
+
 import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 // import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 
@@ -73,7 +75,7 @@ const App = () => {
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);
 		getAURMaxAmount(setAURMaxAmount);
-		getUSNMaxAmount(setUSNMaxAmount);
+		// getUSNMaxAmount(setUSNMaxAmount);
 
 		fetchMarkets(stu, ssu, sau, snu, sauruu, susn);
 		setInterval(() => {
@@ -101,9 +103,9 @@ const App = () => {
 			setNetworkDestination(storedData.networkDestination);
 		}
 
-		initializeWalletNEAR(setNEARMaxAmount, setNEARwalletKey);
+		initializeWalletNEAR(setNEARMaxAmount, setNEARwalletKey, setUSNMaxAmount);
 		makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
-
+		makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
 		message.success("Use Chrome with TonWallet & Phantom extensions", 10);
 		message.success("Connect both and make trx, then wait a little bit", 11);
 	}, []);
@@ -250,6 +252,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<SwapForm {...fromProps} />
+
 			{isload ? <Loader src={bnn} /> : null}
 		</div>
 	);
