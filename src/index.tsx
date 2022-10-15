@@ -7,13 +7,13 @@ import { BrowserRouter as Router, useSearchParams } from "react-router-dom";
 import Social from "./components/Social";
 import Header from "./components/Header";
 
-
 ReactDOM.render(
 	<React.StrictMode>
 		<Router>
 			<Header />
 			<App />
 			<Social />
+			<div className="version">v1.0.69 (alpha)</div>
 			<Gstyles />
 		</Router>
 	</React.StrictMode>,

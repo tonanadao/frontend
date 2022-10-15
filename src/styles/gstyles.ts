@@ -273,6 +273,15 @@ const Gstyles = createGlobalStyle`
 			transform:rotate(360deg);
     }
 	}
+	.version{
+	color: white;
+	/* left: 50%; */
+	text-align: center;
+	font-size: 16px;
+	
+	/* position: relative; */
+	/* transform: translate(-50%); */
+	}
 `;
 
 export default Gstyles

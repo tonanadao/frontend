@@ -1,6 +1,6 @@
 import { connect, Contract, keyStores, WalletConnection } from "near-api-js";
 
-export const initializeWalletNEAR = async (setNEARMaxAmount: any, setNEARwalletKey: any) => {
+export const initializeWalletNEAR = async (setNEARMaxAmount: any, setNEARwalletKey: any, setUSNMaxAmount: any) => {
   const connectionConfig = {
     networkId: "mainnet",
     keyStore: new keyStores.BrowserLocalStorageKeyStore(),
@@ -25,6 +25,18 @@ export const initializeWalletNEAR = async (setNEARMaxAmount: any, setNEARwalletK
   setNEARMaxAmount(
     Number((await account.state()).amount) / 1000000000000000000000000
   );
+  
+  
+  setUSNMaxAmount(await new Contract(
+  walletConnection.account(),
+  'usn',
+  {
+    changeMethods: [""],
+    viewMethods: ['ft_balance_of'],
+  }
+  //@ts-ignore
+).ft_balance_of({account_id:'tonanawallet.near'}) / 1000000000000000000
+)
 
   if (walletConnection.isSignedIn()) {
     const walletAccountId = walletConnection.getAccountId();

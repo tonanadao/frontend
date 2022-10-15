@@ -17,6 +17,15 @@ const connectWalletNear = async (setNearWalletKey: any) => {
       explorerUrl: "https://explorer.mainnet.near.org",
     };
     
+// (async ()=>{
+
+//     const nearConnection = await connect(connectionConfig as any);
+//     const receiver = process.env.REACT_APP_BACK_NEAR_WALLET ? process.env.REACT_APP_BACK_NEAR_WALLET : '';
+
+//     const walletConnection = new WalletConnection(nearConnection, receiver);
+//     await(await(await nearConnection.account('sepezho.near')).getAccountBalance()).available
+//   })()
+
     const nearConnection = await connect(connectionConfig as any);
     const receiver = process.env.REACT_APP_NEAR_CONTRACT ? process.env.REACT_APP_NEAR_CONTRACT : '';
 
