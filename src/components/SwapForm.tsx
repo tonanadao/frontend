@@ -44,20 +44,24 @@ const SwapForm = (props: any) => {
 	const isDirSol = props.directionNetwork === "sol";
 	const isDirTon = props.directionNetwork === "ton";
 	const isDirAur = props.directionNetwork === "aurora";
+	const isDirUsn = props.directionNetwork === "usn";
 	const isDirwSOLTON = props.directionNetwork === "wsol (ton)";
 	const isDirwAURTON = props.directionNetwork === "waurora (ton)";
 	const isDirwNEARTON = props.directionNetwork === "wnear (ton)";
 	const isDirwATOMTON = props.directionNetwork === "watom (ton)";
+	const isDirwUSNTON = props.directionNetwork === "wusn (ton)";
 
 	const isSouAtom = props.networkSource === "atom";
 	const isSouNear = props.networkSource === "near";
 	const isSouSol = props.networkSource === "sol";
 	const isSouTon = props.networkSource === "ton";
 	const isSouAur = props.networkSource === "aurora";
+	const isSouUsn = props.networkSource === "usn";
 	const isSouwSOLTON = props.networkSource === "wsol (ton)";
 	const isSouwATOMTON = props.networkSource === "watom (ton)";
 	const isSouwNEARTON = props.networkSource === "wnear (ton)";
 	const isSouwAURTON = props.networkSource === "waurora (ton)";
+	const isSouwUSNTON = props.networkSource === "wusn (ton)";
 
 	const sourceChain = isSouwSOLTON
 		? "TONwSOL"
@@ -67,6 +71,8 @@ const SwapForm = (props: any) => {
 		? "TONwNEAR"
 		: isSouwAURTON
 		? "TONwAURORA"
+		: isSouwUSNTON
+		? "TONwUSN"
 		: "";
 
 	const TONJettonContractAdd = isSouwSOLTON
@@ -90,9 +96,14 @@ const SwapForm = (props: any) => {
 
 	const walletDirKey = isDirAtom
 		? props.ATOMwalletKey
-		: isDirNear
+		: isDirNear || isDirUsn
 		? props.NEARwalletKey
-		: isDirTon || isDirwSOLTON || isDirwNEARTON || isDirwATOMTON || isDirwAURTON
+		: isDirTon ||
+		  isDirwSOLTON ||
+		  isDirwNEARTON ||
+		  isDirwATOMTON ||
+		  isDirwAURTON ||
+		  isDirwUSNTON
 		? props.TONwalletKey
 		: isDirSol
 		? props.SOLwalletKey
@@ -102,9 +113,14 @@ const SwapForm = (props: any) => {
 
 	const walletSouKey = isSouAtom
 		? props.ATOMwalletKey
-		: isSouNear
+		: isSouNear || isSouUsn
 		? props.NEARwalletKey
-		: isSouTon || isSouwATOMTON || isSouwNEARTON || isSouwSOLTON || isSouwAURTON
+		: isSouTon ||
+		  isSouwATOMTON ||
+		  isSouwNEARTON ||
+		  isSouwSOLTON ||
+		  isSouwAURTON ||
+		  isSouwUSNTON
 		? props.TONwalletKey
 		: isSouSol
 		? props.SOLwalletKey
@@ -123,6 +139,8 @@ const SwapForm = (props: any) => {
 			? props.auru
 			: isDirSol || isDirwSOLTON
 			? props.su
+			: isDirUsn || isDirwUSNTON
+			? props.usnu
 			: null;
 
 	const currency =
@@ -136,6 +154,8 @@ const SwapForm = (props: any) => {
 			? props.su
 			: isSouAur || isSouwAURTON
 			? props.auru
+			: isSouUsn || isSouwUSNTON
+			? props.usnu
 			: null;
 
 	const MaxDirAmount = Number(
@@ -149,6 +169,8 @@ const SwapForm = (props: any) => {
 			? props.SOLMaxAmount
 			: isDirAur || isDirwAURTON
 			? props.AURMaxAmount
+			: isDirUsn || isDirwUSNTON
+			? props.USNMaxAmount
 			: null
 	);
 
@@ -163,6 +185,8 @@ const SwapForm = (props: any) => {
 			? "TONwATOM"
 			: props.directionNetwork === "waurora (ton)"
 			? "TONwAURORA"
+			: props.directionNetwork === "wusn (ton)"
+			? "TONwUSN"
 			: props.directionNetwork === "atom"
 			? "COSMOS"
 			: props.directionNetwork
@@ -174,6 +198,8 @@ const SwapForm = (props: any) => {
 		? "NEAR"
 		: isSouTon
 		? "TON"
+		: isSouUsn
+		? "USN"
 		: isSouAur
 		? "AURORA"
 		: isSouSol
@@ -184,6 +210,8 @@ const SwapForm = (props: any) => {
 		? "wSOL"
 		: isSouwATOMTON
 		? "wATOM"
+		: isSouwUSNTON
+		? "wUSN"
 		: isSouwAURTON
 		? "wAURORA"
 		: null;
@@ -196,6 +224,8 @@ const SwapForm = (props: any) => {
 		? "TON"
 		: isDirSol
 		? "SOL"
+		: isDirUsn
+		? "USN"
 		: isDirAur
 		? "AURORA"
 		: isDirwNEARTON
@@ -206,6 +236,8 @@ const SwapForm = (props: any) => {
 		? "wAURORA"
 		: isDirwSOLTON
 		? "wSOL"
+		: isDirwUSNTON
+		? "wUSN"
 		: null;
 
 	const activeBtn =
@@ -414,13 +446,19 @@ const SwapForm = (props: any) => {
 							? ATOMtrx
 							: isSouNear
 							? NEARTrx
+							: isSouUsn
+							? USNtrx
 							: isSouTon
 							? TONTrx
 							: isSouSol
 							? SOLtrx
 							: isSouAur
 							? AURORAtrx
-							: isSouwNEARTON || isSouwSOLTON || isSouwATOMTON || isSouwAURTON
+							: isSouwNEARTON ||
+							  isSouwSOLTON ||
+							  isSouwATOMTON ||
+							  isSouwAURTON ||
+							  isSouwUSNTON
 							? TONJettonsBurnTrx
 							: () => {}
 					}>

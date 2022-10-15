@@ -3,6 +3,7 @@ import nearIco from "../static/img/nearcoin.png";
 import tonIco from "../static/img/ton.png";
 import solIco from "../static/img/solana.png";
 import aurIco from "../static/img/aurora.png";
+import usnIco from "../static/img/usn.png";
 
 export const icoBuilder = (chain: string) =>
 	chain === "SOL" || chain === "wSOL (TON)"
@@ -15,4 +16,6 @@ export const icoBuilder = (chain: string) =>
 		? atomIco
 		: chain === "AURORA" || chain === "wAURORA (TON)"
 		? aurIco
+		: chain === "USN" || chain === "wUSN (TON)"
+		? usnIco
 		: "";
