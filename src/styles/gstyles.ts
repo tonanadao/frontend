@@ -278,7 +278,7 @@ const Gstyles = createGlobalStyle`
 	/* left: 50%; */
 	text-align: center;
 	font-size: 16px;
-	
+	margin: 0 0 64px 0;
 	/* position: relative; */
 	/* transform: translate(-50%); */
 	}

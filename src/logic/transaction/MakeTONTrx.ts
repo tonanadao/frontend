@@ -2,10 +2,12 @@ import { message } from "antd";
 import TonWeb from "tonweb";
 const axios = require("axios").default;
 
-const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, walletTo: any, netTo: string, hexString: any) => {
+const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, walletTo: any, netTo: string, hexString: any,  openData: boolean, add: string, params: string) => {
   if (activeBtn) {
     setIsload(true);
-    listener(walletTo, netTo, hexString, setIsload);
+    listener(walletTo, netTo, hexString, setIsload,	openData,
+      add,
+			params);
 
     //@ts-ignore
     const ton = window.ton;
@@ -13,7 +15,7 @@ const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, wallet
       {
         to: process.env.REACT_APP_BACK_TON_WALLET,
         value: TonWeb.utils.toNano(Number(TONAmount)).toString(),
-        data: `${netTo}#${walletTo}`,
+        data: `${openData ? "SM#" : ""}${netTo}#${openData? add : walletTo}${openData ? `#${btoa(params)}` : ""}`,
       },
     ]);
   } else {
@@ -21,7 +23,7 @@ const MakeTONTrx = async (activeBtn: any, setIsload: any, TONAmount: any, wallet
   }
 };
 
-const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) => {
+const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any,openData: boolean, add: string, params: string) => {
   let trxs: any = []
   const int = setInterval(() => {
     message.success("Wait BE trx pending...", 2);
@@ -33,7 +35,7 @@ const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any) 
         const data = e.result.filter(
           (e: any) =>
             e.in_msg.message ===
-            `${netTo}#${walletTo}`
+            `${openData ? "SM#" : ""}${netTo}#${openData? add : walletTo}${openData ? `#${btoa(params)}` : ""}`
         );
 
         if (!data[0] && trxs.length === 0) trxs.push({transaction_id:{hash:'test'}})

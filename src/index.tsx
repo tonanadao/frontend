@@ -13,7 +13,7 @@ ReactDOM.render(
 			<Header />
 			<App />
 			<Social />
-			<div className="version">v1.0.69 (alpha)</div>
+			<div className="version">v1.0.80 (alpha)</div>
 			<Gstyles />
 		</Router>
 	</React.StrictMode>,

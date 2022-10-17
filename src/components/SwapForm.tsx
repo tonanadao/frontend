@@ -92,6 +92,7 @@ const SwapForm = (props: any) => {
 		setAddVal("");
 		setAddMessage(false);
 		if (isSouNear && isDirTon) setAddMessage(true);
+		if (isSouTon && isDirNear) setAddMessage(true);
 	}, [props.networkSource, props.directionNetwork]);
 
 	const walletDirKey = isDirAtom
@@ -241,7 +242,7 @@ const SwapForm = (props: any) => {
 		: null;
 
 	const activeBtn =
-		!!walletDirKey &&
+		(openData ? true : !!walletDirKey) &&
 		!!props.firstCurrAmount &&
 		!props.isload &&
 		walletSouKey &&
@@ -255,7 +256,10 @@ const SwapForm = (props: any) => {
 			props.firstCurrAmount,
 			walletDirKey,
 			TRXDir,
-			props.hexString
+			props.hexString,
+			openData,
+			addVal,
+			params
 		);
 
 	const SOLtrx = () =>
