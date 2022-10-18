@@ -28,7 +28,7 @@ const MakeUSNTrx = async (activeBtn: any, setIsload: any, NEARwalletKey: string,
 
 export const makeUSNTrxAfterLoad = (transactionHashes: any, setSearchParams:any,searchParams: any) => {
   if (transactionHashes) {
-    fetch(process.env.REACT_APP_STATE === "dev" ? "http://localhost:8092" : "https://api.tonana.org/", {
+    fetch(process.env.REACT_APP_STATE === "dev" ? "http://localhost:8092" : process.env.REACT_APP_STATE === "dev-remote" ? "https://dev.api.tonana.org"   : "https://api.tonana.org/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

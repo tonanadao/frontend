@@ -57,7 +57,7 @@ const App = () => {
 
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
-	const [networkSource, setNetworkSource] = useState("SOL");
+	const [networkSource, setNetworkSource] = useState("USN");
 	const [networkDestination, setNetworkDestination] = useState("TON");
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -68,6 +68,14 @@ const App = () => {
 		clusterApiUrl(
 			process.env.REACT_APP_SOL_NET as "devnet" | "testnet" | "mainnet-beta"
 		)
+	);
+	console.log(process.env.REACT_APP_STATE);
+	console.log(
+		process.env.REACT_APP_STATE === "dev"
+			? "http://localhost:8092"
+			: process.env.REACT_APP_STATE === "dev-remote"
+			? "https://dev.api.tonana.org"
+			: "https://api.tonana.org/"
 	);
 
 	useEffect(() => {

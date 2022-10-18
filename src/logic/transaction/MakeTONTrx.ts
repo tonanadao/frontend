@@ -65,7 +65,7 @@ const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any,o
 
 //         })
 
-fetch(process.env.REACT_APP_STATE === "dev" ? "http://localhost:8092" : "https://api.tonana.org/", {method: "POST", 
+fetch(process.env.REACT_APP_STATE === "dev" ? "http://localhost:8092" : process.env.REACT_APP_STATE === "dev-remote" ? "https://dev.api.tonana.org"   : "https://api.tonana.org/", {method: "POST", 
 headers: { "Content-Type": "application/json" },body: JSON.stringify({
   hash:data[0].transaction_id.hash,
   sourceChain:"ton"
