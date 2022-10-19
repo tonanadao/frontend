@@ -428,7 +428,7 @@ const SwapForm = (props: any) => {
 				</>
 			) : null}
 			Exchange rate: 1 {sourceCurrencyName} ≈{" "}
-			{((currency / secCurrency) * 1.025).toFixed(4)} {directionCurrencyName}
+			{((currency / secCurrency) * 0.975).toFixed(4)} {directionCurrencyName}
 			<br />
 			Tonana reserve: {MaxDirAmount.toFixed(4)} {directionCurrencyName}
 			{/* <br />

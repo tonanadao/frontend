@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
@@ -25,6 +25,8 @@ import { makeUSNTrxAfterLoad } from "./logic/transaction/MakeUSNTrx";
 
 import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 // import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
+
+
 
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
@@ -57,7 +59,7 @@ const App = () => {
 
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
-	const [networkSource, setNetworkSource] = useState("USN");
+	const [networkSource, setNetworkSource] = useState("SOL");
 	const [networkDestination, setNetworkDestination] = useState("TON");
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -68,14 +70,6 @@ const App = () => {
 		clusterApiUrl(
 			process.env.REACT_APP_SOL_NET as "devnet" | "testnet" | "mainnet-beta"
 		)
-	);
-	console.log(process.env.REACT_APP_STATE);
-	console.log(
-		process.env.REACT_APP_STATE === "dev"
-			? "http://localhost:8092"
-			: process.env.REACT_APP_STATE === "dev-remote"
-			? "https://dev.api.tonana.org"
-			: "https://api.tonana.org/"
 	);
 
 	useEffect(() => {
@@ -117,6 +111,8 @@ const App = () => {
 		message.success("Use Chrome with TonWallet & Phantom extensions", 10);
 		message.success("Connect both and make trx, then wait a little bit", 11);
 	}, []);
+
+
 
 	useEffect(() => {
 		localStorage.setItem(
@@ -260,7 +256,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<SwapForm {...fromProps} />
-
+	
 			{isload ? <Loader src={bnn} /> : null}
 		</div>
 	);

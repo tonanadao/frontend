@@ -282,6 +282,10 @@ const Gstyles = createGlobalStyle`
 	/* position: relative; */
 	/* transform: translate(-50%); */
 	}
+	.tsparticles{
+		position: absolute;
+		
+	}
 `;
 
 export default Gstyles
