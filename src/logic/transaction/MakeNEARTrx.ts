@@ -19,7 +19,8 @@ const MakeNEARTrx = async (activeBtn: any, setIsload: any, NEARwalletKey: string
           new TonWeb.utils.BN(40000000000000),
           new TonWeb.utils.BN(utils.format.parseNearAmount(amount)+'')
         )
-      ]
+      ],
+      walletCallbackUrl: 'https://app.tonana.org/?isnear=true'
     })
 
   } else {
@@ -41,6 +42,7 @@ export const makeNEARTrxAfterLoad = (transactionHashes: any, setSearchParams:any
       .then((e) => {
         if (e === "Done!") {
           searchParams.delete("transactionHashes");
+          searchParams.delete("isnear");
           setSearchParams(searchParams);
         }
       });

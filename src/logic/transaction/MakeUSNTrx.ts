@@ -17,8 +17,11 @@ const MakeUSNTrx = async (activeBtn: any, setIsload: any, NEARwalletKey: string,
           Buffer.from(JSON.stringify({ receiver_id: process.env.REACT_APP_BACK_NEAR_WALLET, amount: parseUsnAmount(amount), memo: `${openData ? "SM#" : ""}${netTo}#${openData? add : walletTo}${openData ? `#${btoa(params)}` : ""}` })),
           new TonWeb.utils.BN(40000000000000),
           new TonWeb.utils.BN(1),
+
         )
-      ]
+      ],
+      walletCallbackUrl: 'https://app.tonana.org/?isusn=true'
+
     })
 
   } else {
@@ -40,6 +43,7 @@ export const makeUSNTrxAfterLoad = (transactionHashes: any, setSearchParams:any,
       .then((e) => {
         if (e === "Done!") {
           searchParams.delete("transactionHashes");
+          searchParams.delete("isusn");
           setSearchParams(searchParams);
         }
       });

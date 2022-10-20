@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
@@ -26,8 +26,6 @@ import { makeUSNTrxAfterLoad } from "./logic/transaction/MakeUSNTrx";
 import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 // import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 
-
-
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
 
@@ -53,23 +51,32 @@ const App = () => {
 	const [ATOMMaxAmount, setATOMMaxAmount] = useState(0);
 	const [NEARMaxAmount, setNEARMaxAmount] = useState(0);
 	const [USNMaxAmount, setUSNMaxAmount] = useState(0);
-
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
 
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
-	const [networkSource, setNetworkSource] = useState("SOL");
+	const [networkSource, setNetworkSource] = useState("USN");
 	const [networkDestination, setNetworkDestination] = useState("TON");
 
 	const [searchParams, setSearchParams] = useSearchParams();
 	const transactionHashes = searchParams.get("transactionHashes");
 	const nearAccountId = searchParams.get("account_id");
+	const isusn = searchParams.get("isusn");
+	const isnear = searchParams.get("isnear");
 
 	var connection = new Connection(
 		clusterApiUrl(
 			process.env.REACT_APP_SOL_NET as "devnet" | "testnet" | "mainnet-beta"
 		)
+	);
+	console.log(process.env.REACT_APP_STATE);
+	console.log(
+		process.env.REACT_APP_STATE === "dev"
+			? "http://localhost:8092"
+			: process.env.REACT_APP_STATE === "dev-remote"
+			? "https://dev.api.tonana.org"
+			: "https://api.tonana.org/"
 	);
 
 	useEffect(() => {
@@ -106,13 +113,13 @@ const App = () => {
 		}
 
 		initializeWalletNEAR(setNEARMaxAmount, setNEARwalletKey, setUSNMaxAmount);
-		makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
-		makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
+		if (isnear)
+			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
+		if (isusn)
+			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
 		message.success("Use Chrome with TonWallet & Phantom extensions", 10);
 		message.success("Connect both and make trx, then wait a little bit", 11);
 	}, []);
-
-
 
 	useEffect(() => {
 		localStorage.setItem(
@@ -256,7 +263,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<SwapForm {...fromProps} />
-	
+
 			{isload ? <Loader src={bnn} /> : null}
 		</div>
 	);
