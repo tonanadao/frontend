@@ -41,7 +41,6 @@ const MakeSOLTrx = async (
     const { signature } = await window.solana.signAndSendTransaction(
       allocateTransaction
     );
-    message.success("Wait BE trx pending...", 2);
     await connection.confirmTransaction(signature);
     const int = setInterval(() => {
       fetch(`https://api.${process.env.REACT_APP_SOL_NET}.solana.com/`, {
@@ -59,6 +58,8 @@ const MakeSOLTrx = async (
       })
         .then((res) => res.json())
         .then(async (res) => {
+          message.success("Wait BE trx pending...", 2);
+
           if (res.result == null) {
             return false;
           }
@@ -72,36 +73,10 @@ const MakeSOLTrx = async (
               hash:signature,
               sourceChain:"solana"
             })})
-
-            // axios.get(
-            //   `https://us-central1-hoteloffice-293914.cloudfunctions.net/ton_solana_bridge/attr?=${signature}`
-            // ).then((e:any)=>{
               clearInterval(int);
               setIsload(false);
               message.success("Done trx!", 10);
-            // })
-
-            // const int2 = setInterval(() => {
-            //   message.success("Wallet trx pending...", 2);
-
-            //   fetch(
-            //     `https://toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=10&to_lt=0&archival=false`
-            //   )
-            //     .then((e: any) => e.json())
-            //     .then((e: any) => {
-            //       console.log(e.result);
-            //       const data = e.result.filter((e: any) =>
-            //         e.out_msgs[0]
-            //           ? e.out_msgs[0].message === signature
-            //           : false
-            //       );
-            //       if (data[0]) {
-            //         clearInterval(int2);
-            //         setIsload(false);
-            //         message.success("Done wallet trx, check it!", 10);
-            //       }
-            //     });
-            // }, 10000);
+   
           }
         });
     }, 5000);
