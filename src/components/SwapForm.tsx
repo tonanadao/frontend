@@ -93,6 +93,8 @@ const SwapForm = (props: any) => {
 		setAddMessage(false);
 		if (isSouNear && isDirTon) setAddMessage(true);
 		if (isSouTon && isDirNear) setAddMessage(true);
+		if (isSouTon && isDirUsn) setAddMessage(true);
+		if (isSouUsn && isDirTon) setAddMessage(true);
 	}, [props.networkSource, props.directionNetwork]);
 
 	const walletDirKey = isDirAtom
@@ -262,6 +264,10 @@ const SwapForm = (props: any) => {
 			params
 		);
 
+	useEffect(() => {
+		if (openData) setAddVal(walletDirKey);
+	}, [openData, walletDirKey]);
+
 	const SOLtrx = () =>
 		MakeSOLTrx(
 			activeBtn,
@@ -326,6 +332,11 @@ const SwapForm = (props: any) => {
 			TRXDir,
 			walletDirKey
 		);
+
+	useEffect(() => {
+		props.setFirstCurrAmount("");
+		props.setSecCurrAmount("");
+	}, [props.directionNetwork, props.networkSource]);
 
 	return (
 		<Form name="control-hooks" layout="vertical">
@@ -419,7 +430,16 @@ const SwapForm = (props: any) => {
 							<Form.Item label={`Message in ${props.directionNetwork} trx`}>
 								<Input
 									value={params}
-									onChange={(e) => setParams(e.target.value)}
+									onChange={(e) => {
+										if (String(e.target.value).length <= 5000) {
+											setParams(e.target.value);
+										} else {
+											message.error(
+												`The message should be less than 5000 characters`,
+												3
+											);
+										}
+									}}
 									placeholder={"Type text here"}
 								/>
 							</Form.Item>
