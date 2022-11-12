@@ -27,6 +27,7 @@ export const generateBtn = (currencyName: string, btnProps: any) => (
 		) : null}
 		{currencyName === "TON" ||
 		currencyName === "wNEAR (TON)" ||
+		currencyName === "wETH (TON)" ||
 		currencyName === "wSOL (TON)" ||
 		currencyName === "wAURORA (TON)" ||
 		currencyName === "wUSN (TON)" ||
@@ -45,7 +46,7 @@ export const generateBtn = (currencyName: string, btnProps: any) => (
 				)}
 			</Button>
 		) : null}
-		{ currencyName === "USN"|| currencyName === "NEAR" ? (
+		{currencyName === "USN" || currencyName === "NEAR" ? (
 			<Button
 				type="primary"
 				id={"connectWalletBtn"}
@@ -84,6 +85,21 @@ export const generateBtn = (currencyName: string, btnProps: any) => (
 					<>
 						<img src={metamask} alt={"#"} />
 						{zipName(btnProps.AURwalletKey)}
+					</>
+				) : (
+					"Connect wallet"
+				)}
+			</Button>
+		) : null}
+		{currencyName === "ETH" ? (
+			<Button
+				type="primary"
+				id={"connectWalletBtn"}
+				onClick={() => btnProps.connectWalletETH(btnProps.setETHWalletKey)}>
+				{btnProps.ETHwalletKey ? (
+					<>
+						<img src={metamask} alt={"#"} />
+						{zipName(btnProps.ETHwalletKey)}
 					</>
 				) : (
 					"Connect wallet"

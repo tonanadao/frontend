@@ -12,6 +12,7 @@ export const menuBuilder = (net: string, set: any) => (
 									net === "wNEAR (TON)" ||
 									net === "wATOM (TON)" ||
 									net === "wUSN (TON)" ||
+									net === "wETH (TON)" ||
 									net === "wAURORA (TON)"
 										? "cantSelect"
 										: ""
@@ -20,11 +21,40 @@ export const menuBuilder = (net: string, set: any) => (
 									net !== "wNEAR (TON)" &&
 									net !== "wATOM (TON)" &&
 									net !== "wUSN (TON)" &&
+									net !== "wETH (TON)" &&
 									net !== "wAURORA (TON)"
 										? set("SOL")
 										: null
 								}>
 								SOL
+							</div>
+						),
+				  }
+				: null,
+			net !== "ETH"
+				? {
+						key: "ETH",
+						label: (
+							<div
+								className={
+									net === "wNEAR (TON)" ||
+									net === "wATOM (TON)" ||
+									net === "wUSN (TON)" ||
+									net === "wSOL (TON)" ||
+									net === "wAURORA (TON)"
+										? "cantSelect"
+										: ""
+								}
+								onClick={() =>
+									net !== "wNEAR (TON)" &&
+									net !== "wATOM (TON)" &&
+									net !== "wUSN (TON)" &&
+									net !== "wSOL (TON)" &&
+									net !== "wAURORA (TON)"
+										? set("ETH")
+										: null
+								}>
+								ETH
 							</div>
 						),
 				  }
@@ -38,6 +68,7 @@ export const menuBuilder = (net: string, set: any) => (
 									net === "wNEAR (TON)" ||
 									net === "wATOM (TON)" ||
 									net === "wSOL (TON)" ||
+									net === "wETH (TON)" ||
 									net === "wAURORA (TON)"
 										? "cantSelect"
 										: ""
@@ -46,6 +77,7 @@ export const menuBuilder = (net: string, set: any) => (
 									net !== "wNEAR (TON)" &&
 									net !== "wATOM (TON)" &&
 									net !== "wSOL (TON)" &&
+									net !== "wETH (TON)" &&
 									net !== "wAURORA (TON)"
 										? set("USN")
 										: null
@@ -64,6 +96,7 @@ export const menuBuilder = (net: string, set: any) => (
 									net === "wNEAR (TON)" ||
 									net === "wATOM (TON)" ||
 									net === "wUSN (TON)" ||
+									net === "wETH (TON)" ||
 									net === "wSOL (TON)"
 										? "cantSelect"
 										: ""
@@ -72,6 +105,7 @@ export const menuBuilder = (net: string, set: any) => (
 									net !== "wNEAR (TON)" &&
 									net !== "wUSN (TON)" &&
 									net !== "wATOM (TON)" &&
+									net !== "wETH (TON)" &&
 									net !== "wSOL (TON)"
 										? set("AURORA")
 										: null
@@ -89,6 +123,7 @@ export const menuBuilder = (net: string, set: any) => (
 								className={
 									net === "wNEAR (TON)" ||
 									net === "wSOL (TON)" ||
+									net === "wETH (TON)" ||
 									net === "wUSN (TON)" ||
 									net === "wAURORA (TON)"
 										? "cantSelect"
@@ -98,6 +133,7 @@ export const menuBuilder = (net: string, set: any) => (
 									net !== "wNEAR (TON)" &&
 									net !== "wSOL (TON)" &&
 									net !== "wUSN (TON)" &&
+									net !== "wETH (TON)" &&
 									net !== "wAURORA (TON)"
 										? set("ATOM")
 										: null
@@ -117,6 +153,7 @@ export const menuBuilder = (net: string, set: any) => (
 									net === "wSOL (TON)" ||
 									net === "wATOM (TON)" ||
 									net === "wUSN (TON)" ||
+									net === "wETH (TON)" ||
 									net === "wAURORA (TON)"
 										? "cantSelect"
 										: ""
@@ -125,6 +162,7 @@ export const menuBuilder = (net: string, set: any) => (
 									net !== "wSOL (TON)" &&
 									net !== "wUSN (TON)" &&
 									net !== "wATOM (TON)" &&
+									net !== "wETH (TON)" &&
 									net !== "wAURORA (TON)"
 										? set("NEAR")
 										: null
@@ -143,6 +181,7 @@ export const menuBuilder = (net: string, set: any) => (
 									net === "wNEAR (TON)" ||
 									net === "wATOM (TON)" ||
 									net === "wUSN (TON)" ||
+									net === "wETH (TON)" ||
 									net === "wAURORA (TON)" ||
 									net === "wSOL (TON)"
 										? "cantSelect"
@@ -152,7 +191,8 @@ export const menuBuilder = (net: string, set: any) => (
 									net !== "wNEAR (TON)" &&
 									net !== "wATOM (TON)" &&
 									net !== "wUSN (TON)" &&
-									net !== "wAURORA(TON)" &&
+									net !== "wAURORA (TON)" &&
+									net !== "wETH (TON)" &&
 									net !== "wSOL (TON)"
 										? set("TON")
 										: null
@@ -174,6 +214,19 @@ export const menuBuilder = (net: string, set: any) => (
 						),
 				  }
 				: null,
+			net !== "wETH (TON)"
+				? {
+						key: "wETH (TON)",
+						label: (
+							<div
+								className={net !== "ETH" ? "cantSelect" : ""}
+								onClick={() => (net === "ETH" ? set("wETH (TON)") : null)}>
+								wETH (TON)
+							</div>
+						),
+				  }
+				: null,
+
 			net !== "wUSN (TON)"
 				? {
 						key: "wUSN (TON)",

@@ -6,6 +6,7 @@ import MakeTONTrx from "../logic/transaction/MakeTONTrx";
 import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
 import MakeUSNTrx from "../logic/transaction/MakeUSNTrx";
 import MakeAURORATrx from "../logic/transaction/MakeAURORATrx";
+import MakeETHTrx from "../logic/transaction/MakeETHTrx";
 
 import useResponsive from "../logic/Responsive";
 import MakeTONJettonsBurnTrx from "../logic/transaction/MakeTONJettonsBurnTrx";
@@ -20,6 +21,7 @@ import MakeTONJettonsBurnTrx from "../logic/transaction/MakeTONJettonsBurnTrx";
 // NEARwalletKey,
 // ATOMMaxAmount,
 // SOLMaxAmount,
+// ETHMaxAmount,
 // TONMaxAmount,
 // NEARMaxAmount,
 // btnSelectSource,
@@ -45,7 +47,9 @@ const SwapForm = (props: any) => {
 	const isDirTon = props.directionNetwork === "ton";
 	const isDirAur = props.directionNetwork === "aurora";
 	const isDirUsn = props.directionNetwork === "usn";
+	const isDirEth = props.directionNetwork === "eth";
 	const isDirwSOLTON = props.directionNetwork === "wsol (ton)";
+	const isDirwETHTON = props.directionNetwork === "weth (ton)";
 	const isDirwAURTON = props.directionNetwork === "waurora (ton)";
 	const isDirwNEARTON = props.directionNetwork === "wnear (ton)";
 	const isDirwATOMTON = props.directionNetwork === "watom (ton)";
@@ -57,7 +61,9 @@ const SwapForm = (props: any) => {
 	const isSouTon = props.networkSource === "ton";
 	const isSouAur = props.networkSource === "aurora";
 	const isSouUsn = props.networkSource === "usn";
+	const isSouEth = props.networkSource === "eth";
 	const isSouwSOLTON = props.networkSource === "wsol (ton)";
+	const isSouwETHTON = props.networkSource === "weth (ton)";
 	const isSouwATOMTON = props.networkSource === "watom (ton)";
 	const isSouwNEARTON = props.networkSource === "wnear (ton)";
 	const isSouwAURTON = props.networkSource === "waurora (ton)";
@@ -73,6 +79,8 @@ const SwapForm = (props: any) => {
 		? "TONwAURORA"
 		: isSouwUSNTON
 		? "TONwUSN"
+		: isSouwETHTON
+		? "TONwETH"
 		: "";
 
 	const TONJettonContractAdd = isSouwSOLTON
@@ -84,7 +92,9 @@ const SwapForm = (props: any) => {
 		: isSouwAURTON
 		? "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut"
 		: isSouwUSNTON
-		? "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI" // TODO UPDATE
+		? "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI"
+		: isSouwETHTON
+		? "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U"
 		: "";
 
 	useEffect(() => {
@@ -106,10 +116,13 @@ const SwapForm = (props: any) => {
 		  isDirwNEARTON ||
 		  isDirwATOMTON ||
 		  isDirwAURTON ||
+		  isDirwETHTON ||
 		  isDirwUSNTON
 		? props.TONwalletKey
 		: isDirSol
 		? props.SOLwalletKey
+		: isDirEth
+		? props.ETHwalletKey
 		: isDirAur
 		? props.AURwalletKey
 		: null;
@@ -123,12 +136,15 @@ const SwapForm = (props: any) => {
 		  isSouwNEARTON ||
 		  isSouwSOLTON ||
 		  isSouwAURTON ||
+		  isSouwETHTON ||
 		  isSouwUSNTON
 		? props.TONwalletKey
 		: isSouSol
 		? props.SOLwalletKey
 		: isSouAur
 		? props.AURwalletKey
+		: isSouEth
+		? props.ETHwalletKey
 		: null;
 
 	const secCurrency =
@@ -144,6 +160,8 @@ const SwapForm = (props: any) => {
 			? props.su
 			: isDirUsn || isDirwUSNTON
 			? props.usnu
+			: isDirEth || isDirwETHTON
+			? props.ethu
 			: null;
 
 	const currency =
@@ -151,6 +169,8 @@ const SwapForm = (props: any) => {
 			? props.au
 			: isSouNear || isSouwNEARTON
 			? props.nu
+			: isSouEth || isSouwETHTON
+			? props.ethu
 			: isSouTon
 			? props.tu
 			: isSouSol || isSouwSOLTON
@@ -170,6 +190,8 @@ const SwapForm = (props: any) => {
 			? props.TONMaxAmount
 			: isDirSol || isDirwSOLTON
 			? props.SOLMaxAmount
+			: isDirEth || isDirwETHTON
+			? props.ETHMaxAmount
 			: isDirAur || isDirwAURTON
 			? props.AURMaxAmount
 			: isDirUsn || isDirwUSNTON
@@ -188,6 +210,8 @@ const SwapForm = (props: any) => {
 			? "TONwATOM"
 			: props.directionNetwork === "waurora (ton)"
 			? "TONwAURORA"
+			: props.directionNetwork === "weth (ton)"
+			? "TONwETH"
 			: props.directionNetwork === "wusn (ton)"
 			? "TONwUSN"
 			: props.directionNetwork === "atom"
@@ -207,6 +231,8 @@ const SwapForm = (props: any) => {
 		? "AURORA"
 		: isSouSol
 		? "SOL"
+		: isSouEth
+		? "ETH"
 		: isSouwNEARTON
 		? "wNEAR"
 		: isSouwSOLTON
@@ -215,6 +241,8 @@ const SwapForm = (props: any) => {
 		? "wATOM"
 		: isSouwUSNTON
 		? "wUSN"
+		: isSouwETHTON
+		? "wETH"
 		: isSouwAURTON
 		? "wAURORA"
 		: null;
@@ -229,6 +257,8 @@ const SwapForm = (props: any) => {
 		? "SOL"
 		: isDirUsn
 		? "USN"
+		: isDirEth
+		? "ETH"
 		: isDirAur
 		? "AURORA"
 		: isDirwNEARTON
@@ -239,6 +269,8 @@ const SwapForm = (props: any) => {
 		? "wAURORA"
 		: isDirwSOLTON
 		? "wSOL"
+		: isDirwETHTON
+		? "wETH"
 		: isDirwUSNTON
 		? "wUSN"
 		: null;
@@ -320,6 +352,9 @@ const SwapForm = (props: any) => {
 
 	const AURORAtrx = () =>
 		MakeAURORATrx(props.setIsload, walletDirKey, TRXDir, props.firstCurrAmount);
+
+	const ETHtrx = () =>
+		MakeETHTrx(props.setIsload, walletDirKey, TRXDir, props.firstCurrAmount);
 
 	const TONJettonsBurnTrx = () =>
 		MakeTONJettonsBurnTrx(
@@ -478,10 +513,13 @@ const SwapForm = (props: any) => {
 							? SOLtrx
 							: isSouAur
 							? AURORAtrx
+							: isSouEth
+							? ETHtrx
 							: isSouwNEARTON ||
 							  isSouwSOLTON ||
 							  isSouwATOMTON ||
 							  isSouwAURTON ||
+							  isSouwETHTON ||
 							  isSouwUSNTON
 							? TONJettonsBurnTrx
 							: () => {}

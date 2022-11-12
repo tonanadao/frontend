@@ -1,6 +1,6 @@
 import CoinGecko from "coingecko-api";
 
-const fetchMarkets = async (stu: any, ssu: any, sau: any, snu:any,sauruu:any, susn: any) => {
+const fetchMarkets = async (stu: any, ssu: any, sau: any, snu:any,sauruu:any, susn: any, sethu: any) => {
 	const CoinGeckoClient = new CoinGecko();
 	stu((await CoinGeckoClient.coins.fetch("the-open-network", {})).data
 	.market_data.current_price.usd);
@@ -13,6 +13,8 @@ const fetchMarkets = async (stu: any, ssu: any, sau: any, snu:any,sauruu:any, su
 	sauruu((await CoinGeckoClient.coins.fetch("aurora-near", {})).data
 	.market_data.current_price.usd)
 	susn((await CoinGeckoClient.coins.fetch("usn", {})).data.market_data
+	.current_price.usd)
+	sethu((await CoinGeckoClient.coins.fetch("ethereum", {})).data.market_data
 	.current_price.usd)
 };
 
