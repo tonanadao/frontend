@@ -69,6 +69,15 @@ const SwapForm = (props: any) => {
 	const isSouwAURTON = props.networkSource === "waurora (ton)";
 	const isSouwUSNTON = props.networkSource === "wusn (ton)";
 
+	const isTargetWrapp =
+		isDirwSOLTON ||
+		isDirwETHTON ||
+		isDirwAURTON ||
+		isDirwNEARTON ||
+		isDirwATOMTON ||
+		isDirwUSNTON;
+	console.log(isTargetWrapp);
+
 	const sourceChain = isSouwSOLTON
 		? "TONwSOL"
 		: isSouwATOMTON
@@ -382,8 +391,9 @@ const SwapForm = (props: any) => {
 				<Input
 					onChange={(e) => {
 						if (
+							isTargetWrapp ||
 							(Number(e.target.value) * currency) / secCurrency <
-							0.8 * MaxDirAmount
+								0.8 * MaxDirAmount
 						) {
 							props.setFirstCurrAmount(e.target.value);
 							props.setSecCurrAmount(
@@ -423,7 +433,7 @@ const SwapForm = (props: any) => {
 							: ""
 					}
 					onChange={(e) => {
-						if (Number(e.target.value) < 0.8 * MaxDirAmount) {
+						if (isTargetWrapp || Number(e.target.value) < 0.8 * MaxDirAmount) {
 							props.setFirstCurrAmount(
 								((Number(e.target.value) * secCurrency) / currency) * 1.025 + ""
 							);
