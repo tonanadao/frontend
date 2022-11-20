@@ -37,9 +37,13 @@ const listener = (walletTo: any, netTo: string, hexString: any, setIsload: any,o
         
         const data = e.result.filter(
           (e: any) =>
-            decodeOffChainContent(Cell.fromBoc(Buffer.from(TonWeb.utils.base64ToBytes(e.in_msg.msg_data.body)))[0]) === `${openData ? "SM#" : ""}${netTo}#${openData? add : walletTo}${openData ? `#${btoa(params)}` : ""}`
-        );
+            {
+              console.log(decodeOffChainContent(Cell.fromBoc(Buffer.from(TonWeb.utils.base64ToBytes(e.in_msg.msg_data.body)))[0]));
+console.log(`${openData ? "SM#" : ""}${netTo}#${openData? add : walletTo}${openData ? `#${btoa(params)}` : ""}`);
 
+              return decodeOffChainContent(Cell.fromBoc(Buffer.from(TonWeb.utils.base64ToBytes(e.in_msg.msg_data.body)))[0]) === `${openData ? "SM#" : ""}${netTo}#${openData? add : walletTo}${openData ? `#${btoa(params)}` : ""}`}
+        );
+console.log(data);
         if (!data[0] && trxs.length === 0) trxs.push({transaction_id:{hash:'test'}})
         if (trxs.length === 0 && data[0]) trxs = data
 

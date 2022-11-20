@@ -58,7 +58,8 @@ export function decodeOffChainContent(content: Cell) {
 
     let prefix = data[0]
     if (prefix !== OFF_CHAIN_CONTENT_PREFIX) {
-        throw new Error(`Unknown content prefix: ${prefix.toString(16)}`)
+        console.log(`Unknown content prefix: ${prefix.toString(16)}`)
+        return ''
     }
     return data.slice(1).toString()
 }
