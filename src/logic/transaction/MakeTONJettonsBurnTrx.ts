@@ -148,7 +148,7 @@ const listener = (
 
 		const trxsa = await tonweb.getTransactions(userJWalletAdd, 10);
 		const data = trxsa.filter(
-			(e) =>
+			(e: any) =>
 				atob(e.in_msg.msg_data.body).split("<DATA>")[1] ===
 				`${netTo}#${walletTo}#${JettonAmount}`
 		);
