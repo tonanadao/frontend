@@ -8,8 +8,6 @@ import SwapForm from "./components/SwapForm";
 import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
 import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
-// import getUSNMaxAmount from "./logic/fetch/getUSNMaxAmount";
-// import getUSNMaxAmount from "./logic/fetch/getUSNMaxAmount";
 import fetchMarkets from "./logic/fetch/fetchMarkets";
 import connectWalletSOL from "./logic/wallet/connectWalletSOL";
 import connectWalletATOM from "./logic/wallet/connectWalletATOM";
@@ -26,12 +24,10 @@ import connectWalletETH from "./logic/wallet/connectWalletETH";
 import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 import getETHMaxAmount from "./logic/fetch/getETHMaxAmount";
 // import rpcsStatus from "./logic/rpcsStatus";
-// import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
 
 import bnn from "./static/img/logo.svg";
-const getUSNMaxAmount = getAURMaxAmount;
 
 const App = () => {
 	const [ex, sex] = useState(true);
@@ -60,7 +56,7 @@ const App = () => {
 
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
-	const [networkSource, setNetworkSource] = useState("USN");
+	const [networkSource, setNetworkSource] = useState("ETH");
 	const [networkDestination, setNetworkDestination] = useState("TON");
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -74,14 +70,6 @@ const App = () => {
 			process.env.REACT_APP_SOL_NET as "devnet" | "testnet" | "mainnet-beta"
 		)
 	);
-	console.log(process.env.REACT_APP_STATE);
-	console.log(
-		process.env.REACT_APP_STATE === "dev"
-			? "http://localhost:8092"
-			: process.env.REACT_APP_STATE === "dev-remote"
-			? "https://dev.api.tonana.org"
-			: "https://api.tonana.org/"
-	);
 
 	useEffect(() => {
 		getTONMaxAmount(setTONMaxAmount);
@@ -89,7 +77,6 @@ const App = () => {
 		getATOMMaxAmount(setATOMMaxAmount);
 		getAURMaxAmount(setAURMaxAmount);
 		getETHMaxAmount(setETHMaxAmount);
-		// getUSNMaxAmount(setUSNMaxAmount);
 
 		fetchMarkets(stu, ssu, sau, snu, sauruu, susn, sethu);
 		setInterval(() => {
@@ -222,20 +209,6 @@ const App = () => {
 			<SwapOutlined onClick={swap} />
 		</div>
 	);
-
-	// console.log("----------------------");
-	// console.log("$ SOL: ", SOLMaxAmount * su);
-	// console.log("$ TON: ", TONMaxAmount * tu);
-	// console.log("$ ATOM: ", ATOMMaxAmount * au);
-	// console.log("$ NEAR: ", NEARMaxAmount * nu);
-	// console.log(
-	// 	"$ TVL: ",
-	// 	SOLMaxAmount * su +
-	// 		TONMaxAmount * tu +
-	// 		ATOMMaxAmount * au +
-	// 		NEARMaxAmount * nu
-	// );
-	// console.log("----------------------");
 
 	const fromProps = {
 		au,
