@@ -1,9 +1,5 @@
-
-
 import { createGlobalStyle } from "styled-components";
 // import Baloo from "../static/Inter-roman.var.woff2";
-
-
 
 const Gstyles = createGlobalStyle`
 	@font-face {
@@ -211,7 +207,7 @@ iframe{
 	  } 
 	  
 	.App {
-		margin: 20px 0 120px 0;
+		margin: 36px 0 36px 0;
 		padding: 34px;
 		display: flex !important;
 		justify-content:center !important;
@@ -281,10 +277,39 @@ iframe{
 	text-align: center;
 	font-size: 16px;
 	margin: 0 0 64px 0;
+	padding: 0 0 36px 0;
 	/* position: relative; */
 	/* transform: translate(-50%); */
 	}
+	.rpcs{
+		display: flex ;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	color: white;
+		margin: 0 0 24px 0;
+
+	}
+	.rpcs-status{
+		display: flex ;
+		justify-content: center;
+		align-items: center;
+	}
+	.rpc-green{
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: green;
+		margin: 0 8px 0 0;
+	}
+	.rpc-red{
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: red;
+		margin: 0 8px 0 0;
+
+	}
 `;
 
-export default Gstyles
-
+export default Gstyles;

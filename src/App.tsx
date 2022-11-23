@@ -23,7 +23,12 @@ import { makeUSNTrxAfterLoad } from "./logic/transaction/MakeUSNTrx";
 import connectWalletETH from "./logic/wallet/connectWalletETH";
 import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 import getETHMaxAmount from "./logic/fetch/getETHMaxAmount";
-// import rpcsStatus from "./logic/rpcsStatus";
+import Social from "./components/Social";
+import Header from "./components/Header";
+import Rpcs from "./components/Rpcs";
+import Gstyles from "./styles/gstyles";
+import rpcsStatus from "./logic/rpcsStatus";
+
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
 
@@ -58,6 +63,9 @@ const App = () => {
 	const [hexString, sHexString] = useState("");
 	const [networkSource, setNetworkSource] = useState("ETH");
 	const [networkDestination, setNetworkDestination] = useState("TON");
+	const [rpcsStatuses, setRpcsStatuses] = useState<
+		Array<{ key: string; title: string; status: boolean }>
+	>([]);
 
 	const [searchParams, setSearchParams] = useSearchParams();
 	const transactionHashes = searchParams.get("transactionHashes");
@@ -72,6 +80,9 @@ const App = () => {
 	);
 
 	useEffect(() => {
+		(async () => {
+			setRpcsStatuses(await rpcsStatus());
+		})();
 		getTONMaxAmount(setTONMaxAmount);
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);
@@ -89,7 +100,6 @@ const App = () => {
 				.map(() => Math.round(Math.random() * 0xf).toString(16))
 				.join("")
 		);
-		// rpcsStatus();
 
 		if (localStorage.getItem("tonana_data") && nearAccountId) {
 			//@ts-ignore
@@ -246,14 +256,21 @@ const App = () => {
 		setSecCurrAmount,
 		firstCurrAmount,
 		secCurrAmount,
+		rpcsStatuses,
 	};
 
 	return (
-		<div className="App">
-			<SwapForm {...fromProps} />
-
-			{isload ? <Loader src={bnn} /> : null}
-		</div>
+		<>
+			<Header />
+			<div className="App">
+				<SwapForm {...fromProps} />
+				{isload ? <Loader src={bnn} /> : null}
+			</div>
+			<Rpcs rpcsStatuses={rpcsStatuses} />
+			<Social />
+			<div className="version">v1.0.84 (alpha)</div>
+			<Gstyles />
+		</>
 	);
 };
 

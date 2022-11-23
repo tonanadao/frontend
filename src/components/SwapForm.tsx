@@ -43,7 +43,6 @@ const SwapForm = (props: any) => {
 		isDirwNEARTON ||
 		isDirwATOMTON ||
 		isDirwUSNTON;
-	console.log(isTargetWrapp);
 
 	useEffect(() => {
 		setParams("");

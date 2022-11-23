@@ -5,6 +5,7 @@ import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
 import MakeUSNTrx from "../logic/transaction/MakeUSNTrx";
 import MakeAURORATrx from "../logic/transaction/MakeAURORATrx";
 import MakeETHTrx from "../logic/transaction/MakeETHTrx";
+import { message } from "antd";
 
 import MakeTONJettonsBurnTrx from "../logic/transaction/MakeTONJettonsBurnTrx";
 
@@ -157,6 +158,45 @@ const makeTrx = (
 			TRXDir,
 			walletDirKey
 		);
+
+	const isSouRpcOk = props.rpcsStatuses
+		.map((e) =>
+			e.key === "usn"
+				? "near"
+				: e.key === "wsol (ton)" ||
+				  e.key === "weth (ton)" ||
+				  e.key === "watom (ton)" ||
+				  e.key === "wnear (ton)" ||
+				  e.key === "waurora (ton)" ||
+				  e.key === "wusn (ton)"
+				? "ton"
+				: e.key
+		)
+		.filter((e) => e === props.networkSource)[0];
+
+	const isDirRpcOk = props.rpcsStatuses
+		.map((e) =>
+			e.key === "usn"
+				? "near"
+				: e.key === "wsol (ton)" ||
+				  e.key === "weth (ton)" ||
+				  e.key === "watom (ton)" ||
+				  e.key === "wnear (ton)" ||
+				  e.key === "waurora (ton)" ||
+				  e.key === "wusn (ton)"
+				? "ton"
+				: e.key
+		)
+		.filter((e) => e === props.directionNetwork)[0];
+
+	if (isDirRpcOk) {
+		message.error(props.directionNetwork.toUpperCase() + " RPC is DEAD");
+	}
+
+	if (isSouRpcOk) {
+		message.error(props.networkSource.toUpperCase() + " RPC is DEAD");
+	}
+	if (isDirRpcOk || isSouRpcOk) return () => {};
 
 	return isSouAtom
 		? ATOMtrx

@@ -1,9 +1,5 @@
 import Logo from "../static/img/logo.svg";
 import React, { Component } from "react";
-// import { Link } from 'react-router-dom';
-// import ScrollspyNav from './scrollSpy';
-
-// import Logo from '../../assets/images/tonana.png';
 
 const Header = () => {
 	return (
