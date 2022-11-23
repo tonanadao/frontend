@@ -52,7 +52,7 @@ const listener = (
 	const int = setInterval(() => {
 		message.success("Wait BE trx pending...", 2);
 		fetch(
-			`https://toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=10&to_lt=0&archival=false`
+			`https://proxy.tonana.org/http://159.223.20.111:8885/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=10&to_lt=0&archival=false`
 		)
 			.then((e: any) => e.json())
 			.then((e: any) => {
