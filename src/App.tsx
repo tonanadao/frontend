@@ -25,9 +25,8 @@ import { makeUSNTrxAfterLoad } from "./logic/transaction/MakeUSNTrx";
 import connectWalletETH from "./logic/wallet/connectWalletETH";
 import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 import getETHMaxAmount from "./logic/fetch/getETHMaxAmount";
-
+// import rpcsStatus from "./logic/rpcsStatus";
 // import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
-
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
 
@@ -103,6 +102,7 @@ const App = () => {
 				.map(() => Math.round(Math.random() * 0xf).toString(16))
 				.join("")
 		);
+		// rpcsStatus();
 
 		if (localStorage.getItem("tonana_data") && nearAccountId) {
 			//@ts-ignore
