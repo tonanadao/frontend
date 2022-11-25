@@ -160,7 +160,7 @@ const makeTrx = (
 		);
 
 	const isSouRpcOk = props.rpcsStatuses
-		.map((e) =>
+		.map((e: any) =>
 			e.key === "usn"
 				? "near"
 				: e.key === "wsol (ton)" ||
@@ -175,7 +175,7 @@ const makeTrx = (
 		.filter((e) => e === props.networkSource)[0];
 
 	const isDirRpcOk = props.rpcsStatuses
-		.map((e) =>
+		.map((e: any) =>
 			e.key === "usn"
 				? "near"
 				: e.key === "wsol (ton)" ||
