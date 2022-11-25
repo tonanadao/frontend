@@ -10,16 +10,18 @@ const call = async (func) => {
 };
 const rpcsStatus = async () => {
 	const near = await call(() =>
-		fetch(`https://rpc.mainnet.near.org`).then((e) => e.json())
+		fetch(`https://proxy.tonana.org/https://rpc.mainnet.near.org`).then((e) =>
+			e.json()
+		)
 	);
 	const eth = await call(() =>
 		fetch(
-			"https://eth-mainnet.rpcfast.com/?api_key=yOCgA3ku0DbciIQ1Qj2BTpeHJ46sFpMWOfqHuvfZV541l8N7K9DCnMu62Uw5X3jX"
+			"https://proxy.tonana.org/https://eth-mainnet.rpcfast.com/?api_key=yOCgA3ku0DbciIQ1Qj2BTpeHJ46sFpMWOfqHuvfZV541l8N7K9DCnMu62Uw5X3jX"
 		).then((e) => e.json())
 	);
 	const aurora = await call(() =>
 		fetch(
-			"https://mainnet.aurora.dev/7CgURzoyu4Ewczvs18zmkSPfDDSBoNVDsNDvcPbePdz"
+			"https://proxy.tonana.org/https://mainnet.aurora.dev/7CgURzoyu4Ewczvs18zmkSPfDDSBoNVDsNDvcPbePdz"
 		).then((e) => e.json())
 	);
 	const ton = await call(() =>
@@ -28,10 +30,14 @@ const rpcsStatus = async () => {
 		)
 	);
 	const cosmos = await call(() =>
-		fetch("https://api.cosmos.network").then((e) => e.json())
+		fetch("https://proxy.tonana.org/https://api.cosmos.network").then((e) =>
+			e.json()
+		)
 	);
 	const sol = await call(() =>
-		fetch("https://api.mainnet-beta.solana.com/").then((e) => e.json())
+		fetch("https://proxy.tonana.org/https://api.mainnet-beta.solana.com/").then(
+			(e) => e.json()
+		)
 	);
 
 	const rpcs = [
