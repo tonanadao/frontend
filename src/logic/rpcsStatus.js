@@ -9,75 +9,114 @@ const call = async (func) => {
 	}
 };
 const rpcsStatus = async () => {
-	const near = await call(() =>
-		fetch(`https://proxy.tonana.org/https://rpc.mainnet.near.org`).then((e) =>
-			e.json()
-		)
-	);
-	const eth = await call(() =>
-		fetch(
-			"https://proxy.tonana.org/https://eth-mainnet.rpcfast.com/?api_key=yOCgA3ku0DbciIQ1Qj2BTpeHJ46sFpMWOfqHuvfZV541l8N7K9DCnMu62Uw5X3jX"
-		).then((e) => e.json())
-	);
-	const aurora = await call(() =>
-		fetch(
-			"https://proxy.tonana.org/https://mainnet.aurora.dev/7CgURzoyu4Ewczvs18zmkSPfDDSBoNVDsNDvcPbePdz"
-		).then((e) => e.json())
-	);
-	const ton = await call(() =>
-		fetch("https://proxy.tonana.org/https://toncenter.com/api/v2/jsonRPC").then(
-			(e) => e.json()
-		)
-	);
-	const cosmos = await call(() =>
-		fetch("https://proxy.tonana.org/https://api.cosmos.network").then((e) =>
-			e.json()
-		)
-	);
-	const sol = await call(() =>
-		fetch("https://proxy.tonana.org/https://api.mainnet-beta.solana.com/").then(
-			(e) => e.json()
-		)
-	);
+	// const near = await call(() =>
+	// 	fetch(`https://proxy.tonana.org/https://rpc.mainnet.near.org`).then((e) =>
+	// 		e.json()
+	// 	)
+	// );
+	// const eth = await call(() =>
+	// 	fetch(
+	// 		"https://proxy.tonana.org/https://eth-mainnet.rpcfast.com/?api_key=yOCgA3ku0DbciIQ1Qj2BTpeHJ46sFpMWOfqHuvfZV541l8N7K9DCnMu62Uw5X3jX"
+	// 	).then((e) => e.json())
+	// );
+	// const aurora = await call(() =>
+	// 	fetch(
+	// 		"https://proxy.tonana.org/https://mainnet.aurora.dev/7CgURzoyu4Ewczvs18zmkSPfDDSBoNVDsNDvcPbePdz"
+	// 	).then((e) => e.json())
+	// );
+	// const ton = await call(() =>
+	// 	fetch("https://proxy.tonana.org/https://toncenter.com/api/v2/jsonRPC").then(
+	// 		(e) => e.json()
+	// 	)
+	// );
+	// const cosmos = await call(() =>
+	// 	fetch("https://proxy.tonana.org/https://api.cosmos.network").then((e) =>
+	// 		e.json()
+	// 	)
+	// );
+	// const sol = await call(() =>
+	// 	fetch("https://proxy.tonana.org/https://api.mainnet-beta.solana.com/").then(
+	// 		(e) => e.json()
+	// 	)
+	// );
 
-	const rpcs = [
+	// const rpcsa = [
+	// 	{
+	// 		title: "Solana RPC",
+	// 		key: "sol",
+	// 		status: sol.message !== "Failed to fetch",
+	// 	},
+
+	// 	{
+	// 		title: "Near RPC",
+	// 		key: "near",
+	// 		status: near.message !== "Failed to fetch",
+	// 	},
+
+	// 	{
+	// 		title: "Ethereum RPC",
+	// 		key: "eth",
+	// 		status: eth.message !== "Failed to fetch",
+	// 	},
+
+	// 	{
+	// 		title: "Aurora RPC",
+	// 		key: "aurora",
+	// 		status: aurora.message !== "Failed to fetch",
+	// 	},
+
+	// 	{
+	// 		title: "Ton RPC",
+	// 		key: "ton",
+	// 		status: ton.message !== "Failed to fetch",
+	// 	},
+
+	// 	{
+	// 		title: "Cosmos RPC",
+	// 		key: "atom",
+	// 		status: cosmos.message !== "Failed to fetch",
+	// 	},
+	// ];
+
+	const rpcsa = [
 		{
 			title: "Solana RPC",
 			key: "sol",
-			status: sol.message !== "Failed to fetch",
+			status: true,
 		},
 
 		{
 			title: "Near RPC",
 			key: "near",
-			status: near.message !== "Failed to fetch",
+			status: true,
 		},
 
 		{
 			title: "Ethereum RPC",
 			key: "eth",
-			status: eth.message !== "Failed to fetch",
+			status: true,
 		},
 
 		{
 			title: "Aurora RPC",
 			key: "aurora",
-			status: aurora.message !== "Failed to fetch",
+			status: true,
 		},
 
 		{
 			title: "Ton RPC",
 			key: "ton",
-			status: ton.message !== "Failed to fetch",
+			status: true,
 		},
 
 		{
 			title: "Cosmos RPC",
 			key: "atom",
-			status: cosmos.message !== "Failed to fetch",
+			status: true,
 		},
 	];
-	return rpcs;
+
+	return rpcsa;
 };
 
 export default rpcsStatus;
