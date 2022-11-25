@@ -25,7 +25,7 @@ const rpcsStatus = async () => {
 		).then((e) => e.json())
 	);
 	const ton = await call(() =>
-		fetch("https://proxy.tonana.org/http://159.223.20.111:8885/jsonRPC").then(
+		fetch("https://proxy.tonana.org/https://toncenter.com/api/v2/jsonRPC").then(
 			(e) => e.json()
 		)
 	);
