@@ -357,7 +357,7 @@ const SwapForm = (props: any) => {
 							isSouwAURTON,
 							isSouwETHTON,
 							isSouwUSNTON
-						)
+						)()
 					}>
 					Submit
 				</Button>

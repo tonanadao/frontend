@@ -266,7 +266,7 @@ const App = () => {
 				<SwapForm {...fromProps} />
 				{isload ? <Loader src={bnn} /> : null}
 			</div>
-			<Rpcs rpcsStatuses={rpcsStatuses} />
+			{/* <Rpcs rpcsStatuses={rpcsStatuses} /> */}
 			<Social />
 			<div className="version">v1.0.84 (alpha)</div>
 			<Gstyles />
