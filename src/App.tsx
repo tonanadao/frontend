@@ -27,7 +27,7 @@ import Social from "./components/Social";
 import Header from "./components/Header";
 import Rpcs from "./components/Rpcs";
 import Gstyles from "./styles/gstyles";
-import rpcsStatus from "./logic/rpcsStatus";
+// import rpcsStatus from "./logic/rpcsStatus";
 
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
@@ -80,9 +80,9 @@ const App = () => {
 	);
 
 	useEffect(() => {
-		(async () => {
-			setRpcsStatuses(await rpcsStatus());
-		})();
+		// (async () => {
+		// 	setRpcsStatuses(await rpcsStatus());
+		// })();
 		getTONMaxAmount(setTONMaxAmount);
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);
