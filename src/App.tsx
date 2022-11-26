@@ -74,9 +74,7 @@ const App = () => {
 	const isnear = searchParams.get("isnear");
 
 	var connection = new Connection(
-		clusterApiUrl(
-			process.env.REACT_APP_SOL_NET as "devnet" | "testnet" | "mainnet-beta"
-		)
+		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
 	);
 
 	useEffect(() => {
