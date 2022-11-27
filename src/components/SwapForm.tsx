@@ -205,6 +205,23 @@ const SwapForm = observer((props: any) => {
 		? "wUSN"
 		: null;
 
+	console.log(
+		props.rpcsStatuses
+			.map((e: any) =>
+				e.key === "usn"
+					? { ...e, key: "near" }
+					: e.key === "wsol (ton)" ||
+					  e.key === "weth (ton)" ||
+					  e.key === "watom (ton)" ||
+					  e.key === "wnear (ton)" ||
+					  e.key === "waurora (ton)" ||
+					  e.key === "wusn (ton)"
+					? { ...e, key: "ton" }
+					: e
+			)
+			.filter((e: any) => e.key === props.directionNetwork)[0].status
+	);
+
 	const activeBtn =
 		(openData ? true : !!walletDirKey) &&
 		!!props.firstCurrAmount &&

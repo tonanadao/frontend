@@ -27,7 +27,7 @@ import Social from "./components/Social";
 import Header from "./components/Header";
 import Rpcs from "./components/Rpcs";
 import Gstyles from "./styles/gstyles";
-// import rpcsStatus from "./logic/rpcsStatus";
+import rpcsStatus from "./logic/rpcsStatus";
 
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
@@ -61,7 +61,43 @@ const AppWrapper = () => {
 	const [networkDestination, setNetworkDestination] = useState("TON");
 	const [rpcsStatuses, setRpcsStatuses] = useState<
 		Array<{ key: string; title: string; status: boolean }>
-	>([]);
+	>([
+		{
+			title: "Solana RPC",
+			key: "sol",
+			status: false,
+		},
+
+		{
+			title: "Near RPC",
+			key: "near",
+			status: false,
+		},
+
+		{
+			title: "Ethereum RPC",
+			key: "eth",
+			status: false,
+		},
+
+		{
+			title: "Aurora RPC",
+			key: "aurora",
+			status: false,
+		},
+
+		{
+			title: "Ton RPC",
+			key: "ton",
+			status: false,
+		},
+
+		{
+			title: "Cosmos RPC",
+			key: "atom",
+			status: false,
+		},
+	]);
 
 	const [searchParams, setSearchParams] = useSearchParams();
 	const transactionHashes = searchParams.get("transactionHashes");
@@ -74,9 +110,9 @@ const AppWrapper = () => {
 	);
 
 	useEffect(() => {
-		// (async () => {
-		// 	setRpcsStatuses(await rpcsStatus());
-		// })();
+		(async () => {
+			setRpcsStatuses(await rpcsStatus());
+		})();
 		getTONMaxAmount(setTONMaxAmount);
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);
@@ -253,9 +289,13 @@ const AppWrapper = () => {
 				<SwapForm {...fromProps} />
 				{isload ? <Loader src={bnn} /> : null}
 			</div>
-			{/* <Rpcs rpcsStatuses={rpcsStatuses} /> */}
+			<Rpcs rpcsStatuses={rpcsStatuses} />
 			<Social />
-			<div className="version">v1.0.84 (alpha)</div>
+			<div className="version">
+				Tonana TVL: ${tvl.toFixed(2)}
+				<br />
+				v1.0.84 (alpha)
+			</div>
 			<Gstyles />
 		</>
 	);

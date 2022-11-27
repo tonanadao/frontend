@@ -142,10 +142,22 @@ const makeTrx = (
 		);
 
 	const AURORAtrx = () =>
-		MakeAURORATrx(props.setIsload, walletDirKey, TRXDir, props.firstCurrAmount);
+		MakeAURORATrx(
+			props.setIsload,
+			walletDirKey,
+			TRXDir,
+			activeBtn,
+			props.firstCurrAmount
+		);
 
 	const ETHtrx = () =>
-		MakeETHTrx(props.setIsload, walletDirKey, TRXDir, props.firstCurrAmount);
+		MakeETHTrx(
+			props.setIsload,
+			walletDirKey,
+			TRXDir,
+			activeBtn,
+			props.firstCurrAmount
+		);
 
 	const TONJettonsBurnTrx = () =>
 		MakeTONJettonsBurnTrx(
@@ -159,45 +171,45 @@ const makeTrx = (
 			walletDirKey
 		);
 
-	// const isSouRpcOk = props.rpcsStatuses
-	// 	.map((e: any) =>
-	// 		e.key === "usn"
-	// 			? "near"
-	// 			: e.key === "wsol (ton)" ||
-	// 			  e.key === "weth (ton)" ||
-	// 			  e.key === "watom (ton)" ||
-	// 			  e.key === "wnear (ton)" ||
-	// 			  e.key === "waurora (ton)" ||
-	// 			  e.key === "wusn (ton)"
-	// 			? "ton"
-	// 			: e.key
-	// 	)
-	// 	.filter((e) => e === props.networkSource)[0].status;
+	const isSouRpcOk = props.rpcsStatuses
+		.map((e: any) =>
+			e.key === "usn"
+				? { ...e, key: "near" }
+				: e.key === "wsol (ton)" ||
+				  e.key === "weth (ton)" ||
+				  e.key === "watom (ton)" ||
+				  e.key === "wnear (ton)" ||
+				  e.key === "waurora (ton)" ||
+				  e.key === "wusn (ton)"
+				? { ...e, key: "ton" }
+				: e
+		)
+		.filter((e: any) => e.key === props.networkSource)[0].status;
 
-	// const isDirRpcOk = props.rpcsStatuses
-	// 	.map((e: any) =>
-	// 		e.key === "usn"
-	// 			? "near"
-	// 			: e.key === "wsol (ton)" ||
-	// 			  e.key === "weth (ton)" ||
-	// 			  e.key === "watom (ton)" ||
-	// 			  e.key === "wnear (ton)" ||
-	// 			  e.key === "waurora (ton)" ||
-	// 			  e.key === "wusn (ton)"
-	// 			? "ton"
-	// 			: e.key
-	// 	)
-	// // 	.filter((e) => e === props.directionNetwork)[0].status;
+	const isDirRpcOk = props.rpcsStatuses
+		.map((e: any) =>
+			e.key === "usn"
+				? { ...e, key: "near" }
+				: e.key === "wsol (ton)" ||
+				  e.key === "weth (ton)" ||
+				  e.key === "watom (ton)" ||
+				  e.key === "wnear (ton)" ||
+				  e.key === "waurora (ton)" ||
+				  e.key === "wusn (ton)"
+				? { ...e, key: "ton" }
+				: e
+		)
+		.filter((e: any) => e.key === props.directionNetwork)[0].status;
 	// const isDirRpcOk = true;
 	// const isSouRpcOk = true;
-	// if (!isDirRpcOk) {
-	// 	message.error(props.directionNetwork.toUpperCase() + " RPC is DEAD");
-	// }
+	if (!isDirRpcOk) {
+		message.error(props.directionNetwork.toUpperCase() + " RPC is DEAD");
+	}
 
-	// if (!isSouRpcOk) {
-	// 	message.error(props.networkSource.toUpperCase() + " RPC is DEAD");
-	// }
-	// if (!isDirRpcOk || !isSouRpcOk) return () => {};
+	if (!isSouRpcOk) {
+		message.error(props.networkSource.toUpperCase() + " RPC is DEAD");
+	}
+	if (!isDirRpcOk || !isSouRpcOk) return () => {};
 
 	return isSouAtom
 		? ATOMtrx
