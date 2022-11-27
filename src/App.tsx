@@ -38,13 +38,7 @@ import { RootStore, StoreProvider, useStores } from "./stores";
 const AppWrapper = () => {
 	const { storeMain } = useStores();
 	const [ex, sex] = useState(true);
-	const [tu, stu] = useState(0);
-	const [su, ssu] = useState(0);
-	const [au, sau] = useState(0);
-	const [nu, snu] = useState(0);
-	const [usnu, susn] = useState(0);
-	const [auru, sauruu] = useState(0);
-	const [ethu, sethu] = useState(0);
+
 	const [SOLwalletKey, setSOLWalletKey] = useState("");
 	const [TONwalletKey, setTONwalletKey] = useState("");
 	const [NEARwalletKey, setNEARwalletKey] = useState("");
@@ -89,9 +83,9 @@ const AppWrapper = () => {
 		getAURMaxAmount(setAURMaxAmount);
 		getETHMaxAmount(setETHMaxAmount);
 
-		fetchMarkets(storeMain.setTu, ssu, sau, snu, sauruu, susn, sethu);
+		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu);
 		setInterval(() => {
-			fetchMarkets(storeMain.setTu, ssu, sau, snu, sauruu, susn, sethu);
+			fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu);
 		}, 15000);
 
 		sHexString(
@@ -221,12 +215,6 @@ const AppWrapper = () => {
 	);
 
 	const fromProps = {
-		au,
-		su,
-		nu,
-		usnu,
-		auru,
-		ethu,
 		ATOMwalletKey,
 		ETHwalletKey,
 		SOLwalletKey,
@@ -257,24 +245,6 @@ const AppWrapper = () => {
 		secCurrAmount,
 		rpcsStatuses,
 	};
-
-	console.log("aur", AURMaxAmount * auru);
-	console.log("sol", SOLMaxAmount * su);
-	console.log("ton", TONMaxAmount * tu);
-	console.log("atom", ATOMMaxAmount * au);
-	console.log("near", NEARMaxAmount * nu);
-	console.log("eth", ETHMaxAmount * ethu);
-	console.log("usn", USNMaxAmount * usnu);
-	console.log(
-		"total",
-		AURMaxAmount * auru +
-			USNMaxAmount * usnu +
-			ETHMaxAmount * ethu +
-			NEARMaxAmount * nu +
-			ATOMMaxAmount * au +
-			TONMaxAmount * tu +
-			SOLMaxAmount * su
-	);
 
 	return (
 		<>
