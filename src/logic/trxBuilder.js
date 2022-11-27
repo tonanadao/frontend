@@ -171,35 +171,31 @@ const makeTrx = (
 			walletDirKey
 		);
 
-	const isSouRpcOk = props.rpcsStatuses
-		.map((e: any) =>
-			e.key === "usn"
-				? { ...e, key: "near" }
-				: e.key === "wsol (ton)" ||
-				  e.key === "weth (ton)" ||
-				  e.key === "watom (ton)" ||
-				  e.key === "wnear (ton)" ||
-				  e.key === "waurora (ton)" ||
-				  e.key === "wusn (ton)"
-				? { ...e, key: "ton" }
-				: e
-		)
-		.filter((e: any) => e.key === props.networkSource)[0].status;
+	const isSouRpcOk = props.rpcsStatuses.filter((e) =>
+		(e.key === props.networkSource) === "usn"
+			? "near"
+			: props.networkSource === "wsol (ton)" ||
+			  props.networkSource === "weth (ton)" ||
+			  props.networkSource === "watom (ton)" ||
+			  props.networkSource === "wnear (ton)" ||
+			  props.networkSource === "waurora (ton)" ||
+			  props.networkSource === "wusn (ton)"
+			? "ton"
+			: props.networkSource
+	)[0].status;
 
-	const isDirRpcOk = props.rpcsStatuses
-		.map((e: any) =>
-			e.key === "usn"
-				? { ...e, key: "near" }
-				: e.key === "wsol (ton)" ||
-				  e.key === "weth (ton)" ||
-				  e.key === "watom (ton)" ||
-				  e.key === "wnear (ton)" ||
-				  e.key === "waurora (ton)" ||
-				  e.key === "wusn (ton)"
-				? { ...e, key: "ton" }
-				: e
-		)
-		.filter((e: any) => e.key === props.directionNetwork)[0].status;
+	const isDirRpcOk = props.rpcsStatuses.filter((e) =>
+		(e.key === props.directionNetwork) === "usn"
+			? "near"
+			: props.directionNetwork === "wsol (ton)" ||
+			  props.directionNetwork === "weth (ton)" ||
+			  props.directionNetwork === "watom (ton)" ||
+			  props.directionNetwork === "wnear (ton)" ||
+			  props.directionNetwork === "waurora (ton)" ||
+			  props.directionNetwork === "wusn (ton)"
+			? "ton"
+			: props.directionNetwork
+	)[0].status;
 	// const isDirRpcOk = true;
 	// const isSouRpcOk = true;
 	if (!isDirRpcOk) {
