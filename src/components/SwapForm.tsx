@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Form, Input, message, Button } from "antd";
 import makeTrx from "../logic/trxBuilder";
-import { observer } from "mobx-react-lite";
 import { useStores } from "../stores";
 
-const SwapForm = observer((props: any) => {
+const SwapForm = (props: any) => {
 	const { storeMain } = useStores();
 	const [addVal, setAddVal] = useState("");
 	const [params, setParams] = useState("");
@@ -99,36 +98,36 @@ const SwapForm = observer((props: any) => {
 
 	const secCurrency =
 		isDirAtom || isDirwATOMTON
-			? storeMain.state.au
+			? storeMain.store.state.au
 			: isDirNear || isDirwNEARTON
-			? storeMain.state.nu
+			? storeMain.store.state.nu
 			: isDirTon
-			? storeMain.state.tu
+			? storeMain.store.state.tu
 			: isDirAur || isDirwAURTON
-			? storeMain.state.auru
+			? storeMain.store.state.auru
 			: isDirSol || isDirwSOLTON
-			? storeMain.state.su
+			? storeMain.store.state.su
 			: isDirUsn || isDirwUSNTON
-			? storeMain.state.usnu
+			? storeMain.store.state.usnu
 			: isDirEth || isDirwETHTON
-			? storeMain.state.ethu
+			? storeMain.store.state.ethu
 			: null;
 
 	const currency =
 		isSouAtom || isSouwATOMTON
-			? storeMain.state.au
+			? storeMain.store.state.au
 			: isSouNear || isSouwNEARTON
-			? storeMain.state.nu
+			? storeMain.store.state.nu
 			: isSouEth || isSouwETHTON
-			? storeMain.state.ethu
+			? storeMain.store.state.ethu
 			: isSouTon
-			? storeMain.state.tu
+			? storeMain.store.state.tu
 			: isSouSol || isSouwSOLTON
-			? storeMain.state.su
+			? storeMain.store.state.su
 			: isSouAur || isSouwAURTON
-			? storeMain.state.auru
+			? storeMain.store.state.auru
 			: isSouUsn || isSouwUSNTON
-			? storeMain.state.usnu
+			? storeMain.store.state.usnu
 			: null;
 
 	const MaxDirAmount = Number(
@@ -373,6 +372,6 @@ const SwapForm = observer((props: any) => {
 			</Form.Item>
 		</Form>
 	);
-});
+};
 
 export default SwapForm;

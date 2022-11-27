@@ -1,3 +1,4 @@
+import createStore from 'pure-store';
 import { useEffect, useMemo, useState } from "react";
 import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
@@ -106,14 +107,14 @@ const AppWrapper = () => {
 	const isnear = searchParams.get("isnear");
 
 	const tvl = useMemo(() => {
-		return AURMaxAmount * storeMain.state.auru +
-		USNMaxAmount * storeMain.state.usnu +
-		ETHMaxAmount * storeMain.state.ethu +
-		NEARMaxAmount * storeMain.state.nu +
-		ATOMMaxAmount * storeMain.state.au +
-		TONMaxAmount * storeMain.state.tu +
-		SOLMaxAmount * storeMain.state.su;
-	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.state.au, storeMain.state.auru, storeMain.state.ethu, storeMain.state.nu, storeMain.state.su, storeMain.state.tu, storeMain.state.usnu]);
+		return AURMaxAmount * storeMain.store.state.auru +
+		USNMaxAmount * storeMain.store.state.usnu +
+		ETHMaxAmount * storeMain.store.state.ethu +
+		NEARMaxAmount * storeMain.store.state.nu +
+		ATOMMaxAmount * storeMain.store.state.au +
+		TONMaxAmount * storeMain.store.state.tu +
+		SOLMaxAmount * storeMain.store.state.su;
+	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.store.state.au, storeMain.store.state.auru, storeMain.store.state.ethu, storeMain.store.state.nu, storeMain.store.state.su, storeMain.store.state.tu, storeMain.store.state.usnu]);
 
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
