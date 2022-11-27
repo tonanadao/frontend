@@ -171,7 +171,8 @@ const makeTrx = (
 			walletDirKey
 		);
 
-	const isSouRpcOk = props.rpcsStatuses.filter((e) =>
+	const isSouRpcOk = props.rpcsStatuses.filter((e: any) =>
+
 		(e.key === props.networkSource) === "usn"
 			? "near"
 			: props.networkSource === "wsol (ton)" ||
@@ -184,7 +185,8 @@ const makeTrx = (
 			: props.networkSource
 	)[0].status;
 
-	const isDirRpcOk = props.rpcsStatuses.filter((e) =>
+	const isDirRpcOk = props.rpcsStatuses.filter((e: any) =>
+
 		(e.key === props.directionNetwork) === "usn"
 			? "near"
 			: props.directionNetwork === "wsol (ton)" ||
@@ -196,8 +198,7 @@ const makeTrx = (
 			? "ton"
 			: props.directionNetwork
 	)[0].status;
-	// const isDirRpcOk = true;
-	// const isSouRpcOk = true;
+
 	if (!isDirRpcOk) {
 		message.error(props.directionNetwork.toUpperCase() + " RPC is DEAD");
 	}
