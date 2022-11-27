@@ -8,7 +8,7 @@ export const setValues = <T1>(state: T1, key: keyof T1, payload: any) => {
 export class Main {
     private rootStore: RootStore;
 
-    store = createStore({
+    repository = createStore({
         ex: true, // exchange - ?
         tu: 0, // ton usd
         su: 0, // solana usd
@@ -20,7 +20,7 @@ export class Main {
     });
 
     getState() {
-        return this.store.state;
+        return this.repository.state;
     }
 
     constructor(rootStore: RootStore) {
@@ -28,34 +28,34 @@ export class Main {
     }
 
     setEx = (payload: boolean) => {
-        this.store.update(s => s.ex = payload);
+        this.repository.update(s => s.ex = payload);
     };
 
     setTu = (payload: number) => {
-        this.store.update(s => s.tu = payload);
+        this.repository.update(s => s.tu = payload);
     };
 
     setSu = (payload: number) => {
-        this.store.update(s => s.su = payload);
+        this.repository.update(s => s.su = payload);
     };
 
     setAu = (payload: number) => {
-        this.store.update(s => s.au = payload);
+        this.repository.update(s => s.au = payload);
     };
 
     setNu = (payload: number) => {
-        this.store.update(s => s.nu = payload);
+        this.repository.update(s => s.nu = payload);
     };
 
     setUsnu = (payload: number) => {
-        this.store.update(s => s.usnu = payload);
+        this.repository.update(s => s.usnu = payload);
     };
 
     setAuru = (payload: number) => {
-        this.store.update(s => s.auru = payload);
+        this.repository.update(s => s.auru = payload);
     };
 
     setEthu = (payload: number) => {
-        this.store.update(s => s.ethu = payload);
+        this.repository.update(s => s.ethu = payload);
     };
 }
