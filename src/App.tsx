@@ -115,7 +115,6 @@ const AppWrapper = () => {
 		SOLMaxAmount * storeMain.state.su;
 	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.state.au, storeMain.state.auru, storeMain.state.ethu, storeMain.state.nu, storeMain.state.su, storeMain.state.tu, storeMain.state.usnu]);
 
-
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
 	);
