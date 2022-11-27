@@ -27,7 +27,12 @@ import Social from "./components/Social";
 import Header from "./components/Header";
 import Rpcs from "./components/Rpcs";
 import Gstyles from "./styles/gstyles";
-import rpcsStatus from "./logic/rpcsStatus";
+import tonRpcStatus from "./logic/rpcsStatus/ton";
+import solRpcStatus from "./logic/rpcsStatus/solana";
+import auroraRpcStatus from "./logic/rpcsStatus/aurora";
+import cosmosRpcStatus from "./logic/rpcsStatus/cosmos";
+import nearRpcStatus from "./logic/rpcsStatus/near";
+import ethRpcStatus from "./logic/rpcsStatus/eth";
 
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
@@ -63,44 +68,88 @@ const App = () => {
 	const [hexString, sHexString] = useState("");
 	const [networkSource, setNetworkSource] = useState("ETH");
 	const [networkDestination, setNetworkDestination] = useState("TON");
+	const [rpcEthStatus, setRpcEthStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Ethereum RPC",
+		key: "eth",
+		status: false,
+	});
+
+	const [rpcSolStatus, setRpcSolStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Solana RPC",
+		key: "sol",
+		status: false,
+	});
+	const [rpcNearStatus, setRpcNearStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Near RPC",
+		key: "near",
+		status: false,
+	});
+
+	const [rpcAuroraStatus, setRpcAuroraStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Aurora RPC",
+		key: "aurora",
+		status: false,
+	});
+
+	const [rpcTonStatus, setRpcTonStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Ton RPC",
+		key: "ton",
+		status: false,
+	});
+
+	const [rpcCosmosStatus, setRpcCosmosStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Cosmos RPC",
+		key: "atom",
+		status: false,
+	});
 	const [rpcsStatuses, setRpcsStatuses] = useState<
-		Array<{ key: string; title: string; status: boolean }>
-	>([
-		{
-			title: "Solana RPC",
-			key: "sol",
-			status: false,
-		},
+		Array<{
+			key: string;
+			title: string;
+			status: boolean;
+		}>
+	>([]);
 
-		{
-			title: "Near RPC",
-			key: "near",
-			status: false,
-		},
-
-		{
-			title: "Ethereum RPC",
-			key: "eth",
-			status: false,
-		},
-
-		{
-			title: "Aurora RPC",
-			key: "aurora",
-			status: false,
-		},
-
-		{
-			title: "Ton RPC",
-			key: "ton",
-			status: false,
-		},
-
-		{
-			title: "Cosmos RPC",
-			key: "atom",
-			status: false,
-		},
+	useEffect(() => {
+		setRpcsStatuses([
+			rpcAuroraStatus,
+			rpcNearStatus,
+			rpcSolStatus,
+			rpcTonStatus,
+			rpcCosmosStatus,
+			rpcEthStatus,
+		]);
+	}, [
+		rpcAuroraStatus,
+		rpcNearStatus,
+		rpcSolStatus,
+		rpcTonStatus,
+		rpcCosmosStatus,
+		rpcEthStatus,
 	]);
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -115,8 +164,24 @@ const App = () => {
 
 	useEffect(() => {
 		(async () => {
-			setRpcsStatuses(await rpcsStatus());
+			setRpcTonStatus(await tonRpcStatus());
 		})();
+		(async () => {
+			setRpcSolStatus(await solRpcStatus());
+		})();
+		(async () => {
+			setRpcNearStatus(await nearRpcStatus());
+		})();
+		(async () => {
+			setRpcAuroraStatus(await auroraRpcStatus());
+		})();
+		(async () => {
+			setRpcEthStatus(await ethRpcStatus());
+		})();
+		(async () => {
+			setRpcCosmosStatus(await cosmosRpcStatus());
+		})();
+
 		getTONMaxAmount(setTONMaxAmount);
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);
