@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Form, Input, message, Button } from "antd";
 import makeTrx from "../logic/trxBuilder";
+import { observer } from "mobx-react-lite";
+import { useStores } from "../stores";
 
-const SwapForm = (props: any) => {
+const SwapForm = observer((props: any) => {
+	const { storeMain } = useStores();
 	const [addVal, setAddVal] = useState("");
 	const [params, setParams] = useState("");
 	const [addMessage, setAddMessage] = useState(false);
@@ -100,7 +103,7 @@ const SwapForm = (props: any) => {
 			: isDirNear || isDirwNEARTON
 			? props.nu
 			: isDirTon
-			? props.tu
+			? storeMain.state.tu
 			: isDirAur || isDirwAURTON
 			? props.auru
 			: isDirSol || isDirwSOLTON
@@ -119,7 +122,7 @@ const SwapForm = (props: any) => {
 			: isSouEth || isSouwETHTON
 			? props.ethu
 			: isSouTon
-			? props.tu
+			? storeMain.state.tu
 			: isSouSol || isSouwSOLTON
 			? props.su
 			: isSouAur || isSouwAURTON
@@ -364,6 +367,6 @@ const SwapForm = (props: any) => {
 			</Form.Item>
 		</Form>
 	);
-};
+});
 
 export default SwapForm;

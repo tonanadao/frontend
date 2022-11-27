@@ -33,8 +33,10 @@ import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
 
 import bnn from "./static/img/logo.svg";
+import { RootStore, StoreProvider, useStores } from "./stores";
 
-const App = () => {
+const AppWrapper = () => {
+	const { storeMain } = useStores();
 	const [ex, sex] = useState(true);
 	const [tu, stu] = useState(0);
 	const [su, ssu] = useState(0);
@@ -87,9 +89,9 @@ const App = () => {
 		getAURMaxAmount(setAURMaxAmount);
 		getETHMaxAmount(setETHMaxAmount);
 
-		fetchMarkets(stu, ssu, sau, snu, sauruu, susn, sethu);
+		fetchMarkets(storeMain.setTu, ssu, sau, snu, sauruu, susn, sethu);
 		setInterval(() => {
-			fetchMarkets(stu, ssu, sau, snu, sauruu, susn, sethu);
+			fetchMarkets(storeMain.setTu, ssu, sau, snu, sauruu, susn, sethu);
 		}, 15000);
 
 		sHexString(
@@ -221,7 +223,6 @@ const App = () => {
 	const fromProps = {
 		au,
 		su,
-		tu,
 		nu,
 		usnu,
 		auru,
@@ -287,6 +288,15 @@ const App = () => {
 			<div className="version">v1.0.84 (alpha)</div>
 			<Gstyles />
 		</>
+	);
+};
+
+const App = () => {
+	const rootStore = new RootStore();
+	return (
+		<StoreProvider store={rootStore}>
+			<AppWrapper />
+		</StoreProvider>
 	);
 };
 
