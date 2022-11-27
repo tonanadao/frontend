@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
@@ -104,6 +104,16 @@ const AppWrapper = () => {
 	const nearAccountId = searchParams.get("account_id");
 	const isusn = searchParams.get("isusn");
 	const isnear = searchParams.get("isnear");
+
+	const tvl = useMemo(() => {
+		return AURMaxAmount * storeMain.state.auru +
+		USNMaxAmount * storeMain.state.usnu +
+		ETHMaxAmount * storeMain.state.ethu +
+		NEARMaxAmount * storeMain.state.nu +
+		ATOMMaxAmount * storeMain.state.au +
+		TONMaxAmount * storeMain.state.tu +
+		SOLMaxAmount * storeMain.state.su;
+	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.state.au, storeMain.state.auru, storeMain.state.ethu, storeMain.state.nu, storeMain.state.su, storeMain.state.tu, storeMain.state.usnu]);
 
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
