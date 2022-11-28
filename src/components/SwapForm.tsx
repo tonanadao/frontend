@@ -98,36 +98,36 @@ const SwapForm = (props: any) => {
 
 	const secCurrency =
 		isDirAtom || isDirwATOMTON
-			? storeMain.repository.state.au
+			? storeMain.repository.get().au
 			: isDirNear || isDirwNEARTON
-			? storeMain.repository.state.nu
+			? storeMain.repository.get().nu
 			: isDirTon
-			? storeMain.repository.state.tu
+			? storeMain.repository.get().tu
 			: isDirAur || isDirwAURTON
-			? storeMain.repository.state.auru
+			? storeMain.repository.get().auru
 			: isDirSol || isDirwSOLTON
-			? storeMain.repository.state.su
+			? storeMain.repository.get().su
 			: isDirUsn || isDirwUSNTON
-			? storeMain.repository.state.usnu
+			? storeMain.repository.get().usnu
 			: isDirEth || isDirwETHTON
-			? storeMain.repository.state.ethu
+			? storeMain.repository.get().ethu
 			: null;
 
 	const currency =
 		isSouAtom || isSouwATOMTON
-			? storeMain.repository.state.au
+			? storeMain.repository.get().au
 			: isSouNear || isSouwNEARTON
-			? storeMain.repository.state.nu
+			? storeMain.repository.get().nu
 			: isSouEth || isSouwETHTON
-			? storeMain.repository.state.ethu
+			? storeMain.repository.get().ethu
 			: isSouTon
-			? storeMain.repository.state.tu
+			? storeMain.repository.get().tu
 			: isSouSol || isSouwSOLTON
-			? storeMain.repository.state.su
+			? storeMain.repository.get().su
 			: isSouAur || isSouwAURTON
-			? storeMain.repository.state.auru
+			? storeMain.repository.get().auru
 			: isSouUsn || isSouwUSNTON
-			? storeMain.repository.state.usnu
+			? storeMain.repository.get().usnu
 			: null;
 
 	const MaxDirAmount = Number(

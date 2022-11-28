@@ -1,4 +1,3 @@
-import createStore from 'pure-store';
 import { useEffect, useMemo, useState } from "react";
 import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
@@ -107,14 +106,14 @@ const AppWrapper = () => {
 	const isnear = searchParams.get("isnear");
 
 	const tvl = useMemo(() => {
-		return AURMaxAmount * storeMain.repository.state.auru +
-		USNMaxAmount * storeMain.repository.state.usnu +
-		ETHMaxAmount * storeMain.repository.state.ethu +
-		NEARMaxAmount * storeMain.repository.state.nu +
-		ATOMMaxAmount * storeMain.repository.state.au +
-		TONMaxAmount * storeMain.repository.state.tu +
-		SOLMaxAmount * storeMain.repository.state.su;
-	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.repository.state.au, storeMain.repository.state.auru, storeMain.repository.state.ethu, storeMain.repository.state.nu, storeMain.repository.state.su, storeMain.repository.state.tu, storeMain.repository.state.usnu]);
+		return AURMaxAmount * storeMain.repository.get().auru +
+		USNMaxAmount * storeMain.repository.get().usnu +
+		ETHMaxAmount * storeMain.repository.get().ethu +
+		NEARMaxAmount * storeMain.repository.get().nu +
+		ATOMMaxAmount * storeMain.repository.get().au +
+		TONMaxAmount * storeMain.repository.get().tu +
+		SOLMaxAmount * storeMain.repository.get().su;
+	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.repository]);
 
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"

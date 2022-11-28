@@ -1,14 +1,10 @@
 import { RootStore } from "../../store";
-import createStore from 'pure-store';
-
-export const setValues = <T1>(state: T1, key: keyof T1, payload: any) => {
-    state[key as keyof T1] = payload;
-}
+import { atom } from 'nanostores';
 
 export class Main {
     private rootStore: RootStore;
 
-    repository = createStore({
+    repository = atom({
         ex: true, // exchange - ?
         tu: 0, // ton usd
         su: 0, // solana usd
@@ -19,43 +15,39 @@ export class Main {
         ethu: 0, // ethereum usd
     });
 
-    getState() {
-        return this.repository.state;
-    }
-
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
     }
 
     setEx = (payload: boolean) => {
-        this.repository.update(s => s.ex = payload);
+        this.repository.set({ ...this.repository.get(), ex: payload });
     };
 
     setTu = (payload: number) => {
-        this.repository.update(s => s.tu = payload);
+        this.repository.set({ ...this.repository.get(), tu: payload });
     };
 
     setSu = (payload: number) => {
-        this.repository.update(s => s.su = payload);
+        this.repository.set({ ...this.repository.get(), su: payload });
     };
 
     setAu = (payload: number) => {
-        this.repository.update(s => s.au = payload);
+        this.repository.set({ ...this.repository.get(), au: payload });
     };
 
     setNu = (payload: number) => {
-        this.repository.update(s => s.nu = payload);
+        this.repository.set({ ...this.repository.get(), nu: payload });
     };
 
     setUsnu = (payload: number) => {
-        this.repository.update(s => s.usnu = payload);
+        this.repository.set({ ...this.repository.get(), usnu: payload });
     };
 
     setAuru = (payload: number) => {
-        this.repository.update(s => s.auru = payload);
+        this.repository.set({ ...this.repository.get(), auru: payload });
     };
 
     setEthu = (payload: number) => {
-        this.repository.update(s => s.ethu = payload);
+        this.repository.set({ ...this.repository.get(), ethu: payload });
     };
 }
