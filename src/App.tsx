@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
-import { useSearchParams } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useSearchParams } from "react-router-dom";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 
 import SwapForm from "./components/SwapForm";
@@ -310,6 +310,7 @@ const AppWrapper = () => {
 		</>
 	);
 };
+
 
 const App = () => {
 	const rootStore = new RootStore();

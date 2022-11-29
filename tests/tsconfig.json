@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "lib": [
+        "ESNext"
+      ],
+      "types": [
+        "node",
+      ],
+      "esModuleInterop": true,
+      "jsx": "react-jsx"
+    },
+  }
