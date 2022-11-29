@@ -232,6 +232,7 @@ const SwapForm = (props: any) => {
 				{props.btnSelectSource}
 				{props.btnSource}
 				<Input
+					data-testid="from-input"
 					onChange={(e) => {
 						if (currenciesSelected)
 						if (
@@ -267,6 +268,7 @@ const SwapForm = (props: any) => {
 				{props.btnSelectDirection}
 				{props.btnDest}
 				<Input
+					data-testid="to-input"
 					value={
 						!isNaN(Number(props.secCurrAmount))
 							? props.firstCurrAmount === ""

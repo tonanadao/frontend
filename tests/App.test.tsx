@@ -1,4 +1,4 @@
-import { render } from './test-utils';
+import { render, screen, userEvent } from './test-utils';
 import App from '../src/App';
 import { describe, it, beforeAll, vi } from 'vitest';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -30,8 +30,24 @@ beforeAll(() => {
   });
 });
 
-describe('typescript test suite', () => {
-    it('app is not crashing', () => {
-      const app = render(<TestApp />);
+describe('Main app test', () => {
+    it('App is not crashing', async () => {
+      render(<TestApp />);
+    })
+
+    it('From input exists', async () => {
+      render(<TestApp />);
+      const inputElementForEvents = screen.getByTestId("from-input");
+      expect(inputElementForEvents).toBeInTheDocument();
+      const inputElementForQuery = screen.queryByTestId("from-input");
+      expect(inputElementForQuery).toHaveValue('');
+    })
+
+    it('To input exists', async () => {
+      render(<TestApp />);
+      const inputElementForEvents = screen.getByTestId("to-input");
+      expect(inputElementForEvents).toBeInTheDocument();
+      const inputElementForQuery = screen.queryByTestId("to-input");
+      expect(inputElementForQuery).toHaveValue('');
     })
 })
