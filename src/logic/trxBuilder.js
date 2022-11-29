@@ -171,7 +171,8 @@ const makeTrx = (
 			walletDirKey
 		);
 
-	const isSouRpcOk = props.rpcsStatuses.filter((e: any) =>
+	const isSouRpcOk = props.rpcsStatuses.filter((e) =>
+
 		(e.key === props.networkSource) === "usn"
 			? "near"
 			: props.networkSource === "wsol (ton)" ||
@@ -184,7 +185,8 @@ const makeTrx = (
 			: props.networkSource
 	)[0].status;
 
-	const isDirRpcOk = props.rpcsStatuses.filter((e: any) =>
+	const isDirRpcOk = props.rpcsStatuses.filter((e) =>
+
 		(e.key === props.directionNetwork) === "usn"
 			? "near"
 			: props.directionNetwork === "wsol (ton)" ||

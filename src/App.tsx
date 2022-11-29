@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
-import { useSearchParams } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useSearchParams } from "react-router-dom";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 
 import SwapForm from "./components/SwapForm";
@@ -38,16 +38,12 @@ import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
 
 import bnn from "./static/img/logo.svg";
+import { RootStore, StoreProvider, useStores } from "./stores";
 
-const App = () => {
+const AppWrapper = () => {
+	const { storeMain } = useStores();
 	const [ex, sex] = useState(true);
-	const [tu, stu] = useState(0);
-	const [su, ssu] = useState(0);
-	const [au, sau] = useState(0);
-	const [nu, snu] = useState(0);
-	const [usnu, susn] = useState(0);
-	const [auru, sauruu] = useState(0);
-	const [ethu, sethu] = useState(0);
+
 	const [SOLwalletKey, setSOLWalletKey] = useState("");
 	const [TONwalletKey, setTONwalletKey] = useState("");
 	const [NEARwalletKey, setNEARwalletKey] = useState("");
@@ -158,6 +154,16 @@ const App = () => {
 	const isusn = searchParams.get("isusn");
 	const isnear = searchParams.get("isnear");
 
+	const tvl = useMemo(() => {
+		return AURMaxAmount * storeMain.repository.get().auru +
+		USNMaxAmount * storeMain.repository.get().usnu +
+		ETHMaxAmount * storeMain.repository.get().ethu +
+		NEARMaxAmount * storeMain.repository.get().nu +
+		ATOMMaxAmount * storeMain.repository.get().au +
+		TONMaxAmount * storeMain.repository.get().tu +
+		SOLMaxAmount * storeMain.repository.get().su;
+	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.repository]);
+
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
 	);
@@ -188,9 +194,9 @@ const App = () => {
 		getAURMaxAmount(setAURMaxAmount);
 		getETHMaxAmount(setETHMaxAmount);
 
-		fetchMarkets(stu, ssu, sau, snu, sauruu, susn, sethu);
+		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu);
 		setInterval(() => {
-			fetchMarkets(stu, ssu, sau, snu, sauruu, susn, sethu);
+			fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu);
 		}, 15000);
 
 		sHexString(
@@ -320,13 +326,6 @@ const App = () => {
 	);
 
 	const fromProps = {
-		au,
-		su,
-		tu,
-		nu,
-		usnu,
-		auru,
-		ethu,
 		ATOMwalletKey,
 		ETHwalletKey,
 		SOLwalletKey,
@@ -358,23 +357,6 @@ const App = () => {
 		rpcsStatuses,
 	};
 
-	const tvl =
-		AURMaxAmount * auru +
-		USNMaxAmount * usnu +
-		ETHMaxAmount * ethu +
-		NEARMaxAmount * nu +
-		ATOMMaxAmount * au +
-		TONMaxAmount * tu +
-		SOLMaxAmount * su;
-	console.log("aur", AURMaxAmount * auru);
-	console.log("sol", SOLMaxAmount * su);
-	console.log("ton", TONMaxAmount * tu);
-	console.log("atom", ATOMMaxAmount * au);
-	console.log("near", NEARMaxAmount * nu);
-	console.log("eth", ETHMaxAmount * ethu);
-	console.log("usn", USNMaxAmount * usnu);
-	console.log("total", tvl);
-
 	return (
 		<>
 			<Header />
@@ -391,6 +373,16 @@ const App = () => {
 			</div>
 			<Gstyles />
 		</>
+	);
+};
+
+
+const App = () => {
+	const rootStore = new RootStore();
+	return (
+		<StoreProvider store={rootStore}>
+			<AppWrapper />
+		</StoreProvider>
 	);
 };
 
