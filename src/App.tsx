@@ -198,6 +198,30 @@ const App = () => {
 			setBackStatus(await callBackStatus());
 		})();
 
+		setInterval(() => {
+			(async () => {
+				setRpcTonStatus(await tonRpcStatus());
+			})();
+			(async () => {
+				setRpcSolStatus(await solRpcStatus());
+			})();
+			(async () => {
+				setRpcNearStatus(await nearRpcStatus());
+			})();
+			(async () => {
+				setRpcAuroraStatus(await auroraRpcStatus());
+			})();
+			(async () => {
+				setRpcEthStatus(await ethRpcStatus());
+			})();
+			(async () => {
+				setRpcCosmosStatus(await cosmosRpcStatus());
+			})();
+			(async () => {
+				setBackStatus(await callBackStatus());
+			})();
+		}, 30000);
+
 		getTONMaxAmount(setTONMaxAmount);
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);

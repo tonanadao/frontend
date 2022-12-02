@@ -172,7 +172,7 @@ const makeTrx = (
 		);
 
 	const isSouRpcOk = props.rpcsStatuses.filter(
-		(e: any) =>
+		(e) =>
 			e.key ===
 			(props.networkSource === "usn"
 				? "near"
@@ -187,7 +187,7 @@ const makeTrx = (
 	)[0].status;
 
 	const isDirRpcOk = props.rpcsStatuses.filter(
-		(e: any) =>
+		(e) =>
 			e.key ===
 			(props.directionNetwork === "usn"
 				? "near"
@@ -201,8 +201,7 @@ const makeTrx = (
 				: props.directionNetwork)
 	)[0].status;
 
-	const isBackOk = props.rpcsStatuses.filter((e: any) => e.key === "tnn")[0]
-		.status;
+	const isBackOk = props.rpcsStatuses.filter((e) => e.key === "tnn")[0].status;
 
 	if (!isDirRpcOk) {
 		message.error(props.directionNetwork.toUpperCase() + " RPC is DEAD");
