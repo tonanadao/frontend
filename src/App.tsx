@@ -33,6 +33,7 @@ import auroraRpcStatus from "./logic/rpcsStatus/aurora";
 import cosmosRpcStatus from "./logic/rpcsStatus/cosmos";
 import nearRpcStatus from "./logic/rpcsStatus/near";
 import ethRpcStatus from "./logic/rpcsStatus/eth";
+import callBackStatus from "./logic/rpcsStatus/back";
 
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
@@ -126,6 +127,16 @@ const App = () => {
 		key: "atom",
 		status: false,
 	});
+	const [backStatus, setBackStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Tonana oracle",
+		key: "tnn",
+		status: false,
+	});
+
 	const [rpcsStatuses, setRpcsStatuses] = useState<
 		Array<{
 			key: string;
@@ -136,12 +147,13 @@ const App = () => {
 
 	useEffect(() => {
 		setRpcsStatuses([
-			rpcAuroraStatus,
+			backStatus,
+			rpcTonStatus,
+			rpcEthStatus,
 			rpcNearStatus,
 			rpcSolStatus,
-			rpcTonStatus,
 			rpcCosmosStatus,
-			rpcEthStatus,
+			rpcAuroraStatus,
 		]);
 	}, [
 		rpcAuroraStatus,
@@ -150,6 +162,7 @@ const App = () => {
 		rpcTonStatus,
 		rpcCosmosStatus,
 		rpcEthStatus,
+		backStatus,
 	]);
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -180,6 +193,9 @@ const App = () => {
 		})();
 		(async () => {
 			setRpcCosmosStatus(await cosmosRpcStatus());
+		})();
+		(async () => {
+			setBackStatus(await callBackStatus());
 		})();
 
 		getTONMaxAmount(setTONMaxAmount);

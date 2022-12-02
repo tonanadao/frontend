@@ -171,31 +171,38 @@ const makeTrx = (
 			walletDirKey
 		);
 
-	const isSouRpcOk = props.rpcsStatuses.filter((e: any) =>
-		(e.key === props.networkSource) === "usn"
-			? "near"
-			: props.networkSource === "wsol (ton)" ||
-			  props.networkSource === "weth (ton)" ||
-			  props.networkSource === "watom (ton)" ||
-			  props.networkSource === "wnear (ton)" ||
-			  props.networkSource === "waurora (ton)" ||
-			  props.networkSource === "wusn (ton)"
-			? "ton"
-			: props.networkSource
+	const isSouRpcOk = props.rpcsStatuses.filter(
+		(e: any) =>
+			e.key ===
+			(props.networkSource === "usn"
+				? "near"
+				: props.networkSource === "wsol (ton)" ||
+				  props.networkSource === "weth (ton)" ||
+				  props.networkSource === "watom (ton)" ||
+				  props.networkSource === "wnear (ton)" ||
+				  props.networkSource === "waurora (ton)" ||
+				  props.networkSource === "wusn (ton)"
+				? "ton"
+				: props.networkSource)
 	)[0].status;
 
-	const isDirRpcOk = props.rpcsStatuses.filter((e: any) =>
-		(e.key === props.directionNetwork) === "usn"
-			? "near"
-			: props.directionNetwork === "wsol (ton)" ||
-			  props.directionNetwork === "weth (ton)" ||
-			  props.directionNetwork === "watom (ton)" ||
-			  props.directionNetwork === "wnear (ton)" ||
-			  props.directionNetwork === "waurora (ton)" ||
-			  props.directionNetwork === "wusn (ton)"
-			? "ton"
-			: props.directionNetwork
+	const isDirRpcOk = props.rpcsStatuses.filter(
+		(e: any) =>
+			e.key ===
+			(props.directionNetwork === "usn"
+				? "near"
+				: props.directionNetwork === "wsol (ton)" ||
+				  props.directionNetwork === "weth (ton)" ||
+				  props.directionNetwork === "watom (ton)" ||
+				  props.directionNetwork === "wnear (ton)" ||
+				  props.directionNetwork === "waurora (ton)" ||
+				  props.directionNetwork === "wusn (ton)"
+				? "ton"
+				: props.directionNetwork)
 	)[0].status;
+
+	const isBackOk = props.rpcsStatuses.filter((e: any) => e.key === "tnn")[0]
+		.status;
 
 	if (!isDirRpcOk) {
 		message.error(props.directionNetwork.toUpperCase() + " RPC is DEAD");
@@ -204,7 +211,12 @@ const makeTrx = (
 	if (!isSouRpcOk) {
 		message.error(props.networkSource.toUpperCase() + " RPC is DEAD");
 	}
-	if (!isDirRpcOk || !isSouRpcOk) return () => {};
+
+	if (!isBackOk) {
+		message.error("Tonana oracle is DEAD");
+	}
+
+	if (!isDirRpcOk || !isSouRpcOk || !isBackOk) return () => {};
 
 	return isSouAtom
 		? ATOMtrx
