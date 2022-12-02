@@ -1,14 +1,10 @@
-import { makeAutoObservable } from "mobx";
 import { RootStore } from "../../store";
-
-export const setValues = <T1>(state: T1, key: keyof T1, payload: any) => {
-    state[key as keyof T1] = payload;
-}
+import { atom } from 'nanostores';
 
 export class Main {
     private rootStore: RootStore;
 
-    state = {
+    repository = atom({
         ex: true, // exchange - ?
         tu: 0, // ton usd
         su: 0, // solana usd
@@ -17,47 +13,41 @@ export class Main {
         usnu: 0, // usn usd
         auru: 0, // aurora near usd
         ethu: 0, // ethereum usd
-    }
-
-    getState() {
-        return this.state;
-    }
+    });
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
-
-        makeAutoObservable(this);
     }
 
     setEx = (payload: boolean) => {
-        setValues<ReturnType<typeof this.getState>>(this.state, 'ex', payload);
+        this.repository.set({ ...this.repository.get(), ex: payload });
     };
 
     setTu = (payload: number) => {
-        setValues<ReturnType<typeof this.getState>>(this.state, 'tu', payload);
+        this.repository.set({ ...this.repository.get(), tu: payload });
     };
 
     setSu = (payload: number) => {
-        setValues<ReturnType<typeof this.getState>>(this.state, 'su', payload);
+        this.repository.set({ ...this.repository.get(), su: payload });
     };
 
     setAu = (payload: number) => {
-        setValues<ReturnType<typeof this.getState>>(this.state, 'au', payload);
+        this.repository.set({ ...this.repository.get(), au: payload });
     };
 
     setNu = (payload: number) => {
-        setValues<ReturnType<typeof this.getState>>(this.state, 'nu', payload);
+        this.repository.set({ ...this.repository.get(), nu: payload });
     };
 
     setUsnu = (payload: number) => {
-        setValues<ReturnType<typeof this.getState>>(this.state, 'usnu', payload);
+        this.repository.set({ ...this.repository.get(), usnu: payload });
     };
 
     setAuru = (payload: number) => {
-        setValues<ReturnType<typeof this.getState>>(this.state, 'auru', payload);
+        this.repository.set({ ...this.repository.get(), auru: payload });
     };
 
     setEthu = (payload: number) => {
-        setValues<ReturnType<typeof this.getState>>(this.state, 'ethu', payload);
+        this.repository.set({ ...this.repository.get(), ethu: payload });
     };
 }

@@ -106,14 +106,14 @@ const AppWrapper = () => {
 	const isnear = searchParams.get("isnear");
 
 	const tvl = useMemo(() => {
-		return AURMaxAmount * storeMain.state.auru +
-		USNMaxAmount * storeMain.state.usnu +
-		ETHMaxAmount * storeMain.state.ethu +
-		NEARMaxAmount * storeMain.state.nu +
-		ATOMMaxAmount * storeMain.state.au +
-		TONMaxAmount * storeMain.state.tu +
-		SOLMaxAmount * storeMain.state.su;
-	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.state.au, storeMain.state.auru, storeMain.state.ethu, storeMain.state.nu, storeMain.state.su, storeMain.state.tu, storeMain.state.usnu]);
+		return AURMaxAmount * storeMain.repository.get().auru +
+		USNMaxAmount * storeMain.repository.get().usnu +
+		ETHMaxAmount * storeMain.repository.get().ethu +
+		NEARMaxAmount * storeMain.repository.get().nu +
+		ATOMMaxAmount * storeMain.repository.get().au +
+		TONMaxAmount * storeMain.repository.get().tu +
+		SOLMaxAmount * storeMain.repository.get().su;
+	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.repository]);
 
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
