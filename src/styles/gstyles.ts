@@ -1,8 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 // import Baloo from "../static/Inter-roman.var.woff2";
-
 const Gstyles = createGlobalStyle`
-	@font-face {
+
+@font-face {
 		@import url("https://fonts.googleapis.com/css?family=Nunito:300,400,600,700&display=swap");
 		@import url("https://fonts.googleapis.com/css2?family=Livvic:wght@400;500;600;700&display=swap");
 	}

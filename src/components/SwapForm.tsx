@@ -200,7 +200,7 @@ const SwapForm = (props: any) => {
 		? "wETH"
 		: isDirwUSNTON
 		? "wUSN"
-		: null;
+		: "";
 
 	const activeBtn =
 		(openData ? true : !!walletDirKey) &&
@@ -327,8 +327,10 @@ const SwapForm = (props: any) => {
 			) : null}
 			Exchange rate: 1 {sourceCurrencyName} ≈{" "}
 			{((currency / secCurrency) * 0.975).toFixed(3)} {directionCurrencyName}
-			<br />
-			Tonana reserve: {MaxDirAmount.toFixed(3)} {directionCurrencyName}
+			<br />{" "}
+			{directionCurrencyName.slice(0, 1) !== "w"
+				? `Tonana reserve: ${MaxDirAmount.toFixed(3)} ${directionCurrencyName}`
+				: `Tonana reserve: unlimited ${directionCurrencyName}`}
 			<Form.Item
 				style={{
 					margin: "24px 0 0 0",

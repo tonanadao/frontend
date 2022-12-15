@@ -35,6 +35,7 @@ import nearRpcStatus from "./logic/rpcsStatus/near";
 import ethRpcStatus from "./logic/rpcsStatus/eth";
 import callBackStatus from "./logic/rpcsStatus/back";
 
+import "@near-wallet-selector/modal-ui/styles.css";
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
 
@@ -67,7 +68,7 @@ const App = () => {
 
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
-	const [networkSource, setNetworkSource] = useState("ETH");
+	const [networkSource, setNetworkSource] = useState("NEAR");
 	const [networkDestination, setNetworkDestination] = useState("TON");
 	const [rpcEthStatus, setRpcEthStatus] = useState<{
 		key: string;
@@ -176,29 +177,7 @@ const App = () => {
 	);
 
 	useEffect(() => {
-		(async () => {
-			setRpcTonStatus(await tonRpcStatus());
-		})();
-		(async () => {
-			setRpcSolStatus(await solRpcStatus());
-		})();
-		(async () => {
-			setRpcNearStatus(await nearRpcStatus());
-		})();
-		(async () => {
-			setRpcAuroraStatus(await auroraRpcStatus());
-		})();
-		(async () => {
-			setRpcEthStatus(await ethRpcStatus());
-		})();
-		(async () => {
-			setRpcCosmosStatus(await cosmosRpcStatus());
-		})();
-		(async () => {
-			setBackStatus(await callBackStatus());
-		})();
-
-		setInterval(() => {
+		const getStatuses = () => {
 			(async () => {
 				setRpcTonStatus(await tonRpcStatus());
 			})();
@@ -220,6 +199,10 @@ const App = () => {
 			(async () => {
 				setBackStatus(await callBackStatus());
 			})();
+		};
+		getStatuses();
+		setInterval(() => {
+			getStatuses();
 		}, 30000);
 
 		getTONMaxAmount(setTONMaxAmount);
