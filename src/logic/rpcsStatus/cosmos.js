@@ -1,9 +1,9 @@
 const rpcsStatus = async () => {
 	const csm = (
 		await fetch(
-			"https://proxy.tonana.org/https://rpc.cosmos.network/abci_info?"
+			"https://proxy.tonana.org/https://rpc.cosmos.network/status?"
 		).then((e) => e.json())
-	).result.response.last_block_height;
+	).result.sync_info.latest_block_height;
 
 	const rpcsa = {
 		title: "Cosmos RPC",
