@@ -20,20 +20,23 @@ const MakeTONTrx = async (
 
 		//@ts-ignore
 		const ton = window.ton;
-		ton.send("ton_sendTransaction", [
-			{
-				to: process.env.REACT_APP_BACK_TON_WALLET,
-				value: TonWeb.utils.toNano(Number(TONAmount)).toString(),
-				data: encodeOffChainContent(
-					`${openData ? "SM#" : ""}${netTo}#${openData ? add : walletTo}${
-						openData ? `#${btoa(params)}` : ""
-					}`
-				)
-					.toBoc()
-					.toString("base64"),
-				dataType: "boc",
-			},
-		]);
+
+		console.log(
+			await ton.send("ton_sendTransaction", [
+				{
+					to: process.env.REACT_APP_BACK_TON_WALLET,
+					value: TonWeb.utils.toNano(Number(TONAmount)).toString(),
+					data: encodeOffChainContent(
+						`${openData ? "SM#" : ""}${netTo}#${openData ? add : walletTo}${
+							openData ? `#${btoa(params)}` : ""
+						}`
+					)
+						.toBoc()
+						.toString("base64"),
+					dataType: "boc",
+				},
+			])
+		);
 	} else {
 		message.error("Fill all forms and connect wallets!", 10);
 	}
@@ -52,12 +55,11 @@ const listener = (
 	const int = setInterval(() => {
 		message.success("Wait BE trx pending...", 2);
 		fetch(
-			`https://toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=10&to_lt=0&archival=false`
+			`https://toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=1&to_lt=0&archival=false`
 		)
 			.then((e: any) => e.json())
 			.then((e: any) => {
 				const data = e.result.filter((e: any) => {
-					console.log(e.in_msg.msg_data.body);
 					console.log(
 						Cell.fromBoc(
 							Buffer.from(TonWeb.utils.base64ToBytes(e.in_msg.msg_data.body))

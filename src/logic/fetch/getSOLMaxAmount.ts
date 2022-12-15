@@ -1,6 +1,5 @@
 const getSOLMaxAmount = async (setSOLMaxAmount: any) => {
 	try {
-		console.log(1);
 		(async () => {
 			const rs = await fetch(
 				"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb",
@@ -26,9 +25,6 @@ const getSOLMaxAmount = async (setSOLMaxAmount: any) => {
 			);
 			rs.json().then((res) => {
 				try {
-					console.log(2);
-
-					console.log(res.result);
 					setSOLMaxAmount(
 						res.result?.value ? res.result?.value.lamports / 1000000000 : 0
 					);
