@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Form, Input, message, Button } from "antd";
 import makeTrx from "../logic/trxBuilder";
+import { useStores } from "../stores";
 
 const SwapForm = (props: any) => {
+	const { storeMain } = useStores();
 	const [addVal, setAddVal] = useState("");
 	const [params, setParams] = useState("");
 	const [addMessage, setAddMessage] = useState(false);
@@ -96,36 +98,36 @@ const SwapForm = (props: any) => {
 
 	const secCurrency =
 		isDirAtom || isDirwATOMTON
-			? props.au
+			? storeMain.repository.get().au
 			: isDirNear || isDirwNEARTON
-			? props.nu
+			? storeMain.repository.get().nu
 			: isDirTon
-			? props.tu
+			? storeMain.repository.get().tu
 			: isDirAur || isDirwAURTON
-			? props.auru
+			? storeMain.repository.get().auru
 			: isDirSol || isDirwSOLTON
-			? props.su
+			? storeMain.repository.get().su
 			: isDirUsn || isDirwUSNTON
-			? props.usnu
+			? storeMain.repository.get().usnu
 			: isDirEth || isDirwETHTON
-			? props.ethu
+			? storeMain.repository.get().ethu
 			: null;
 
 	const currency =
 		isSouAtom || isSouwATOMTON
-			? props.au
+			? storeMain.repository.get().au
 			: isSouNear || isSouwNEARTON
-			? props.nu
+			? storeMain.repository.get().nu
 			: isSouEth || isSouwETHTON
-			? props.ethu
+			? storeMain.repository.get().ethu
 			: isSouTon
-			? props.tu
+			? storeMain.repository.get().tu
 			: isSouSol || isSouwSOLTON
-			? props.su
+			? storeMain.repository.get().su
 			: isSouAur || isSouwAURTON
-			? props.auru
+			? storeMain.repository.get().auru
 			: isSouUsn || isSouwUSNTON
-			? props.usnu
+			? storeMain.repository.get().usnu
 			: null;
 
 	const MaxDirAmount = Number(
@@ -210,6 +212,10 @@ const SwapForm = (props: any) => {
 		(openData ? !!params : true) &&
 		(openData ? !!addVal : true);
 
+	const currenciesSelected = useMemo(() => {
+		return currency !== null && secCurrency !== null;
+	}, [currency, secCurrency]);
+
 	useEffect(() => {
 		if (openData) setAddVal(walletDirKey);
 	}, [openData, walletDirKey]);
@@ -217,6 +223,7 @@ const SwapForm = (props: any) => {
 	useEffect(() => {
 		props.setFirstCurrAmount("");
 		props.setSecCurrAmount("");
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.directionNetwork, props.networkSource]);
 
 	return (
@@ -227,19 +234,20 @@ const SwapForm = (props: any) => {
 				{props.btnSource}
 				<Input
 					onChange={(e) => {
+						if (currenciesSelected)
 						if (
 							isTargetWrapp ||
-							(Number(e.target.value) * currency) / secCurrency <
+							(Number(e.target.value) * currency!) / secCurrency! <
 								0.8 * MaxDirAmount
 						) {
 							props.setFirstCurrAmount(e.target.value);
 							props.setSecCurrAmount(
-								((Number(e.target.value) * currency) / secCurrency) * 0.975 + ""
+								((Number(e.target.value) * currency!) / secCurrency!) * 0.975 + ""
 							);
 						} else {
 							message.error(
 								`Set less, than ${
-									(0.8 * MaxDirAmount * secCurrency) / currency
+									(0.8 * MaxDirAmount * secCurrency!) / currency!
 								} ${sourceCurrencyName}`,
 								3
 							);
@@ -268,9 +276,10 @@ const SwapForm = (props: any) => {
 							: ""
 					}
 					onChange={(e) => {
+						if (currenciesSelected)
 						if (isTargetWrapp || Number(e.target.value) < 0.8 * MaxDirAmount) {
 							props.setFirstCurrAmount(
-								((Number(e.target.value) * secCurrency) / currency) * 1.025 + ""
+								((Number(e.target.value) * secCurrency!) / currency!) * 1.025 + ""
 							);
 							props.setSecCurrAmount(e.target.value);
 						} else {
@@ -326,7 +335,7 @@ const SwapForm = (props: any) => {
 				</>
 			) : null}
 			Exchange rate: 1 {sourceCurrencyName} ≈{" "}
-			{((currency / secCurrency) * 0.975).toFixed(3)} {directionCurrencyName}
+			{(currency && secCurrency) && ((currency / secCurrency) * 0.975).toFixed(3)} {directionCurrencyName}
 			<br />{" "}
 			{directionCurrencyName.slice(0, 1) !== "w"
 				? `Tonana reserve: ${MaxDirAmount.toFixed(3)} ${directionCurrencyName}`
