@@ -49,6 +49,43 @@ const connectWalletNear = async (setNearWalletKey: any) => {
 		//     await(await(await nearConnection.account('sepezho.near')).getAccountBalance()).available
 		//   })()
 
+		const getAccount = () => {
+			const { network } = selector.options;
+			const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
+
+			return provider
+				.query<AccountView>({
+					request_type: "view_account",
+					finality: "final",
+					account_id: accountId,
+				})
+				.then((data) => ({
+					...data,
+					account_id: accountId,
+				}));
+		};
+
+		// useEffect(() => {
+		// 	if (!accountId) {
+		// 		return setAccount(null);
+		// 	}
+
+		// 	setLoading(true);
+
+		// 	getAccount().then((nextAccount) => {
+		// 		setAccount(nextAccount);
+		// 		setLoading(false);
+		// 	});
+		// }, [accountId, getAccount]);
+
+		// const handleSignIn = () => {
+		// 	modal.show();
+		// };
+
+		// const handleSwitchWallet = () => {
+		// 	modal.show();
+		// };
+
 		(async () => {
 			const _selector = await setupWalletSelector({
 				network: "mainnet",

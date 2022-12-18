@@ -62,204 +62,120 @@ const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
 export const generateBtn = (currencyName: string, btnProps: any) => {
-	const { selector, modal, accounts, accountId } = useWalletSelector();
-	const [account, setAccount] = useState<any>(null);
-	const [messages, setMessages] = useState<Array<any>>([]);
-	const [loading, setLoading] = useState<boolean>(false);
+	const { selector, modal, accounts, accountId } = btnProps;
 
-	const getAccount = useCallback(async (): Promise<any> => {
-		if (!accountId) {
-			return null;
-		}
+	// const addMessages = useCallback(
+	// 	async (message: string, donation: string, multiple: boolean) => {
+	// 		const { contract } = selector.store.getState();
+	// 		const wallet = await selector.wallet();
 
-		const { network } = selector.options;
-		const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
+	// 		if (!multiple) {
+	// 			return wallet
+	// 				.signAndSendTransaction({
+	// 					signerId: accountId!,
+	// 					actions: [
+	// 						{
+	// 							type: "FunctionCall",
+	// 							params: {
+	// 								methodName: "addMessage",
+	// 								args: { text: message },
+	// 								gas: BOATLOAD_OF_GAS,
+	// 								deposit: utils.format.parseNearAmount(donation)!,
+	// 							},
+	// 						},
+	// 					],
+	// 				})
+	// 				.catch((err) => {
+	// 					alert("Failed to add message");
+	// 					console.log("Failed to add message");
 
-		return provider
-			.query<AccountView>({
-				request_type: "view_account",
-				finality: "final",
-				account_id: accountId,
-			})
-			.then((data) => ({
-				...data,
-				account_id: accountId,
-			}));
-	}, [accountId, selector.options]);
+	// 					throw err;
+	// 				});
+	// 		}
 
-	const getMessages = useCallback(() => {
-		const { network } = selector.options;
-		const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
+	// 		const transactions: Array<Transaction> = [];
 
-		return provider
-			.query<CodeResult>({
-				request_type: "call_function",
-				account_id: CONTRACT_ID,
-				method_name: "getMessages",
-				args_base64: "",
-				finality: "optimistic",
-			})
-			.then((res) => JSON.parse(Buffer.from(res.result).toString()));
-	}, [selector]);
+	// 		for (let i = 0; i < 2; i += 1) {
+	// 			transactions.push({
+	// 				signerId: accountId!,
+	// 				receiverId: contract!.contractId,
+	// 				actions: [
+	// 					{
+	// 						type: "FunctionCall",
+	// 						params: {
+	// 							methodName: "addMessage",
+	// 							args: {
+	// 								text: `${message} (${i + 1}/2)`,
+	// 							},
+	// 							gas: BOATLOAD_OF_GAS,
+	// 							deposit: utils.format.parseNearAmount(donation)!,
+	// 						},
+	// 					},
+	// 				],
+	// 			});
+	// 		}
 
-	useEffect(() => {
-		// TODO: don't just fetch once; subscribe!
-		getMessages().then(setMessages);
-	}, []);
+	// 		return wallet.signAndSendTransactions({ transactions }).catch((err) => {
+	// 			alert("Failed to add messages exception " + err);
+	// 			console.log("Failed to add messages");
 
-	useEffect(() => {
-		if (!accountId) {
-			return setAccount(null);
-		}
+	// 			throw err;
+	// 		});
+	// 	},
+	// 	[selector, accountId]
+	// );
 
-		setLoading(true);
+	// const handleVerifyOwner = async () => {
+	// 	const wallet = await selector.wallet();
+	// 	try {
+	// 		const owner = await wallet.verifyOwner({
+	// 			message: "test message for verification",
+	// 		});
 
-		getAccount().then((nextAccount) => {
-			setAccount(nextAccount);
-			setLoading(false);
-		});
-	}, [accountId, getAccount]);
+	// 		if (owner) {
+	// 			alert(`Signature for verification: ${JSON.stringify(owner)}`);
+	// 		}
+	// 	} catch (err) {
+	// 		const message =
+	// 			err instanceof Error ? err.message : "Something went wrong";
+	// 		alert(message);
+	// 	}
+	// };
 
-	const handleSignIn = () => {
-		modal.show();
-	};
+	// const handleSubmit = useCallback(
+	// 	async (e: Submitted) => {
+	// 		e.preventDefault();
 
-	const handleSignOut = async () => {
-		const wallet = await selector.wallet();
+	// 		const { fieldset, message, donation, multiple } = e.target.elements;
 
-		wallet.signOut().catch((err) => {
-			console.log("Failed to sign out");
-			console.error(err);
-		});
-	};
+	// 		fieldset.disabled = true;
 
-	const handleSwitchWallet = () => {
-		modal.show();
-	};
+	// 		return addMessages(message.value, donation.value || "0", multiple.checked)
+	// 			.then(() => {
+	// 				return getMessages()
+	// 					.then((nextMessages) => {
+	// 						setMessages(nextMessages);
+	// 						message.value = "";
+	// 						donation.value = SUGGESTED_DONATION;
+	// 						fieldset.disabled = false;
+	// 						multiple.checked = false;
+	// 						message.focus();
+	// 					})
+	// 					.catch((err) => {
+	// 						alert("Failed to refresh messages");
+	// 						console.log("Failed to refresh messages");
 
-	const handleSwitchAccount = () => {
-		const currentIndex = accounts.findIndex((x) => x.accountId === accountId);
-		const nextIndex = currentIndex < accounts.length - 1 ? currentIndex + 1 : 0;
+	// 						throw err;
+	// 					});
+	// 			})
+	// 			.catch((err) => {
+	// 				console.error(err);
 
-		const nextAccountId = accounts[nextIndex].accountId;
-
-		selector.setActiveAccount(nextAccountId);
-
-		alert("Switched account to " + nextAccountId);
-	};
-
-	const addMessages = useCallback(
-		async (message: string, donation: string, multiple: boolean) => {
-			const { contract } = selector.store.getState();
-			const wallet = await selector.wallet();
-
-			if (!multiple) {
-				return wallet
-					.signAndSendTransaction({
-						signerId: accountId!,
-						actions: [
-							{
-								type: "FunctionCall",
-								params: {
-									methodName: "addMessage",
-									args: { text: message },
-									gas: BOATLOAD_OF_GAS,
-									deposit: utils.format.parseNearAmount(donation)!,
-								},
-							},
-						],
-					})
-					.catch((err) => {
-						alert("Failed to add message");
-						console.log("Failed to add message");
-
-						throw err;
-					});
-			}
-
-			const transactions: Array<Transaction> = [];
-
-			for (let i = 0; i < 2; i += 1) {
-				transactions.push({
-					signerId: accountId!,
-					receiverId: contract!.contractId,
-					actions: [
-						{
-							type: "FunctionCall",
-							params: {
-								methodName: "addMessage",
-								args: {
-									text: `${message} (${i + 1}/2)`,
-								},
-								gas: BOATLOAD_OF_GAS,
-								deposit: utils.format.parseNearAmount(donation)!,
-							},
-						},
-					],
-				});
-			}
-
-			return wallet.signAndSendTransactions({ transactions }).catch((err) => {
-				alert("Failed to add messages exception " + err);
-				console.log("Failed to add messages");
-
-				throw err;
-			});
-		},
-		[selector, accountId]
-	);
-
-	const handleVerifyOwner = async () => {
-		const wallet = await selector.wallet();
-		try {
-			const owner = await wallet.verifyOwner({
-				message: "test message for verification",
-			});
-
-			if (owner) {
-				alert(`Signature for verification: ${JSON.stringify(owner)}`);
-			}
-		} catch (err) {
-			const message =
-				err instanceof Error ? err.message : "Something went wrong";
-			alert(message);
-		}
-	};
-
-	const handleSubmit = useCallback(
-		async (e: Submitted) => {
-			e.preventDefault();
-
-			const { fieldset, message, donation, multiple } = e.target.elements;
-
-			fieldset.disabled = true;
-
-			return addMessages(message.value, donation.value || "0", multiple.checked)
-				.then(() => {
-					return getMessages()
-						.then((nextMessages) => {
-							setMessages(nextMessages);
-							message.value = "";
-							donation.value = SUGGESTED_DONATION;
-							fieldset.disabled = false;
-							multiple.checked = false;
-							message.focus();
-						})
-						.catch((err) => {
-							alert("Failed to refresh messages");
-							console.log("Failed to refresh messages");
-
-							throw err;
-						});
-				})
-				.catch((err) => {
-					console.error(err);
-
-					fieldset.disabled = false;
-				});
-		},
-		[addMessages, getMessages]
-	);
+	// 				fieldset.disabled = false;
+	// 			});
+	// 	},
+	// 	[addMessages, getMessages]
+	// );
 
 	return (
 		<>

@@ -38,10 +38,13 @@ import callBackStatus from "./logic/rpcsStatus/back";
 import "@near-wallet-selector/modal-ui/styles.css";
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
+import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
 import bnn from "./static/img/logo.svg";
 
 const App = () => {
+	const { selector, modal, accounts, accountId } = useWalletSelector();
+
 	const [ex, sex] = useState(true);
 	const [tu, stu] = useState(0);
 	const [su, ssu] = useState(0);
@@ -295,6 +298,10 @@ const App = () => {
 		NEARwalletKey,
 		ATOMwalletKey,
 		ETHwalletKey,
+		selector,
+		modal,
+		accounts,
+		accountId,
 	};
 
 	const menuSource = menuBuilder(networkDestination, setNetworkSource);
