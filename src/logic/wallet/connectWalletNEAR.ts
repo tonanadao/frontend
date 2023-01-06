@@ -50,7 +50,7 @@ const connectWalletNear = async (setNearWalletKey: any) => {
 		//   })()
 
 		const getAccount = () => {
-			const { network } = selector.options;
+			const network  = connectionConfig;
 			const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
 
 			return provider
