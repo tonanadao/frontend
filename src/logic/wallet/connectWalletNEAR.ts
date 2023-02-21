@@ -5,6 +5,7 @@ import {
 	transactions,
 	keyStores,
 	WalletConnection,
+	Near
 } from "near-api-js";
 import { message } from "antd";
 import "dotenv/config";
@@ -49,21 +50,21 @@ const connectWalletNear = async (setNearWalletKey: any) => {
 		//     await(await(await nearConnection.account('sepezho.near')).getAccountBalance()).available
 		//   })()
 
-		const getAccount = () => {
-			const network  = connectionConfig;
-			const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
-
-			return provider
-				.query<AccountView>({
-					request_type: "view_account",
-					finality: "final",
-					account_id: accountId,
-				})
-				.then((data) => ({
-					...data,
-					account_id: accountId,
-				}));
-		};
+		// const getAccount = () => {
+		// 	const getAccount network = connectionConfig;
+		// 	const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
+		//
+		// 	return provider
+		// 		.query<AccountView>({
+		// 			request_type: "view_account",
+		// 			finality: "final",
+		// 			account_id: accountId,
+		// 		})
+		// 		.then((data) => ({
+		// 			...data,
+		// 			account_id: accountId,
+		// 		}));
+		// };
 
 		// useEffect(() => {
 		// 	if (!accountId) {
@@ -127,7 +128,7 @@ const connectWalletNear = async (setNearWalletKey: any) => {
 				],
 			});
 			const _modal = setupModal(_selector, { contractId: "tonana.near" });
-			await _modal.show();
+			_modal.show();
 			const state = _selector.store.getState();
 			let accounts = state.accounts as any;
 
@@ -161,20 +162,27 @@ const connectWalletNear = async (setNearWalletKey: any) => {
 			const receiver = process.env.REACT_APP_NEAR_CONTRACT
 				? process.env.REACT_APP_NEAR_CONTRACT
 				: "";
+			console.log(receiver)
 
-			const walletConnection = new WalletConnection(accountId, receiver);
 			//@ts-ignore
-			window.contract = await new Contract(
+			const walletConnection = new WalletConnection(new Near(connectionConfig), receiver);
+			//@ts-ignore
+			window.contract = new Contract(
 				walletConnection.account(),
 				receiver,
 				{
 					changeMethods: ["payToWallet"],
 					viewMethods: [],
 				}
-			);
+			)
+
+			console.log('dasdfladshkl')
+			console.log(walletConnection.isSignedIn())
 			if (walletConnection.isSignedIn()) {
+				console.log(123)
 				const walletAccountId = walletConnection.getAccountId();
-				setNearWalletKey(walletAccountId);
+				console.log(walletAccountId)
+				setNearWalletKey(accountId.accountId);
 			} else {
 				await walletConnection.requestSignIn({
 					contractId: process.env.REACT_APP_NEAR_CONTRACT,

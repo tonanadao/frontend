@@ -1,0 +1,39 @@
+{
+  "name": "promise-throttle",
+  "version": "1.1.2",
+  "homepage": "https://github.com/jmperez/promise-throttle",
+  "description": "A library to throttle promises",
+  "main": "lib/main.js",
+  "author": "Jose M. Perez",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jmperez/promise-throttle.git"
+  },
+  "scripts": {
+    "start": "npm run dist",
+    "dist": "mkdir -p dist && browserify lib/browser.js -o dist/promise-throttle.js",
+    "lint": "eslint lib/*.js",
+    "test": "npm run lint && jest --coverage",
+    "travis": "npm test && cat ./coverage/lcov.info | coveralls"
+  },
+  "keywords": [
+    "promise",
+    "throttle"
+  ],
+  "files": [
+    "lib/main.js",
+    "index.d.ts"
+  ],
+  "devDependencies": {
+    "browserify": "^16.5.1",
+    "coveralls": "^3.1.0",
+    "eslint": "^6.1.0",
+    "jest-cli": "^26.0.0",
+    "promise": "^8.1.0",
+    "sinon": "^9.0.2"
+  },
+  "jest": {
+    "testURL": "http://localhost/"
+  }
+}

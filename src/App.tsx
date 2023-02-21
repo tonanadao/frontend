@@ -396,14 +396,14 @@ const App = () => {
 		ATOMMaxAmount * au +
 		TONMaxAmount * tu +
 		SOLMaxAmount * su;
-	console.log("aur", AURMaxAmount * auru);
-	console.log("sol", SOLMaxAmount * su);
-	console.log("ton", TONMaxAmount * tu);
-	console.log("atom", ATOMMaxAmount * au);
-	console.log("near", NEARMaxAmount * nu);
-	console.log("eth", ETHMaxAmount * ethu);
-	console.log("usn", USNMaxAmount * usnu);
-	console.log("total", tvl);
+	// console.log("aur", AURMaxAmount * auru);
+	// console.log("sol", SOLMaxAmount * su);
+	// console.log("ton", TONMaxAmount * tu);
+	// console.log("atom", ATOMMaxAmount * au);
+	// console.log("near", NEARMaxAmount * nu);
+	// console.log("eth", ETHMaxAmount * ethu);
+	// console.log("usn", USNMaxAmount * usnu);
+	// console.log("total", tvl);
 
 	return (
 		<>

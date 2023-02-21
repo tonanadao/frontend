@@ -1,0 +1,141 @@
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+
+    ;;
+    ;; Load message metadata
+    ;;
+
+    var cs = in_msg_cell.begin_parse();
+    var flags = cs~load_uint(4);  ;; int_msg_info$0 ihr_disabled:Bool bounce:Bool bounced:Bool
+    slice s_addr = cs~load_msg_addr();
+    (int s_addr_wc, int s_addr_hash)  = parse_std_addr(s_addr);
+    
+    ;;
+    ;; Ignore all bounced messages
+    ;; NOTE: While this is a strange way to do so, but it would be too complicated and test
+    ;;       bounced messages. Much better to have an ability to fix stuff with master key instead.
+    ;;
+
+    if (flags & 1) {
+        return ();
+    }
+
+    ;;
+    ;; Load config
+    ;;
+    
+    (int seqno, slice owner, int seed, int accept_stakes, int working_amount, int locked_amount, cell nominators) = load_data();
+
+    ;;
+    ;; Parse command
+    ;;
+
+    int op = in_msg~load_uint(32);
+    if ( ~ op ) {
+        op = in_msg~parse_text_command();
+    }
+
+    ;;
+    ;; Add stake command
+    ;;
+
+    if (op == 0x7374616b) {
+
+        ;; Check inputs
+        int stake_fee = 1000000000; ;; 1 Gram
+        int min_stake = 1000000000; ;; 1 Gram
+        int stake = msg_value - stake_fee; ;; New stake
+        throw_unless(393, stake >= min_stake); ;; Check if stake is more than minimum required stake
+        throw_unless(394, ~ s_addr_wc); ;; Only workchain nominators
+        
+       ;; Update global working amount
+        working_amount = working_amount + stake;
+
+        ;; Update nominator state
+        (int active, int locked) = nominators.get_nominator_data(s_addr_hash);
+        throw_if(394, locked); ;; Do not allow staking when locked
+        active = active + stake;
+        nominators~set_nominator_data(s_addr_hash, active, locked);
+
+        ;; Persist data
+        save_data(seqno, owner, seed, accept_stakes, working_amount, locked_amount, nominators);
+
+        ;; Send response
+        send_text_stake_accept_message(s_addr, stake);
+
+        return ();
+    }
+    
+    ;;
+    ;; Lock stake command
+    ;;
+
+    if (op == 0x6c6f636b) {
+        
+        ;; Check inputs
+        int lock_fee = 1000000000; ;; 1 Gram
+        throw_unless(393, msg_value >= lock_fee); ;; Check if message value is more than minimum lock fee
+
+        ;; Lock funds
+        (int active, int locked) = nominators.get_nominator_data(s_addr_hash);
+        throw_if(394, locked); ;; If already locked
+        throw_if(395, ~ active); ;; If nothing to lock
+        locked = active;
+        active = 0;
+        working_amount = working_amount - locked;
+        locked_amount = locked_amount + locked;
+
+        ;; Persist
+        nominators~set_nominator_data(s_addr_hash, active, locked);
+        save_data(seqno, owner, seed, accept_stakes, working_amount, locked_amount, nominators);
+
+        ;; Send response
+        send_text_lock_accept_message(s_addr, locked);
+
+        return ();
+    }
+
+    ;;
+    ;; Withdraw stake command
+    ;;
+
+    if (op == 0x77697468) {
+        
+        ;; Check inputs
+        int withdraw_fee = 1000000000; ;; 1 Gram
+        throw_unless(393, msg_value >= withdraw_fee); ;; Check if message value is more than minimum lock fee
+
+        ;; Adjust balance
+        (int active, int locked) = nominators.get_nominator_data(s_addr_hash);
+        throw_if(394, ~ locked); ;; If not locked
+        throw_if(395, ~ active); ;; If nothing to withdraw (should not be possible)
+        locked_amount = locked_amount - locked;
+
+        ;; Persist
+        nominators~set_nominator_data(s_addr_hash, 0, 0);
+        save_data(seqno, owner, seed, accept_stakes, working_amount, locked_amount, nominators);
+
+        ;; Send response
+        send_text_withdraw_message(s_addr, locked);
+
+        return ();
+    }
+
+    ;;
+    ;; Unable to process message
+    ;;
+
+    throw(404);
+}
+
+() recv_external(slice in_msg) impure {
+    (int seqno, slice owner, int seed, int accept_stakes, int working_amount, int locked_amount, cell nominators) = load_data();
+
+    ;; Deployment message
+    if (seqno == 0) {
+        seqno = seqno + 1;
+        save_data(seqno, owner, seed, accept_stakes, working_amount, locked_amount, nominators);
+        accept_message();
+    } else {
+        throw(100);
+    }
+}

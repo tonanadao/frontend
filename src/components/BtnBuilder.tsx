@@ -195,12 +195,12 @@ export const generateBtn = (currencyName: string, btnProps: any) => {
 				</Button>
 			) : null}
 			{currencyName === "TON" ||
-			currencyName === "wNEAR (TON)" ||
-			currencyName === "wETH (TON)" ||
-			currencyName === "wSOL (TON)" ||
-			currencyName === "wAURORA (TON)" ||
-			currencyName === "wUSN (TON)" ||
-			currencyName === "wATOM (TON)" ? (
+				currencyName === "wNEAR (TON)" ||
+				currencyName === "wETH (TON)" ||
+				currencyName === "wSOL (TON)" ||
+				currencyName === "wAURORA (TON)" ||
+				currencyName === "wUSN (TON)" ||
+				currencyName === "wATOM (TON)" ? (
 				<Button
 					type="primary"
 					id={"connectWalletBtn"}

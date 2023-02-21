@@ -1,0 +1,35 @@
+{
+  "name": "coingecko-api",
+  "version": "1.0.10",
+  "description": "A Node.js wrapper for the CoinGecko API with no dependencies.",
+  "main": "index.js",
+  "homepage": "https://github.com/miscavage/CoinGecko-API#readme",
+  "author": "Mark Miscavage",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha --no-timeouts --reporter spec \"./tests/lib/*.js\" \"./tests/lib/**/*.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miscavage/CoinGecko-API.git"
+  },
+  "bugs": {
+    "url": "https://github.com/miscavage/CoinGecko-API/issues"
+  },
+  "keywords": [
+    "coingecko",
+    "cryptocurrency",
+    "api",
+    "api-wrapper",
+    "dependency-less",
+    "no-dependencies",
+    "nodejs",
+    "npm",
+    "javascript",
+    "api-client"
+  ],
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}
