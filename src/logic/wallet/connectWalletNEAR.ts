@@ -41,51 +41,6 @@ const connectWalletNear = async (setNearWalletKey: any) => {
 			explorerUrl: "https://explorer.mainnet.near.org",
 		};
 
-		// (async ()=>{
-
-		//     const nearConnection = await connect(connectionConfig as any);
-		//     const receiver = process.env.REACT_APP_BACK_NEAR_WALLET ? process.env.REACT_APP_BACK_NEAR_WALLET : '';
-
-		//     const walletConnection = new WalletConnection(nearConnection, receiver);
-		//     await(await(await nearConnection.account('sepezho.near')).getAccountBalance()).available
-		//   })()
-
-		// const getAccount = () => {
-		// 	const getAccount network = connectionConfig;
-		// 	const provider = new providers.JsonRpcProvider({ url: network.nodeUrl });
-		//
-		// 	return provider
-		// 		.query<AccountView>({
-		// 			request_type: "view_account",
-		// 			finality: "final",
-		// 			account_id: accountId,
-		// 		})
-		// 		.then((data) => ({
-		// 			...data,
-		// 			account_id: accountId,
-		// 		}));
-		// };
-
-		// useEffect(() => {
-		// 	if (!accountId) {
-		// 		return setAccount(null);
-		// 	}
-
-		// 	setLoading(true);
-
-		// 	getAccount().then((nextAccount) => {
-		// 		setAccount(nextAccount);
-		// 		setLoading(false);
-		// 	});
-		// }, [accountId, getAccount]);
-
-		// const handleSignIn = () => {
-		// 	modal.show();
-		// };
-
-		// const handleSwitchWallet = () => {
-		// 	modal.show();
-		// };
 
 		(async () => {
 			const _selector = await setupWalletSelector({
@@ -137,22 +92,6 @@ const connectWalletNear = async (setNearWalletKey: any) => {
 			//@ts-ignore
 			window.modal = _modal;
 
-			// setSelector(_selector);
-			// setModal(_modal);
-			// }, []);
-
-			// const subscription = await _selector.store.observable
-			// 	.pipe(
-			// 		map((state) => state.accounts),
-			// 		distinctUntilChanged()
-			// 	)
-			// 	.subscribe((nextAccounts) => {
-			// 		console.log("Accounts Update", nextAccounts);
-
-			// 		accounts = nextAccounts;
-			// 	});
-
-			// subscription.unsubscribe();
 
 			const accountId = accounts.find((account: any) => account.active) || null;
 
@@ -175,86 +114,26 @@ const connectWalletNear = async (setNearWalletKey: any) => {
 					viewMethods: [],
 				}
 			)
-
+			//@ts-ignore
+			window.acc = walletConnection.account()
 			console.log('dasdfladshkl')
 			console.log(walletConnection.isSignedIn())
-			if (walletConnection.isSignedIn()) {
+			if (accountId.accountId) {
 				console.log(123)
 				const walletAccountId = walletConnection.getAccountId();
 				console.log(walletAccountId)
+				//@ts-ignore
+				window.walletConnection = walletConnection
 				setNearWalletKey(accountId.accountId);
 			} else {
-				await walletConnection.requestSignIn({
-					contractId: process.env.REACT_APP_NEAR_CONTRACT,
-					methodNames: ["payToWallet"],
-				});
+				// await walletConnection.requestSignIn({
+				// 	contractId: process.env.REACT_APP_NEAR_CONTRACT,
+				// 	methodNames: ["payToWallet"],
+				// });
 			}
 
-			// const selector = await setupWalletSelector({
-			// 	network: "testnet",
-			// 	modules: [
-			// 		...(await setupDefaultWallets()),
-			// 		setupNearWallet(),
-			// 		setupMyNearWallet(),
-			// 		setupSender(),
-			// 		setupHereWallet(),
-			// 		setupMathWallet(),
-			// 		setupNightly(),
-			// 		setupMeteorWallet(),
-			// 		setupWelldoneWallet(),
-			// 		setupLedger(),
-			// 		setupNearFi(),
-			// 		setupCoin98Wallet(),
-			// 		setupOptoWallet(),
-			// 		setupNeth(),
-			// 		// setupWalletConnect({
-			// 		// 	projectId: "c4f79cc...",
-			// 		// 	metadata: {
-			// 		// 		name: "NEAR Wallet Selector",
-			// 		// 		description: "Example dApp used by NEAR Wallet Selector",
-			// 		// 		url: "https://github.com/near/wallet-selector",
-			// 		// 		icons: ["https://avatars.githubusercontent.com/u/37784886"],
-			// 		// 	},
-			// 		// }),
-			// 		setupNightlyConnect({
-			// 			url: "wss://relay.nightly.app/app",
-			// 			appMetadata: {
-			// 				additionalInfo: "",
-			// 				application: "NEAR Wallet Selector",
-			// 				description: "Example dApp used by NEAR Wallet Selector",
-			// 				icon: "https://near.org/wp-content/uploads/2020/09/cropped-favicon-192x192.png",
-			// 			},
-			// 		}),
-			// 	],
-			// });
-
-			// const afd = setupModal(selector, {
-			// 	contractId: "guest-book.testnet",
-			// });
-			// afd.show();
 		})();
 
-		//     const nearConnection = await connect(connectionConfig as any);
-		//     const receiver = process.env.REACT_APP_NEAR_CONTRACT ? process.env.REACT_APP_NEAR_CONTRACT : '';
-
-		//     const walletConnection = new WalletConnection(nearConnection, receiver);
-		//   //@ts-ignore
-		// window.contract = await new Contract(walletConnection.account(), receiver, {
-		//   changeMethods: ['payToWallet'],
-		//   viewMethods: []
-		// })
-		//     if (walletConnection.isSignedIn()) {
-		//       const walletAccountId = walletConnection.getAccountId();
-		//       setNearWalletKey(walletAccountId);
-		//     } else {
-		//       await walletConnection.requestSignIn(
-		//         {
-		//           contractId:process.env.REACT_APP_NEAR_CONTRACT,
-		//           methodNames:['payToWallet']
-		//       }
-
-		//       );
-		//     }
 	} catch (err) {
 		console.log(err);
 		message.error("Use NEAR wallet. Close all windows and try again pls", 5);
