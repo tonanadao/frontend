@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
-import { useSearchParams } from "react-router-dom";
+import { Routes, Route, useSearchParams, Link, useNavigation, Router } from "react-router-dom";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 
 import SwapForm from "./components/SwapForm";
@@ -68,6 +68,10 @@ const App = () => {
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
 	const [ETHwalletKey, setETHWalletKey] = useState("");
+
+	const [formType, setFormType] = useState<string>("swap");
+
+	// const navigation = useNavigation();
 
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
@@ -304,8 +308,8 @@ const App = () => {
 		accountId,
 	};
 
-	const menuSource = menuBuilder(networkDestination, setNetworkSource);
-	const menuDestination = menuBuilder(networkSource, setNetworkDestination);
+	const menuSource = menuBuilder(networkDestination, setNetworkSource, formType, false);
+	const menuDestination = menuBuilder(networkSource, setNetworkDestination, formType, true);
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
 	const btnDest = generateBtn(networkDestination, btnProps);
@@ -386,6 +390,7 @@ const App = () => {
 		firstCurrAmount,
 		secCurrAmount,
 		rpcsStatuses,
+		formType
 	};
 
 	const tvl =
@@ -405,13 +410,52 @@ const App = () => {
 	// console.log("usn", USNMaxAmount * usnu);
 	// console.log("total", tvl);
 
+	useEffect(() => {
+		console.log(formType)
+		setNetworkSource('NEAR')
+		if (formType === 'bridge') {
+			setNetworkDestination('wNEAR (TON)')
+		} else {
+			setNetworkDestination("TON")
+		}
+		// wrap
+		// COIN -> XCOIN
+		// XCOIN -> COIN
+		//
+		// swap
+		// COIN -> COIN
+		// XCOIN none 
+	}, [formType])
+
+	useEffect(() => {
+		// TODO
+		// To()
+		// const { History } = Router;
+		console.log(window.location.pathname)
+	}, [window.location.pathname])
+	// console.log(navigation.location)
+	//
+	useEffect(() => {
+		if (formType === 'bridge') {
+			if (networkSource.includes('(') && networkSource.includes(')')) {
+				console.log(networkSource.split(' ')[0].slice(1))
+				setNetworkDestination(networkSource.split(' ')[0].slice(1))
+			} else {
+				setNetworkDestination(`w${networkSource} (TON)`)
+			}
+		}
+	}, [networkSource])
 	return (
 		<>
 			<Header />
+			<Link to="/swap"><div onClick={() => setFormType('swap')}>swap</div></Link>
+			<Link to="/bridge"><div onClick={() => setFormType('bridge')}>bridge</div></Link>
 			<div className="App">
+				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
 				<SwapForm {...fromProps} />
 				{isload ? <Loader src={bnn} /> : null}
 			</div>
+
 			<Rpcs rpcsStatuses={rpcsStatuses} />
 			<Social />
 			<div className="version">

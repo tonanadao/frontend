@@ -57,150 +57,150 @@ const SwapForm = (props: any) => {
 	const walletDirKey = isDirAtom
 		? props.ATOMwalletKey
 		: isDirNear || isDirUsn
-		? props.NEARwalletKey
-		: isDirTon ||
-		  isDirwSOLTON ||
-		  isDirwNEARTON ||
-		  isDirwATOMTON ||
-		  isDirwAURTON ||
-		  isDirwETHTON ||
-		  isDirwUSNTON
-		? props.TONwalletKey
-		: isDirSol
-		? props.SOLwalletKey
-		: isDirEth
-		? props.ETHwalletKey
-		: isDirAur
-		? props.AURwalletKey
-		: null;
+			? props.NEARwalletKey
+			: isDirTon ||
+				isDirwSOLTON ||
+				isDirwNEARTON ||
+				isDirwATOMTON ||
+				isDirwAURTON ||
+				isDirwETHTON ||
+				isDirwUSNTON
+				? props.TONwalletKey
+				: isDirSol
+					? props.SOLwalletKey
+					: isDirEth
+						? props.ETHwalletKey
+						: isDirAur
+							? props.AURwalletKey
+							: null;
 
 	const walletSouKey = isSouAtom
 		? props.ATOMwalletKey
 		: isSouNear || isSouUsn
-		? props.NEARwalletKey
-		: isSouTon ||
-		  isSouwATOMTON ||
-		  isSouwNEARTON ||
-		  isSouwSOLTON ||
-		  isSouwAURTON ||
-		  isSouwETHTON ||
-		  isSouwUSNTON
-		? props.TONwalletKey
-		: isSouSol
-		? props.SOLwalletKey
-		: isSouAur
-		? props.AURwalletKey
-		: isSouEth
-		? props.ETHwalletKey
-		: null;
+			? props.NEARwalletKey
+			: isSouTon ||
+				isSouwATOMTON ||
+				isSouwNEARTON ||
+				isSouwSOLTON ||
+				isSouwAURTON ||
+				isSouwETHTON ||
+				isSouwUSNTON
+				? props.TONwalletKey
+				: isSouSol
+					? props.SOLwalletKey
+					: isSouAur
+						? props.AURwalletKey
+						: isSouEth
+							? props.ETHwalletKey
+							: null;
 
 	const secCurrency =
 		isDirAtom || isDirwATOMTON
 			? props.au
 			: isDirNear || isDirwNEARTON
-			? props.nu
-			: isDirTon
-			? props.tu
-			: isDirAur || isDirwAURTON
-			? props.auru
-			: isDirSol || isDirwSOLTON
-			? props.su
-			: isDirUsn || isDirwUSNTON
-			? props.usnu
-			: isDirEth || isDirwETHTON
-			? props.ethu
-			: null;
+				? props.nu
+				: isDirTon
+					? props.tu
+					: isDirAur || isDirwAURTON
+						? props.auru
+						: isDirSol || isDirwSOLTON
+							? props.su
+							: isDirUsn || isDirwUSNTON
+								? props.usnu
+								: isDirEth || isDirwETHTON
+									? props.ethu
+									: null;
 
 	const currency =
 		isSouAtom || isSouwATOMTON
 			? props.au
 			: isSouNear || isSouwNEARTON
-			? props.nu
-			: isSouEth || isSouwETHTON
-			? props.ethu
-			: isSouTon
-			? props.tu
-			: isSouSol || isSouwSOLTON
-			? props.su
-			: isSouAur || isSouwAURTON
-			? props.auru
-			: isSouUsn || isSouwUSNTON
-			? props.usnu
-			: null;
+				? props.nu
+				: isSouEth || isSouwETHTON
+					? props.ethu
+					: isSouTon
+						? props.tu
+						: isSouSol || isSouwSOLTON
+							? props.su
+							: isSouAur || isSouwAURTON
+								? props.auru
+								: isSouUsn || isSouwUSNTON
+									? props.usnu
+									: null;
 
 	const MaxDirAmount = Number(
 		isDirAtom || isDirwATOMTON
 			? props.ATOMMaxAmount
 			: isDirNear || isDirwNEARTON
-			? props.NEARMaxAmount
-			: isDirTon
-			? props.TONMaxAmount
-			: isDirSol || isDirwSOLTON
-			? props.SOLMaxAmount
-			: isDirEth || isDirwETHTON
-			? props.ETHMaxAmount
-			: isDirAur || isDirwAURTON
-			? props.AURMaxAmount
-			: isDirUsn || isDirwUSNTON
-			? props.USNMaxAmount
-			: null
+				? props.NEARMaxAmount
+				: isDirTon
+					? props.TONMaxAmount
+					: isDirSol || isDirwSOLTON
+						? props.SOLMaxAmount
+						: isDirEth || isDirwETHTON
+							? props.ETHMaxAmount
+							: isDirAur || isDirwAURTON
+								? props.AURMaxAmount
+								: isDirUsn || isDirwUSNTON
+									? props.USNMaxAmount
+									: null
 	);
 
 	const sourceCurrencyName = isSouAtom
 		? "ATOM"
 		: isSouNear
-		? "NEAR"
-		: isSouTon
-		? "TON"
-		: isSouUsn
-		? "USN"
-		: isSouAur
-		? "AURORA"
-		: isSouSol
-		? "SOL"
-		: isSouEth
-		? "ETH"
-		: isSouwNEARTON
-		? "wNEAR"
-		: isSouwSOLTON
-		? "wSOL"
-		: isSouwATOMTON
-		? "wATOM"
-		: isSouwUSNTON
-		? "wUSN"
-		: isSouwETHTON
-		? "wETH"
-		: isSouwAURTON
-		? "wAURORA"
-		: null;
+			? "NEAR"
+			: isSouTon
+				? "TON"
+				: isSouUsn
+					? "USN"
+					: isSouAur
+						? "AURORA"
+						: isSouSol
+							? "SOL"
+							: isSouEth
+								? "ETH"
+								: isSouwNEARTON
+									? "wNEAR"
+									: isSouwSOLTON
+										? "wSOL"
+										: isSouwATOMTON
+											? "wATOM"
+											: isSouwUSNTON
+												? "wUSN"
+												: isSouwETHTON
+													? "wETH"
+													: isSouwAURTON
+														? "wAURORA"
+														: null;
 
 	const directionCurrencyName = isDirAtom
 		? "ATOM"
 		: isDirNear
-		? "NEAR"
-		: isDirTon
-		? "TON"
-		: isDirSol
-		? "SOL"
-		: isDirUsn
-		? "USN"
-		: isDirEth
-		? "ETH"
-		: isDirAur
-		? "AURORA"
-		: isDirwNEARTON
-		? "wNEAR"
-		: isDirwATOMTON
-		? "wATOM"
-		: isDirwAURTON
-		? "wAURORA"
-		: isDirwSOLTON
-		? "wSOL"
-		: isDirwETHTON
-		? "wETH"
-		: isDirwUSNTON
-		? "wUSN"
-		: "";
+			? "NEAR"
+			: isDirTon
+				? "TON"
+				: isDirSol
+					? "SOL"
+					: isDirUsn
+						? "USN"
+						: isDirEth
+							? "ETH"
+							: isDirAur
+								? "AURORA"
+								: isDirwNEARTON
+									? "wNEAR"
+									: isDirwATOMTON
+										? "wATOM"
+										: isDirwAURTON
+											? "wAURORA"
+											: isDirwSOLTON
+												? "wSOL"
+												: isDirwETHTON
+													? "wETH"
+													: isDirwUSNTON
+														? "wUSN"
+														: "";
 
 	const activeBtn =
 		(openData ? true : !!walletDirKey) &&
@@ -230,7 +230,7 @@ const SwapForm = (props: any) => {
 						if (
 							isTargetWrapp ||
 							(Number(e.target.value) * currency) / secCurrency <
-								0.8 * MaxDirAmount
+							0.8 * MaxDirAmount
 						) {
 							props.setFirstCurrAmount(e.target.value);
 							props.setSecCurrAmount(
@@ -238,8 +238,7 @@ const SwapForm = (props: any) => {
 							);
 						} else {
 							message.error(
-								`Set less, than ${
-									(0.8 * MaxDirAmount * secCurrency) / currency
+								`Set less, than ${(0.8 * MaxDirAmount * secCurrency) / currency
 								} ${sourceCurrencyName}`,
 								3
 							);
