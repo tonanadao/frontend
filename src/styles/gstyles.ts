@@ -310,6 +310,32 @@ iframe{
 		margin: 0 8px 0 0;
 
 	}
-`;
+
+.selector {
+  display: flex;
+  justify-content: space-around;
+  div {
+    display: flex;
+    justify-content: space-around;
+    background: green;
+    cursor: pointer;
+    color: white !important;
+		padding: 10px 30px; 
+		background: #161c2d;
+		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.35)!important;
+		border-radius: 25px!important;
+		span {
+		  margin: 6px 0 0 4px;
+		  color: gray;
+		  font-size: 9px;
+		}
+  }
+}
+.selectorsoon {
+  background: green;
+  cursor: not-allowed !important;
+	color: gray !important;
+}
+  `;
 
 export default Gstyles;

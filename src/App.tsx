@@ -448,8 +448,11 @@ const App = () => {
 	return (
 		<>
 			<Header />
-			<Link to="/swap"><div onClick={() => setFormType('swap')}>swap</div></Link>
-			<Link to="/bridge"><div onClick={() => setFormType('bridge')}>bridge</div></Link>
+			<div className={'selector'}>
+				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
+				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
+				<div className="selectorsoon">NFT <span>soon</span></div>
+			</div>
 			<div className="App">
 				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
 				<SwapForm {...fromProps} />
