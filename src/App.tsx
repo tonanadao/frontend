@@ -3,7 +3,7 @@ import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import { Routes, Route, useSearchParams, Link, useNavigation, Router } from "react-router-dom";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
-
+import { useNavigate, useLocation } from "react-router-dom";
 import SwapForm from "./components/SwapForm";
 import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
@@ -70,7 +70,8 @@ const App = () => {
 	const [ETHwalletKey, setETHWalletKey] = useState("");
 
 	const [formType, setFormType] = useState<string>("swap");
-
+	const navigate = useNavigate();
+	const location = useLocation();
 	// const navigation = useNavigation();
 
 	const [isload, setIsload] = useState(false);
@@ -430,8 +431,13 @@ const App = () => {
 	useEffect(() => {
 		// TODO
 		// To()
-		// const { History } = Router;
-		console.log(window.location.pathname)
+		// const { History } = Route;
+
+		console.log(location.pathname)
+		if (location.pathname !== '/swap' && location.pathname !== '/bridge') {
+
+			navigate("/swap");
+		}
 	}, [window.location.pathname])
 	// console.log(navigation.location)
 	//

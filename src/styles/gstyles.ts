@@ -110,11 +110,11 @@ iframe{
     left: 0;
     position: absolute;
 		transform:   rotate3d(0, 1, 0, 180deg);
-
 		@media (max-width: 1024px) {
 			left: 50%;
 			transform: translate( -50%) rotate3d(0, 1, 0, 180deg);
-		}
+      margin: -30px 0 30px 0;
+    }
 }
 
 .ant-btn-primary {
@@ -314,6 +314,8 @@ iframe{
 .selector {
   display: flex;
   justify-content: space-around;
+  position: relative;
+  z-index: 100;
   div {
     display: flex;
     justify-content: space-around;
@@ -332,7 +334,6 @@ iframe{
   }
 }
 .selectorsoon {
-  background: green;
   cursor: not-allowed !important;
 	color: gray !important;
 }
