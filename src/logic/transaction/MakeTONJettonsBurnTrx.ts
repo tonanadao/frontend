@@ -142,7 +142,7 @@ const listener = (
 	const int = setInterval(async () => {
 		message.success("Wait BE trx pending...", 2);
 
-		const trxsa = await tonweb.getTransactions(userJWalletAdd, 10);
+		const trxsa = await tonweb.getTransactions(userJWalletAdd, 1);
 		const data = trxsa.filter(
 			(e: any) =>
 				atob(e.in_msg.msg_data.body).split("<DATA>")[1] ===
