@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
-import { useSearchParams } from "react-router-dom";
+import { Routes, Route, useSearchParams, Link, useNavigation, Router } from "react-router-dom";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
-
+import { useNavigate, useLocation } from "react-router-dom";
 import SwapForm from "./components/SwapForm";
 import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
@@ -35,12 +35,16 @@ import nearRpcStatus from "./logic/rpcsStatus/near";
 import ethRpcStatus from "./logic/rpcsStatus/eth";
 import callBackStatus from "./logic/rpcsStatus/back";
 
+import "@near-wallet-selector/modal-ui/styles.css";
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
+import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
 import bnn from "./static/img/logo.svg";
 
 const App = () => {
+	const { selector, modal, accounts, accountId } = useWalletSelector();
+
 	const [ex, sex] = useState(true);
 	const [tu, stu] = useState(0);
 	const [su, ssu] = useState(0);
@@ -65,9 +69,14 @@ const App = () => {
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
 	const [ETHwalletKey, setETHWalletKey] = useState("");
 
+	const [formType, setFormType] = useState<string>("swap");
+	const navigate = useNavigate();
+	const location = useLocation();
+	// const navigation = useNavigation();
+
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
-	const [networkSource, setNetworkSource] = useState("ETH");
+	const [networkSource, setNetworkSource] = useState("NEAR");
 	const [networkDestination, setNetworkDestination] = useState("TON");
 	const [rpcEthStatus, setRpcEthStatus] = useState<{
 		key: string;
@@ -176,29 +185,7 @@ const App = () => {
 	);
 
 	useEffect(() => {
-		(async () => {
-			setRpcTonStatus(await tonRpcStatus());
-		})();
-		(async () => {
-			setRpcSolStatus(await solRpcStatus());
-		})();
-		(async () => {
-			setRpcNearStatus(await nearRpcStatus());
-		})();
-		(async () => {
-			setRpcAuroraStatus(await auroraRpcStatus());
-		})();
-		(async () => {
-			setRpcEthStatus(await ethRpcStatus());
-		})();
-		(async () => {
-			setRpcCosmosStatus(await cosmosRpcStatus());
-		})();
-		(async () => {
-			setBackStatus(await callBackStatus());
-		})();
-
-		setInterval(() => {
+		const getStatuses = () => {
 			(async () => {
 				setRpcTonStatus(await tonRpcStatus());
 			})();
@@ -220,6 +207,10 @@ const App = () => {
 			(async () => {
 				setBackStatus(await callBackStatus());
 			})();
+		};
+		getStatuses();
+		setInterval(() => {
+			getStatuses();
 		}, 30000);
 
 		getTONMaxAmount(setTONMaxAmount);
@@ -312,10 +303,14 @@ const App = () => {
 		NEARwalletKey,
 		ATOMwalletKey,
 		ETHwalletKey,
+		selector,
+		modal,
+		accounts,
+		accountId,
 	};
 
-	const menuSource = menuBuilder(networkDestination, setNetworkSource);
-	const menuDestination = menuBuilder(networkSource, setNetworkDestination);
+	const menuSource = menuBuilder(networkDestination, setNetworkSource, formType, false);
+	const menuDestination = menuBuilder(networkSource, setNetworkDestination, formType, true);
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
 	const btnDest = generateBtn(networkDestination, btnProps);
@@ -396,6 +391,7 @@ const App = () => {
 		firstCurrAmount,
 		secCurrAmount,
 		rpcsStatuses,
+		formType
 	};
 
 	const tvl =
@@ -415,13 +411,60 @@ const App = () => {
 	// console.log("usn", USNMaxAmount * usnu);
 	// console.log("total", tvl);
 
+	useEffect(() => {
+		console.log(formType)
+		setNetworkSource('NEAR')
+		if (formType === 'bridge') {
+			setNetworkDestination('wNEAR (TON)')
+		} else {
+			setNetworkDestination("TON")
+		}
+		// wrap
+		// COIN -> XCOIN
+		// XCOIN -> COIN
+		//
+		// swap
+		// COIN -> COIN
+		// XCOIN none 
+	}, [formType])
+
+	useEffect(() => {
+		// TODO
+		// To()
+		// const { History } = Route;
+
+		console.log(location.pathname)
+		if (location.pathname !== '/swap' && location.pathname !== '/bridge') {
+
+			navigate("/swap");
+		}
+	}, [window.location.pathname])
+	// console.log(navigation.location)
+	//
+	useEffect(() => {
+		if (formType === 'bridge') {
+			if (networkSource.includes('(') && networkSource.includes(')')) {
+				console.log(networkSource.split(' ')[0].slice(1))
+				setNetworkDestination(networkSource.split(' ')[0].slice(1))
+			} else {
+				setNetworkDestination(`w${networkSource} (TON)`)
+			}
+		}
+	}, [networkSource])
 	return (
 		<>
 			<Header />
+			<div className={'selector'}>
+				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
+				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
+				<div className="selectorsoon">NFT <span>soon</span></div>
+			</div>
 			<div className="App">
+				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
 				<SwapForm {...fromProps} />
 				{isload ? <Loader src={bnn} /> : null}
 			</div>
+
 			<Rpcs rpcsStatuses={rpcsStatuses} />
 			<Social />
 			<div className="version">
