@@ -202,6 +202,7 @@ const SwapForm = (props: any) => {
 														? "wUSN"
 														: "";
 
+
 	const activeBtn =
 		(openData ? true : !!walletDirKey) &&
 		!!props.firstCurrAmount &&
@@ -297,7 +298,7 @@ const SwapForm = (props: any) => {
 					</Form.Item>
 					{openData ? (
 						<>
-							<Form.Item label={`Reciver ${props.directionNetwork} address`}>
+							<Form.Item label={`Receiver ${props.directionNetwork} address`}>
 								<Input
 									value={addVal}
 									onChange={(e) => setAddVal(e.target.value)}

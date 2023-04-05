@@ -9,7 +9,7 @@ const rpcsStatus = async () => {
 			},
 		}
 	).then((e) => e.json());
-	console.log(tnn);
+	// console.log(tnn);
 
 	const rpcsa = {
 		title: "Tonana oracle",
