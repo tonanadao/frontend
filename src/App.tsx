@@ -5,6 +5,7 @@ import { Routes, Route, useSearchParams, Link, useNavigation, Router } from "rea
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import SwapForm from "./components/SwapForm";
+import calculatePrice from "./logic/fetch/calculatePrice";
 import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
 import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
@@ -39,6 +40,7 @@ import "@near-wallet-selector/modal-ui/styles.css";
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
 import { useWalletSelector } from "./contexts/WalletSelectorContext";
+
 
 import bnn from "./static/img/logo.svg";
 
@@ -219,10 +221,34 @@ const App = () => {
 		getAURMaxAmount(setAURMaxAmount);
 		getETHMaxAmount(setETHMaxAmount);
 
+		console.log(calculatePrice(
+			networkSource,
+			networkDestination,
+			ATOMMaxAmount,
+			SOLMaxAmount,
+			ETHMaxAmount,
+			AURMaxAmount,
+			TONMaxAmount,
+			USNMaxAmount,
+			NEARMaxAmount))
+
+		setInterval(() => {
+			calculatePrice(
+				networkSource,
+				networkDestination,
+				ATOMMaxAmount,
+				SOLMaxAmount,
+				ETHMaxAmount,
+				AURMaxAmount,
+				TONMaxAmount,
+				USNMaxAmount,
+				NEARMaxAmount)
+		}, 30000);
+
 		fetchMarkets(stu, ssu, sau, snu, sauruu, susn, sethu);
 		setInterval(() => {
 			fetchMarkets(stu, ssu, sau, snu, sauruu, susn, sethu);
-		}, 15000);
+		}, 30000);
 
 		sHexString(
 			Array(16)
@@ -407,9 +433,17 @@ const App = () => {
 	// console.log("ton", TONMaxAmount * tu);
 	// console.log("atom", ATOMMaxAmount * au);
 	// console.log("near", NEARMaxAmount * nu);
-	// console.log("eth", ETHMaxAmount * ethu);
+	console.log("eth", ETHMaxAmount * ethu);
 	// console.log("usn", USNMaxAmount * usnu);
 	// console.log("total", tvl);
+	//
+	// console.log("aur", auru);
+	// console.log("sol", su);
+	// console.log("ton", tu);
+	// console.log("atom", au);
+	// console.log("near", nu);
+	// console.log("eth", ethu);
+	// console.log("usn", usnu);
 
 	useEffect(() => {
 		console.log(formType)
