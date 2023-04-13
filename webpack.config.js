@@ -1,23 +1,36 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-  entry: './src/index.js', // change this to the entry file of your app
+  entry: './src/index.tsx',
   output: {
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    publicPath: '/',
   },
   resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
     fallback: {
-      "buffer": require.resolve("buffer/")
-    }
+      buffer: require.resolve('buffer/'),
+    },
   },
   module: {
     rules: [
-      // add any necessary rules for your app's code
-      // (e.g., for transpiling or bundling)
-    ]
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
+    ],
   },
-  node: {
-    Buffer: true
-  }
-};
+  devServer: {
+    static: path.join(__dirname, 'public'),
+    port: 3000,
+    historyApiFallback: true,
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
+  ],
+}
