@@ -41,6 +41,7 @@ import "antd/dist/antd.css";
 import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
 import bnn from "./static/img/logo.svg";
+import { connect } from 'near-api-js';
 
 const App = () => {
 	const { selector, modal, accounts, accountId } = useWalletSelector();
@@ -309,12 +310,63 @@ const App = () => {
 		accountId,
 	};
 
+	//сделаю объект, где ключ - это имя чеина с маленькой буквы, а все остальные пропсы там берутся из массива пропсов в зависимости от имени чеина
+	//надо наверно ещё функцию создания этого объекта обернуть в юзэффект с зависимостью от изменения стэйта имени чейна
+
+	const [objForBtnDestination, setObjForBtnDestination] = useState([]);
+	const [objForBtnSource, setObjForBtnSource] = useState([]);
+
+	const getObjForBtn = (cheinName: string, btnProps: any): any  => {
+		const key = networkDestination.toLocaleLowerCase();
+		
+		//const currentProps = btnProps.filter( item => item.includes(networkDestination)) cработало бы, если б не тон)) и USN и NEAR
+		const currentProps: any = {};
+		if (cheinName === "SOL") {
+			currentProps.connect = btnProps.connectWalletSOL;
+			currentProps.set = btnProps.setSOLWalletKey;
+			currentProps.walletKey = btnProps.SOLwalletKey;
+		} else if (cheinName.includes("TON") ) {
+			currentProps.connect = btnProps.connectWalletTON;
+			currentProps.set = btnProps.setTONwalletKey;
+			currentProps.walletKey = btnProps.TONwalletKey;
+		} else if (cheinName === "USN" || networkDestination === "NEAR") {
+			currentProps.connect = btnProps.connectWalletNear;
+			currentProps.set = btnProps.setNEARwalletKey;
+			currentProps.walletKey = btnProps.NEARwalletKey;
+		}
+		else if (cheinName === "ATOM") {
+			currentProps.connect = btnProps.connectWalletATOM;
+			currentProps.set = btnProps.setATOMwalletKey;
+			currentProps.walletKey = btnProps.ATOMwalletKey;
+		}
+		else if (cheinName === "AURORA") {
+			currentProps.connect = btnProps.connectWalletAUR;
+			currentProps.set = btnProps.setAURwalletKey;
+			currentProps.walletKey = btnProps.AURwalletKey;
+		}
+		else if (cheinName === "ETH") {
+			currentProps.connect = btnProps.connectWalletETH;
+			currentProps.set = btnProps.setETHWalletKey;
+			currentProps.walletKey = btnProps.ETHwalletKey;			
+		}
+
+		const Obj: any = { [key]:  currentProps};
+		return Obj;
+	}
+
+	useEffect(() => {
+		setObjForBtnDestination(getObjForBtn(networkDestination, btnProps));
+		setObjForBtnSource(getObjForBtn(networkSource, btnProps));
+	  }, [networkDestination, networkSource]);
+	
 	const menuSource = menuBuilder(networkDestination, setNetworkSource, formType, false);
 	const menuDestination = menuBuilder(networkSource, setNetworkDestination, formType, true);
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
-	const btnDest = generateBtn(networkDestination, btnProps);
-	const btnSource = generateBtn(networkSource, btnProps);
+
+//теперь компонента принимает только объект с нужными пропсами для конкретной сети
+	const btnDest = generateBtn(objForBtnDestination);
+	const btnSource = generateBtn(objForBtnSource);
 
 	const swap = () => {
 		setNetworkDestination(networkSource);
