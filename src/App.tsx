@@ -311,8 +311,7 @@ const App = () => {
 	};
 
 	//сделаю объект, где ключ - это имя чеина с маленькой буквы, а все остальные пропсы там берутся из массива пропсов в зависимости от имени чеина
-	//надо наверно ещё функцию создания этого объекта обернуть в юзэффект с зависимостью от изменения стэйта имени чейна
-
+    //check 
 	const [objForBtnDestination, setObjForBtnDestination] = useState([]);
 	const [objForBtnSource, setObjForBtnSource] = useState([]);
 
