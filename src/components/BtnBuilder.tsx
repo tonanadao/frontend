@@ -25,76 +25,27 @@ const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
 
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
-export const generateBtn = (currencyName: string, btnProps: any, objForBtn: any, setObjForBtn: any) => {
+interface Chein {
+	connect: (setSOLWalletKey: any) => Promise<void>
+	set: React.Dispatch<React.SetStateAction<string>>
+	walletKey: string
+}
 
-	console.log("create btn")
+export const generateBtn = (props: any, currencyName: string) => {
 
-	const keyForObj = currencyName.toLocaleLowerCase();
-
-	const setFunc = (connect : any, set: any, walletKey: string) => {
-		setObjForBtn(
-			{
-				[keyForObj]: {
-					connect,
-					set,
-					walletKey
-				}
-			}
-		)
-	}
-
-
-	
-	useEffect(() => {
-
-		if (currencyName === "SOL") {
-					const connect = btnProps.connectWalletSOL;
-					const set = btnProps.setSOLWalletKey;
-					const walletKey = btnProps.SOLwalletKey;
-					setFunc(connect, set, walletKey);
-				} else if (currencyName.includes("TON") ) {
-					const connect = btnProps.connectWalletTON;
-					const set = btnProps.setTONwalletKey;
-					const walletKey = btnProps.TONwalletKey;
-				} else if (currencyName === "USN" || currencyName === "NEAR") {
-					const connect = btnProps.connectWalletNear;
-					const set = btnProps.setNEARwalletKey;
-					const walletKey = btnProps.NEARwalletKey;
-					setFunc(connect, set, walletKey);
-				}
-				else if (currencyName === "ATOM") {
-					const connect = btnProps.connectWalletATOM;
-					const set = btnProps.setATOMwalletKey;
-					const walletKey = btnProps.ATOMwalletKey;
-					setFunc(connect, set, walletKey);
-				}
-				else if (currencyName === "AURORA") {
-					const connect = btnProps.connectWalletAUR;
-					const set = btnProps.setAURwalletKey;
-					const walletKey = btnProps.AURwalletKey;
-					setFunc(connect, set, walletKey);
-				}
-				else if (currencyName === "ETH") {
-					const connect = btnProps.connectWalletETH;
-					const set = btnProps.setETHWalletKey;
-					const walletKey = btnProps.ETHwalletKey;
-					setFunc(connect, set, walletKey);			
-				}
-				
-	}, [currencyName])
-
-
+	let key: string = currencyName.toLocaleLowerCase();
+	if (key.includes('ton')) { key = "ton" }
 
 	return (
 		<>
 				<Button
 					type="primary"
 					id={"connectWalletBtn"}
-					onClick={() => objForBtn[keyForObj].connect(objForBtn[keyForObj].set)}>
-					{objForBtn[keyForObj].walletKey ? (
+					onClick={() => props[key].connect(props[key].set)}>
+					{props[key].walletKey ? (
 						<>
 							<img src={phantom} alt={"#"} />
-							{zipName(objForBtn[keyForObj].walletKey)}
+							{zipName(props[key].walletKey)}
 						</>
 					) : (
 						"Connect wallet"

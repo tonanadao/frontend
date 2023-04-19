@@ -310,6 +310,45 @@ const App = () => {
 		accountId,
 	};
 
+	const sortedBtnProps = {
+		sol: {
+			connect: connectWalletSOL,
+			set: setSOLWalletKey,
+			walletKey: SOLwalletKey
+		},
+		ton: {
+			connect: connectWalletTON,
+			set: setTONwalletKey,
+			walletKey: TONwalletKey
+		},
+		atom: {
+			connect: connectWalletATOM,
+			set: setATOMwalletKey,
+			walletKey: ATOMwalletKey
+		},
+		aurora: {
+			connect: connectWalletSOL,
+			set: setSOLWalletKey,
+			walletKey: SOLwalletKey
+		},
+		eth: {
+			connect: connectWalletETH,
+			set: setETHWalletKey,
+			walletKey: ETHwalletKey
+		},
+		near: {
+			connect: connectWalletNEAR,
+			set: setNEARwalletKey,
+			walletKey: NEARwalletKey
+		},
+		usn: {
+			connect: connectWalletNEAR,
+			set: setNEARwalletKey,
+			walletKey: NEARwalletKey
+		},
+	};
+	
+
 	
 	
 	const menuSource = menuBuilder(networkDestination, setNetworkSource, formType, false);
@@ -317,30 +356,8 @@ const App = () => {
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
 
-
-
-	const keyDestination = networkDestination.toLocaleLowerCase();
-	const keySource = networkSource.toLocaleLowerCase();
-
-	const [objForBtnDestination, setObjForBtnDestination] = useState({
-		[keyDestination]: {
-			connect: () => {},
-			set: () => {},
-			walletKey: '',
-		}
-	});
-
-	const [objForBtnSource, setObjForBtnSource] = useState({
-		[keySource]: {
-			connect: () => {},
-			set: () => {},
-			walletKey: '',
-		}
-	});
-
-
-	const btnDest = generateBtn(networkDestination, btnProps, objForBtnDestination, setObjForBtnDestination);
-	const btnSource = generateBtn(networkSource, btnProps, objForBtnSource, setObjForBtnSource);
+	const btnDest = generateBtn(sortedBtnProps, networkDestination);
+	const btnSource = generateBtn(sortedBtnProps, networkSource);
 
 	const swap = () => {
 		setNetworkDestination(networkSource);
