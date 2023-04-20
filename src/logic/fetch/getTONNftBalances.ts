@@ -1,4 +1,4 @@
-import { TonClient, Address, Cell } from "ton";
+import { TonClient, Address, Cell, beginCell } from "ton";
 // import { Cell as toncorecell } from "ton-core";
 import { flattenSnakeCell, decodeOffChainContent } from "./boc";
 
@@ -12,12 +12,11 @@ const rpcClient = new TonClient({
 const get_nft_data = async (address: string) => {
 	return await new Promise(async (respon) => {
 		try {
-
 			const newValue = await rpcClient.callGetMethod(Address.parseFriendly(address).address, 'get_nft_data') // works only for this case
 			const nameOfItemRaw = Cell
 				.fromBoc(Buffer.from(newValue.stack[4][1].bytes, 'base64'))[0]
 				.beginParse()
-			const nameOfItem = flattenSnakeCell(nameOfItemRaw.toCell()).toString('utf8')
+			let nameOfItem = flattenSnakeCell(nameOfItemRaw.toCell()).toString('utf8')
 			console.log(nameOfItem)
 			const addresOfNftCollMaster = Cell
 				.fromBoc(Buffer.from(newValue.stack[2][1].bytes, 'base64'))[0]
@@ -27,48 +26,69 @@ const get_nft_data = async (address: string) => {
 				.beginParse()
 			const collectionAddress = addresOfNftCollMaster.readAddress()
 
-			// //@ts-ignore
-			// const baseInfo = await rpcClient.callGetMethod(collectionAddress, 'get_nft_content', [
-			// 	{
-			// 		type: 'int',
-			// 		value: 0,
-			// 	},
-			// 	{
-			// 		type: 'cell', cell: new toncorecell()
-			// 	},
-			// ]) // works only for this case
-			//
-			// const cell = (baseInfo.stack.pop()).cell
-			// const baseContent = decodeOffChainContent(cell)
-			// console.log(baseContent)
 			//@ts-ignore
-			const newValueColl = await rpcClient.callGetMethod(collectionAddress, 'get_collection_data') // works only for this case
+			const baseInfo = await rpcClient.callGetMethod(collectionAddress, 'get_nft_content', [
+				['num', '0'],
+				['tvm.Cell', "te6cckEBAQEAAgAAAEysuc0="],
+			]) // works only for this case
+			// console.log(baseInfo.stack[0][1].bytes)
+			// const cell = (baseInfo.stack.pop()).cell
+			// console.log(cell)
+			let baseContent = ''
+			if (!nameOfItem.includes('http')) baseContent = decodeOffChainContent(Cell.fromBoc(Buffer.from(baseInfo.stack[0][1].bytes, 'base64'))[0])
+			if (nameOfItem.includes('http')) nameOfItem = 'http' + nameOfItem.split('http')[1]
 
-			const adfsfcooll = Cell
-				.fromBoc(Buffer.from(newValueColl.stack[1][1].bytes, 'base64'))[0]
-				.beginParse()
-			adfsfcooll.skip(8)
-			fetch("https://proxy.tonana.org/" + flattenSnakeCell(adfsfcooll.toCell()).toString('utf8'), {
+			// console.log(baseContent + nameOfItem)
+			// console.log(beginCell().endCell().toString())
+			//@ts-ignore
+			// const newValueColl = await rpcClient.callGetMethod(collectionAddress, 'get_collection_data') // works only for this case
+			// const adfsfcooll = Cell
+			// 	.fromBoc(Buffer.from(newValueColl.stack[1][1].bytes, 'base64'))[0]
+			// 	.beginParse()
+			// adfsfcooll.skip(8)
+			//
+			// fetch("https://proxy.tonana.org/" + flattenSnakeCell(adfsfcooll.toCell()).toString('utf8'), {
+			// 	headers: {
+			// 		Accept: "application/json"
+			// 	}
+			// }).then((e) => e.json()).then((e: any) => {
+			// 	console.log(flattenSnakeCell(adfsfcooll.toCell()).toString('utf8'))
+			// 	console.log(nameOfItem)
+			// 	console.log(e)
+			// 	respon({
+			// 		nft_address: address,
+			// 		name: e.name,
+			// 		image: e.image,
+			// 		description: e.description,
+			// 		url: flattenSnakeCell(adfsfcooll.toCell()).toString('utf8'),
+			// 		//@ts-ignore
+			// 		address: owner.readAddress().toFriendly(),
+			// 	});
+			// }).catch((e: any) => {
+			// 	respon(null)
+			// })
+			fetch("https://proxy.tonana.org/" + (nameOfItem.includes('http') ? nameOfItem : baseContent + nameOfItem), {
 				headers: {
 					Accept: "application/json"
 				}
 			}).then((e) => e.json()).then((e: any) => {
-				console.log(flattenSnakeCell(adfsfcooll.toCell()).toString('utf8'))
-				console.log(nameOfItem)
 				console.log(e)
 				respon({
 					nft_address: address,
 					name: e.name,
 					image: e.image,
 					description: e.description,
-					url: flattenSnakeCell(adfsfcooll.toCell()).toString('utf8'),
+					// url: flattenSnakeCell(adfsfcooll.toCell()).toString('utf8'),
 					//@ts-ignore
 					address: owner.readAddress().toFriendly(),
 				});
-			}).catch((e: any) => {
-				respon(null)
 			})
+				.catch((e: any) => {
+					console.log(e)
+					respon(null)
+				})
 		} catch (e) {
+			console.log(e)
 			respon(null)
 		}
 	});
