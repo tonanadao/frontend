@@ -41,7 +41,6 @@ import "antd/dist/antd.css";
 import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
 import bnn from "./static/img/logo.svg";
-import { connect } from 'near-api-js';
 
 const App = () => {
 	const { selector, modal, accounts, accountId } = useWalletSelector();
@@ -309,46 +308,6 @@ const App = () => {
 		accounts,
 		accountId,
 	};
-
-	const sortedBtnProps = {
-		sol: {
-			connect: connectWalletSOL,
-			set: setSOLWalletKey,
-			walletKey: SOLwalletKey
-		},
-		ton: {
-			connect: connectWalletTON,
-			set: setTONwalletKey,
-			walletKey: TONwalletKey
-		},
-		atom: {
-			connect: connectWalletATOM,
-			set: setATOMwalletKey,
-			walletKey: ATOMwalletKey
-		},
-		aurora: {
-			connect: connectWalletSOL,
-			set: setSOLWalletKey,
-			walletKey: SOLwalletKey
-		},
-		eth: {
-			connect: connectWalletETH,
-			set: setETHWalletKey,
-			walletKey: ETHwalletKey
-		},
-		near: {
-			connect: connectWalletNEAR,
-			set: setNEARwalletKey,
-			walletKey: NEARwalletKey
-		},
-		usn: {
-			connect: connectWalletNEAR,
-			set: setNEARwalletKey,
-			walletKey: NEARwalletKey
-		},
-	};
-	
-
 	
 	
 	const menuSource = menuBuilder(networkDestination, setNetworkSource, formType, false);
@@ -356,8 +315,8 @@ const App = () => {
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
 
-	const btnDest = generateBtn(sortedBtnProps, networkDestination);
-	const btnSource = generateBtn(sortedBtnProps, networkSource);
+	const btnDest = generateBtn(btnProps, networkDestination);
+	const btnSource = generateBtn(btnProps, networkSource);
 
 	const swap = () => {
 		setNetworkDestination(networkSource);

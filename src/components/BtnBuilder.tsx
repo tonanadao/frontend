@@ -25,27 +25,77 @@ const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
 
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
-interface Chein {
-	connect: (setSOLWalletKey: any) => Promise<void>
-	set: React.Dispatch<React.SetStateAction<string>>
-	walletKey: string
-}
-
 export const generateBtn = (props: any, currencyName: string) => {
+	const { connectWalletSOL,
+		connectWalletETH,
+		setSOLWalletKey,
+		setETHWalletKey,
+		connectWalletTON,
+		setTONwalletKey,
+		setAURwalletKey,
+		connectWalletNEAR,
+		setNEARwalletKey,
+		connectWalletATOM,
+		connectWalletAUR,
+		setATOMwalletKey,
+		TONwalletKey,
+		AURwalletKey,
+		SOLwalletKey,
+		NEARwalletKey,
+		ATOMwalletKey,
+		ETHwalletKey,
+	    selector,
+		modal, 
+		accounts, 
+		accountId } = props;
+
+	const sortedBtnProps: any = {
+		sol: {
+			connect: connectWalletSOL,
+			set: setSOLWalletKey,
+			walletKey: SOLwalletKey,
+		},
+		ton: {
+			connect: connectWalletTON,
+			set: setTONwalletKey,
+			walletKey: TONwalletKey,
+		},
+		atom: {
+			connect: connectWalletATOM,
+			set: setATOMwalletKey,
+			walletKey: ATOMwalletKey,
+		},
+		aurora: {
+			connect: connectWalletAUR,
+			set: setAURwalletKey,
+			walletKey: AURwalletKey,
+		},
+		eth: {
+			connect: connectWalletETH,
+			set: setETHWalletKey,
+			walletKey: ETHwalletKey,
+		},
+		near: {
+			connect: connectWalletNEAR,
+			set: setNEARwalletKey,
+			walletKey: NEARwalletKey,
+		},
+	};
 
 	let key: string = currencyName.toLocaleLowerCase();
 	if (key.includes('ton')) { key = "ton" }
+	if (key.includes('usn')) {key = "near"}
 
 	return (
 		<>
 				<Button
 					type="primary"
 					id={"connectWalletBtn"}
-					onClick={() => props[key].connect(props[key].set)}>
-					{props[key].walletKey ? (
+					onClick={() => sortedBtnProps[key].connect(sortedBtnProps[key].set)}>
+					{sortedBtnProps[key].walletKey ? (
 						<>
 							<img src={phantom} alt={"#"} />
-							{zipName(props[key].walletKey)}
+							{zipName(sortedBtnProps[key].walletKey)}
 						</>
 					) : (
 						"Connect wallet"
