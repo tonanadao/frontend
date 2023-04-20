@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Form, Input, message, Button } from "antd";
 import makeTrx from "../logic/trxBuilder";
-
+import getTONNftBalances from "../logic/fetch/getTONNftBalances";
+// import { request, gql } from 'graphql-request'
 const SwapForm = (props: any) => {
 	const [addVal, setAddVal] = useState("");
 	const [params, setParams] = useState("");
 	const [addMessage, setAddMessage] = useState(false);
 	const [openData, setOpenData] = useState(false);
+	const [nftsToShow, setNfts] = useState([]);
 
 	const isDirAtom = props.directionNetwork === "atom";
 	const isDirNear = props.directionNetwork === "near";
@@ -36,23 +38,22 @@ const SwapForm = (props: any) => {
 	const isSouwAURTON = props.networkSource === "waurora (ton)";
 	const isSouwUSNTON = props.networkSource === "wusn (ton)";
 
-	const isTargetWrapp =
-		isDirwSOLTON ||
-		isDirwETHTON ||
-		isDirwAURTON ||
-		isDirwNEARTON ||
-		isDirwATOMTON ||
-		isDirwUSNTON;
-
-	useEffect(() => {
-		setParams("");
-		setAddVal("");
-		setAddMessage(false);
-		if (isSouNear && isDirTon) setAddMessage(true);
-		if (isSouTon && isDirNear) setAddMessage(true);
-		if (isSouTon && isDirUsn) setAddMessage(true);
-		if (isSouUsn && isDirTon) setAddMessage(true);
-	}, [props.networkSource, props.directionNetwork]);
+	const currency =
+		isSouAtom || isSouwATOMTON
+			? props.au
+			: isSouNear || isSouwNEARTON
+				? props.nu
+				: isSouEth || isSouwETHTON
+					? props.ethu
+					: isSouTon
+						? props.tu
+						: isSouSol || isSouwSOLTON
+							? props.su
+							: isSouAur || isSouwAURTON
+								? props.auru
+								: isSouUsn || isSouwUSNTON
+									? props.usnu
+									: null;
 
 	const walletDirKey = isDirAtom
 		? props.ATOMwalletKey
@@ -94,57 +95,20 @@ const SwapForm = (props: any) => {
 							? props.ETHwalletKey
 							: null;
 
-	const secCurrency =
-		isDirAtom || isDirwATOMTON
-			? props.au
-			: isDirNear || isDirwNEARTON
-				? props.nu
-				: isDirTon
-					? props.tu
-					: isDirAur || isDirwAURTON
-						? props.auru
-						: isDirSol || isDirwSOLTON
-							? props.su
-							: isDirUsn || isDirwUSNTON
-								? props.usnu
-								: isDirEth || isDirwETHTON
-									? props.ethu
-									: null;
+	useEffect(() => {
+		if (props.networkSource === "ton") {
+			if (walletSouKey) {
+				getTONNftBalances(walletSouKey, setNfts)
+			}
+		} else {
+			let headers = new Headers();
+			headers.set('Authorization', 'Basic ' + new Buffer('ckey_a4c7d840a7774fea9b5d2d9198f').toString('base64'));
 
-	const currency =
-		isSouAtom || isSouwATOMTON
-			? props.au
-			: isSouNear || isSouwNEARTON
-				? props.nu
-				: isSouEth || isSouwETHTON
-					? props.ethu
-					: isSouTon
-						? props.tu
-						: isSouSol || isSouwSOLTON
-							? props.su
-							: isSouAur || isSouwAURTON
-								? props.auru
-								: isSouUsn || isSouwUSNTON
-									? props.usnu
-									: null;
-
-	const MaxDirAmount = Number(
-		isDirAtom || isDirwATOMTON
-			? props.ATOMMaxAmount
-			: isDirNear || isDirwNEARTON
-				? props.NEARMaxAmount
-				: isDirTon
-					? props.TONMaxAmount
-					: isDirSol || isDirwSOLTON
-						? props.SOLMaxAmount
-						: isDirEth || isDirwETHTON
-							? props.ETHMaxAmount
-							: isDirAur || isDirwAURTON
-								? props.AURMaxAmount
-								: isDirUsn || isDirwUSNTON
-									? props.USNMaxAmount
-									: null
-	);
+			fetch(`https://api.covalenthq.com/v1/80001/address/${walletSouKey}/balances_nft/?key=ckey_a4c7d840a7774fea9b5d2d9198f`, { method: 'GET', headers })
+				.then((resp) => resp.json())
+				.then((data) => console.log(data));
+		}
+	}, [walletSouKey, props.networkSource]);
 
 	const sourceCurrencyName = isSouAtom
 		? "ATOM"
@@ -173,59 +137,17 @@ const SwapForm = (props: any) => {
 													: isSouwAURTON
 														? "wAURORA"
 														: null;
-
-	const directionCurrencyName = isDirAtom
-		? "ATOM"
-		: isDirNear
-			? "NEAR"
-			: isDirTon
-				? "TON"
-				: isDirSol
-					? "SOL"
-					: isDirUsn
-						? "USN"
-						: isDirEth
-							? "ETH"
-							: isDirAur
-								? "AURORA"
-								: isDirwNEARTON
-									? "wNEAR"
-									: isDirwATOMTON
-										? "wATOM"
-										: isDirwAURTON
-											? "wAURORA"
-											: isDirwSOLTON
-												? "wSOL"
-												: isDirwETHTON
-													? "wETH"
-													: isDirwUSNTON
-														? "wUSN"
-														: "";
-
-
-	const activeBtn =
-		(openData ? true : !!walletDirKey) &&
-		!!props.firstCurrAmount &&
-		!props.isload &&
-		walletSouKey &&
-		(openData ? !!params : true) &&
-		(openData ? !!addVal : true);
-
-	useEffect(() => {
-		if (openData) setAddVal(walletDirKey);
-	}, [openData, walletDirKey]);
-
-	useEffect(() => {
-		props.setFirstCurrAmount("");
-		props.setSecCurrAmount("");
-	}, [props.directionNetwork, props.networkSource]);
-
+	const activeBtn = true
+	console.log(nftsToShow)
 	return (
 		<Form name="control-hooks" layout="vertical">
 			{props.btn}
 			<Form.Item label={`FROM`}>
 				{props.btnSelectSource}
 				{props.btnSource}
+				<div>
+					{nftsToShow.map((e: any) => <div><img src={e.image} /> {e.name}</div>)}
+				</div>
 			</Form.Item>
 			{props.changeDirection}
 			<Form.Item label={`TO`}>

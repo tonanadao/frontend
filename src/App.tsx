@@ -46,7 +46,6 @@ import bnn from "./static/img/logo.svg";
 
 const App = () => {
 	const { selector, modal, accounts, accountId } = useWalletSelector();
-
 	const [ex, sex] = useState(true);
 	const [tu, stu] = useState(0);
 	const [su, ssu] = useState(0);
@@ -452,6 +451,7 @@ const App = () => {
 			navigate("/bridge");
 			setFormType('bridge')
 		}
+
 		if (location.pathname === '/nft') {
 			navigate("/nft");
 			setFormType('nft')
@@ -479,12 +479,9 @@ const App = () => {
 			</div>
 			<div className="App">
 				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
-
 				{location.pathname !== '/nft' ? <SwapForm {...fromProps} /> : <NftForm {...fromProps} />}
-
 				{isload ? <Loader src={bnn} /> : null}
 			</div>
-
 			<Rpcs rpcsStatuses={rpcsStatuses} />
 			<Social />
 			<div className="version">
