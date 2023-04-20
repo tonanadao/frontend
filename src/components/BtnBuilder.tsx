@@ -1,8 +1,4 @@
-import phantom from "../static/img/phantom.png";
-import near from "../static/img/near.png";
-import tonIco from "../static/img/ton.png";
-import keplr from "../static/img/keplr.png";
-import metamask from "../static/img/metamask.png";
+
 
 import { Button } from "antd";
 
@@ -20,12 +16,23 @@ type Submitted = SubmitEvent & {
 	target: { elements: { [key: string]: HTMLInputElement } };
 };
 
+import phantom from "../static/img/phantom.png";
+import near from "../static/img/near.png";
+import tonIco from "../static/img/ton.png";
+import keplr from "../static/img/keplr.png";
+import metamask from "../static/img/metamask.png";
+
+
 const SUGGESTED_DONATION = "0";
 const BOATLOAD_OF_GAS = utils.format.parseNearAmount("0.00000000003")!;
 
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
 export const generateBtn = (props: any, currencyName: string) => {
+
+
+
+
 	const { connectWalletSOL,
 		connectWalletETH,
 		setSOLWalletKey,
@@ -54,31 +61,37 @@ export const generateBtn = (props: any, currencyName: string) => {
 			connect: connectWalletSOL,
 			set: setSOLWalletKey,
 			walletKey: SOLwalletKey,
+			img: phantom,
 		},
 		ton: {
 			connect: connectWalletTON,
 			set: setTONwalletKey,
 			walletKey: TONwalletKey,
+			img: tonIco,
 		},
 		atom: {
 			connect: connectWalletATOM,
 			set: setATOMwalletKey,
 			walletKey: ATOMwalletKey,
+			img: keplr, 
 		},
 		aurora: {
 			connect: connectWalletAUR,
 			set: setAURwalletKey,
 			walletKey: AURwalletKey,
+			img: metamask
 		},
 		eth: {
 			connect: connectWalletETH,
 			set: setETHWalletKey,
 			walletKey: ETHwalletKey,
+			img: metamask,
 		},
 		near: {
 			connect: connectWalletNEAR,
 			set: setNEARwalletKey,
 			walletKey: NEARwalletKey,
+			img: near,
 		},
 	};
 
@@ -94,7 +107,7 @@ export const generateBtn = (props: any, currencyName: string) => {
 					onClick={() => sortedBtnProps[key].connect(sortedBtnProps[key].set)}>
 					{sortedBtnProps[key].walletKey ? (
 						<>
-							<img src={phantom} alt={"#"} />
+							<img src={sortedBtnProps[key].img} alt={"Wallet picture"} />
 							{zipName(sortedBtnProps[key].walletKey)}
 						</>
 					) : (
