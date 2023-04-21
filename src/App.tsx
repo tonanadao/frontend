@@ -312,6 +312,7 @@ const App = () => {
 	
 	const menuSource = menuBuilder(networkDestination, setNetworkSource, formType, false);
 	const menuDestination = menuBuilder(networkSource, setNetworkDestination, formType, true);
+	
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
 

@@ -30,9 +30,6 @@ const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
 export const generateBtn = (props: any, currencyName: string) => {
 
-
-
-
 	const { connectWalletSOL,
 		connectWalletETH,
 		setSOLWalletKey,
