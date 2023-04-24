@@ -25,6 +25,9 @@ const icons : any = {
 	near: {
 		img: nearIco
 	},
+	usn: {
+		img: usnIco
+	}
 }
 
 export const icoBuilder = (chain: string) => {
@@ -32,7 +35,6 @@ export const icoBuilder = (chain: string) => {
 	if ( key.includes('(') && key.includes(')') ) {
 	   key = key.split(' ')[0].slice(1);
 	}
-
+	
 	return (icons[key].img);
 }
-
