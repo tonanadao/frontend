@@ -6,19 +6,33 @@ import aurIco from "../static/img/aurora.png";
 import usnIco from "../static/img/usn.png";
 import ethIco from "../static/img/eth.png";
 
-export const icoBuilder = (chain: string) =>
-	chain === "SOL" || chain === "wSOL (TON)"
-		? solIco
-		: chain === "NEAR" || chain === "wNEAR (TON)"
-		? nearIco
-		: chain === "TON"
-		? tonIco
-		: chain === "ATOM" || chain === "wATOM (TON)"
-		? atomIco
-		: chain === "AURORA" || chain === "wAURORA (TON)"
-		? aurIco
-		: chain === "USN" || chain === "wUSN (TON)"
-		? usnIco
-		: chain === "ETH" || chain === "wETH (TON)"
-		? ethIco
-		: "";
+const icons : any = {
+	sol: {
+		img: solIco
+	},
+	ton: {
+		img: tonIco
+	},
+	atom: {
+		img: atomIco
+	},
+	aurora: {
+		img: aurIco
+	},
+	eth: {
+		img: ethIco
+	},
+	near: {
+		img: nearIco
+	},
+}
+
+export const icoBuilder = (chain: string) => {
+	let key: string = chain.toLocaleLowerCase();
+	if ( key.includes('(') && key.includes(')') ) {
+	   key = key.split(' ')[0].slice(1);
+	}
+
+	return (icons[key].img);
+}
+
