@@ -2,13 +2,34 @@ import { useEffect, useState } from "react";
 import { Form, Input, message, Button } from "antd";
 import makeTrx from "../logic/trxBuilder";
 import getTONNftBalances from "../logic/fetch/getTONNftBalances";
+import getETHNftBalances from "../logic/fetch/getETHNftBalances";
+
+import styled from "styled-components";
 // import { request, gql } from 'graphql-request'
+const NftSelector = styled.div`
+	img {
+		width: 100px;
+	}
+ > div {
+	display: flex;
+ overflow-x: scroll;
+ color: white;
+ > div {
+ 		margin: 10px;
+ }
+ position: relative;
+ }
+ position: relative;
+ overflow-x: scroll;
+ width: 100%;
+`
 const SwapForm = (props: any) => {
 	const [addVal, setAddVal] = useState("");
 	const [params, setParams] = useState("");
 	const [addMessage, setAddMessage] = useState(false);
 	const [openData, setOpenData] = useState(false);
 	const [nftsToShow, setNfts] = useState([]);
+	const [selectedNft, selectNft] = useState(null);
 
 	const isDirAtom = props.directionNetwork === "atom";
 	const isDirNear = props.directionNetwork === "near";
@@ -96,17 +117,16 @@ const SwapForm = (props: any) => {
 							: null;
 
 	useEffect(() => {
+		setNfts([])
+		selectNft(null)
 		if (props.networkSource === "ton") {
 			if (walletSouKey) {
 				getTONNftBalances(walletSouKey, setNfts)
 			}
 		} else {
-			let headers = new Headers();
-			headers.set('Authorization', 'Basic ' + new Buffer('ckey_a4c7d840a7774fea9b5d2d9198f').toString('base64'));
-
-			fetch(`https://api.covalenthq.com/v1/80001/address/${walletSouKey}/balances_nft/?key=ckey_a4c7d840a7774fea9b5d2d9198f`, { method: 'GET', headers })
-				.then((resp) => resp.json())
-				.then((data) => console.log(data));
+			if (walletSouKey) {
+				getETHNftBalances(walletSouKey, setNfts)
+			}
 		}
 	}, [walletSouKey, props.networkSource]);
 
@@ -137,7 +157,18 @@ const SwapForm = (props: any) => {
 													: isSouwAURTON
 														? "wAURORA"
 														: null;
-	const activeBtn = true
+	const activeBtn =
+		(openData ? true : !!walletDirKey) &&
+		!!props.firstCurrAmount &&
+		!props.isload &&
+		walletSouKey &&
+		(openData ? !!params : true) &&
+		(openData ? !!addVal : true) &&
+		selectedNft;
+
+	useEffect(() => {
+		props.setFirstCurrAmount((1 / currency * 5 / 100).toFixed(7) + '')
+	}, [currency])
 	console.log(nftsToShow)
 	return (
 		<Form name="control-hooks" layout="vertical">
@@ -145,14 +176,22 @@ const SwapForm = (props: any) => {
 			<Form.Item label={`FROM`}>
 				{props.btnSelectSource}
 				{props.btnSource}
-				<div>
-					{nftsToShow.map((e: any) => <div><img src={e.image} /> {e.name}</div>)}
-				</div>
+				<NftSelector>
+					<div>
+						{nftsToShow.map((e: any) => <div onClick={() => selectNft(e)}><img src={e.image} /> {e.name}</div>)}
+					</div>
+				</NftSelector>
 			</Form.Item>
 			{props.changeDirection}
 			<Form.Item label={`TO`}>
 				{props.btnSelectDirection}
 				{props.btnDest}
+				{selectedNft ?
+					<NftSelector>
+						<div>
+							<div onClick={() => selectNft(null)}><img src={selectedNft.image} /> {selectedNft.name}</div>
+						</div>
+					</NftSelector> : null}
 			</Form.Item>
 			Nft transfer cost ≈ {(1 / currency * 5).toFixed(2)}{" "}{sourceCurrencyName} ≈ 5$
 
@@ -167,6 +206,7 @@ const SwapForm = (props: any) => {
 						makeTrx(
 							activeBtn,
 							props,
+							walletSouKey,
 							walletDirKey,
 							openData,
 							addVal,
@@ -183,7 +223,9 @@ const SwapForm = (props: any) => {
 							isSouwATOMTON,
 							isSouwAURTON,
 							isSouwETHTON,
-							isSouwUSNTON
+							isSouwUSNTON,
+							true,
+							selectedNft
 						)()
 					}>
 					Submit

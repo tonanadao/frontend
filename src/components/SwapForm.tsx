@@ -342,6 +342,7 @@ const SwapForm = (props: any) => {
 						makeTrx(
 							activeBtn,
 							props,
+							walletSouKey,
 							walletDirKey,
 							openData,
 							addVal,

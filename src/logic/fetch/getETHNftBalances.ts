@@ -112,4 +112,36 @@ const getTONNftBalances = (userWallet: string, setNfts: any) => {
 // 	apiKey: "3cb4d4625d129371c869ab603a3523e22c6a7507307380bf1de59b32be2630ec",
 // });
 
-export default getTONNftBalances;
+const func = (userWallet: string, setNfts: any) => {
+	let headers = new Headers();
+	fetch(`https://api.covalenthq.com/v1/80001/address/${userWallet}/balances_v2/?key=cqt_rQqKrqDJwdXcvcqCFwQGB3Pf8Hpv&nft=true`, {
+		headers: {
+			Accept: "application/json"
+		}
+	})
+		.then((e) => e.json())
+		.then(async (e: any) => {
+			console.log('123')
+			console.log(e)
+
+			const res = e.data.items.filter((e: any) => e.contract_address === "0x94176c0c183e69ba7bbdc2f79b83ca4817d7e554").map((e: any) => e.nft_data)
+			// console.log(e.data.items.filter((e: any) => e.type === "nft").map((e: any) => e.nft_data))
+			// console.log(res[0].map((e: any) => ({
+			// 	nft_address: e.token_id,
+			// 	name: e.external_data.name,
+			// 	image: e.external_data.image,
+			// 	description: e.external_data.description,
+			// 	address: e.owner,
+			// })))
+			setNfts(res.flat().map((e: any) => ({
+				nft_address: e.token_id,
+				name: e.external_data.name,
+				image: e.external_data.image,
+				description: e.external_data.description,
+				address: e.owner,
+
+			})))
+		})
+		.catch((e: any) => { setNfts([]) })
+};
+export default func

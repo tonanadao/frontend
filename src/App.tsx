@@ -253,8 +253,8 @@ const App = () => {
 			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
 		if (isusn)
 			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
-		message.success("Use Chrome with TonWallet & Phantom extensions", 10);
-		message.success("Connect both and make trx, then wait a little bit", 11);
+		// message.success("Use Chrome with TonWallet & Phantom extensions", 10);
+		// message.success("Connect both and make trx, then wait a little bit", 11);
 	}, []);
 
 	useEffect(() => {
