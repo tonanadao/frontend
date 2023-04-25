@@ -1,24 +1,27 @@
 import { Button } from "antd";
+
 import phantom from "../static/img/phantom.png";
 import near from "../static/img/near.png";
 import tonIco from "../static/img/ton.png";
 import keplr from "../static/img/keplr.png";
 import metamask from "../static/img/metamask.png";
 
+import connectWalletSOL from "../logic/wallet/connectWalletSOL";
+import connectWalletATOM from "../logic/wallet/connectWalletATOM";
+import connectWalletAUR from "../logic/wallet/connectWalletAUR";
+import connectWalletTON from "../logic/wallet/connectWalletTON";
+import connectWalletNEAR from "../logic/wallet/connectWalletNEAR"
+import connectWalletETH from "../logic/wallet/connectWalletETH";
+
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
 export const generateBtn = (props: any, currencyName: string) => {
-	const { connectWalletSOL,
-		connectWalletETH,
+	const {
 		setSOLWalletKey,
 		setETHWalletKey,
-		connectWalletTON,
 		setTONwalletKey,
 		setAURwalletKey,
-		connectWalletNEAR,
 		setNEARwalletKey,
-		connectWalletATOM,
-		connectWalletAUR,
 		setATOMwalletKey,
 		TONwalletKey,
 		AURwalletKey,

@@ -9,18 +9,13 @@ import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
 import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
 import fetchMarkets from "./logic/fetch/fetchMarkets";
-import connectWalletSOL from "./logic/wallet/connectWalletSOL";
-import connectWalletATOM from "./logic/wallet/connectWalletATOM";
-import connectWalletAUR from "./logic/wallet/connectWalletAUR";
-import connectWalletTON from "./logic/wallet/connectWalletTON";
-import connectWalletNEAR from "./logic/wallet/connectWalletNEAR";
+
 import { menuBuilder } from "./components/MenuBuilder";
 import { generateBtn } from "./components/BtnBuilder";
 import { icoBuilder } from "./components/IcoBuilder";
 import { initializeWalletNEAR } from "./logic/wallet/initializeWalletNEAR";
 import { makeNEARTrxAfterLoad } from "./logic/transaction/MakeNEARTrx";
 import { makeUSNTrxAfterLoad } from "./logic/transaction/MakeUSNTrx";
-import connectWalletETH from "./logic/wallet/connectWalletETH";
 import getAURMaxAmount from "./logic/fetch/getAURMaxAmount";
 import getETHMaxAmount from "./logic/fetch/getETHMaxAmount";
 import Social from "./components/Social";
@@ -285,17 +280,11 @@ const App = () => {
 	]);
 
 	const btnProps = {
-		connectWalletSOL,
-		connectWalletETH,
 		setSOLWalletKey,
 		setETHWalletKey,
-		connectWalletTON,
 		setTONwalletKey,
 		setAURwalletKey,
-		connectWalletNEAR,
 		setNEARwalletKey,
-		connectWalletATOM,
-		connectWalletAUR,
 		setATOMwalletKey,
 		TONwalletKey,
 		AURwalletKey,
@@ -303,10 +292,6 @@ const App = () => {
 		NEARwalletKey,
 		ATOMwalletKey,
 		ETHwalletKey,
-		selector,
-		modal,
-		accounts,
-		accountId,
 	};
 	
 	
