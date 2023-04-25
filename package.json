@@ -57,7 +57,7 @@
 		"yarn": "^1.22.18"
 	},
 	"scripts": {
-		"start": "react-scripts --es-module-specifier-resolution=node --experimental-specifier-resolution=node --openssl-legacy-provider start",
+		"start": "react-scripts --es-module-specifier-resolution=node --experimental-specifier-resolution=node start",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build",
 		"build": "CI='false' react-scripts --max-old-space-size=4096 build",
