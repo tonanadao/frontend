@@ -1,5 +1,5 @@
 import { Menu } from "antd";
-import arrOfChains from "../config"
+import arrOfChains from "../configs/configMenu"
 
 export const menuBuilder = (net: string, set: any, formType: string, isDestination: boolean) => (
 	<Menu
@@ -27,10 +27,11 @@ export const menuBuilder = (net: string, set: any, formType: string, isDestinati
 							</div>
 						),
 					}
-
+					
 				)
 			} else { return null }
 		})
+
 		}
 	/>
 );
