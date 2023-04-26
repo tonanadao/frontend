@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button, message, Dropdown } from "antd";
+// import { useLocation } from 'react-router-dom'
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import { Routes, Route, useSearchParams, Link, useNavigation, Router } from "react-router-dom";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import SwapForm from "./components/SwapForm";
+import NftForm from "./components/NftForm";
 import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
 import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
@@ -189,6 +191,7 @@ const AppWrapper = () => {
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
 	);
+	console.log(location.pathname);
 
 	useEffect(() => {
 		const getStatuses = () => {
@@ -257,8 +260,8 @@ const AppWrapper = () => {
 			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
 		if (isusn)
 			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
-		message.success("Use Chrome with TonWallet & Phantom extensions", 10);
-		message.success("Connect both and make trx, then wait a little bit", 11);
+		// message.success("Use Chrome with TonWallet & Phantom extensions", 10);
+		// message.success("Connect both and make trx, then wait a little bit", 11);
 	}, []);
 
 	useEffect(() => {
@@ -416,8 +419,11 @@ const AppWrapper = () => {
 		setNetworkSource('NEAR')
 		if (formType === 'bridge') {
 			setNetworkDestination('wNEAR (TON)')
-		} else {
+		} else if (formType === 'swap') {
 			setNetworkDestination("TON")
+		} else {
+			setNetworkDestination("ETH")
+			setNetworkSource('TON')
 		}
 		// wrap
 		// COIN -> XCOIN
@@ -434,11 +440,24 @@ const AppWrapper = () => {
 		// const { History } = Route;
 
 		console.log(location.pathname)
-		if (location.pathname !== '/swap' && location.pathname !== '/bridge') {
-
+		if (location.pathname !== '/swap' && location.pathname !== '/bridge' && location.pathname !== '/nft') {
 			navigate("/swap");
+			setFormType('swap')
 		}
-	}, [window.location.pathname])
+		if (location.pathname === '/swap') {
+			navigate("/swap");
+			setFormType('swap')
+		}
+		if (location.pathname === '/bridge') {
+			navigate("/bridge");
+			setFormType('bridge')
+		}
+
+		if (location.pathname === '/nft') {
+			navigate("/nft");
+			setFormType('nft')
+		}
+	}, [location.pathname])
 	// console.log(navigation.location)
 	//
 	useEffect(() => {
@@ -458,20 +477,19 @@ const AppWrapper = () => {
 			<div className={'selector'}>
 				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
 				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
-				<div className="selectorsoon">NFT <span>soon</span></div>
+				<Link to="/nft"><div onClick={() => setFormType('nft')}>NFT</div></Link>
 			</div>
 			<div className="App">
 				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
-				<SwapForm {...fromProps} />
+				{location.pathname !== '/nft' ? <SwapForm {...fromProps} /> : <NftForm {...fromProps} />}
 				{isload ? <Loader src={bnn} /> : null}
 			</div>
-
 			<Rpcs rpcsStatuses={rpcsStatuses} />
 			<Social />
 			<div className="version">
 				Tonana TVL: ${tvl.toFixed(2)}
 				<br />
-				v1.0.84 (alpha)
+				v1.1.01 (alpha)
 			</div>
 			<Gstyles />
 		</>

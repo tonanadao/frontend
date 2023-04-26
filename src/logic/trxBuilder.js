@@ -12,6 +12,7 @@ import MakeTONJettonsBurnTrx from "../logic/transaction/MakeTONJettonsBurnTrx";
 const makeTrx = (
 	activeBtn,
 	props,
+	walletSouKey,
 	walletDirKey,
 	openData,
 	addVal,
@@ -28,7 +29,9 @@ const makeTrx = (
 	isSouwATOMTON,
 	isSouwAURTON,
 	isSouwETHTON,
-	isSouwUSNTON
+	isSouwUSNTON,
+	isNft,
+	nftData
 ) => {
 	const TRXDir = (
 		props.directionNetwork === "sol"
@@ -83,12 +86,15 @@ const makeTrx = (
 			activeBtn,
 			props.setIsload,
 			props.firstCurrAmount,
+			walletSouKey,
 			walletDirKey,
 			TRXDir,
 			props.hexString,
 			openData,
 			addVal,
-			params
+			params,
+			isNft,
+			nftData,
 		);
 
 	const SOLtrx = () =>
@@ -156,7 +162,9 @@ const makeTrx = (
 			walletDirKey,
 			TRXDir,
 			activeBtn,
-			props.firstCurrAmount
+			props.firstCurrAmount,
+			isNft,
+			nftData,
 		);
 
 	const TONJettonsBurnTrx = () =>

@@ -204,7 +204,6 @@ const SwapForm = (props: any) => {
 														? "wUSN"
 														: "";
 
-
 	const activeBtn =
 		(openData ? true : !!walletDirKey) &&
 		!!props.firstCurrAmount &&
@@ -350,6 +349,7 @@ const SwapForm = (props: any) => {
 						makeTrx(
 							activeBtn,
 							props,
+							walletSouKey,
 							walletDirKey,
 							openData,
 							addVal,
