@@ -46,7 +46,7 @@ import { RootStore, StoreProvider, useStores } from "./stores";
 
 const AppWrapper = () => {
 	const { storeMain } = useStores();
-  const { selector, modal, accounts, accountId } = useWalletSelector();
+	const { selector, modal, accounts, accountId } = useWalletSelector();
 	const [ex, sex] = useState(true);
 
 	const [SOLwalletKey, setSOLWalletKey] = useState("");
@@ -178,12 +178,12 @@ const AppWrapper = () => {
 
 	const tvl = useMemo(() => {
 		return AURMaxAmount * storeMain.repository.get().auru +
-		USNMaxAmount * storeMain.repository.get().usnu +
-		ETHMaxAmount * storeMain.repository.get().ethu +
-		NEARMaxAmount * storeMain.repository.get().nu +
-		ATOMMaxAmount * storeMain.repository.get().au +
-		TONMaxAmount * storeMain.repository.get().tu +
-		SOLMaxAmount * storeMain.repository.get().su;
+			USNMaxAmount * storeMain.repository.get().usnu +
+			ETHMaxAmount * storeMain.repository.get().ethu +
+			NEARMaxAmount * storeMain.repository.get().nu +
+			ATOMMaxAmount * storeMain.repository.get().au +
+			TONMaxAmount * storeMain.repository.get().tu +
+			SOLMaxAmount * storeMain.repository.get().su;
 	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.repository]);
 
 	var connection = new Connection(
@@ -394,14 +394,14 @@ const AppWrapper = () => {
 	};
 
 
-	const tvl =
-		AURMaxAmount * auru +
-		USNMaxAmount * usnu +
-		ETHMaxAmount * ethu +
-		NEARMaxAmount * nu +
-		ATOMMaxAmount * au +
-		TONMaxAmount * tu +
-		SOLMaxAmount * su;
+	// const tvl =
+	// 	AURMaxAmount * auru +
+	// 	USNMaxAmount * usnu +
+	// 	ETHMaxAmount * ethu +
+	// 	NEARMaxAmount * nu +
+	// 	ATOMMaxAmount * au +
+	// 	TONMaxAmount * tu +
+	// 	SOLMaxAmount * su;
 	// console.log("aur", AURMaxAmount * auru);
 	// console.log("sol", SOLMaxAmount * su);
 	// console.log("ton", TONMaxAmount * tu);
