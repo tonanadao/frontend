@@ -1,8 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 // import Baloo from "../static/Inter-roman.var.woff2";
-
 const Gstyles = createGlobalStyle`
-	@font-face {
+
+@font-face {
 		@import url("https://fonts.googleapis.com/css?family=Nunito:300,400,600,700&display=swap");
 		@import url("https://fonts.googleapis.com/css2?family=Livvic:wght@400;500;600;700&display=swap");
 	}
@@ -110,11 +110,11 @@ iframe{
     left: 0;
     position: absolute;
 		transform:   rotate3d(0, 1, 0, 180deg);
-
 		@media (max-width: 1024px) {
 			left: 50%;
 			transform: translate( -50%) rotate3d(0, 1, 0, 180deg);
-		}
+      margin: -30px 0 30px 0;
+    }
 }
 
 .ant-btn-primary {
@@ -310,6 +310,33 @@ iframe{
 		margin: 0 8px 0 0;
 
 	}
-`;
+
+.selector {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  z-index: 100;
+  div {
+    display: flex;
+    justify-content: space-around;
+    background: green;
+    cursor: pointer;
+    color: white !important;
+		padding: 10px 30px; 
+		background: #161c2d;
+		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.35)!important;
+		border-radius: 25px!important;
+		span {
+		  margin: 6px 0 0 4px;
+		  color: gray;
+		  font-size: 9px;
+		}
+  }
+}
+.selectorsoon {
+  cursor: not-allowed !important;
+	color: gray !important;
+}
+  `;
 
 export default Gstyles;

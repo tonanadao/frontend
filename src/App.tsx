@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button, message, Dropdown } from "antd";
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
-import { useSearchParams } from "react-router-dom";
+import { Routes, Route, useSearchParams, Link, useNavigation, Router } from "react-router-dom";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
-
+import { useNavigate, useLocation } from "react-router-dom";
 import SwapForm from "./components/SwapForm";
 import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
@@ -27,16 +27,26 @@ import Social from "./components/Social";
 import Header from "./components/Header";
 import Rpcs from "./components/Rpcs";
 import Gstyles from "./styles/gstyles";
-import rpcsStatus from "./logic/rpcsStatus";
+import tonRpcStatus from "./logic/rpcsStatus/ton";
+import solRpcStatus from "./logic/rpcsStatus/solana";
+import auroraRpcStatus from "./logic/rpcsStatus/aurora";
+import cosmosRpcStatus from "./logic/rpcsStatus/cosmos";
+import nearRpcStatus from "./logic/rpcsStatus/near";
+import ethRpcStatus from "./logic/rpcsStatus/eth";
+import callBackStatus from "./logic/rpcsStatus/back";
 
+import "@near-wallet-selector/modal-ui/styles.css";
 import { Loader } from "./styles/style";
 import "antd/dist/antd.css";
+import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
 import bnn from "./static/img/logo.svg";
 import { RootStore, StoreProvider, useStores } from "./stores";
 
+
 const AppWrapper = () => {
 	const { storeMain } = useStores();
+  const { selector, modal, accounts, accountId } = useWalletSelector();
 	const [ex, sex] = useState(true);
 
 	const [SOLwalletKey, setSOLWalletKey] = useState("");
@@ -55,48 +65,109 @@ const AppWrapper = () => {
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
 	const [ETHwalletKey, setETHWalletKey] = useState("");
 
+	const [formType, setFormType] = useState<string>("swap");
+	const navigate = useNavigate();
+	const location = useLocation();
+	// const navigation = useNavigation();
+
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
-	const [networkSource, setNetworkSource] = useState("ETH");
+	const [networkSource, setNetworkSource] = useState("NEAR");
 	const [networkDestination, setNetworkDestination] = useState("TON");
+	const [rpcEthStatus, setRpcEthStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Ethereum RPC",
+		key: "eth",
+		status: false,
+	});
+
+	const [rpcSolStatus, setRpcSolStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Solana RPC",
+		key: "sol",
+		status: false,
+	});
+	const [rpcNearStatus, setRpcNearStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Near RPC",
+		key: "near",
+		status: false,
+	});
+
+	const [rpcAuroraStatus, setRpcAuroraStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Aurora RPC",
+		key: "aurora",
+		status: false,
+	});
+
+	const [rpcTonStatus, setRpcTonStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Ton RPC",
+		key: "ton",
+		status: false,
+	});
+
+	const [rpcCosmosStatus, setRpcCosmosStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Cosmos RPC",
+		key: "atom",
+		status: false,
+	});
+	const [backStatus, setBackStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Tonana oracle",
+		key: "tnn",
+		status: false,
+	});
+
 	const [rpcsStatuses, setRpcsStatuses] = useState<
-		Array<{ key: string; title: string; status: boolean }>
-	>([
-		{
-			title: "Solana RPC",
-			key: "sol",
-			status: false,
-		},
+		Array<{
+			key: string;
+			title: string;
+			status: boolean;
+		}>
+	>([]);
 
-		{
-			title: "Near RPC",
-			key: "near",
-			status: false,
-		},
-
-		{
-			title: "Ethereum RPC",
-			key: "eth",
-			status: false,
-		},
-
-		{
-			title: "Aurora RPC",
-			key: "aurora",
-			status: false,
-		},
-
-		{
-			title: "Ton RPC",
-			key: "ton",
-			status: false,
-		},
-
-		{
-			title: "Cosmos RPC",
-			key: "atom",
-			status: false,
-		},
+	useEffect(() => {
+		setRpcsStatuses([
+			backStatus,
+			rpcTonStatus,
+			rpcEthStatus,
+			rpcNearStatus,
+			rpcSolStatus,
+			rpcCosmosStatus,
+			rpcAuroraStatus,
+		]);
+	}, [
+		rpcAuroraStatus,
+		rpcNearStatus,
+		rpcSolStatus,
+		rpcTonStatus,
+		rpcCosmosStatus,
+		rpcEthStatus,
+		backStatus,
 	]);
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -120,9 +191,34 @@ const AppWrapper = () => {
 	);
 
 	useEffect(() => {
-		(async () => {
-			setRpcsStatuses(await rpcsStatus());
-		})();
+		const getStatuses = () => {
+			(async () => {
+				setRpcTonStatus(await tonRpcStatus());
+			})();
+			(async () => {
+				setRpcSolStatus(await solRpcStatus());
+			})();
+			(async () => {
+				setRpcNearStatus(await nearRpcStatus());
+			})();
+			(async () => {
+				setRpcAuroraStatus(await auroraRpcStatus());
+			})();
+			(async () => {
+				setRpcEthStatus(await ethRpcStatus());
+			})();
+			(async () => {
+				setRpcCosmosStatus(await cosmosRpcStatus());
+			})();
+			(async () => {
+				setBackStatus(await callBackStatus());
+			})();
+		};
+		getStatuses();
+		setInterval(() => {
+			getStatuses();
+		}, 30000);
+
 		getTONMaxAmount(setTONMaxAmount);
 		getSOLMaxAmount(setSOLMaxAmount);
 		getATOMMaxAmount(setATOMMaxAmount);
@@ -213,10 +309,14 @@ const AppWrapper = () => {
 		NEARwalletKey,
 		ATOMwalletKey,
 		ETHwalletKey,
+		selector,
+		modal,
+		accounts,
+		accountId,
 	};
 
-	const menuSource = menuBuilder(networkDestination, setNetworkSource);
-	const menuDestination = menuBuilder(networkSource, setNetworkDestination);
+	const menuSource = menuBuilder(networkDestination, setNetworkSource, formType, false);
+	const menuDestination = menuBuilder(networkSource, setNetworkDestination, formType, true);
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
 	const btnDest = generateBtn(networkDestination, btnProps);
@@ -290,15 +390,82 @@ const AppWrapper = () => {
 		firstCurrAmount,
 		secCurrAmount,
 		rpcsStatuses,
+		formType
 	};
+
+
+	const tvl =
+		AURMaxAmount * auru +
+		USNMaxAmount * usnu +
+		ETHMaxAmount * ethu +
+		NEARMaxAmount * nu +
+		ATOMMaxAmount * au +
+		TONMaxAmount * tu +
+		SOLMaxAmount * su;
+	// console.log("aur", AURMaxAmount * auru);
+	// console.log("sol", SOLMaxAmount * su);
+	// console.log("ton", TONMaxAmount * tu);
+	// console.log("atom", ATOMMaxAmount * au);
+	// console.log("near", NEARMaxAmount * nu);
+	// console.log("eth", ETHMaxAmount * ethu);
+	// console.log("usn", USNMaxAmount * usnu);
+	// console.log("total", tvl);
+
+	useEffect(() => {
+		console.log(formType)
+		setNetworkSource('NEAR')
+		if (formType === 'bridge') {
+			setNetworkDestination('wNEAR (TON)')
+		} else {
+			setNetworkDestination("TON")
+		}
+		// wrap
+		// COIN -> XCOIN
+		// XCOIN -> COIN
+		//
+		// swap
+		// COIN -> COIN
+		// XCOIN none 
+	}, [formType])
+
+	useEffect(() => {
+		// TODO
+		// To()
+		// const { History } = Route;
+
+		console.log(location.pathname)
+		if (location.pathname !== '/swap' && location.pathname !== '/bridge') {
+
+			navigate("/swap");
+		}
+	}, [window.location.pathname])
+	// console.log(navigation.location)
+	//
+	useEffect(() => {
+		if (formType === 'bridge') {
+			if (networkSource.includes('(') && networkSource.includes(')')) {
+				console.log(networkSource.split(' ')[0].slice(1))
+				setNetworkDestination(networkSource.split(' ')[0].slice(1))
+			} else {
+				setNetworkDestination(`w${networkSource} (TON)`)
+			}
+		}
+	}, [networkSource])
 
 	return (
 		<>
 			<Header />
+			<div className={'selector'}>
+				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
+				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
+				<div className="selectorsoon">NFT <span>soon</span></div>
+			</div>
 			<div className="App">
+				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
 				<SwapForm {...fromProps} />
 				{isload ? <Loader src={bnn} /> : null}
 			</div>
+
 			<Rpcs rpcsStatuses={rpcsStatuses} />
 			<Social />
 			<div className="version">

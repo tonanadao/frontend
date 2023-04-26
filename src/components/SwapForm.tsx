@@ -59,42 +59,42 @@ const SwapForm = (props: any) => {
 	const walletDirKey = isDirAtom
 		? props.ATOMwalletKey
 		: isDirNear || isDirUsn
-		? props.NEARwalletKey
-		: isDirTon ||
-		  isDirwSOLTON ||
-		  isDirwNEARTON ||
-		  isDirwATOMTON ||
-		  isDirwAURTON ||
-		  isDirwETHTON ||
-		  isDirwUSNTON
-		? props.TONwalletKey
-		: isDirSol
-		? props.SOLwalletKey
-		: isDirEth
-		? props.ETHwalletKey
-		: isDirAur
-		? props.AURwalletKey
-		: null;
+			? props.NEARwalletKey
+			: isDirTon ||
+				isDirwSOLTON ||
+				isDirwNEARTON ||
+				isDirwATOMTON ||
+				isDirwAURTON ||
+				isDirwETHTON ||
+				isDirwUSNTON
+				? props.TONwalletKey
+				: isDirSol
+					? props.SOLwalletKey
+					: isDirEth
+						? props.ETHwalletKey
+						: isDirAur
+							? props.AURwalletKey
+							: null;
 
 	const walletSouKey = isSouAtom
 		? props.ATOMwalletKey
 		: isSouNear || isSouUsn
-		? props.NEARwalletKey
-		: isSouTon ||
-		  isSouwATOMTON ||
-		  isSouwNEARTON ||
-		  isSouwSOLTON ||
-		  isSouwAURTON ||
-		  isSouwETHTON ||
-		  isSouwUSNTON
-		? props.TONwalletKey
-		: isSouSol
-		? props.SOLwalletKey
-		: isSouAur
-		? props.AURwalletKey
-		: isSouEth
-		? props.ETHwalletKey
-		: null;
+			? props.NEARwalletKey
+			: isSouTon ||
+				isSouwATOMTON ||
+				isSouwNEARTON ||
+				isSouwSOLTON ||
+				isSouwAURTON ||
+				isSouwETHTON ||
+				isSouwUSNTON
+				? props.TONwalletKey
+				: isSouSol
+					? props.SOLwalletKey
+					: isSouAur
+						? props.AURwalletKey
+						: isSouEth
+							? props.ETHwalletKey
+							: null;
 
 	const secCurrency =
 		isDirAtom || isDirwATOMTON
@@ -134,75 +134,76 @@ const SwapForm = (props: any) => {
 		isDirAtom || isDirwATOMTON
 			? props.ATOMMaxAmount
 			: isDirNear || isDirwNEARTON
-			? props.NEARMaxAmount
-			: isDirTon
-			? props.TONMaxAmount
-			: isDirSol || isDirwSOLTON
-			? props.SOLMaxAmount
-			: isDirEth || isDirwETHTON
-			? props.ETHMaxAmount
-			: isDirAur || isDirwAURTON
-			? props.AURMaxAmount
-			: isDirUsn || isDirwUSNTON
-			? props.USNMaxAmount
-			: null
+				? props.NEARMaxAmount
+				: isDirTon
+					? props.TONMaxAmount
+					: isDirSol || isDirwSOLTON
+						? props.SOLMaxAmount
+						: isDirEth || isDirwETHTON
+							? props.ETHMaxAmount
+							: isDirAur || isDirwAURTON
+								? props.AURMaxAmount
+								: isDirUsn || isDirwUSNTON
+									? props.USNMaxAmount
+									: null
 	);
 
 	const sourceCurrencyName = isSouAtom
 		? "ATOM"
 		: isSouNear
-		? "NEAR"
-		: isSouTon
-		? "TON"
-		: isSouUsn
-		? "USN"
-		: isSouAur
-		? "AURORA"
-		: isSouSol
-		? "SOL"
-		: isSouEth
-		? "ETH"
-		: isSouwNEARTON
-		? "wNEAR"
-		: isSouwSOLTON
-		? "wSOL"
-		: isSouwATOMTON
-		? "wATOM"
-		: isSouwUSNTON
-		? "wUSN"
-		: isSouwETHTON
-		? "wETH"
-		: isSouwAURTON
-		? "wAURORA"
-		: null;
+			? "NEAR"
+			: isSouTon
+				? "TON"
+				: isSouUsn
+					? "USN"
+					: isSouAur
+						? "AURORA"
+						: isSouSol
+							? "SOL"
+							: isSouEth
+								? "ETH"
+								: isSouwNEARTON
+									? "wNEAR"
+									: isSouwSOLTON
+										? "wSOL"
+										: isSouwATOMTON
+											? "wATOM"
+											: isSouwUSNTON
+												? "wUSN"
+												: isSouwETHTON
+													? "wETH"
+													: isSouwAURTON
+														? "wAURORA"
+														: null;
 
 	const directionCurrencyName = isDirAtom
 		? "ATOM"
 		: isDirNear
-		? "NEAR"
-		: isDirTon
-		? "TON"
-		: isDirSol
-		? "SOL"
-		: isDirUsn
-		? "USN"
-		: isDirEth
-		? "ETH"
-		: isDirAur
-		? "AURORA"
-		: isDirwNEARTON
-		? "wNEAR"
-		: isDirwATOMTON
-		? "wATOM"
-		: isDirwAURTON
-		? "wAURORA"
-		: isDirwSOLTON
-		? "wSOL"
-		: isDirwETHTON
-		? "wETH"
-		: isDirwUSNTON
-		? "wUSN"
-		: null;
+			? "NEAR"
+			: isDirTon
+				? "TON"
+				: isDirSol
+					? "SOL"
+					: isDirUsn
+						? "USN"
+						: isDirEth
+							? "ETH"
+							: isDirAur
+								? "AURORA"
+								: isDirwNEARTON
+									? "wNEAR"
+									: isDirwATOMTON
+										? "wATOM"
+										: isDirwAURTON
+											? "wAURORA"
+											: isDirwSOLTON
+												? "wSOL"
+												: isDirwETHTON
+													? "wETH"
+													: isDirwUSNTON
+														? "wUSN"
+														: "";
+
 
 	const activeBtn =
 		(openData ? true : !!walletDirKey) &&
@@ -236,8 +237,8 @@ const SwapForm = (props: any) => {
 						if (currenciesSelected)
 						if (
 							isTargetWrapp ||
-							(Number(e.target.value) * currency!) / secCurrency! <
-								0.8 * MaxDirAmount
+							(Number(e.target.value) * currency) / secCurrency <
+							0.8 * MaxDirAmount
 						) {
 							props.setFirstCurrAmount(e.target.value);
 							props.setSecCurrAmount(
@@ -245,8 +246,7 @@ const SwapForm = (props: any) => {
 							);
 						} else {
 							message.error(
-								`Set less, than ${
-									(0.8 * MaxDirAmount * secCurrency!) / currency!
+								`Set less, than ${(0.8 * MaxDirAmount * secCurrency) / currency
 								} ${sourceCurrencyName}`,
 								3
 							);
@@ -306,7 +306,7 @@ const SwapForm = (props: any) => {
 					</Form.Item>
 					{openData ? (
 						<>
-							<Form.Item label={`Reciver ${props.directionNetwork} address`}>
+							<Form.Item label={`Receiver ${props.directionNetwork} address`}>
 								<Input
 									value={addVal}
 									onChange={(e) => setAddVal(e.target.value)}
@@ -334,9 +334,11 @@ const SwapForm = (props: any) => {
 				</>
 			) : null}
 			Exchange rate: 1 {sourceCurrencyName} ≈{" "}
-			{(currenciesSelected) && ((currency! / secCurrency!) * 0.975).toFixed(3)} {directionCurrencyName}
-			<br />
-			Tonana reserve: {MaxDirAmount.toFixed(3)} {directionCurrencyName}
+			{((currency / secCurrency) * 0.975).toFixed(3)} {directionCurrencyName}
+			<br />{" "}
+			{directionCurrencyName.slice(0, 1) !== "w"
+				? `Tonana reserve: ${MaxDirAmount.toFixed(3)} ${directionCurrencyName}`
+				: `Tonana reserve: unlimited ${directionCurrencyName}`}
 			<Form.Item
 				style={{
 					margin: "24px 0 0 0",

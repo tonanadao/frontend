@@ -1,281 +1,243 @@
 import { Menu } from "antd";
 
-export const menuBuilder = (net: string, set: any) => (
+export const menuBuilder = (net: string, set: any, formType: string, isDestination: boolean) => (
 	<Menu
 		items={[
-			net !== "SOL"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'wSOL (TON)' || formType === 'swap' && net !== 'SOL'
 				? {
-						key: "SOL",
-						label: (
-							<div
-								className={
-									net === "wNEAR (TON)" ||
-									net === "wATOM (TON)" ||
-									net === "wUSN (TON)" ||
-									net === "wETH (TON)" ||
-									net === "wAURORA (TON)"
-										? "cantSelect"
-										: ""
-								}
-								onClick={() =>
-									net !== "wNEAR (TON)" &&
-									net !== "wATOM (TON)" &&
-									net !== "wUSN (TON)" &&
-									net !== "wETH (TON)" &&
-									net !== "wAURORA (TON)"
-										? set("SOL")
-										: null
-								}>
-								SOL
-							</div>
-						),
-				  }
+					key: "SOL",
+					label: (
+						<div
+							className={
+								(formType === 'swap' && net !== "wSOL (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? ""
+									: "cantSelect"
+							}
+							onClick={() =>
+								(formType === 'swap' && net !== "wSOL (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? set("SOL")
+									: null
+							}>
+							SOL
+						</div>
+					),
+				}
 				: null,
-			net !== "ETH"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'wETH (TON)' || formType === 'swap' && net !== 'ETH'
 				? {
-						key: "ETH",
-						label: (
-							<div
-								className={
-									net === "wNEAR (TON)" ||
-									net === "wATOM (TON)" ||
-									net === "wUSN (TON)" ||
-									net === "wSOL (TON)" ||
-									net === "wAURORA (TON)"
-										? "cantSelect"
-										: ""
-								}
-								onClick={() =>
-									net !== "wNEAR (TON)" &&
-									net !== "wATOM (TON)" &&
-									net !== "wUSN (TON)" &&
-									net !== "wSOL (TON)" &&
-									net !== "wAURORA (TON)"
-										? set("ETH")
-										: null
-								}>
-								ETH
-							</div>
-						),
-				  }
+					key: "ETH",
+					label: (
+						<div
+							className={
+								(formType === 'swap' && net !== "wETH (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? ""
+									: "cantSelect"
+							}
+							onClick={() =>
+								(formType === 'swap' && net !== "wETH (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? set("ETH")
+									: null
+							}>
+							ETH
+						</div>
+					),
+				}
 				: null,
-			net !== "USN"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'wUSN (TON)' || formType === 'swap' && net !== 'USN'
 				? {
-						key: "USN",
-						label: (
-							<div
-								className={
-									net === "wNEAR (TON)" ||
-									net === "wATOM (TON)" ||
-									net === "wSOL (TON)" ||
-									net === "wETH (TON)" ||
-									net === "wAURORA (TON)"
-										? "cantSelect"
-										: ""
-								}
-								onClick={() =>
-									net !== "wNEAR (TON)" &&
-									net !== "wATOM (TON)" &&
-									net !== "wSOL (TON)" &&
-									net !== "wETH (TON)" &&
-									net !== "wAURORA (TON)"
-										? set("USN")
-										: null
-								}>
-								USN
-							</div>
-						),
-				  }
+					key: "USN",
+					label: (
+						<div
+							className={
+								(formType === 'swap' && net !== "wUSN (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? ""
+									: "cantSelect"
+							}
+							onClick={() =>
+								(formType === 'swap' && net !== "wUSN (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? set("USN")
+									: null
+							}>
+							USN
+						</div>
+					),
+				}
 				: null,
-			net !== "AURORA"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'wAURORA (TON)' || formType === 'swap' && net !== 'AURORA'
 				? {
-						key: "AURORA",
-						label: (
-							<div
-								className={
-									net === "wNEAR (TON)" ||
-									net === "wATOM (TON)" ||
-									net === "wUSN (TON)" ||
-									net === "wETH (TON)" ||
-									net === "wSOL (TON)"
-										? "cantSelect"
-										: ""
-								}
-								onClick={() =>
-									net !== "wNEAR (TON)" &&
-									net !== "wUSN (TON)" &&
-									net !== "wATOM (TON)" &&
-									net !== "wETH (TON)" &&
-									net !== "wSOL (TON)"
-										? set("AURORA")
-										: null
-								}>
-								AURORA
-							</div>
-						),
-				  }
+					key: "AURORA",
+					label: (
+						<div
+							className={
+								(formType === 'swap' && net !== "wAURORA (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? ""
+									: "cantSelect"
+							}
+							onClick={() =>
+								(formType === 'swap' && net !== "wAURORA (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? set("AURORA")
+									: null
+							}>
+							AURORA
+						</div>
+					),
+				}
 				: null,
-			net !== "ATOM"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'wATOM (TON)' || formType === 'swap' && net !== 'ATOM'
 				? {
-						key: "ATOM",
-						label: (
-							<div
-								className={
-									net === "wNEAR (TON)" ||
-									net === "wSOL (TON)" ||
-									net === "wETH (TON)" ||
-									net === "wUSN (TON)" ||
-									net === "wAURORA (TON)"
-										? "cantSelect"
-										: ""
-								}
-								onClick={() =>
-									net !== "wNEAR (TON)" &&
-									net !== "wSOL (TON)" &&
-									net !== "wUSN (TON)" &&
-									net !== "wETH (TON)" &&
-									net !== "wAURORA (TON)"
-										? set("ATOM")
-										: null
-								}>
-								ATOM
-							</div>
-						),
-				  }
+					key: "ATOM",
+					label: (
+						<div
+							className={
+								(formType === 'swap' && net !== "wATOM (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? ""
+									: "cantSelect"
+							}
+							onClick={() =>
+								(formType === 'swap' && net !== "wATOM (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? set("ATOM")
+									: null
+							}>
+							ATOM
+						</div>
+					),
+				}
 				: null,
-
-			net !== "NEAR"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'wNEAR (TON)' || formType === 'swap' && net !== 'NEAR'
 				? {
-						key: "NEAR",
-						label: (
-							<div
-								className={
-									net === "wSOL (TON)" ||
-									net === "wATOM (TON)" ||
-									net === "wUSN (TON)" ||
-									net === "wETH (TON)" ||
-									net === "wAURORA (TON)"
-										? "cantSelect"
-										: ""
-								}
-								onClick={() =>
-									net !== "wSOL (TON)" &&
-									net !== "wUSN (TON)" &&
-									net !== "wATOM (TON)" &&
-									net !== "wETH (TON)" &&
-									net !== "wAURORA (TON)"
-										? set("NEAR")
-										: null
-								}>
-								NEAR
-							</div>
-						),
-				  }
+					key: "NEAR",
+					label: (
+						<div
+							className={
+								(formType === 'swap' && net !== "wNEAR (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? ""
+									: "cantSelect"
+							}
+							onClick={() =>
+								(formType === 'swap' && net !== "wNEAR (TON)") ||
+									(formType === 'bridge' && !isDestination)
+									? set("NEAR")
+									: null
+							}>
+							NEAR
+						</div>
+					),
+				}
 				: null,
-			net !== "TON"
+			formType === 'swap' && net !== 'TON'
 				? {
-						key: "TON",
-						label: (
-							<div
-								className={
-									net === "wNEAR (TON)" ||
+					key: "TON",
+					label: (
+						<div
+							className={
+								net === "wNEAR (TON)" ||
 									net === "wATOM (TON)" ||
 									net === "wUSN (TON)" ||
 									net === "wETH (TON)" ||
 									net === "wAURORA (TON)" ||
 									net === "wSOL (TON)"
-										? "cantSelect"
-										: ""
-								}
-								onClick={() =>
-									net !== "wNEAR (TON)" &&
+									? "cantSelect"
+									: ""
+							}
+							onClick={() =>
+								net !== "wNEAR (TON)" &&
 									net !== "wATOM (TON)" &&
 									net !== "wUSN (TON)" &&
 									net !== "wAURORA (TON)" &&
 									net !== "wETH (TON)" &&
 									net !== "wSOL (TON)"
-										? set("TON")
-										: null
-								}>
-								TON
-							</div>
-						),
-				  }
+									? set("TON")
+									: null
+							}>
+							TON
+						</div>
+					),
+				}
 				: null,
-			net !== "wNEAR (TON)"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'NEAR'
 				? {
-						key: "wNEAR (TON)",
-						label: (
-							<div
-								className={net !== "NEAR" ? "cantSelect" : ""}
-								onClick={() => (net === "NEAR" ? set("wNEAR (TON)") : null)}>
-								wNEAR (TON)
-							</div>
-						),
-				  }
+					key: "wNEAR (TON)",
+					label: (
+						<div
+							className={false ? "cantSelect" : ""}
+							onClick={() => (net === "NEAR" ? set("wNEAR (TON)") : null)}>
+							wNEAR (TON)
+						</div>
+					),
+				}
 				: null,
-			net !== "wETH (TON)"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'ETH'
 				? {
-						key: "wETH (TON)",
-						label: (
-							<div
-								className={net !== "ETH" ? "cantSelect" : ""}
-								onClick={() => (net === "ETH" ? set("wETH (TON)") : null)}>
-								wETH (TON)
-							</div>
-						),
-				  }
+					key: "wETH (TON)",
+					label: (
+						<div
+							className={false ? "cantSelect" : ""}
+							onClick={() => (true ? set("wETH (TON)") : null)}>
+							wETH (TON)
+						</div>
+					),
+				}
 				: null,
-
-			net !== "wUSN (TON)"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'USN'
 				? {
-						key: "wUSN (TON)",
-						label: (
-							<div
-								className={net !== "USN" ? "cantSelect" : ""}
-								onClick={() => (net === "USN" ? set("wUSN (TON)") : null)}>
-								wUSN (TON)
-							</div>
-						),
-				  }
+					key: "wUSN (TON)",
+					label: (
+						<div
+							className={false ? "cantSelect" : ""}
+							onClick={() => (true ? set("wUSN (TON)") : null)}>
+							wUSN (TON)
+						</div>
+					),
+				}
 				: null,
-			net !== "wATOM (TON)"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'ATOM'
 				? {
-						key: "wATOM (TON)",
-						label: (
-							<div
-								className={net !== "ATOM" ? "cantSelect" : ""}
-								onClick={() => (net === "ATOM" ? set("wATOM (TON)") : null)}>
-								wATOM (TON)
-							</div>
-						),
-				  }
+					key: "wATOM (TON)",
+					label: (
+						<div
+							className={false ? "cantSelect" : ""}
+							onClick={() => (true ? set("wATOM (TON)") : null)}>
+							wATOM (TON)
+						</div>
+					),
+				}
 				: null,
-			net !== "wSOL (TON)"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'SOL'
 				? {
-						key: "wSOL (TON)",
-						label: (
-							<div
-								className={net !== "SOL" ? "cantSelect" : ""}
-								onClick={() => (net === "SOL" ? set("wSOL (TON)") : null)}>
-								wSOL (TON)
-							</div>
-						),
-				  }
+					key: "wSOL (TON)",
+					label: (
+						<div
+							className={false ? "cantSelect" : ""}
+							onClick={() => (true ? set("wSOL (TON)") : null)}>
+							wSOL (TON)
+						</div>
+					),
+				}
 				: null,
-			net !== "wAURORA (TON)"
+			formType === 'bridge' && !isDestination || formType === 'bridge' && isDestination && net === 'AURORA'
 				? {
-						key: "wAURORA (TON)",
-						label: (
-							<div
-								className={net !== "AURORA" ? "cantSelect" : ""}
-								onClick={() =>
-									net === "AURORA" ? set("wAURORA (TON)") : null
-								}>
-								wAURORA (TON)
-							</div>
-						),
-				  }
+					key: "wAURORA (TON)",
+					label: (
+						<div
+							className={false ? "cantSelect" : ""}
+							onClick={() =>
+								true ? set("wAURORA (TON)") : null
+							}>
+							wAURORA (TON)
+						</div>
+					),
+				}
 				: null,
 		]}
 	/>

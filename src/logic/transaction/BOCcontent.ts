@@ -10,7 +10,7 @@ export function flattenSnakeCell(cell: Cell) {
 
 		while (c) {
 			let cs = c.beginParse();
-			console.log(cs);
+			// console.log(cs);
 			let data = cs.readRemainingBytes();
 			res = Buffer.concat([res, data]);
 			c = c.refs[0];
@@ -18,7 +18,7 @@ export function flattenSnakeCell(cell: Cell) {
 
 		return res;
 	} catch (e) {
-		console.log(e);
+		// console.log(e);
 		return null;
 	}
 }
@@ -60,7 +60,7 @@ export function encodeOffChainContent(content: string) {
 }
 
 export function decodeOffChainContent(content: Cell) {
-	console.log(content);
+	// console.log(content);
 	let data = flattenSnakeCell(content);
 
 	if (data) {

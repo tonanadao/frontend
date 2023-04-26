@@ -34,49 +34,49 @@ const makeTrx = (
 		props.directionNetwork === "sol"
 			? "SOLANA"
 			: props.directionNetwork === "wnear (ton)"
-			? "TONwNEAR"
-			: props.directionNetwork === "wsol (ton)"
-			? "TONwSOL"
-			: props.directionNetwork === "watom (ton)"
-			? "TONwATOM"
-			: props.directionNetwork === "waurora (ton)"
-			? "TONwAURORA"
-			: props.directionNetwork === "weth (ton)"
-			? "TONwETH"
-			: props.directionNetwork === "wusn (ton)"
-			? "TONwUSN"
-			: props.directionNetwork === "atom"
-			? "COSMOS"
-			: props.directionNetwork
+				? "TONwNEAR"
+				: props.directionNetwork === "wsol (ton)"
+					? "TONwSOL"
+					: props.directionNetwork === "watom (ton)"
+						? "TONwATOM"
+						: props.directionNetwork === "waurora (ton)"
+							? "TONwAURORA"
+							: props.directionNetwork === "weth (ton)"
+								? "TONwETH"
+								: props.directionNetwork === "wusn (ton)"
+									? "TONwUSN"
+									: props.directionNetwork === "atom"
+										? "COSMOS"
+										: props.directionNetwork
 	).toUpperCase();
 
 	const TONJettonContractAdd = isSouwSOLTON
 		? "EQC4cCygTZPKIP9cCsWx7DW5i5MQPOsEcfKkKwBZKkRCCfaW"
 		: isSouwATOMTON
-		? "EQCa5-xswEfQM5x_CBb5f53ghfy8ZYTAMCohgqSO6rBYMlkD"
-		: isSouwNEARTON
-		? "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi"
-		: isSouwAURTON
-		? "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut"
-		: isSouwUSNTON
-		? "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI"
-		: isSouwETHTON
-		? "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U"
-		: "";
+			? "EQCa5-xswEfQM5x_CBb5f53ghfy8ZYTAMCohgqSO6rBYMlkD"
+			: isSouwNEARTON
+				? "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi"
+				: isSouwAURTON
+					? "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut"
+					: isSouwUSNTON
+						? "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI"
+						: isSouwETHTON
+							? "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U"
+							: "";
 
 	const sourceChain = isSouwSOLTON
 		? "TONwSOL"
 		: isSouwATOMTON
-		? "TONwATOM"
-		: isSouwNEARTON
-		? "TONwNEAR"
-		: isSouwAURTON
-		? "TONwAURORA"
-		: isSouwUSNTON
-		? "TONwUSN"
-		: isSouwETHTON
-		? "TONwETH"
-		: "";
+			? "TONwATOM"
+			: isSouwNEARTON
+				? "TONwNEAR"
+				: isSouwAURTON
+					? "TONwAURORA"
+					: isSouwUSNTON
+						? "TONwUSN"
+						: isSouwETHTON
+							? "TONwETH"
+							: "";
 
 	const TONTrx = () =>
 		MakeTONTrx(
@@ -171,6 +171,7 @@ const makeTrx = (
 			walletDirKey
 		);
 
+
 	const isSouRpcOk = props.rpcsStatuses.filter((e: any) =>
 
 		(e.key === props.networkSource) === "usn"
@@ -197,7 +198,10 @@ const makeTrx = (
 			  props.directionNetwork === "wusn (ton)"
 			? "ton"
 			: props.directionNetwork
+
 	)[0].status;
+
+	const isBackOk = props.rpcsStatuses.filter((e) => e.key === "tnn")[0].status;
 
 	if (!isDirRpcOk) {
 		message.error(props.directionNetwork.toUpperCase() + " RPC is DEAD");
@@ -206,30 +210,35 @@ const makeTrx = (
 	if (!isSouRpcOk) {
 		message.error(props.networkSource.toUpperCase() + " RPC is DEAD");
 	}
-	if (!isDirRpcOk || !isSouRpcOk) return () => {};
+
+	if (!isBackOk) {
+		message.error("Tonana oracle is DEAD");
+	}
+
+	if (!isDirRpcOk || !isSouRpcOk || !isBackOk) return () => { };
 
 	return isSouAtom
 		? ATOMtrx
 		: isSouNear
-		? NEARTrx
-		: isSouUsn
-		? USNtrx
-		: isSouTon
-		? TONTrx
-		: isSouSol
-		? SOLtrx
-		: isSouAur
-		? AURORAtrx
-		: isSouEth
-		? ETHtrx
-		: isSouwNEARTON ||
-		  isSouwSOLTON ||
-		  isSouwATOMTON ||
-		  isSouwAURTON ||
-		  isSouwETHTON ||
-		  isSouwUSNTON
-		? TONJettonsBurnTrx
-		: () => {};
+			? NEARTrx
+			: isSouUsn
+				? USNtrx
+				: isSouTon
+					? TONTrx
+					: isSouSol
+						? SOLtrx
+						: isSouAur
+							? AURORAtrx
+							: isSouEth
+								? ETHtrx
+								: isSouwNEARTON ||
+									isSouwSOLTON ||
+									isSouwATOMTON ||
+									isSouwAURTON ||
+									isSouwETHTON ||
+									isSouwUSNTON
+									? TONJettonsBurnTrx
+									: () => { };
 };
 
 export default makeTrx;
