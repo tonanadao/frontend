@@ -260,7 +260,7 @@ export const generateBtn = (currencyName: string, btnProps: any) => {
 					)}
 				</Button>
 			) : null}
-			{currencyName === "ETH" ? (
+			{currencyName === "ETH" || currencyName === "MUMBAI" ? (
 				<Button
 					type="primary"
 					id={"connectWalletBtn"}

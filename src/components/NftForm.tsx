@@ -3,6 +3,7 @@ import { Form, Input, message, Button } from "antd";
 import makeTrx from "../logic/trxBuilder";
 import getTONNftBalances from "../logic/fetch/getTONNftBalances";
 import getETHNftBalances from "../logic/fetch/getETHNftBalances";
+import { useStores } from "../stores";
 
 import styled from "styled-components";
 // import { request, gql } from 'graphql-request'
@@ -31,6 +32,7 @@ const SwapForm = (props: any) => {
 	const [openData, setOpenData] = useState(false);
 	const [nftsToShow, setNfts] = useState([]);
 	const [selectedNft, selectNft] = useState(null);
+	const { storeMain } = useStores();
 
 	const isDirAtom = props.directionNetwork === "atom";
 	const isDirNear = props.directionNetwork === "near";
@@ -38,7 +40,7 @@ const SwapForm = (props: any) => {
 	const isDirTon = props.directionNetwork === "ton";
 	const isDirAur = props.directionNetwork === "aurora";
 	const isDirUsn = props.directionNetwork === "usn";
-	const isDirEth = props.directionNetwork === "eth";
+	const isDirEth = props.directionNetwork === "eth" || props.directionNetwork === "mumbai";
 	const isDirwSOLTON = props.directionNetwork === "wsol (ton)";
 	const isDirwETHTON = props.directionNetwork === "weth (ton)";
 	const isDirwAURTON = props.directionNetwork === "waurora (ton)";
@@ -52,7 +54,7 @@ const SwapForm = (props: any) => {
 	const isSouTon = props.networkSource === "ton";
 	const isSouAur = props.networkSource === "aurora";
 	const isSouUsn = props.networkSource === "usn";
-	const isSouEth = props.networkSource === "eth";
+	const isSouEth = props.networkSource === "eth" || props.networkSource === "mumbai";
 	const isSouwSOLTON = props.networkSource === "wsol (ton)";
 	const isSouwETHTON = props.networkSource === "weth (ton)";
 	const isSouwATOMTON = props.networkSource === "watom (ton)";
@@ -60,21 +62,23 @@ const SwapForm = (props: any) => {
 	const isSouwAURTON = props.networkSource === "waurora (ton)";
 	const isSouwUSNTON = props.networkSource === "wusn (ton)";
 
+	console.log(props)
+
 	const currency =
 		isSouAtom || isSouwATOMTON
-			? props.au
+			? storeMain.repository.get().au
 			: isSouNear || isSouwNEARTON
-				? props.nu
+				? storeMain.repository.get().nu
 				: isSouEth || isSouwETHTON
-					? props.ethu
+					? storeMain.repository.get().maticu
 					: isSouTon
-						? props.tu
+						? storeMain.repository.get().tu
 						: isSouSol || isSouwSOLTON
-							? props.su
+							? storeMain.repository.get().su
 							: isSouAur || isSouwAURTON
-								? props.auru
+								? storeMain.repository.get().auru
 								: isSouUsn || isSouwUSNTON
-									? props.usnu
+									? storeMain.repository.get().usnu
 									: null;
 
 	const walletDirKey = isDirAtom
@@ -141,23 +145,25 @@ const SwapForm = (props: any) => {
 					? "USN"
 					: isSouAur
 						? "AURORA"
-						: isSouSol
-							? "SOL"
-							: isSouEth
-								? "ETH"
-								: isSouwNEARTON
-									? "wNEAR"
-									: isSouwSOLTON
-										? "wSOL"
-										: isSouwATOMTON
-											? "wATOM"
-											: isSouwUSNTON
-												? "wUSN"
-												: isSouwETHTON
-													? "wETH"
-													: isSouwAURTON
-														? "wAURORA"
-														: null;
+						: isSouEth
+							? "MATIC"
+							: isSouSol
+								? "SOL"
+								: isSouEth
+									? "ETH"
+									: isSouwNEARTON
+										? "wNEAR"
+										: isSouwSOLTON
+											? "wSOL"
+											: isSouwATOMTON
+												? "wATOM"
+												: isSouwUSNTON
+													? "wUSN"
+													: isSouwETHTON
+														? "wETH"
+														: isSouwAURTON
+															? "wAURORA"
+															: null;
 	const activeBtn =
 		(openData ? true : !!walletDirKey) &&
 		!!props.firstCurrAmount &&
@@ -170,11 +176,11 @@ const SwapForm = (props: any) => {
 	useEffect(() => {
 		props.setFirstCurrAmount((1 / currency * 5 / 100).toFixed(7) + '')
 	}, [currency])
-	console.log(nftsToShow)
+	console.log(currency)
 	return (
 		<Form name="control-hooks" layout="vertical">
 			{props.btn}
-			<Form.Item label={`FROM`}>
+			<Form.Item label={`FROM (TESTNET ONLY)`}>
 				{props.btnSelectSource}
 				{props.btnSource}
 				<NftSelector>
@@ -184,7 +190,7 @@ const SwapForm = (props: any) => {
 				</NftSelector>
 			</Form.Item>
 			{props.changeDirection}
-			<Form.Item label={`TO`}>
+			<Form.Item label={`TO (TESTNET ONLY)`}>
 				{props.btnSelectDirection}
 				{props.btnDest}
 				{selectedNft ?

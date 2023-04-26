@@ -185,13 +185,13 @@ const makeTrx = (
 		(e.key === props.networkSource) === "usn"
 			? "near"
 			: props.networkSource === "wsol (ton)" ||
-			  props.networkSource === "weth (ton)" ||
-			  props.networkSource === "watom (ton)" ||
-			  props.networkSource === "wnear (ton)" ||
-			  props.networkSource === "waurora (ton)" ||
-			  props.networkSource === "wusn (ton)"
-			? "ton"
-			: props.networkSource
+				props.networkSource === "weth (ton)" ||
+				props.networkSource === "watom (ton)" ||
+				props.networkSource === "wnear (ton)" ||
+				props.networkSource === "waurora (ton)" ||
+				props.networkSource === "wusn (ton)"
+				? "ton"
+				: props.networkSource
 	)[0].status;
 
 	const isDirRpcOk = props.rpcsStatuses.filter((e: any) =>
@@ -199,13 +199,13 @@ const makeTrx = (
 		(e.key === props.directionNetwork) === "usn"
 			? "near"
 			: props.directionNetwork === "wsol (ton)" ||
-			  props.directionNetwork === "weth (ton)" ||
-			  props.directionNetwork === "watom (ton)" ||
-			  props.directionNetwork === "wnear (ton)" ||
-			  props.directionNetwork === "waurora (ton)" ||
-			  props.directionNetwork === "wusn (ton)"
-			? "ton"
-			: props.directionNetwork
+				props.directionNetwork === "weth (ton)" ||
+				props.directionNetwork === "watom (ton)" ||
+				props.directionNetwork === "wnear (ton)" ||
+				props.directionNetwork === "waurora (ton)" ||
+				props.directionNetwork === "wusn (ton)"
+				? "ton"
+				: props.directionNetwork
 
 	)[0].status;
 

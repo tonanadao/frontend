@@ -228,9 +228,9 @@ const AppWrapper = () => {
 		getAURMaxAmount(setAURMaxAmount);
 		getETHMaxAmount(setETHMaxAmount);
 
-		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu);
+		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		setInterval(() => {
-			fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu);
+			fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		}, 15000);
 
 		sHexString(
@@ -422,7 +422,7 @@ const AppWrapper = () => {
 		} else if (formType === 'swap') {
 			setNetworkDestination("TON")
 		} else {
-			setNetworkDestination("ETH")
+			setNetworkDestination("MUMBAI")
 			setNetworkSource('TON')
 		}
 		// wrap
@@ -477,7 +477,7 @@ const AppWrapper = () => {
 			<div className={'selector'}>
 				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
 				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
-				<Link to="/nft"><div onClick={() => setFormType('nft')}>NFT</div></Link>
+				<Link to="/nft"><div onClick={() => setFormType('nft')}>NFT<span>testnet</span></div></Link>
 			</div>
 			<div className="App">
 				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
