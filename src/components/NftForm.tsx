@@ -15,6 +15,7 @@ const NftSelector = styled.div`
  overflow-x: scroll;
  color: white;
  > div {
+ max-width: 100px;
  		margin: 10px;
  }
  position: relative;
