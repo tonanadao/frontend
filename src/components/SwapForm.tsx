@@ -202,7 +202,6 @@ const SwapForm = (props: any) => {
 														? "wUSN"
 														: "";
 
-
 	const activeBtn =
 		(openData ? true : !!walletDirKey) &&
 		!!props.firstCurrAmount &&
