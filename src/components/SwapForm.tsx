@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Form, Input, message, Button } from "antd";
 import makeTrx from "../logic/trxBuilder";
+import { useStores } from "../stores";
 
 const SwapForm = (props: any) => {
+	const { storeMain } = useStores();
 	const [addVal, setAddVal] = useState("");
 	const [params, setParams] = useState("");
 	const [addMessage, setAddMessage] = useState(false);
@@ -96,37 +98,37 @@ const SwapForm = (props: any) => {
 
 	const secCurrency =
 		isDirAtom || isDirwATOMTON
-			? props.au
+			? storeMain.repository.get().au
 			: isDirNear || isDirwNEARTON
-				? props.nu
-				: isDirTon
-					? props.tu
-					: isDirAur || isDirwAURTON
-						? props.auru
-						: isDirSol || isDirwSOLTON
-							? props.su
-							: isDirUsn || isDirwUSNTON
-								? props.usnu
-								: isDirEth || isDirwETHTON
-									? props.ethu
-									: null;
+			? storeMain.repository.get().nu
+			: isDirTon
+			? storeMain.repository.get().tu
+			: isDirAur || isDirwAURTON
+			? storeMain.repository.get().auru
+			: isDirSol || isDirwSOLTON
+			? storeMain.repository.get().su
+			: isDirUsn || isDirwUSNTON
+			? storeMain.repository.get().usnu
+			: isDirEth || isDirwETHTON
+			? storeMain.repository.get().ethu
+			: null;
 
 	const currency =
 		isSouAtom || isSouwATOMTON
-			? props.au
+			? storeMain.repository.get().au
 			: isSouNear || isSouwNEARTON
-				? props.nu
-				: isSouEth || isSouwETHTON
-					? props.ethu
-					: isSouTon
-						? props.tu
-						: isSouSol || isSouwSOLTON
-							? props.su
-							: isSouAur || isSouwAURTON
-								? props.auru
-								: isSouUsn || isSouwUSNTON
-									? props.usnu
-									: null;
+			? storeMain.repository.get().nu
+			: isSouEth || isSouwETHTON
+			? storeMain.repository.get().ethu
+			: isSouTon
+			? storeMain.repository.get().tu
+			: isSouSol || isSouwSOLTON
+			? storeMain.repository.get().su
+			: isSouAur || isSouwAURTON
+			? storeMain.repository.get().auru
+			: isSouUsn || isSouwUSNTON
+			? storeMain.repository.get().usnu
+			: null;
 
 	const MaxDirAmount = Number(
 		isDirAtom || isDirwATOMTON
@@ -211,6 +213,10 @@ const SwapForm = (props: any) => {
 		(openData ? !!params : true) &&
 		(openData ? !!addVal : true);
 
+	const currenciesSelected = useMemo(() => {
+		return currency !== null && secCurrency !== null;
+	}, [currency, secCurrency]);
+
 	useEffect(() => {
 		if (openData) setAddVal(walletDirKey);
 	}, [openData, walletDirKey]);
@@ -228,6 +234,7 @@ const SwapForm = (props: any) => {
 				{props.btnSource}
 				<Input
 					onChange={(e) => {
+						if (currenciesSelected)
 						if (
 							isTargetWrapp ||
 							(Number(e.target.value) * currency) / secCurrency <
@@ -235,7 +242,7 @@ const SwapForm = (props: any) => {
 						) {
 							props.setFirstCurrAmount(e.target.value);
 							props.setSecCurrAmount(
-								((Number(e.target.value) * currency) / secCurrency) * 0.975 + ""
+								((Number(e.target.value) * currency!) / secCurrency!) * 0.975 + ""
 							);
 						} else {
 							message.error(
@@ -268,9 +275,10 @@ const SwapForm = (props: any) => {
 							: ""
 					}
 					onChange={(e) => {
+						if (currenciesSelected)
 						if (isTargetWrapp || Number(e.target.value) < 0.8 * MaxDirAmount) {
 							props.setFirstCurrAmount(
-								((Number(e.target.value) * secCurrency) / currency) * 1.025 + ""
+								((Number(e.target.value) * secCurrency!) / currency!) * 1.025 + ""
 							);
 							props.setSecCurrAmount(e.target.value);
 						} else {
