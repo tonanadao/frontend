@@ -5,6 +5,7 @@ import near from "../static/img/near.png";
 import tonIco from "../static/img/ton.png";
 import keplr from "../static/img/keplr.png";
 import metamask from "../static/img/metamask.png";
+import polygonIco from "../static/img/polygon.png";
 
 import connectWalletSOL from "../logic/wallet/connectWalletSOL";
 import connectWalletATOM from "../logic/wallet/connectWalletATOM";
@@ -29,6 +30,8 @@ export const generateBtn = (props: any, currencyName: string) => {
 		NEARwalletKey,
 		ATOMwalletKey,
 		ETHwalletKey,
+		setMUMBwalletKey,
+		MUMBwalletKey,
 	} = props;
 
 	const sortedBtnProps: any = {
@@ -68,6 +71,12 @@ export const generateBtn = (props: any, currencyName: string) => {
 			walletKey: NEARwalletKey,
 			img: near,
 		},
+		mumbai: {
+			connect: connectWalletETH,
+			set:  setMUMBwalletKey,
+			walletKey: MUMBwalletKey,
+			img: polygonIco
+		}
 	};
 
 	let key: string = currencyName.toLocaleLowerCase();
