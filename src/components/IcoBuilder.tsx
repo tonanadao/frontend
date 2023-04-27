@@ -10,7 +10,7 @@ export const icoBuilder = (chain: string) => {
 	return (icons[key].img);
 }
 
-todo fix here
+
 
 // import polygonIco from "../static/img/polygon.png";
 

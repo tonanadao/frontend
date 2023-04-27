@@ -5,6 +5,7 @@ import solIco from "../static/img/solana.png";
 import aurIco from "../static/img/aurora.png";
 import usnIco from "../static/img/usn.png";
 import ethIco from "../static/img/eth.png";
+import polygonIco from "../static/img/polygon.png";
 
 
 const icons : any = {
@@ -28,6 +29,9 @@ const icons : any = {
 	},
 	usn: {
 		img: usnIco
+	},
+	mumbai: {
+		img: polygonIco
 	}
 }
 

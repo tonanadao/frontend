@@ -47,6 +47,7 @@ const AppWrapper = () => {
 	const [ex, sex] = useState(true);
 
 	const [SOLwalletKey, setSOLWalletKey] = useState("");
+	const [MUMBwalletKey, setMUMBwalletKey] = useState("");
 	const [TONwalletKey, setTONwalletKey] = useState("");
 	const [NEARwalletKey, setNEARwalletKey] = useState("");
 	const [ATOMwalletKey, setATOMwalletKey] = useState("");
@@ -295,12 +296,14 @@ const AppWrapper = () => {
 		setAURwalletKey,
 		setNEARwalletKey,
 		setATOMwalletKey,
+		setMUMBwalletKey,
 		TONwalletKey,
 		AURwalletKey,
 		SOLwalletKey,
 		NEARwalletKey,
 		ATOMwalletKey,
 		ETHwalletKey,
+		MUMBwalletKey
 	};
 	
 	
