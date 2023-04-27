@@ -40,7 +40,8 @@
 		"coingecko-api": "^1.0.10",
 		"cosmjs-types": "^0.5.0",
 		"ethers": "^5.7.0",
-		"near-api-js": "^0.44.2",
+		"nanostores": "^0.7.1",
+		"near-api-js": "^0.45.1",
 		"phantom-react": "^0.1.4",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
@@ -60,7 +61,7 @@
 		"start": "react-scripts --es-module-specifier-resolution=node --experimental-specifier-resolution=node --openssl-legacy-provider start",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build",
-		"build": "CI='false' react-scripts --max-old-space-size=4096 build",
+		"build": "CI='false' react-scripts --openssl-legacy-provider --max-old-space-size=4096 build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},

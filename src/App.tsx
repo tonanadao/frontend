@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, message, Dropdown } from "antd";
+// import { useLocation } from 'react-router-dom'
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import { Routes, Route, useSearchParams, Link, useNavigation, Router } from "react-router-dom";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import SwapForm from "./components/SwapForm";
+import NftForm from "./components/NftForm";
 import getTONMaxAmount from "./logic/fetch/getTONMaxAmount";
 import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
 import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
@@ -36,18 +38,14 @@ import "antd/dist/antd.css";
 import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
 import bnn from "./static/img/logo.svg";
+import { RootStore, StoreProvider, useStores } from "./stores";
 
-const App = () => {
+
+const AppWrapper = () => {
+	const { storeMain } = useStores();
 	const { selector, modal, accounts, accountId } = useWalletSelector();
-
 	const [ex, sex] = useState(true);
-	const [tu, stu] = useState(0);
-	const [su, ssu] = useState(0);
-	const [au, sau] = useState(0);
-	const [nu, snu] = useState(0);
-	const [usnu, susn] = useState(0);
-	const [auru, sauruu] = useState(0);
-	const [ethu, sethu] = useState(0);
+
 	const [SOLwalletKey, setSOLWalletKey] = useState("");
 	const [TONwalletKey, setTONwalletKey] = useState("");
 	const [NEARwalletKey, setNEARwalletKey] = useState("");
@@ -175,9 +173,20 @@ const App = () => {
 	const isusn = searchParams.get("isusn");
 	const isnear = searchParams.get("isnear");
 
+	const tvl = useMemo(() => {
+		return AURMaxAmount * storeMain.repository.get().auru +
+			USNMaxAmount * storeMain.repository.get().usnu +
+			ETHMaxAmount * storeMain.repository.get().ethu +
+			NEARMaxAmount * storeMain.repository.get().nu +
+			ATOMMaxAmount * storeMain.repository.get().au +
+			TONMaxAmount * storeMain.repository.get().tu +
+			SOLMaxAmount * storeMain.repository.get().su;
+	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.repository]);
+
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
 	);
+	console.log(location.pathname);
 
 	useEffect(() => {
 		const getStatuses = () => {
@@ -214,9 +223,9 @@ const App = () => {
 		getAURMaxAmount(setAURMaxAmount);
 		getETHMaxAmount(setETHMaxAmount);
 
-		fetchMarkets(stu, ssu, sau, snu, sauruu, susn, sethu);
+		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		setInterval(() => {
-			fetchMarkets(stu, ssu, sau, snu, sauruu, susn, sethu);
+			fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		}, 15000);
 
 		sHexString(
@@ -246,8 +255,8 @@ const App = () => {
 			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
 		if (isusn)
 			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
-		message.success("Use Chrome with TonWallet & Phantom extensions", 10);
-		message.success("Connect both and make trx, then wait a little bit", 11);
+		// message.success("Use Chrome with TonWallet & Phantom extensions", 10);
+		// message.success("Connect both and make trx, then wait a little bit", 11);
 	}, []);
 
 	useEffect(() => {
@@ -343,13 +352,6 @@ const App = () => {
 	);
 
 	const fromProps = {
-		au,
-		su,
-		tu,
-		nu,
-		usnu,
-		auru,
-		ethu,
 		ATOMwalletKey,
 		ETHwalletKey,
 		SOLwalletKey,
@@ -382,14 +384,15 @@ const App = () => {
 		formType
 	};
 
-	const tvl =
-		AURMaxAmount * auru +
-		USNMaxAmount * usnu +
-		ETHMaxAmount * ethu +
-		NEARMaxAmount * nu +
-		ATOMMaxAmount * au +
-		TONMaxAmount * tu +
-		SOLMaxAmount * su;
+
+	// const tvl =
+	// 	AURMaxAmount * auru +
+	// 	USNMaxAmount * usnu +
+	// 	ETHMaxAmount * ethu +
+	// 	NEARMaxAmount * nu +
+	// 	ATOMMaxAmount * au +
+	// 	TONMaxAmount * tu +
+	// 	SOLMaxAmount * su;
 	// console.log("aur", AURMaxAmount * auru);
 	// console.log("sol", SOLMaxAmount * su);
 	// console.log("ton", TONMaxAmount * tu);
@@ -404,8 +407,11 @@ const App = () => {
 		setNetworkSource('NEAR')
 		if (formType === 'bridge') {
 			setNetworkDestination('wNEAR (TON)')
-		} else {
+		} else if (formType === 'swap') {
 			setNetworkDestination("TON")
+		} else {
+			setNetworkDestination("MUMBAI")
+			setNetworkSource('TON')
 		}
 		// wrap
 		// COIN -> XCOIN
@@ -422,11 +428,24 @@ const App = () => {
 		// const { History } = Route;
 
 		console.log(location.pathname)
-		if (location.pathname !== '/swap' && location.pathname !== '/bridge') {
-
+		if (location.pathname !== '/swap' && location.pathname !== '/bridge' && location.pathname !== '/nft') {
 			navigate("/swap");
+			setFormType('swap')
 		}
-	}, [window.location.pathname])
+		if (location.pathname === '/swap') {
+			navigate("/swap");
+			setFormType('swap')
+		}
+		if (location.pathname === '/bridge') {
+			navigate("/bridge");
+			setFormType('bridge')
+		}
+
+		if (location.pathname === '/nft') {
+			navigate("/nft");
+			setFormType('nft')
+		}
+	}, [location.pathname])
 	// console.log(navigation.location)
 	//
 	useEffect(() => {
@@ -439,29 +458,38 @@ const App = () => {
 			}
 		}
 	}, [networkSource])
+
 	return (
 		<>
 			<Header />
 			<div className={'selector'}>
 				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
 				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
-				<div className="selectorsoon">NFT <span>soon</span></div>
+				<Link to="/nft"><div onClick={() => setFormType('nft')}>NFT<span>testnet</span></div></Link>
 			</div>
 			<div className="App">
 				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
-				<SwapForm {...fromProps} />
+				{location.pathname !== '/nft' ? <SwapForm {...fromProps} /> : <NftForm {...fromProps} />}
 				{isload ? <Loader src={bnn} /> : null}
 			</div>
-
 			<Rpcs rpcsStatuses={rpcsStatuses} />
 			<Social />
 			<div className="version">
 				Tonana TVL: ${tvl.toFixed(2)}
 				<br />
-				v1.0.84 (alpha)
+				v1.1.01 (alpha)
 			</div>
 			<Gstyles />
 		</>
+	);
+};
+
+const App = () => {
+	const rootStore = new RootStore();
+	return (
+		<StoreProvider store={rootStore}>
+			<AppWrapper />
+		</StoreProvider>
 	);
 };
 

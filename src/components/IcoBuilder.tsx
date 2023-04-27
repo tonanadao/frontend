@@ -1,3 +1,4 @@
+
 import icons from "../configs/configIco"
 
 export const icoBuilder = (chain: string) => {
@@ -8,3 +9,13 @@ export const icoBuilder = (chain: string) => {
 	
 	return (icons[key].img);
 }
+
+todo fix here
+
+// import polygonIco from "../static/img/polygon.png";
+
+// export const icoBuilder = (chain: string) =>
+
+	//							 chain === "MUMBAI"
+		//							? polygonIco
+			//						: "";
