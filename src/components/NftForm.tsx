@@ -185,7 +185,7 @@ const SwapForm = (props: any) => {
 				{props.btnSource}
 				<NftSelector>
 					<div>
-						{nftsToShow.map((e: any) => <div onClick={() => selectNft(e)}><img src={e.image} /> {e.name}</div>)}
+						{nftsToShow.map((e: any) => (e.image && e.name) ? <div onClick={() => selectNft(e)}> <img src={e.image} /> {e.name}</div> : null)}
 					</div>
 				</NftSelector>
 			</Form.Item>
