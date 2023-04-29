@@ -90,7 +90,9 @@ const listener = (
 	const int = setInterval(() => {
 		message.success("Wait BE trx pending...", 2);
 		fetch(
-			`https://testnet.toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=1&to_lt=0&archival=false`
+
+
+			`https://${!isNft ? '' : 'testnet.'}toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=1&to_lt=0&archival=false`
 		)
 			.then((e: any) => e.json())
 			.then((e: any) => {
@@ -137,12 +139,15 @@ const listener = (
 					message.success("Done BE trx!", 10);
 
 					fetch(
-						// "http://localhost:5050",
-						process.env.REACT_APP_STATE === "dev"
-							? "http://localhost:5050"
-							: process.env.REACT_APP_STATE === "dev-remote"
-								? "https://dev.api.tonana.org"
-								: "https://api.tonana.org/",
+						!isNft ?
+							"https://dev.api.tonana.org"
+							:
+							// "http://localhost:5050",
+							process.env.REACT_APP_STATE === "dev"
+								? "http://localhost:5050"
+								: process.env.REACT_APP_STATE === "dev-remote"
+									? "https://dev.api.tonana.org"
+									: "https://api.tonana.org/",
 						{
 							method: "POST",
 							headers: { "Content-Type": "application/json" },
