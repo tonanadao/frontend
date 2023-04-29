@@ -1,6 +1,6 @@
 import { TonClient, Address, Cell, beginCell } from "ton";
 const getTONNftBalances = (userWallet: string, setNfts: any) => {
-	fetch("https://proxy.tonana.org/" + `https://tonapi.io/v2/accounts/${userWallet}/nfts?limit=1000&offset=0&indirect_ownership=false`, {
+	fetch("https://proxy.tonana.org/" + `https://testnet.tonapi.io/v2/accounts/${userWallet}/nfts?limit=1000&offset=0&indirect_ownership=false`, {
 		headers: {
 			Accept: "application/json"
 		}
