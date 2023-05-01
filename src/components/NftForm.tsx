@@ -33,21 +33,6 @@ const SwapForm = (props: any) => {
 	const [nftsToShow, setNfts] = useState([]);
 	const [selectedNft, selectNft] = useState(null);
 	const { storeMain } = useStores();
-
-	const isDirAtom = props.directionNetwork === "atom";
-	const isDirNear = props.directionNetwork === "near";
-	const isDirSol = props.directionNetwork === "sol";
-	const isDirTon = props.directionNetwork === "ton";
-	const isDirAur = props.directionNetwork === "aurora";
-	const isDirUsn = props.directionNetwork === "usn";
-	const isDirEth = props.directionNetwork === "eth" || props.directionNetwork === "mumbai";
-	const isDirwSOLTON = props.directionNetwork === "wsol (ton)";
-	const isDirwETHTON = props.directionNetwork === "weth (ton)";
-	const isDirwAURTON = props.directionNetwork === "waurora (ton)";
-	const isDirwNEARTON = props.directionNetwork === "wnear (ton)";
-	const isDirwATOMTON = props.directionNetwork === "watom (ton)";
-	const isDirwUSNTON = props.directionNetwork === "wusn (ton)";
-
 	const isSouAtom = props.networkSource === "atom";
 	const isSouNear = props.networkSource === "near";
 	const isSouSol = props.networkSource === "sol";
@@ -64,62 +49,103 @@ const SwapForm = (props: any) => {
 
 	console.log(props)
 
-	const currency =
-		isSouAtom || isSouwATOMTON
-			? storeMain.repository.get().au
-			: isSouNear || isSouwNEARTON
-				? storeMain.repository.get().nu
-				: isSouEth || isSouwETHTON
-					? storeMain.repository.get().maticu
-					: isSouTon
-						? storeMain.repository.get().tu
-						: isSouSol || isSouwSOLTON
-							? storeMain.repository.get().su
-							: isSouAur || isSouwAURTON
-								? storeMain.repository.get().auru
-								: isSouUsn || isSouwUSNTON
-									? storeMain.repository.get().usnu
-									: null;
+	let dirKey: string = props.directionNetwork;
+	if (dirKey.includes('(') && dirKey.includes(')')) {
+		dirKey = dirKey.split(' ')[0]; // Reduced to the form: wsol, weth  etc.
+	}
+	if (dirKey.includes('mumbai')) { dirKey = 'eth' }
 
-	const walletDirKey = isDirAtom
-		? props.ATOMwalletKey
-		: isDirNear || isDirUsn
-			? props.NEARwalletKey
-			: isDirTon ||
-				isDirwSOLTON ||
-				isDirwNEARTON ||
-				isDirwATOMTON ||
-				isDirwAURTON ||
-				isDirwETHTON ||
-				isDirwUSNTON
-				? props.TONwalletKey
-				: isDirSol
-					? props.SOLwalletKey
-					: isDirEth
-						? props.ETHwalletKey
-						: isDirAur
-							? props.AURwalletKey
-							: null;
+	let souKey: string = props.networkSource;
+	if (souKey.includes('(') && souKey.includes(')')) {
+		souKey = souKey.split(' ')[0];
+	}
+	if (souKey.includes('mumbai')) { souKey = 'eth' }
 
-	const walletSouKey = isSouAtom
-		? props.ATOMwalletKey
-		: isSouNear || isSouUsn
-			? props.NEARwalletKey
-			: isSouTon ||
-				isSouwATOMTON ||
-				isSouwNEARTON ||
-				isSouwSOLTON ||
-				isSouwAURTON ||
-				isSouwETHTON ||
-				isSouwUSNTON
-				? props.TONwalletKey
-				: isSouSol
-					? props.SOLwalletKey
-					: isSouAur
-						? props.AURwalletKey
-						: isSouEth
-							? props.ETHwalletKey
-							: null;
+
+	const nftConfig: any = {
+		atom: {
+			walletKey: props.ATOMwalletKey,
+			currency: storeMain.repository.get().au,
+			maxAmount: props.ATOMMaxAmount,
+			currencyName: "ATOM"
+		},
+		near: {
+			walletKey: props.NEARwalletKey,
+			currency: storeMain.repository.get().nu,
+			maxAmount: props.NEARMaxAmount,
+			currencyName: "NEAR"
+		},
+		sol: {
+			walletKey: props.SOLwalletKey,
+			currency: storeMain.repository.get().su,
+			maxAmount: props.SOLMaxAmount,
+			currencyName: "SOL"
+		},
+		ton: {
+			walletKey: props.TONwalletKey,
+			currency: storeMain.repository.get().tu,
+			maxAmount: props.TONMaxAmount,
+			currencyName: "TON"
+		},
+		aurora: {
+			walletKey: props.AURwalletKey,
+			currency: storeMain.repository.get().auru,
+			maxAmount: props.AURMaxAmount,
+			currencyName: "AURORA"
+		},
+		usn: {
+			walletKey: props.NEARwalletKey,
+			currency: storeMain.repository.get().usnu,
+			maxAmount: props.USNMaxAmount,
+			currencyName: "USN"
+		},
+		eth: {
+			walletKey: props.ETHwalletKey,
+			currency: storeMain.repository.get().maticu,
+			maxAmount: props.ETHMaxAmount,
+			currencyName: "ETH"
+		},
+		wsol: {
+			walletKey: props.TONwalletKey,
+			currency: storeMain.repository.get().su,
+			maxAmount: props.SOLMaxAmount,
+			currencyName: "wSOL"
+		},
+		weth: {
+			walletKey: props.TONwalletKey,
+			currency: storeMain.repository.get().maticu,
+			maxAmount: props.ETHMaxAmount,
+			currencyName: "wETH"
+		},
+		watom: {
+			walletKey: props.TONwalletKey,
+			currency: storeMain.repository.get().au,
+			maxAmount: props.ATOMMaxAmount,
+			currencyName: "wATOM"
+		},
+		wnear: {
+			walletKey: props.TONwalletKey,
+			currency: storeMain.repository.get().nu,
+			maxAmount: props.NEARMaxAmount,
+			currencyName: "wNEAR"
+		},
+		waurora: {
+			walletKey: props.TONwalletKey,
+			currency: storeMain.repository.get().auru,
+			maxAmount: props.AURMaxAmount,
+			currencyName: "wAURORA"
+		},
+		wusn: {
+			walletKey: props.TONwalletKey,
+			currency: storeMain.repository.get().usnu,
+			maxAmount: props.USNMaxAmount,
+			currencyName: "wUSN"
+		}
+	}
+
+	const currency = nftConfig[souKey].currency;
+	const walletDirKey = nftConfig[dirKey].walletKey;
+	const walletSouKey = nftConfig[souKey].walletKey;
 
 	useEffect(() => {
 		setNfts([])
@@ -135,35 +161,8 @@ const SwapForm = (props: any) => {
 		}
 	}, [walletSouKey, props.networkSource]);
 
-	const sourceCurrencyName = isSouAtom
-		? "ATOM"
-		: isSouNear
-			? "NEAR"
-			: isSouTon
-				? "TON"
-				: isSouUsn
-					? "USN"
-					: isSouAur
-						? "AURORA"
-						: isSouEth
-							? "MATIC"
-							: isSouSol
-								? "SOL"
-								: isSouEth
-									? "ETH"
-									: isSouwNEARTON
-										? "wNEAR"
-										: isSouwSOLTON
-											? "wSOL"
-											: isSouwATOMTON
-												? "wATOM"
-												: isSouwUSNTON
-													? "wUSN"
-													: isSouwETHTON
-														? "wETH"
-														: isSouwAURTON
-															? "wAURORA"
-															: null;
+	const sourceCurrencyName = nftConfig[souKey].currencyName;
+
 	const activeBtn =
 		(openData ? true : !!walletDirKey) &&
 		!!props.firstCurrAmount &&

@@ -1,13 +1,13 @@
-import MakeSOLTrx from "../logic/transaction/MakeSOLTrx";
-import MakeNEARTrx from "../logic/transaction/MakeNEARTrx";
-import MakeTONTrx from "../logic/transaction/MakeTONTrx";
-import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
-import MakeUSNTrx from "../logic/transaction/MakeUSNTrx";
-import MakeAURORATrx from "../logic/transaction/MakeAURORATrx";
-import MakeETHTrx from "../logic/transaction/MakeETHTrx";
+import MakeSOLTrx from "./transaction/MakeSOLTrx";
+import MakeNEARTrx from "./transaction/MakeNEARTrx";
+import MakeTONTrx from "./transaction/MakeTONTrx";
+import MakeATOMTrx from "./transaction/MakeATOMTrx";
+import MakeUSNTrx from "./transaction/MakeUSNTrx";
+import MakeAURORATrx from "./transaction/MakeAURORATrx";
+import MakeETHTrx from "./transaction/MakeETHTrx";
 import { message } from "antd";
 
-import MakeTONJettonsBurnTrx from "../logic/transaction/MakeTONJettonsBurnTrx";
+import MakeTONJettonsBurnTrx from "./transaction/MakeTONJettonsBurnTrx";
 
 const makeTrx = (
 	activeBtn,
@@ -33,6 +33,7 @@ const makeTrx = (
 	isNft,
 	nftData
 ) => {
+	
 	const TRXDir = (
 		props.directionNetwork === "sol"
 			? "SOLANA"
