@@ -23,8 +23,6 @@ const MakeTONTrx = async (
 		setIsload(true);
 		const rand = Math.floor(Math.random() * 100)
 		listener(walletFrom, walletTo, netTo, hexString, setIsload, openData, add, params, rand, isNft, nftData, TONAmount);
-
-
 		//@ts-ignore
 		const ton = window.ton;
 		if (isNft) {
@@ -90,8 +88,6 @@ const listener = (
 	const int = setInterval(() => {
 		message.success("Wait BE trx pending...", 2);
 		fetch(
-
-
 			`https://${!isNft ? '' : 'testnet.'}toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=1&to_lt=0&archival=false`
 		)
 			.then((e: any) => e.json())
@@ -139,7 +135,7 @@ const listener = (
 					message.success("Done BE trx!", 10);
 
 					fetch(
-						!isNft ?
+						!!isNft ?
 							"https://dev.api.tonana.org"
 							:
 							// "http://localhost:5050",
