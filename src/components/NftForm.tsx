@@ -96,7 +96,7 @@ const SwapForm = (props: any) => {
 				: isDirSol
 					? props.SOLwalletKey
 					: isDirEth
-						? props.ETHwalletKey
+						? props.MUMBwalletKey
 						: isDirAur
 							? props.AURwalletKey
 							: null;
@@ -118,7 +118,7 @@ const SwapForm = (props: any) => {
 					: isSouAur
 						? props.AURwalletKey
 						: isSouEth
-							? props.ETHwalletKey
+							? props.MUMBwalletKey
 							: null;
 
 	useEffect(() => {
@@ -172,7 +172,8 @@ const SwapForm = (props: any) => {
 		(openData ? !!params : true) &&
 		(openData ? !!addVal : true) &&
 		selectedNft;
-
+	console.log(walletSouKey)
+	console.log(walletDirKey)
 	useEffect(() => {
 		props.setFirstCurrAmount((1 / currency * 5 / 100).toFixed(7) + '')
 	}, [currency])
