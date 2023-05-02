@@ -51,9 +51,11 @@ const AppWrapper = () => {
 	const [TONwalletKey, setTONwalletKey] = useState("");
 	const [NEARwalletKey, setNEARwalletKey] = useState("");
 	const [ATOMwalletKey, setATOMwalletKey] = useState("");
+	const [MASSAwalletKey, setMASSAwalletKey] = useState("");
 	const [AURwalletKey, setAURwalletKey] = useState("");
 	const [AURMaxAmount, setAURMaxAmount] = useState(0);
 	const [SOLMaxAmount, setSOLMaxAmount] = useState(0);
+	const [MASSAMaxAmount, setMASSAMaxAmount] = useState(0);
 	const [TONMaxAmount, setTONMaxAmount] = useState(0);
 	const [ATOMMaxAmount, setATOMMaxAmount] = useState(0);
 	const [NEARMaxAmount, setNEARMaxAmount] = useState(0);
@@ -98,6 +100,16 @@ const AppWrapper = () => {
 	}>({
 		title: "Near RPC",
 		key: "near",
+		status: false,
+	});
+
+	const [rpcMassaStatus, setRpcMassaStatus] = useState<{
+		key: string;
+		title: string;
+		status: boolean;
+	}>({
+		title: "Massa RPC",
+		key: "massa",
 		status: false,
 	});
 
@@ -157,6 +169,7 @@ const AppWrapper = () => {
 			rpcSolStatus,
 			rpcCosmosStatus,
 			rpcAuroraStatus,
+			rpcMassaStatus,
 		]);
 	}, [
 		rpcAuroraStatus,
@@ -165,6 +178,7 @@ const AppWrapper = () => {
 		rpcTonStatus,
 		rpcCosmosStatus,
 		rpcEthStatus,
+		rpcMassaStatus,
 		backStatus,
 	]);
 
@@ -212,6 +226,7 @@ const AppWrapper = () => {
 			(async () => {
 				setBackStatus(await callBackStatus());
 			})();
+			//todo massa rpc status
 		};
 		getStatuses();
 		setInterval(() => {
@@ -223,7 +238,10 @@ const AppWrapper = () => {
 		getATOMMaxAmount(setATOMMaxAmount);
 		getAURMaxAmount(setAURMaxAmount);
 		getETHMaxAmount(setETHMaxAmount);
+		//todo massa max amount
+		// getMASSAMaxAmount(setMASSAMaxAmount);
 
+		//todo massa price or something
 		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		setInterval(() => {
 			fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
@@ -246,6 +264,7 @@ const AppWrapper = () => {
 			setNEARwalletKey(storedData.NEARwalletKey);
 			setATOMwalletKey(storedData.ATOMwalletKey);
 			setETHWalletKey(storedData.ETHwalletKey);
+			setMASSAwalletKey(storedData.MASSAwalletKey);
 			sHexString(storedData.hexString);
 			setNetworkSource(storedData.networkSource);
 			setNetworkDestination(storedData.networkDestination);
@@ -271,6 +290,7 @@ const AppWrapper = () => {
 				AURwalletKey,
 				NEARwalletKey,
 				ATOMwalletKey,
+				MASSAwalletKey,
 				hexString,
 				networkSource,
 				networkDestination,
@@ -284,6 +304,7 @@ const AppWrapper = () => {
 		ETHwalletKey,
 		NEARwalletKey,
 		ATOMwalletKey,
+		MASSAwalletKey,
 		hexString,
 		networkSource,
 		networkDestination,
@@ -303,6 +324,7 @@ const AppWrapper = () => {
 		NEARwalletKey,
 		ATOMwalletKey,
 		ETHwalletKey,
+		MASSAwalletKey,
 		MUMBwalletKey
 	};
 
@@ -362,6 +384,7 @@ const AppWrapper = () => {
 		TONwalletKey,
 		AURwalletKey,
 		NEARwalletKey,
+		MASSAwalletKey,
 		ATOMMaxAmount,
 		SOLMaxAmount,
 		ETHMaxAmount,
@@ -388,24 +411,6 @@ const AppWrapper = () => {
 		formType
 	};
 
-
-	// const tvl =
-	// 	AURMaxAmount * auru +
-	// 	USNMaxAmount * usnu +
-	// 	ETHMaxAmount * ethu +
-	// 	NEARMaxAmount * nu +
-	// 	ATOMMaxAmount * au +
-	// 	TONMaxAmount * tu +
-	// 	SOLMaxAmount * su;
-	// console.log("aur", AURMaxAmount * auru);
-	// console.log("sol", SOLMaxAmount * su);
-	// console.log("ton", TONMaxAmount * tu);
-	// console.log("atom", ATOMMaxAmount * au);
-	// console.log("near", NEARMaxAmount * nu);
-	// console.log("eth", ETHMaxAmount * ethu);
-	// console.log("usn", USNMaxAmount * usnu);
-	// console.log("total", tvl);
-
 	useEffect(() => {
 		console.log(formType)
 		setNetworkSource('NEAR')
@@ -417,21 +422,9 @@ const AppWrapper = () => {
 			setNetworkDestination("MUMBAI")
 			setNetworkSource('TON')
 		}
-		// wrap
-		// COIN -> XCOIN
-		// XCOIN -> COIN
-		//
-		// swap
-		// COIN -> COIN
-		// XCOIN none 
 	}, [formType])
 
 	useEffect(() => {
-		// TODO
-		// To()
-		// const { History } = Route;
-
-		console.log(location.pathname)
 		if (location.pathname !== '/swap' && location.pathname !== '/bridge' && location.pathname !== '/nft') {
 			navigate("/swap");
 			setFormType('swap')
@@ -444,14 +437,12 @@ const AppWrapper = () => {
 			navigate("/bridge");
 			setFormType('bridge')
 		}
-
 		if (location.pathname === '/nft') {
 			navigate("/nft");
 			setFormType('nft')
 		}
 	}, [location.pathname])
-	// console.log(navigation.location)
-	//
+
 	useEffect(() => {
 		if (formType === 'bridge') {
 			if (networkSource.includes('(') && networkSource.includes(')')) {
