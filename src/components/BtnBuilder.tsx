@@ -6,6 +6,7 @@ import tonIco from "../static/img/ton.png";
 import keplr from "../static/img/keplr.png";
 import metamask from "../static/img/metamask.png";
 import polygonIco from "../static/img/polygon.png";
+import massaIco from "../static/img/massa.png";
 
 import connectWalletSOL from "../logic/wallet/connectWalletSOL";
 import connectWalletATOM from "../logic/wallet/connectWalletATOM";
@@ -13,6 +14,7 @@ import connectWalletAUR from "../logic/wallet/connectWalletAUR";
 import connectWalletTON from "../logic/wallet/connectWalletTON";
 import connectWalletNEAR from "../logic/wallet/connectWalletNEAR"
 import connectWalletETH from "../logic/wallet/connectWalletETH";
+import connectWalletMASSA from "../logic/wallet/connectWalletMASSA";
 
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
@@ -20,6 +22,7 @@ export const generateBtn = (props: any, currencyName: string) => {
 	const {
 		setSOLWalletKey,
 		setETHWalletKey,
+		setMASSAwalletKey,
 		setTONwalletKey,
 		setAURwalletKey,
 		setNEARwalletKey,
@@ -27,6 +30,7 @@ export const generateBtn = (props: any, currencyName: string) => {
 		TONwalletKey,
 		AURwalletKey,
 		SOLwalletKey,
+		MASSAwalletKey,
 		NEARwalletKey,
 		ATOMwalletKey,
 		ETHwalletKey,
@@ -73,10 +77,17 @@ export const generateBtn = (props: any, currencyName: string) => {
 		},
 		mumbai: {
 			connect: connectWalletETH,
-			set:  setMUMBwalletKey,
+			set: setMUMBwalletKey,
 			walletKey: MUMBwalletKey,
 			img: polygonIco
+		},
+		massa: {
+			connect: connectWalletMASSA,
+			set: setMASSAwalletKey,
+			walletKey: MASSAwalletKey,
+			img: massaIco
 		}
+
 	};
 
 	let key: string = currencyName.toLocaleLowerCase();
@@ -95,7 +106,7 @@ export const generateBtn = (props: any, currencyName: string) => {
 						{zipName(sortedBtnProps[key].walletKey)}
 					</>
 				) : (
-					"Connect wallet"
+					key === "massa" ? "Generate wallet" : "Connect wallet"
 				)}
 			</Button>
 		</>

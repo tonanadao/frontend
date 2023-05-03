@@ -14,6 +14,7 @@ export class Main {
         auru: 0, // aurora near usd
         ethu: 0, // ethereum usd
         maticu: 0, // ethereum usd
+        massau: 0.25, // massa usd
     });
 
     constructor(rootStore: RootStore) {
@@ -49,6 +50,9 @@ export class Main {
     };
     smaticu = (payload: number) => {
         this.repository.set({ ...this.repository.get(), maticu: payload });
+    };
+    smassau = (payload: number) => {
+        this.repository.set({ ...this.repository.get(), massau: payload });
     };
 
     setEthu = (payload: number) => {

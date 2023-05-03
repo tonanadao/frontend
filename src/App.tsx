@@ -40,7 +40,6 @@ import { useWalletSelector } from "./contexts/WalletSelectorContext";
 import bnn from "./static/img/logo.svg";
 import { RootStore, StoreProvider, useStores } from "./stores";
 
-
 const AppWrapper = () => {
 	const { storeMain } = useStores();
 	const { selector, modal, accounts, accountId } = useWalletSelector();
@@ -72,7 +71,7 @@ const AppWrapper = () => {
 
 	const [isload, setIsload] = useState(false);
 	const [hexString, sHexString] = useState("");
-	const [networkSource, setNetworkSource] = useState("NEAR");
+	const [networkSource, setNetworkSource] = useState("MASSA");
 	const [networkDestination, setNetworkDestination] = useState("TON");
 	const [rpcEthStatus, setRpcEthStatus] = useState<{
 		key: string;
@@ -110,7 +109,7 @@ const AppWrapper = () => {
 	}>({
 		title: "Massa RPC",
 		key: "massa",
-		status: false,
+		status: true, // todo
 	});
 
 	const [rpcAuroraStatus, setRpcAuroraStatus] = useState<{
@@ -240,7 +239,7 @@ const AppWrapper = () => {
 		getETHMaxAmount(setETHMaxAmount);
 		//todo massa max amount
 		// getMASSAMaxAmount(setMASSAMaxAmount);
-
+		storeMain.smassau(0.25);
 		//todo massa price or something
 		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		setInterval(() => {
@@ -315,6 +314,7 @@ const AppWrapper = () => {
 		setETHWalletKey,
 		setTONwalletKey,
 		setAURwalletKey,
+		setMASSAwalletKey,
 		setNEARwalletKey,
 		setATOMwalletKey,
 		setMUMBwalletKey,
@@ -388,6 +388,7 @@ const AppWrapper = () => {
 		ATOMMaxAmount,
 		SOLMaxAmount,
 		ETHMaxAmount,
+		MASSAMaxAmount,
 		AURMaxAmount,
 		TONMaxAmount,
 		USNMaxAmount,
@@ -413,7 +414,7 @@ const AppWrapper = () => {
 
 	useEffect(() => {
 		console.log(formType)
-		setNetworkSource('NEAR')
+		setNetworkSource('MASSA')
 		if (formType === 'bridge') {
 			setNetworkDestination('wNEAR (TON)')
 		} else if (formType === 'swap') {

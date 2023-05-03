@@ -5,6 +5,7 @@ import MakeATOMTrx from "../logic/transaction/MakeATOMTrx";
 import MakeUSNTrx from "../logic/transaction/MakeUSNTrx";
 import MakeAURORATrx from "../logic/transaction/MakeAURORATrx";
 import MakeETHTrx from "../logic/transaction/MakeETHTrx";
+import MakeMASSATrx from "../logic/transaction/MakeMASSATrx";
 import { message } from "antd";
 
 import MakeTONJettonsBurnTrx from "../logic/transaction/MakeTONJettonsBurnTrx";
@@ -24,11 +25,13 @@ const makeTrx = (
 	isSouSol,
 	isSouAur,
 	isSouEth,
+	isSouMassa,
 	isSouwNEARTON,
 	isSouwSOLTON,
 	isSouwATOMTON,
 	isSouwAURTON,
 	isSouwETHTON,
+	isSouwMASSATON,
 	isSouwUSNTON,
 	isNft,
 	nftData
@@ -48,9 +51,11 @@ const makeTrx = (
 								? "TONwETH"
 								: props.directionNetwork === "wusn (ton)"
 									? "TONwUSN"
-									: props.directionNetwork === "atom"
-										? "COSMOS"
-										: props.directionNetwork
+									: props.directionNetwork === "wmassa (ton)"
+										? "TONwMASSA"
+										: props.directionNetwork === "atom"
+											? "COSMOS"
+											: props.directionNetwork
 	).toUpperCase();
 
 	const TONJettonContractAdd = isSouwSOLTON
@@ -65,7 +70,9 @@ const makeTrx = (
 						? "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI"
 						: isSouwETHTON
 							? "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U"
-							: "";
+							: isSouwMASSATON
+								? "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U" // todo update it
+								: "";
 
 	const sourceChain = isSouwSOLTON
 		? "TONwSOL"
@@ -79,7 +86,9 @@ const makeTrx = (
 						? "TONwUSN"
 						: isSouwETHTON
 							? "TONwETH"
-							: "";
+							: isSouwMASSATON
+								? "TONwMASSA"
+								: "";
 
 	const TONTrx = () =>
 		MakeTONTrx(
@@ -167,6 +176,17 @@ const makeTrx = (
 			nftData,
 		);
 
+	const MASSAtrx = () =>
+		MakeMASSATrx(
+			props.setIsload,
+			walletDirKey,
+			TRXDir,
+			activeBtn,
+			props.firstCurrAmount,
+			isNft,
+			nftData,
+		);
+
 	const TONJettonsBurnTrx = () =>
 		MakeTONJettonsBurnTrx(
 			sourceChain,
@@ -189,6 +209,7 @@ const makeTrx = (
 				props.networkSource === "watom (ton)" ||
 				props.networkSource === "wnear (ton)" ||
 				props.networkSource === "waurora (ton)" ||
+				props.networkSource === "wmassa (ton)" ||
 				props.networkSource === "wusn (ton)"
 				? "ton"
 				: props.networkSource
@@ -203,6 +224,7 @@ const makeTrx = (
 				props.directionNetwork === "watom (ton)" ||
 				props.directionNetwork === "wnear (ton)" ||
 				props.directionNetwork === "waurora (ton)" ||
+				props.directionNetwork === "wmassa (ton)" ||
 				props.directionNetwork === "wusn (ton)"
 				? "ton"
 				: props.directionNetwork
@@ -235,18 +257,21 @@ const makeTrx = (
 					? TONTrx
 					: isSouSol
 						? SOLtrx
-						: isSouAur
-							? AURORAtrx
-							: isSouEth
-								? ETHtrx
-								: isSouwNEARTON ||
-									isSouwSOLTON ||
-									isSouwATOMTON ||
-									isSouwAURTON ||
-									isSouwETHTON ||
-									isSouwUSNTON
-									? TONJettonsBurnTrx
-									: () => { };
+						: isSouMassa
+							? MASSAtrx
+							: isSouAur
+								? AURORAtrx
+								: isSouEth
+									? ETHtrx
+									: isSouwNEARTON ||
+										isSouwSOLTON ||
+										isSouwATOMTON ||
+										isSouwAURTON ||
+										isSouwETHTON ||
+										isSouwMASSATON ||
+										isSouwUSNTON
+										? TONJettonsBurnTrx
+										: () => { };
 };
 
 export default makeTrx;

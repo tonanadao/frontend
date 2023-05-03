@@ -226,11 +226,13 @@ const SwapForm = (props: any) => {
 							isSouSol,
 							isSouAur,
 							isSouEth,
+							null,
 							isSouwNEARTON,
 							isSouwSOLTON,
 							isSouwATOMTON,
 							isSouwAURTON,
 							isSouwETHTON,
+							null,
 							isSouwUSNTON,
 							true,
 							selectedNft
