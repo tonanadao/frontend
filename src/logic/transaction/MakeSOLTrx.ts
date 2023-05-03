@@ -72,8 +72,8 @@ const MakeSOLTrx = async (
 							process.env.REACT_APP_STATE === "dev"
 								? "http://localhost:8092"
 								: process.env.REACT_APP_STATE === "dev-remote"
-								? "https://dev.api.tonana.org"
-								: "https://api.tonana.org/",
+									? "https://dev.api.tonana.org"
+									: "https://api.tonana.org/",
 							{
 								method: "POST",
 								headers: { "Content-Type": "application/json" },

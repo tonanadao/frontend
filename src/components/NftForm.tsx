@@ -171,7 +171,8 @@ const SwapForm = (props: any) => {
 		(openData ? !!params : true) &&
 		(openData ? !!addVal : true) &&
 		selectedNft;
-
+	console.log(walletSouKey)
+	console.log(walletDirKey)
 	useEffect(() => {
 		props.setFirstCurrAmount((1 / currency * 5 / 100).toFixed(7) + '')
 	}, [currency])
@@ -184,7 +185,7 @@ const SwapForm = (props: any) => {
 				{props.btnSource}
 				<NftSelector>
 					<div>
-						{nftsToShow.map((e: any) => <div onClick={() => selectNft(e)}><img src={e.image} /> {e.name}</div>)}
+						{nftsToShow.map((e: any) => (e.image && e.name) ? <div onClick={() => selectNft(e)}> <img src={e.image} /> {e.name}</div> : null)}
 					</div>
 				</NftSelector>
 			</Form.Item>

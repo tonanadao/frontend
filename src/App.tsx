@@ -305,11 +305,11 @@ const AppWrapper = () => {
 		ETHwalletKey,
 		MUMBwalletKey
 	};
-	
-	
+
+
 	const menuSource = menuBuilder(networkDestination, setNetworkSource, formType, false);
 	const menuDestination = menuBuilder(networkSource, setNetworkDestination, formType, true);
-	
+
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
 
@@ -357,6 +357,7 @@ const AppWrapper = () => {
 	const fromProps = {
 		ATOMwalletKey,
 		ETHwalletKey,
+		MUMBwalletKey,
 		SOLwalletKey,
 		TONwalletKey,
 		AURwalletKey,
