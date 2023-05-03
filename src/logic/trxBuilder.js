@@ -17,70 +17,56 @@ const makeTrx = (
 	openData,
 	addVal,
 	params,
-	isSouAtom,
-	isSouNear,
-	isSouUsn,
-	isSouTon,
-	isSouSol,
-	isSouAur,
-	isSouEth,
-	isSouwNEARTON,
-	isSouwSOLTON,
-	isSouwATOMTON,
-	isSouwAURTON,
-	isSouwETHTON,
-	isSouwUSNTON,
 	isNft,
 	nftData
 ) => {
+
+	const TONconfig = {
+		sol: {
+			TRX: "SOLANA",
+		},
+		atom : {
+			TRX: "COSMOS",
+		},
+		wsol: {
+			TRX: "TONwSOL",
+			TONJettonContractAdd: "EQC4cCygTZPKIP9cCsWx7DW5i5MQPOsEcfKkKwBZKkRCCfaW",
+		},
+		weth: {
+			TRX: "TONwETH",
+			TONJettonContractAdd: "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U",
+		},
+		watom: {
+			TRX: "TONwATOM",
+			TONJettonContractAdd: "EQCa5-xswEfQM5x_CBb5f53ghfy8ZYTAMCohgqSO6rBYMlkD",
+		},
+		wnear: {
+			TRX: "TONwNEAR",
+			TONJettonContractAdd: "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi",
+		},
+		waurora: {
+			TRX: "TONwAURORA",
+			TONJettonContractAdd: "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut",
+		},
+		wusn: {
+			TRX: "TONwUSN",
+			TONJettonContractAdd: "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI",
+		}
+	}
+
+	let dirKey = props.directionNetwork;
+	if (dirKey.includes('(') && dirKey.includes(')')) {
+		dirKey = dirKey.split(' ')[0]; 
+	}
+
+	let souKey = props.networkSource;
+	if (souKey.includes('(') && souKey.includes(')')) {
+		souKey = souKey.split(' ')[0];
+	}
 	
-	const TRXDir = (
-		props.directionNetwork === "sol"
-			? "SOLANA"
-			: props.directionNetwork === "wnear (ton)"
-				? "TONwNEAR"
-				: props.directionNetwork === "wsol (ton)"
-					? "TONwSOL"
-					: props.directionNetwork === "watom (ton)"
-						? "TONwATOM"
-						: props.directionNetwork === "waurora (ton)"
-							? "TONwAURORA"
-							: props.directionNetwork === "weth (ton)"
-								? "TONwETH"
-								: props.directionNetwork === "wusn (ton)"
-									? "TONwUSN"
-									: props.directionNetwork === "atom"
-										? "COSMOS"
-										: props.directionNetwork
-	).toUpperCase();
-
-	const TONJettonContractAdd = isSouwSOLTON
-		? "EQC4cCygTZPKIP9cCsWx7DW5i5MQPOsEcfKkKwBZKkRCCfaW"
-		: isSouwATOMTON
-			? "EQCa5-xswEfQM5x_CBb5f53ghfy8ZYTAMCohgqSO6rBYMlkD"
-			: isSouwNEARTON
-				? "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi"
-				: isSouwAURTON
-					? "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut"
-					: isSouwUSNTON
-						? "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI"
-						: isSouwETHTON
-							? "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U"
-							: "";
-
-	const sourceChain = isSouwSOLTON
-		? "TONwSOL"
-		: isSouwATOMTON
-			? "TONwATOM"
-			: isSouwNEARTON
-				? "TONwNEAR"
-				: isSouwAURTON
-					? "TONwAURORA"
-					: isSouwUSNTON
-						? "TONwUSN"
-						: isSouwETHTON
-							? "TONwETH"
-							: "";
+	const TRXDir = TONconfig[dirKey].TRX.toUpperCase();
+	const TONJettonContractAdd = TONconfig[souKey].TONJettonContractAdd;
+	const sourceChain = TONconfig[souKey].TRX;
 
 	const TONTrx = () =>
 		MakeTONTrx(
@@ -181,7 +167,7 @@ const makeTrx = (
 		);
 
 
-	const isSouRpcOk = props.rpcsStatuses.filter((e: any) =>
+	const isSouRpcOk = props.rpcsStatuses.filter((e) =>
 
 		(e.key === props.networkSource) === "usn"
 			? "near"
@@ -195,7 +181,7 @@ const makeTrx = (
 				: props.networkSource
 	)[0].status;
 
-	const isDirRpcOk = props.rpcsStatuses.filter((e: any) =>
+	const isDirRpcOk = props.rpcsStatuses.filter((e) =>
 
 		(e.key === props.directionNetwork) === "usn"
 			? "near"
@@ -226,28 +212,24 @@ const makeTrx = (
 
 	if (!isDirRpcOk || !isSouRpcOk || !isBackOk) return () => { };
 
-	return isSouAtom
-		? ATOMtrx
-		: isSouNear
-			? NEARTrx
-			: isSouUsn
-				? USNtrx
-				: isSouTon
-					? TONTrx
-					: isSouSol
-						? SOLtrx
-						: isSouAur
-							? AURORAtrx
-							: isSouEth
-								? ETHtrx
-								: isSouwNEARTON ||
-									isSouwSOLTON ||
-									isSouwATOMTON ||
-									isSouwAURTON ||
-									isSouwETHTON ||
-									isSouwUSNTON
-									? TONJettonsBurnTrx
-									: () => { };
+	
+
+	const trxConfig = {
+		atom: ATOMtrx,
+		near: NEARTrx,
+		sol: SOLtrx,
+		ton: TONTrx,
+		aurora: AURORAtrx,
+		usn: USNtrx,
+		eth: ETHtrx,
+		wrap: TONJettonsBurnTrx
+	}
+	const keyForTRX = props.networkSource;
+	if (keyForTRX.includes('(') && keyForTRX.includes(')')) {
+		keyForTRX = 'wrap';
+	}
+
+	return trxConfig[keyForTRX]
 };
 
 export default makeTrx;

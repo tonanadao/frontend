@@ -33,19 +33,6 @@ const SwapForm = (props: any) => {
 	const [nftsToShow, setNfts] = useState([]);
 	const [selectedNft, selectNft] = useState(null);
 	const { storeMain } = useStores();
-	const isSouAtom = props.networkSource === "atom";
-	const isSouNear = props.networkSource === "near";
-	const isSouSol = props.networkSource === "sol";
-	const isSouTon = props.networkSource === "ton";
-	const isSouAur = props.networkSource === "aurora";
-	const isSouUsn = props.networkSource === "usn";
-	const isSouEth = props.networkSource === "eth" || props.networkSource === "mumbai";
-	const isSouwSOLTON = props.networkSource === "wsol (ton)";
-	const isSouwETHTON = props.networkSource === "weth (ton)";
-	const isSouwATOMTON = props.networkSource === "watom (ton)";
-	const isSouwNEARTON = props.networkSource === "wnear (ton)";
-	const isSouwAURTON = props.networkSource === "waurora (ton)";
-	const isSouwUSNTON = props.networkSource === "wusn (ton)";
 
 	console.log(props)
 
@@ -218,19 +205,6 @@ const SwapForm = (props: any) => {
 							openData,
 							addVal,
 							params,
-							isSouAtom,
-							isSouNear,
-							isSouUsn,
-							isSouTon,
-							isSouSol,
-							isSouAur,
-							isSouEth,
-							isSouwNEARTON,
-							isSouwSOLTON,
-							isSouwATOMTON,
-							isSouwAURTON,
-							isSouwETHTON,
-							isSouwUSNTON,
 							true,
 							selectedNft
 						)()

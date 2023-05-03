@@ -23,20 +23,6 @@ const SwapForm = (props: any) => {
 		souKey = souKey.split(' ')[0];
 	}
 
-	const isSouAtom = props.networkSource === "atom";
-	const isSouNear = props.networkSource === "near";
-	const isSouSol = props.networkSource === "sol";
-	const isSouTon = props.networkSource === "ton";
-	const isSouAur = props.networkSource === "aurora";
-	const isSouUsn = props.networkSource === "usn";
-	const isSouEth = props.networkSource === "eth";
-	const isSouwSOLTON = props.networkSource === "wsol (ton)";
-	const isSouwETHTON = props.networkSource === "weth (ton)";
-	const isSouwATOMTON = props.networkSource === "watom (ton)";
-	const isSouwNEARTON = props.networkSource === "wnear (ton)";
-	const isSouwAURTON = props.networkSource === "waurora (ton)";
-	const isSouwUSNTON = props.networkSource === "wusn (ton)";
-
 	const swapConfig: any = {
 		atom: {
 			walletKey: props.ATOMwalletKey,
@@ -286,19 +272,6 @@ const SwapForm = (props: any) => {
 							openData,
 							addVal,
 							params,
-							isSouAtom,
-							isSouNear,
-							isSouUsn,
-							isSouTon,
-							isSouSol,
-							isSouAur,
-							isSouEth,
-							isSouwNEARTON,
-							isSouwSOLTON,
-							isSouwATOMTON,
-							isSouwAURTON,
-							isSouwETHTON,
-							isSouwUSNTON
 						)()
 					}>
 					Submit
