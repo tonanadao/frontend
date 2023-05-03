@@ -1,7 +1,7 @@
 import bs58check from 'bs58check'
 import base58 from 'bs58'
 import { blake3 } from '@noble/hashes/blake3'
-import { utils, getPublicKey, sign, verify, getPublicKeyAsync } from "@noble/ed25519"
+import { utils, getPublicKey, sign, verify, getPublicKeyAsync, signAsync } from "@noble/ed25519"
 import varint from 'varint'
 
 export function varint_encode(data) {
@@ -90,7 +90,8 @@ export function compute_bytes_compact(fee, expire_period, type_id, recipient_add
   var encoded_expire_periode = Buffer.from(varint_encode(expire_period))
   var encoded_type_id = Buffer.from(varint_encode(type_id))
   var encoded_amount = Buffer.from(varint_encode(amount))
-  recipient_address = base58check_decode(recipient_address.slice(1)).slice(1)
+  recipient_address = Buffer.concat([Buffer.from([0]), Buffer.from(base58_decode(recipient_address.slice(2)).slice(1))])
+  console.log('eeeeer')
   return Buffer.concat([encoded_fee, encoded_expire_periode, encoded_type_id, recipient_address, encoded_amount])
 }
 
@@ -107,24 +108,46 @@ export async function parse_textprivkey(txt) {
   return parsed_privkey
 }
 
-// module.exports = {
-//   varint_decode: varint_decode,
-//   varint_encode: varint_encode,
-//   base58check_encode: base58check_encode,
-//   base58check_decode: base58check_decode,
-//   generate_random_privkey: generate_random_privkey,
-//   deduce_address: deduce_address,
-//   parse_address: parse_address,
-//   deduce_private_base58check: deduce_private_base58check,
-//   parse_private_base58check: parse_private_base58check,
-//   deduce_public_base58check: deduce_public_base58check,
-//   parse_public_base58check: parse_public_base58check,
-//   get_address_thread: get_address_thread,
-//   hash_blake3: hash_blake3,
-//   compute_bytes_compact: compute_bytes_compact,
-//   sign: sign,
-//   verify: verify,
-//   get_pubkey: get_pubkey,
-//   base58_decode: base58_decode,
-//   Buffer: Buffer
-// }
+function JsonRPCRequest(resource, data, completion_callback, error_callback) {
+  var data = JSON.stringify({
+    "jsonrpc": "2.0",
+    "method": resource,
+    "params": data,
+    "id": 0
+  });
+  fetch('https://proxy.tonana.org/https://buildnet.massa.net/api/v2', {
+    'method': 'POST', "headers": {
+      "Content-Type": "application/json"
+    }, 'body': data
+  }).then((response) => {
+    console.log(response)
+    return response.json()
+  }).then((data) => {
+    console.log(data)
+    if (data.error) {
+      error_callback(data.error)
+      console.log(data.error)
+      return
+    }
+
+    completion_callback(data)
+  }).catch((error) => {
+    console.log(error)
+    error_callback(error)
+  })
+}
+
+export function sign_content(bytesCompact, sender_public_key, privkey) {
+  const byte_pubkey = parse_private_base58check(sender_public_key);
+  const toSignData = Buffer.concat([Buffer.from(byte_pubkey), bytesCompact]);
+  var hash_encoded_data = hash_blake3(Buffer.from(toSignData));
+  signAsync(hash_encoded_data, privkey).then((signature) => {
+    const data = {
+      serialized_content: Array.prototype.slice.call(bytesCompact),
+      creator_public_key: sender_public_key,
+      signature: base58check_encode(signature),
+    }
+    JsonRPCRequest('send_operations', [[data]], console.log, console.log);
+  });
+}
+

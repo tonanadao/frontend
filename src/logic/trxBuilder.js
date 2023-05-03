@@ -182,9 +182,7 @@ const makeTrx = (
 			walletDirKey,
 			TRXDir,
 			activeBtn,
-			props.firstCurrAmount,
-			isNft,
-			nftData,
+			props.firstCurrAmount
 		);
 
 	const TONJettonsBurnTrx = () =>

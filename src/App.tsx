@@ -416,7 +416,7 @@ const AppWrapper = () => {
 		console.log(formType)
 		setNetworkSource('MASSA')
 		if (formType === 'bridge') {
-			setNetworkDestination('wNEAR (TON)')
+			setNetworkDestination('wMASSA (TON)')
 		} else if (formType === 'swap') {
 			setNetworkDestination("TON")
 		} else {
