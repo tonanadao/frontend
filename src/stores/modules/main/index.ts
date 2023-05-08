@@ -21,13 +21,50 @@ export class Main {
         ATOMwalletKey: "",
         AURwalletKey: "",
         ETHwalletKey: "",
-
+        AURMaxAmount: 0,
+        SOLMaxAmount: 0,
+        TONMaxAmount: 0,
+        ATOMMaxAmount: 0,
+        NEARMaxAmount: 0,
+        ETHMaxAmount: 0,
+        USNMaxAmount: 0,
     });
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
     }
 
+    //maxAmounts
+    setSOLMaxAmount = (payload: number) => {
+        this.repository.set({ ...this.repository.get(), SOLMaxAmount: payload });
+    }
+
+    setUSNMaxAmount = (payload: number) => {
+        this.repository.set({ ...this.repository.get(), USNMaxAmount: payload });
+    }
+
+    setETHMaxAmount = (payload: number) => {
+        this.repository.set({ ...this.repository.get(), ETHMaxAmount: payload });
+    }
+
+    setNEARMaxAmount = (payload: number) => {
+        this.repository.set({ ...this.repository.get(), NEARMaxAmount: payload });
+    }
+
+    setATOMMaxAmount = (payload: number) => {
+        this.repository.set({ ...this.repository.get(), ATOMMaxAmount: payload });
+    }
+
+    setTONMaxAmount = (payload: number) => {
+        this.repository.set({ ...this.repository.get(), TONMaxAmount: payload });
+    }
+
+    setAURMaxAmount = (payload: number) => {
+        this.repository.set({ ...this.repository.get(), AURMaxAmount: payload });
+    }
+
+
+    // WalletKeys
     setETHwalletKey = (payload: string) => {
         this.repository.set({ ...this.repository.get(), ETHwalletKey: payload });
     }

@@ -13,7 +13,7 @@ import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
 import fetchMarkets from "./logic/fetch/fetchMarkets";
 
 import { menuBuilder } from "./components/MenuBuilder";
-import { generateBtn } from "./components/BtnBuilder";
+import { GenerateBtn } from "./components/BtnBuilder";
 import { icoBuilder } from "./components/IcoBuilder";
 import { initializeWalletNEAR } from "./logic/wallet/initializeWalletNEAR";
 import { makeNEARTrxAfterLoad } from "./logic/transaction/MakeNEARTrx";
@@ -43,16 +43,8 @@ import { RootStore, StoreProvider, useStores } from "./stores";
 
 const AppWrapper = () => {
 	const { storeMain } = useStores();
-	const { selector, modal, accounts, accountId } = useWalletSelector();
 	const [ex, sex] = useState(true);
 
-	const [AURMaxAmount, setAURMaxAmount] = useState(0);
-	const [SOLMaxAmount, setSOLMaxAmount] = useState(0);
-	const [TONMaxAmount, setTONMaxAmount] = useState(0);
-	const [ATOMMaxAmount, setATOMMaxAmount] = useState(0);
-	const [NEARMaxAmount, setNEARMaxAmount] = useState(0);
-	const [ETHMaxAmount, setETHMaxAmount] = useState(0);
-	const [USNMaxAmount, setUSNMaxAmount] = useState(0);
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
 
@@ -170,14 +162,14 @@ const AppWrapper = () => {
 	const isnear = searchParams.get("isnear");
 
 	const tvl = useMemo(() => {
-		return AURMaxAmount * storeMain.repository.get().auru +
-			USNMaxAmount * storeMain.repository.get().usnu +
-			ETHMaxAmount * storeMain.repository.get().ethu +
-			NEARMaxAmount * storeMain.repository.get().nu +
-			ATOMMaxAmount * storeMain.repository.get().au +
-			TONMaxAmount * storeMain.repository.get().tu +
-			SOLMaxAmount * storeMain.repository.get().su;
-	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.repository]);
+		return storeMain.repository.get().AURMaxAmount * storeMain.repository.get().auru +
+		storeMain.repository.get().USNMaxAmount * storeMain.repository.get().usnu +
+		storeMain.repository.get().ETHMaxAmount * storeMain.repository.get().ethu +
+		storeMain.repository.get().NEARMaxAmount * storeMain.repository.get().nu +
+		storeMain.repository.get().ATOMMaxAmount * storeMain.repository.get().au +
+		storeMain.repository.get().TONMaxAmount * storeMain.repository.get().tu +
+		storeMain.repository.get().SOLMaxAmount * storeMain.repository.get().su;
+	}, [storeMain.repository.get().ATOMMaxAmount, storeMain.repository.get().AURMaxAmount, storeMain.repository.get().ETHMaxAmount, storeMain.repository.get().NEARMaxAmount, storeMain.repository.get().SOLMaxAmount, storeMain.repository.get().TONMaxAmount, storeMain.repository.get().USNMaxAmount, storeMain.repository]);
 
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
@@ -213,11 +205,11 @@ const AppWrapper = () => {
 			getStatuses();
 		}, 30000);
 
-		getTONMaxAmount(setTONMaxAmount);
-		getSOLMaxAmount(setSOLMaxAmount);
-		getATOMMaxAmount(setATOMMaxAmount);
-		getAURMaxAmount(setAURMaxAmount);
-		getETHMaxAmount(setETHMaxAmount);
+		getTONMaxAmount(storeMain.setTONMaxAmount);
+		getSOLMaxAmount(storeMain.setSOLMaxAmount);
+		getATOMMaxAmount(storeMain.setATOMMaxAmount);
+		getAURMaxAmount(storeMain.setAURMaxAmount);
+		getETHMaxAmount(storeMain.setETHMaxAmount);
 
 		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		setInterval(() => {
@@ -246,7 +238,7 @@ const AppWrapper = () => {
 			setNetworkDestination(storedData.networkDestination);
 		}
 
-		initializeWalletNEAR(setNEARMaxAmount, storeMain.setNEARwalletKey, setUSNMaxAmount);
+		initializeWalletNEAR(storeMain.setNEARMaxAmount, storeMain.setNEARwalletKey, storeMain.setUSNMaxAmount);
 		if (isnear)
 			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
 		if (isusn)
@@ -297,8 +289,8 @@ const AppWrapper = () => {
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
 
-	const btnDest = generateBtn(networkDestination);
-	const btnSource = generateBtn(networkSource);
+	const btnDest = GenerateBtn(networkDestination);
+	const btnSource = GenerateBtn(networkSource);
 
 	const swap = () => {
 		setNetworkDestination(networkSource);
@@ -339,20 +331,6 @@ const AppWrapper = () => {
 	);
 
 	const fromProps = {
-		ATOMwalletKey,
-		ETHwalletKey,
-		MUMBwalletKey,
-		SOLwalletKey,
-		TONwalletKey,
-		AURwalletKey,
-		NEARwalletKey,
-		ATOMMaxAmount,
-		SOLMaxAmount,
-		ETHMaxAmount,
-		AURMaxAmount,
-		TONMaxAmount,
-		USNMaxAmount,
-		NEARMaxAmount,
 		btnSelectSource,
 		btnSelectDirection,
 		btnDest,

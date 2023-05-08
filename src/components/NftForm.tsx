@@ -34,8 +34,6 @@ const SwapForm = (props: any) => {
 	const [selectedNft, selectNft] = useState(null);
 	const { storeMain } = useStores();
 
-	console.log(props)
-
 	let dirKey: string = props.directionNetwork;
 	if (dirKey.includes('(') && dirKey.includes(')')) {
 		dirKey = dirKey.split(' ')[0]; // Reduced to the form: wsol, weth  etc.
@@ -48,87 +46,87 @@ const SwapForm = (props: any) => {
 	}
 	if (souKey.includes('mumbai')) { souKey = 'eth' }
 
-
 	const nftConfig: any = {
 		atom: {
-			walletKey: props.ATOMwalletKey,
+			walletKey: storeMain.repository.get().ATOMwalletKey,
 			currency: storeMain.repository.get().au,
-			maxAmount: props.ATOMMaxAmount,
+			maxAmount: storeMain.repository.get().ATOMMaxAmount,
 			currencyName: "ATOM"
 		},
 		near: {
-			walletKey: props.NEARwalletKey,
+			walletKey: storeMain.repository.get().NEARwalletKey,
 			currency: storeMain.repository.get().nu,
-			maxAmount: props.NEARMaxAmount,
+			maxAmount: storeMain.repository.get().NEARMaxAmount,
 			currencyName: "NEAR"
 		},
 		sol: {
-			walletKey: props.SOLwalletKey,
+			walletKey: storeMain.repository.get().SOLwalletKey,
 			currency: storeMain.repository.get().su,
-			maxAmount: props.SOLMaxAmount,
+			maxAmount: storeMain.repository.get().SOLMaxAmount,
 			currencyName: "SOL"
 		},
 		ton: {
-			walletKey: props.TONwalletKey,
+			walletKey: storeMain.repository.get().TONwalletKey,
 			currency: storeMain.repository.get().tu,
-			maxAmount: props.TONMaxAmount,
+			maxAmount: storeMain.repository.get().TONMaxAmount,
 			currencyName: "TON"
 		},
 		aurora: {
-			walletKey: props.AURwalletKey,
+			walletKey: storeMain.repository.get().AURwalletKey,
 			currency: storeMain.repository.get().auru,
-			maxAmount: props.AURMaxAmount,
+			maxAmount: storeMain.repository.get().AURMaxAmount,
 			currencyName: "AURORA"
 		},
 		usn: {
-			walletKey: props.NEARwalletKey,
+			walletKey: storeMain.repository.get().NEARwalletKey,
 			currency: storeMain.repository.get().usnu,
-			maxAmount: props.USNMaxAmount,
+			maxAmount: storeMain.repository.get().USNMaxAmount,
 			currencyName: "USN"
 		},
 		eth: {
-			walletKey: props.ETHwalletKey,
+			walletKey: storeMain.repository.get().ETHwalletKey,
 			currency: storeMain.repository.get().maticu,
-			maxAmount: props.ETHMaxAmount,
+			maxAmount: storeMain.repository.get().ETHMaxAmount,
 			currencyName: "ETH"
 		},
 		wsol: {
-			walletKey: props.TONwalletKey,
+			walletKey: storeMain.repository.get().TONwalletKey,
 			currency: storeMain.repository.get().su,
-			maxAmount: props.SOLMaxAmount,
+			maxAmount: storeMain.repository.get().SOLMaxAmount,
 			currencyName: "wSOL"
 		},
 		weth: {
-			walletKey: props.TONwalletKey,
+			walletKey: storeMain.repository.get().TONwalletKey,
 			currency: storeMain.repository.get().maticu,
-			maxAmount: props.ETHMaxAmount,
+			maxAmount: storeMain.repository.get().ETHMaxAmount,
 			currencyName: "wETH"
 		},
 		watom: {
-			walletKey: props.TONwalletKey,
+			walletKey: storeMain.repository.get().TONwalletKey,
 			currency: storeMain.repository.get().au,
-			maxAmount: props.ATOMMaxAmount,
+			maxAmount: storeMain.repository.get().ATOMMaxAmount,
 			currencyName: "wATOM"
 		},
 		wnear: {
-			walletKey: props.TONwalletKey,
+			walletKey: storeMain.repository.get().TONwalletKey,
 			currency: storeMain.repository.get().nu,
-			maxAmount: props.NEARMaxAmount,
+			maxAmount: storeMain.repository.get().NEARMaxAmount,
 			currencyName: "wNEAR"
 		},
 		waurora: {
-			walletKey: props.TONwalletKey,
+			walletKey: storeMain.repository.get().TONwalletKey,
 			currency: storeMain.repository.get().auru,
-			maxAmount: props.AURMaxAmount,
+			maxAmount: storeMain.repository.get().AURMaxAmount,
 			currencyName: "wAURORA"
 		},
 		wusn: {
-			walletKey: props.TONwalletKey,
+			walletKey: storeMain.repository.get().TONwalletKey,
 			currency: storeMain.repository.get().usnu,
-			maxAmount: props.USNMaxAmount,
+			maxAmount: storeMain.repository.get().USNMaxAmount,
 			currencyName: "wUSN"
 		}
 	}
+	
 
 	const currency = nftConfig[souKey].currency;
 	const walletDirKey = nftConfig[dirKey].walletKey;
