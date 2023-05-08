@@ -46,12 +46,6 @@ const AppWrapper = () => {
 	const { selector, modal, accounts, accountId } = useWalletSelector();
 	const [ex, sex] = useState(true);
 
-	const [SOLwalletKey, setSOLWalletKey] = useState("");
-	const [MUMBwalletKey, setMUMBwalletKey] = useState("");
-	const [TONwalletKey, setTONwalletKey] = useState("");
-	const [NEARwalletKey, setNEARwalletKey] = useState("");
-	const [ATOMwalletKey, setATOMwalletKey] = useState("");
-	const [AURwalletKey, setAURwalletKey] = useState("");
 	const [AURMaxAmount, setAURMaxAmount] = useState(0);
 	const [SOLMaxAmount, setSOLMaxAmount] = useState(0);
 	const [TONMaxAmount, setTONMaxAmount] = useState(0);
@@ -61,7 +55,8 @@ const AppWrapper = () => {
 	const [USNMaxAmount, setUSNMaxAmount] = useState(0);
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
-	const [ETHwalletKey, setETHWalletKey] = useState("");
+
+	
 
 	const [formType, setFormType] = useState<string>("swap");
 	const navigate = useNavigate();
@@ -240,18 +235,18 @@ const AppWrapper = () => {
 			//@ts-ignore
 			const storedData = JSON.parse(localStorage.getItem("tonana_data"));
 			sex(storedData.ex);
-			setSOLWalletKey(storedData.SOLwalletKey);
-			setTONwalletKey(storedData.TONwalletKey);
-			setAURwalletKey(storedData.AURwalletKey);
-			setNEARwalletKey(storedData.NEARwalletKey);
-			setATOMwalletKey(storedData.ATOMwalletKey);
-			setETHWalletKey(storedData.ETHwalletKey);
+			storeMain.setSOLwalletKey(storedData.SOLwalletKey);
+			storeMain.setTONwalletKey(storedData.TONwalletKey);
+			storeMain.setAURwalletKey(storedData.AURwalletKey);
+			storeMain.setNEARwalletKey(storedData.NEARwalletKey);
+			storeMain.setATOMwalletKey(storedData.ATOMwalletKey);
+			storeMain.setETHwalletKey(storedData.ETHwalletKey);
 			sHexString(storedData.hexString);
 			setNetworkSource(storedData.networkSource);
 			setNetworkDestination(storedData.networkDestination);
 		}
 
-		initializeWalletNEAR(setNEARMaxAmount, setNEARwalletKey, setUSNMaxAmount);
+		initializeWalletNEAR(setNEARMaxAmount, storeMain.setNEARwalletKey, setUSNMaxAmount);
 		if (isnear)
 			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
 		if (isusn)
@@ -261,6 +256,12 @@ const AppWrapper = () => {
 	}, []);
 
 	useEffect(() => {
+		const SOLwalletKey = storeMain.repository.get().SOLwalletKey;
+		const TONwalletKey = storeMain.repository.get().TONwalletKey;
+		const ETHwalletKey = storeMain.repository.get().ETHwalletKey;
+		const AURwalletKey = storeMain.repository.get().AURwalletKey;
+		const NEARwalletKey = storeMain.repository.get().NEARwalletKey;
+		const ATOMwalletKey = storeMain.repository.get().ATOMwalletKey;
 		localStorage.setItem(
 			"tonana_data",
 			JSON.stringify({
@@ -278,33 +279,16 @@ const AppWrapper = () => {
 		);
 	}, [
 		ex,
-		SOLwalletKey,
-		TONwalletKey,
-		AURwalletKey,
-		ETHwalletKey,
-		NEARwalletKey,
-		ATOMwalletKey,
+		storeMain.repository.get().SOLwalletKey,
+		storeMain.repository.get().TONwalletKey,
+		storeMain.repository.get().AURwalletKey,
+		storeMain.repository.get().ETHwalletKey,
+		storeMain.repository.get().NEARwalletKey,
+		storeMain.repository.get().ATOMwalletKey,
 		hexString,
 		networkSource,
 		networkDestination,
 	]);
-
-	const btnProps = {
-		setSOLWalletKey,
-		setETHWalletKey,
-		setTONwalletKey,
-		setAURwalletKey,
-		setNEARwalletKey,
-		setATOMwalletKey,
-		setMUMBwalletKey,
-		TONwalletKey,
-		AURwalletKey,
-		SOLwalletKey,
-		NEARwalletKey,
-		ATOMwalletKey,
-		ETHwalletKey,
-		MUMBwalletKey
-	};
 
 
 	const menuSource = menuBuilder(networkDestination, setNetworkSource, formType, false);
@@ -313,8 +297,8 @@ const AppWrapper = () => {
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
 
-	const btnDest = generateBtn(btnProps, networkDestination);
-	const btnSource = generateBtn(btnProps, networkSource);
+	const btnDest = generateBtn(networkDestination);
+	const btnSource = generateBtn(networkSource);
 
 	const swap = () => {
 		setNetworkDestination(networkSource);

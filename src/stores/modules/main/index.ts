@@ -14,11 +14,52 @@ export class Main {
         auru: 0, // aurora near usd
         ethu: 0, // ethereum usd
         maticu: 0, // ethereum usd
+        SOLwalletKey: "",
+        MUMBwalletKey: "",
+        TONwalletKey: "",
+        NEARwalletKey: "",
+        ATOMwalletKey: "",
+        AURwalletKey: "",
+        ETHwalletKey: "",
+
     });
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
     }
+
+    setETHwalletKey = (payload: string) => {
+        this.repository.set({ ...this.repository.get(), ETHwalletKey: payload });
+    }
+
+    setAURwalletKey = (payload: string) => {
+        this.repository.set({ ...this.repository.get(), AURwalletKey: payload });
+    }
+
+    setATOMwalletKey = (payload: string) => {
+        this.repository.set({ ...this.repository.get(), ATOMwalletKey: payload });
+    }
+
+    setNEARwalletKey = (payload: string) => {
+        this.repository.set({ ...this.repository.get(), NEARwalletKey: payload });
+    };
+
+    setSOLwalletKey = (payload: string) => {
+        this.repository.set({ ...this.repository.get(), SOLwalletKey: payload });
+    };
+
+    setMUMBwalletKey = (payload: string) => {
+        this.repository.set({ ...this.repository.get(), MUMBwalletKey: payload });
+    };
+
+    setTONwalletKey = (payload: string) => {
+        this.repository.set({ ...this.repository.get(), TONwalletKey: payload });
+    };
+
+
+
+
+    
 
     setEx = (payload: boolean) => {
         this.repository.set({ ...this.repository.get(), ex: payload });
