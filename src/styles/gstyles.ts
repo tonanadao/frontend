@@ -116,6 +116,15 @@ iframe{
       margin: -30px 0 30px 0;
     }
 }
+.ant-message {
+	max-width: 20%;
+	right: 0 !important;
+	left: auto !important;
+	@media (max-width: 767px) {
+		max-width: 100% !important;
+	}	
+}	
+
 
 .ant-btn-primary {
     color: #212529;

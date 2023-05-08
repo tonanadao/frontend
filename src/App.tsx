@@ -44,12 +44,8 @@ import { RootStore, StoreProvider, useStores } from "./stores";
 const AppWrapper = () => {
 	const { storeMain } = useStores();
 	const [ex, sex] = useState(true);
-
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
-
-	
-
 	const [formType, setFormType] = useState<string>("swap");
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -59,6 +55,7 @@ const AppWrapper = () => {
 	const [hexString, sHexString] = useState("");
 	const [networkSource, setNetworkSource] = useState("NEAR");
 	const [networkDestination, setNetworkDestination] = useState("TON");
+	
 	const [rpcEthStatus, setRpcEthStatus] = useState<{
 		key: string;
 		title: string;
@@ -243,8 +240,8 @@ const AppWrapper = () => {
 			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
 		if (isusn)
 			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
-		// message.success("Use Chrome with TonWallet & Phantom extensions", 10);
-		// message.success("Connect both and make trx, then wait a little bit", 11);
+		message.success("Use Chrome with TonWallet & Phantom extensions", 5);
+		message.success("Connect both and make trx, then wait a little bit", 6);
 	}, []);
 
 	useEffect(() => {
