@@ -55,101 +55,25 @@ const AppWrapper = () => {
 	const [hexString, sHexString] = useState("");
 	const [networkSource, setNetworkSource] = useState("NEAR");
 	const [networkDestination, setNetworkDestination] = useState("TON");
-	
-	const [rpcEthStatus, setRpcEthStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Ethereum RPC",
-		key: "eth",
-		status: false,
-	});
-
-	const [rpcSolStatus, setRpcSolStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Solana RPC",
-		key: "sol",
-		status: false,
-	});
-	const [rpcNearStatus, setRpcNearStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Near RPC",
-		key: "near",
-		status: false,
-	});
-
-	const [rpcAuroraStatus, setRpcAuroraStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Aurora RPC",
-		key: "aurora",
-		status: false,
-	});
-
-	const [rpcTonStatus, setRpcTonStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Ton RPC",
-		key: "ton",
-		status: false,
-	});
-
-	const [rpcCosmosStatus, setRpcCosmosStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Cosmos RPC",
-		key: "atom",
-		status: false,
-	});
-	const [backStatus, setBackStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Tonana oracle",
-		key: "tnn",
-		status: false,
-	});
-
-	const [rpcsStatuses, setRpcsStatuses] = useState<
-		Array<{
-			key: string;
-			title: string;
-			status: boolean;
-		}>
-	>([]);
 
 	useEffect(() => {
-		setRpcsStatuses([
-			backStatus,
-			rpcTonStatus,
-			rpcEthStatus,
-			rpcNearStatus,
-			rpcSolStatus,
-			rpcCosmosStatus,
-			rpcAuroraStatus,
+	 storeMain.setRpcsStatuses([
+			storeMain.repository.get().backStatus,
+			storeMain.repository.get().rpcTonStatus,
+			storeMain.repository.get().rpcEthStatus,
+			storeMain.repository.get().rpcNearStatus,
+			storeMain.repository.get().rpcSolStatus,
+			storeMain.repository.get().rpcCosmosStatus,
+			storeMain.repository.get().rpcAuroraStatus,
 		]);
 	}, [
-		rpcAuroraStatus,
-		rpcNearStatus,
-		rpcSolStatus,
-		rpcTonStatus,
-		rpcCosmosStatus,
-		rpcEthStatus,
-		backStatus,
+		storeMain.repository.get().rpcAuroraStatus,
+		storeMain.repository.get().rpcNearStatus,
+		storeMain.repository.get().rpcSolStatus,
+		storeMain.repository.get().rpcTonStatus,
+		storeMain.repository.get().rpcCosmosStatus,
+		storeMain.repository.get().rpcEthStatus,
+		storeMain.repository.get().backStatus,
 	]);
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -176,25 +100,25 @@ const AppWrapper = () => {
 	useEffect(() => {
 		const getStatuses = () => {
 			(async () => {
-				setRpcTonStatus(await tonRpcStatus());
+				storeMain.setRpcTonStatus(await tonRpcStatus());
 			})();
 			(async () => {
-				setRpcSolStatus(await solRpcStatus());
+				storeMain.setRpcSolStatus(await solRpcStatus());
 			})();
 			(async () => {
-				setRpcNearStatus(await nearRpcStatus());
+				storeMain.setRpcNearStatus(await nearRpcStatus());
 			})();
 			(async () => {
-				setRpcAuroraStatus(await auroraRpcStatus());
+				storeMain.setRpcAuroraStatus(await auroraRpcStatus());
 			})();
 			(async () => {
-				setRpcEthStatus(await ethRpcStatus());
+				storeMain.setRpcEthStatus(await ethRpcStatus());
 			})();
 			(async () => {
-				setRpcCosmosStatus(await cosmosRpcStatus());
+				storeMain.setRpcCosmosStatus(await cosmosRpcStatus());
 			})();
 			(async () => {
-				setBackStatus(await callBackStatus());
+				storeMain.setBackStatus(await callBackStatus());
 			})();
 		};
 		getStatuses();
@@ -343,7 +267,6 @@ const AppWrapper = () => {
 		setSecCurrAmount,
 		firstCurrAmount,
 		secCurrAmount,
-		rpcsStatuses,
 		formType
 	};
 
@@ -435,7 +358,7 @@ const AppWrapper = () => {
 				{location.pathname !== '/nft' ? <SwapForm {...fromProps} /> : <NftForm {...fromProps} />}
 				{isload ? <Loader src={bnn} /> : null}
 			</div>
-			<Rpcs rpcsStatuses={rpcsStatuses} />
+			<Rpcs rpcsStatuses={storeMain.repository.get().rpcsStatuses} />
 			<Social />
 			<div className="version">
 				Tonana TVL: ${tvl.toFixed(2)}

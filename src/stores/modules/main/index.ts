@@ -28,10 +28,111 @@ export class Main {
         NEARMaxAmount: 0,
         ETHMaxAmount: 0,
         USNMaxAmount: 0,
+        rpcEthStatus: {
+            title: "Ethereum RPC",
+            key: "eth",
+            status: false,    
+        },
+        rpcSolStatus: {
+            title: "Solana RPC",
+            key: "sol",
+            status: false,    
+        },
+        rpcNearStatus: {
+            title: "Near RPC",
+            key: "near",
+            status: false,    
+        },
+        rpcAuroraStatus: {
+            title: "Aurora RPC",
+            key: "aurora",
+            status: false,
+        },
+        rpcTonStatus: {
+            title: "Ton RPC",
+            key: "ton",
+            status: false,
+        },
+        rpcCosmosStatus: {
+            title: "Cosmos RPC",
+            key: "atom",
+            status: false,
+        },
+        backStatus: {
+            title: "Tonana oracle",
+            key: "tnn",
+            status: false,    
+        },
+        rpcsStatuses: [{}],
     });
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
+    }
+
+    // RPC
+    setRpcsStatuses = (payload: Array<{
+        key: string;
+        title: string;
+        status: boolean;
+    }>) => {
+        this.repository.set({ ...this.repository.get(), rpcsStatuses: payload });
+    }
+
+    setBackStatus = (payload: {
+		key: string;
+		title: string;
+		status: boolean;
+	}) => {
+        this.repository.set({ ...this.repository.get(), backStatus: payload });
+    }
+
+    setRpcCosmosStatus = (payload: {
+		key: string;
+		title: string;
+		status: boolean;
+	}) => {
+        this.repository.set({ ...this.repository.get(), rpcCosmosStatus: payload });
+    }
+
+    setRpcTonStatus = (payload: {
+		key: string;
+		title: string;
+		status: boolean;
+	}) => {
+        this.repository.set({ ...this.repository.get(), rpcTonStatus: payload });
+    }
+
+    setRpcAuroraStatus = (payload: {
+		key: string;
+		title: string;
+		status: boolean;
+	}) => {
+        this.repository.set({ ...this.repository.get(), rpcAuroraStatus: payload });
+    }
+
+    setRpcNearStatus = (payload: {
+		key: string;
+		title: string;
+		status: boolean;
+	}) => {
+        this.repository.set({ ...this.repository.get(), rpcNearStatus: payload });
+    }
+
+    setRpcSolStatus = (payload: {
+		key: string;
+		title: string;
+		status: boolean;
+	}) => {
+        this.repository.set({ ...this.repository.get(), rpcSolStatus: payload });
+    }
+    
+    setRpcEthStatus = (payload: {
+		key: string;
+		title: string;
+		status: boolean;
+	}) => {
+        this.repository.set({ ...this.repository.get(), rpcEthStatus: payload });
     }
 
     //maxAmounts
