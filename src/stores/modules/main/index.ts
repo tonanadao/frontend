@@ -1,6 +1,12 @@
 import { RootStore } from "../../store";
 import { atom } from 'nanostores';
 
+interface rpcT {
+    key: string;
+    title: string;
+    status: boolean;
+}
+
 export class Main {
     private rootStore: RootStore;
 
@@ -63,7 +69,7 @@ export class Main {
             key: "tnn",
             status: false,    
         },
-        rpcsStatuses: [{}],
+        rpcsStatuses: [{} ],
     });
 
     constructor(rootStore: RootStore) {
@@ -79,59 +85,31 @@ export class Main {
         this.repository.set({ ...this.repository.get(), rpcsStatuses: payload });
     }
 
-    setBackStatus = (payload: {
-		key: string;
-		title: string;
-		status: boolean;
-	}) => {
+    setBackStatus = (payload: rpcT) => {
         this.repository.set({ ...this.repository.get(), backStatus: payload });
     }
 
-    setRpcCosmosStatus = (payload: {
-		key: string;
-		title: string;
-		status: boolean;
-	}) => {
+    setRpcCosmosStatus = (payload: rpcT) => {
         this.repository.set({ ...this.repository.get(), rpcCosmosStatus: payload });
     }
 
-    setRpcTonStatus = (payload: {
-		key: string;
-		title: string;
-		status: boolean;
-	}) => {
+    setRpcTonStatus = (payload: rpcT) => {
         this.repository.set({ ...this.repository.get(), rpcTonStatus: payload });
     }
 
-    setRpcAuroraStatus = (payload: {
-		key: string;
-		title: string;
-		status: boolean;
-	}) => {
+    setRpcAuroraStatus = (payload: rpcT) => {
         this.repository.set({ ...this.repository.get(), rpcAuroraStatus: payload });
     }
 
-    setRpcNearStatus = (payload: {
-		key: string;
-		title: string;
-		status: boolean;
-	}) => {
+    setRpcNearStatus = (payload: rpcT) => {
         this.repository.set({ ...this.repository.get(), rpcNearStatus: payload });
     }
 
-    setRpcSolStatus = (payload: {
-		key: string;
-		title: string;
-		status: boolean;
-	}) => {
+    setRpcSolStatus = (payload: rpcT) => {
         this.repository.set({ ...this.repository.get(), rpcSolStatus: payload });
     }
     
-    setRpcEthStatus = (payload: {
-		key: string;
-		title: string;
-		status: boolean;
-	}) => {
+    setRpcEthStatus = (payload: rpcT) => {
         this.repository.set({ ...this.repository.get(), rpcEthStatus: payload });
     }
 
