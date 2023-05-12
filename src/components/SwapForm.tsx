@@ -221,12 +221,11 @@ const SwapForm = (props: any) => {
 						style={{
 							margin: "0px 0 24px 0",
 						}}>
-						<Button
+						<SubmitBtn
 							type="primary"
-							id={"submitBtn"}
 							onClick={() => setOpenData(!openData)}>
 							{!openData ? "Add more data" : "Discard trx data"}
-						</Button>
+						</SubmitBtn>
 					</Form.Item>
 					{openData ? (
 						<>
