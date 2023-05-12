@@ -91,7 +91,6 @@ export function compute_bytes_compact(fee, expire_period, type_id, recipient_add
   var encoded_type_id = Buffer.from(varint_encode(type_id))
   var encoded_amount = Buffer.from(varint_encode(amount))
   recipient_address = Buffer.concat([Buffer.from([0]), Buffer.from(base58_decode(recipient_address.slice(2)).slice(1))])
-  console.log('eeeeer')
   return Buffer.concat([encoded_fee, encoded_expire_periode, encoded_type_id, recipient_address, encoded_amount])
 }
 
@@ -99,11 +98,9 @@ export async function parse_textprivkey(txt) {
   var privkey = parse_private_base58check(txt);
   var pubkey = await getPublicKeyAsync(privkey);
   var version = Buffer.from(varint_encode(0));
-  console.log(pubkey)
   var b58cpubkey = 'P' + base58check_encode(Buffer.from(_appendBuffer(version, pubkey)));
   var version = Buffer.from(varint_encode(0));
   var addr = 'AU' + base58check_encode(Buffer.from(_appendBuffer(version, hash_blake3(pubkey))))
-  // var thread = get_address_thread(addr);
   var parsed_privkey = { address: addr, b58cprivkey: txt, privkey: privkey, b58cpubkey: b58cpubkey, pubkey: pubkey };
   return parsed_privkey
 }
@@ -120,19 +117,15 @@ function JsonRPCRequest(resource, data, completion_callback, error_callback) {
       "Content-Type": "application/json"
     }, 'body': data
   }).then((response) => {
-    console.log(response)
     return response.json()
   }).then((data) => {
     console.log(data)
     if (data.error) {
       error_callback(data.error)
-      console.log(data.error)
       return
     }
-
     completion_callback(data)
   }).catch((error) => {
-    console.log(error)
     error_callback(error)
   })
 }
