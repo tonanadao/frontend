@@ -1,14 +1,15 @@
 import Logo from "../static/img/logo.svg";
 import React, { Component } from "react";
+import { Topnav, LogoSC } from "../styles/style";
 
 const Header = () => {
 	return (
-		<header id="topnav" className="defaultscroll sticky">
+		<Topnav className="defaultscroll sticky">
 			<a href="https://tonana.org/">
 				{" "}
-				<img src={Logo} className="logo" />{" "}
+				<LogoSC src={Logo} className="logo" />{" "}
 			</a>
-		</header>
+		</Topnav>
 	);
 };
 

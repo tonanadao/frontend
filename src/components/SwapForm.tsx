@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Form, Input, message, Button } from "antd";
 import makeTrx from "../logic/trxBuilder";
 import { useStores } from "../stores";
+import { SubmitBtn, NonactiveSubmitBtn } from "../styles/style";
 
 const SwapForm = (props: any) => {
 	const { storeMain } = useStores();
@@ -9,202 +10,124 @@ const SwapForm = (props: any) => {
 	const [params, setParams] = useState("");
 	const [addMessage, setAddMessage] = useState(false);
 	const [openData, setOpenData] = useState(false);
+	
 
-	const isDirAtom = props.directionNetwork === "atom";
-	const isDirNear = props.directionNetwork === "near";
-	const isDirSol = props.directionNetwork === "sol";
-	const isDirTon = props.directionNetwork === "ton";
-	const isDirAur = props.directionNetwork === "aurora";
-	const isDirUsn = props.directionNetwork === "usn";
-	const isDirEth = props.directionNetwork === "eth";
-	const isDirwSOLTON = props.directionNetwork === "wsol (ton)";
-	const isDirwETHTON = props.directionNetwork === "weth (ton)";
-	const isDirwAURTON = props.directionNetwork === "waurora (ton)";
-	const isDirwNEARTON = props.directionNetwork === "wnear (ton)";
-	const isDirwATOMTON = props.directionNetwork === "watom (ton)";
-	const isDirwUSNTON = props.directionNetwork === "wusn (ton)";
+	let isTargetWrapp = false;
 
-	const isSouAtom = props.networkSource === "atom";
-	const isSouNear = props.networkSource === "near";
-	const isSouSol = props.networkSource === "sol";
-	const isSouTon = props.networkSource === "ton";
-	const isSouAur = props.networkSource === "aurora";
-	const isSouUsn = props.networkSource === "usn";
-	const isSouEth = props.networkSource === "eth";
-	const isSouwSOLTON = props.networkSource === "wsol (ton)";
-	const isSouwETHTON = props.networkSource === "weth (ton)";
-	const isSouwATOMTON = props.networkSource === "watom (ton)";
-	const isSouwNEARTON = props.networkSource === "wnear (ton)";
-	const isSouwAURTON = props.networkSource === "waurora (ton)";
-	const isSouwUSNTON = props.networkSource === "wusn (ton)";
+	let dirKey: string = props.directionNetwork;
+	if (dirKey.includes('(') && dirKey.includes(')')) {
+		dirKey = dirKey.split(' ')[0]; // Reduced to the form: wsol, weth  etc.
+		isTargetWrapp = true;
+	}
 
-	const isTargetWrapp =
-		isDirwSOLTON ||
-		isDirwETHTON ||
-		isDirwAURTON ||
-		isDirwNEARTON ||
-		isDirwATOMTON ||
-		isDirwUSNTON;
+	let souKey: string = props.networkSource;
+	if (souKey.includes('(') && souKey.includes(')')) {
+		souKey = souKey.split(' ')[0];
+	}
+
+	const swapConfig: any = {
+		atom: {
+			walletKey: storeMain.repository.get().ATOMwalletKey,
+			currency: storeMain.repository.get().au,
+			maxAmount: storeMain.repository.get().ATOMMaxAmount,
+			currencyName: "ATOM"
+		},
+		near: {
+			walletKey: storeMain.repository.get().NEARwalletKey,
+			currency: storeMain.repository.get().nu,
+			maxAmount: storeMain.repository.get().NEARMaxAmount,
+			currencyName: "NEAR"
+		},
+		sol: {
+			walletKey: storeMain.repository.get().SOLwalletKey,
+			currency: storeMain.repository.get().su,
+			maxAmount: storeMain.repository.get().SOLMaxAmount,
+			currencyName: "SOL"
+		},
+		ton: {
+			walletKey: storeMain.repository.get().TONwalletKey,
+			currency: storeMain.repository.get().tu,
+			maxAmount: storeMain.repository.get().TONMaxAmount,
+			currencyName: "TON"
+		},
+		aurora: {
+			walletKey: storeMain.repository.get().AURwalletKey,
+			currency: storeMain.repository.get().auru,
+			maxAmount: storeMain.repository.get().AURMaxAmount,
+			currencyName: "AURORA"
+		},
+		usn: {
+			walletKey: storeMain.repository.get().NEARwalletKey,
+			currency: storeMain.repository.get().usnu,
+			maxAmount: storeMain.repository.get().USNMaxAmount,
+			currencyName: "USN"
+		},
+		eth: {
+			walletKey: storeMain.repository.get().ETHwalletKey,
+			currency: storeMain.repository.get().ethu,
+			maxAmount: storeMain.repository.get().ETHMaxAmount,
+			currencyName: "ETH"
+		},
+		wsol: {
+			walletKey: storeMain.repository.get().TONwalletKey,
+			currency: storeMain.repository.get().su,
+			maxAmount: storeMain.repository.get().SOLMaxAmount,
+			currencyName: "wSOL"
+		},
+		weth: {
+			walletKey: storeMain.repository.get().TONwalletKey,
+			currency: storeMain.repository.get().ethu,
+			maxAmount: storeMain.repository.get().ETHMaxAmount,
+			currencyName: "wETH"
+		},
+		watom: {
+			walletKey: storeMain.repository.get().TONwalletKey,
+			currency: storeMain.repository.get().au,
+			maxAmount: storeMain.repository.get().ATOMMaxAmount,
+			currencyName: "wATOM"
+		},
+		wnear: {
+			walletKey: storeMain.repository.get().TONwalletKey,
+			currency: storeMain.repository.get().nu,
+			maxAmount: storeMain.repository.get().NEARMaxAmount,
+			currencyName: "wNEAR"
+		},
+		waurora: {
+			walletKey: storeMain.repository.get().TONwalletKey,
+			currency: storeMain.repository.get().auru,
+			maxAmount: storeMain.repository.get().AURMaxAmount,
+			currencyName: "wAURORA"
+		},
+		wusn: {
+			walletKey: storeMain.repository.get().TONwalletKey,
+			currency: storeMain.repository.get().usnu,
+			maxAmount: storeMain.repository.get().USNMaxAmount,
+			currencyName: "wUSN"
+		}
+	}
+	
+
+	
 
 	useEffect(() => {
 		setParams("");
 		setAddVal("");
 		setAddMessage(false);
-		if (isSouNear && isDirTon) setAddMessage(true);
-		if (isSouTon && isDirNear) setAddMessage(true);
-		if (isSouTon && isDirUsn) setAddMessage(true);
-		if (isSouUsn && isDirTon) setAddMessage(true);
+		if (props.networkSource === "near" && props.directionNetwork === "ton") setAddMessage(true);
+		if (props.networkSource === "ton" && props.directionNetwork === "near") setAddMessage(true);
+		if (props.networkSource === "ton" && props.directionNetwork === "usn") setAddMessage(true);
+		if (props.networkSource === "usn" && props.directionNetwork === "ton") setAddMessage(true);
 	}, [props.networkSource, props.directionNetwork]);
 
-	const walletDirKey = isDirAtom
-		? props.ATOMwalletKey
-		: isDirNear || isDirUsn
-			? props.NEARwalletKey
-			: isDirTon ||
-				isDirwSOLTON ||
-				isDirwNEARTON ||
-				isDirwATOMTON ||
-				isDirwAURTON ||
-				isDirwETHTON ||
-				isDirwUSNTON
-				? props.TONwalletKey
-				: isDirSol
-					? props.SOLwalletKey
-					: isDirEth
-						? props.ETHwalletKey
-						: isDirAur
-							? props.AURwalletKey
-							: null;
+	const walletDirKey = swapConfig[dirKey].walletKey;
+	const walletSouKey = swapConfig[souKey].walletKey;
+	const secCurrency = swapConfig[dirKey].currency; //for Dir
+	const currency = swapConfig[souKey].currency; // for Sou
+	const MaxDirAmount = Number(swapConfig[dirKey].maxAmount); // only for Dir 
+	const sourceCurrencyName = swapConfig[souKey].currencyName;
+	const directionCurrencyName = swapConfig[dirKey].currencyName;
 
-	const walletSouKey = isSouAtom
-		? props.ATOMwalletKey
-		: isSouNear || isSouUsn
-			? props.NEARwalletKey
-			: isSouTon ||
-				isSouwATOMTON ||
-				isSouwNEARTON ||
-				isSouwSOLTON ||
-				isSouwAURTON ||
-				isSouwETHTON ||
-				isSouwUSNTON
-				? props.TONwalletKey
-				: isSouSol
-					? props.SOLwalletKey
-					: isSouAur
-						? props.AURwalletKey
-						: isSouEth
-							? props.ETHwalletKey
-							: null;
-
-	const secCurrency =
-		isDirAtom || isDirwATOMTON
-			? storeMain.repository.get().au
-			: isDirNear || isDirwNEARTON
-			? storeMain.repository.get().nu
-			: isDirTon
-			? storeMain.repository.get().tu
-			: isDirAur || isDirwAURTON
-			? storeMain.repository.get().auru
-			: isDirSol || isDirwSOLTON
-			? storeMain.repository.get().su
-			: isDirUsn || isDirwUSNTON
-			? storeMain.repository.get().usnu
-			: isDirEth || isDirwETHTON
-			? storeMain.repository.get().ethu
-			: null;
-
-	const currency =
-		isSouAtom || isSouwATOMTON
-			? storeMain.repository.get().au
-			: isSouNear || isSouwNEARTON
-			? storeMain.repository.get().nu
-			: isSouEth || isSouwETHTON
-			? storeMain.repository.get().ethu
-			: isSouTon
-			? storeMain.repository.get().tu
-			: isSouSol || isSouwSOLTON
-			? storeMain.repository.get().su
-			: isSouAur || isSouwAURTON
-			? storeMain.repository.get().auru
-			: isSouUsn || isSouwUSNTON
-			? storeMain.repository.get().usnu
-			: null;
-
-	const MaxDirAmount = Number(
-		isDirAtom || isDirwATOMTON
-			? props.ATOMMaxAmount
-			: isDirNear || isDirwNEARTON
-				? props.NEARMaxAmount
-				: isDirTon
-					? props.TONMaxAmount
-					: isDirSol || isDirwSOLTON
-						? props.SOLMaxAmount
-						: isDirEth || isDirwETHTON
-							? props.ETHMaxAmount
-							: isDirAur || isDirwAURTON
-								? props.AURMaxAmount
-								: isDirUsn || isDirwUSNTON
-									? props.USNMaxAmount
-									: null
-	);
-
-	const sourceCurrencyName = isSouAtom
-		? "ATOM"
-		: isSouNear
-			? "NEAR"
-			: isSouTon
-				? "TON"
-				: isSouUsn
-					? "USN"
-					: isSouAur
-						? "AURORA"
-						: isSouSol
-							? "SOL"
-							: isSouEth
-								? "ETH"
-								: isSouwNEARTON
-									? "wNEAR"
-									: isSouwSOLTON
-										? "wSOL"
-										: isSouwATOMTON
-											? "wATOM"
-											: isSouwUSNTON
-												? "wUSN"
-												: isSouwETHTON
-													? "wETH"
-													: isSouwAURTON
-														? "wAURORA"
-														: null;
-
-	const directionCurrencyName = isDirAtom
-		? "ATOM"
-		: isDirNear
-			? "NEAR"
-			: isDirTon
-				? "TON"
-				: isDirSol
-					? "SOL"
-					: isDirUsn
-						? "USN"
-						: isDirEth
-							? "ETH"
-							: isDirAur
-								? "AURORA"
-								: isDirwNEARTON
-									? "wNEAR"
-									: isDirwATOMTON
-										? "wATOM"
-										: isDirwAURTON
-											? "wAURORA"
-											: isDirwSOLTON
-												? "wSOL"
-												: isDirwETHTON
-													? "wETH"
-													: isDirwUSNTON
-														? "wUSN"
-														: "";
-
-	const activeBtn =
+	const activeBtn: boolean =
 		(openData ? true : !!walletDirKey) &&
 		!!props.firstCurrAmount &&
 		!props.isload &&
@@ -224,6 +147,8 @@ const SwapForm = (props: any) => {
 		props.setFirstCurrAmount("");
 		props.setSecCurrAmount("");
 	}, [props.directionNetwork, props.networkSource]);
+
+	const StyledBtn = activeBtn ? SubmitBtn : NonactiveSubmitBtn;
 
 	return (
 		<Form name="control-hooks" layout="vertical">
@@ -342,9 +267,8 @@ const SwapForm = (props: any) => {
 				style={{
 					margin: "24px 0 0 0",
 				}}>
-				<Button
+				<StyledBtn
 					type="primary"
-					id={activeBtn ? "submitBtn" : "nonactivesubmitBtn"}
 					onClick={() =>
 						makeTrx(
 							activeBtn,
@@ -354,23 +278,10 @@ const SwapForm = (props: any) => {
 							openData,
 							addVal,
 							params,
-							isSouAtom,
-							isSouNear,
-							isSouUsn,
-							isSouTon,
-							isSouSol,
-							isSouAur,
-							isSouEth,
-							isSouwNEARTON,
-							isSouwSOLTON,
-							isSouwATOMTON,
-							isSouwAURTON,
-							isSouwETHTON,
-							isSouwUSNTON
 						)()
 					}>
 					Submit
-				</Button>
+				</StyledBtn>
 			</Form.Item>
 		</Form>
 	);

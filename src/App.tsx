@@ -13,7 +13,7 @@ import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
 import fetchMarkets from "./logic/fetch/fetchMarkets";
 
 import { menuBuilder } from "./components/MenuBuilder";
-import { generateBtn } from "./components/BtnBuilder";
+import { GenerateBtn } from "./components/BtnBuilder";
 import { icoBuilder } from "./components/IcoBuilder";
 import { initializeWalletNEAR } from "./logic/wallet/initializeWalletNEAR";
 import { makeNEARTrxAfterLoad } from "./logic/transaction/MakeNEARTrx";
@@ -33,7 +33,7 @@ import ethRpcStatus from "./logic/rpcsStatus/eth";
 import callBackStatus from "./logic/rpcsStatus/back";
 
 import "@near-wallet-selector/modal-ui/styles.css";
-import { Loader } from "./styles/style";
+import { Loader, Version, SelectCoin, AppDiv, Selector, DirectionBtn } from "./styles/style";
 import "antd/dist/antd.css";
 import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
@@ -43,26 +43,9 @@ import { RootStore, StoreProvider, useStores } from "./stores";
 
 const AppWrapper = () => {
 	const { storeMain } = useStores();
-	const { selector, modal, accounts, accountId } = useWalletSelector();
 	const [ex, sex] = useState(true);
-
-	const [SOLwalletKey, setSOLWalletKey] = useState("");
-	const [MUMBwalletKey, setMUMBwalletKey] = useState("");
-	const [TONwalletKey, setTONwalletKey] = useState("");
-	const [NEARwalletKey, setNEARwalletKey] = useState("");
-	const [ATOMwalletKey, setATOMwalletKey] = useState("");
-	const [AURwalletKey, setAURwalletKey] = useState("");
-	const [AURMaxAmount, setAURMaxAmount] = useState(0);
-	const [SOLMaxAmount, setSOLMaxAmount] = useState(0);
-	const [TONMaxAmount, setTONMaxAmount] = useState(0);
-	const [ATOMMaxAmount, setATOMMaxAmount] = useState(0);
-	const [NEARMaxAmount, setNEARMaxAmount] = useState(0);
-	const [ETHMaxAmount, setETHMaxAmount] = useState(0);
-	const [USNMaxAmount, setUSNMaxAmount] = useState(0);
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
-	const [ETHwalletKey, setETHWalletKey] = useState("");
-
 	const [formType, setFormType] = useState<string>("swap");
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -72,100 +55,25 @@ const AppWrapper = () => {
 	const [hexString, sHexString] = useState("");
 	const [networkSource, setNetworkSource] = useState("NEAR");
 	const [networkDestination, setNetworkDestination] = useState("TON");
-	const [rpcEthStatus, setRpcEthStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Ethereum RPC",
-		key: "eth",
-		status: false,
-	});
-
-	const [rpcSolStatus, setRpcSolStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Solana RPC",
-		key: "sol",
-		status: false,
-	});
-	const [rpcNearStatus, setRpcNearStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Near RPC",
-		key: "near",
-		status: false,
-	});
-
-	const [rpcAuroraStatus, setRpcAuroraStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Aurora RPC",
-		key: "aurora",
-		status: false,
-	});
-
-	const [rpcTonStatus, setRpcTonStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Ton RPC",
-		key: "ton",
-		status: false,
-	});
-
-	const [rpcCosmosStatus, setRpcCosmosStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Cosmos RPC",
-		key: "atom",
-		status: false,
-	});
-	const [backStatus, setBackStatus] = useState<{
-		key: string;
-		title: string;
-		status: boolean;
-	}>({
-		title: "Tonana oracle",
-		key: "tnn",
-		status: false,
-	});
-
-	const [rpcsStatuses, setRpcsStatuses] = useState<
-		Array<{
-			key: string;
-			title: string;
-			status: boolean;
-		}>
-	>([]);
 
 	useEffect(() => {
-		setRpcsStatuses([
-			backStatus,
-			rpcTonStatus,
-			rpcEthStatus,
-			rpcNearStatus,
-			rpcSolStatus,
-			rpcCosmosStatus,
-			rpcAuroraStatus,
+	 storeMain.setRpcsStatuses([
+			storeMain.repository.get().backStatus,
+			storeMain.repository.get().rpcTonStatus,
+			storeMain.repository.get().rpcEthStatus,
+			storeMain.repository.get().rpcNearStatus,
+			storeMain.repository.get().rpcSolStatus,
+			storeMain.repository.get().rpcCosmosStatus,
+			storeMain.repository.get().rpcAuroraStatus,
 		]);
 	}, [
-		rpcAuroraStatus,
-		rpcNearStatus,
-		rpcSolStatus,
-		rpcTonStatus,
-		rpcCosmosStatus,
-		rpcEthStatus,
-		backStatus,
+		storeMain.repository.get().rpcAuroraStatus,
+		storeMain.repository.get().rpcNearStatus,
+		storeMain.repository.get().rpcSolStatus,
+		storeMain.repository.get().rpcTonStatus,
+		storeMain.repository.get().rpcCosmosStatus,
+		storeMain.repository.get().rpcEthStatus,
+		storeMain.repository.get().backStatus,
 	]);
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -175,14 +83,14 @@ const AppWrapper = () => {
 	const isnear = searchParams.get("isnear");
 
 	const tvl = useMemo(() => {
-		return AURMaxAmount * storeMain.repository.get().auru +
-			USNMaxAmount * storeMain.repository.get().usnu +
-			ETHMaxAmount * storeMain.repository.get().ethu +
-			NEARMaxAmount * storeMain.repository.get().nu +
-			ATOMMaxAmount * storeMain.repository.get().au +
-			TONMaxAmount * storeMain.repository.get().tu +
-			SOLMaxAmount * storeMain.repository.get().su;
-	}, [ATOMMaxAmount, AURMaxAmount, ETHMaxAmount, NEARMaxAmount, SOLMaxAmount, TONMaxAmount, USNMaxAmount, storeMain.repository]);
+		return storeMain.repository.get().AURMaxAmount * storeMain.repository.get().auru +
+		storeMain.repository.get().USNMaxAmount * storeMain.repository.get().usnu +
+		storeMain.repository.get().ETHMaxAmount * storeMain.repository.get().ethu +
+		storeMain.repository.get().NEARMaxAmount * storeMain.repository.get().nu +
+		storeMain.repository.get().ATOMMaxAmount * storeMain.repository.get().au +
+		storeMain.repository.get().TONMaxAmount * storeMain.repository.get().tu +
+		storeMain.repository.get().SOLMaxAmount * storeMain.repository.get().su;
+	}, [storeMain.repository.get().ATOMMaxAmount, storeMain.repository.get().AURMaxAmount, storeMain.repository.get().ETHMaxAmount, storeMain.repository.get().NEARMaxAmount, storeMain.repository.get().SOLMaxAmount, storeMain.repository.get().TONMaxAmount, storeMain.repository.get().USNMaxAmount, storeMain.repository]);
 
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
@@ -192,25 +100,25 @@ const AppWrapper = () => {
 	useEffect(() => {
 		const getStatuses = () => {
 			(async () => {
-				setRpcTonStatus(await tonRpcStatus());
+				storeMain.setRpcTonStatus(await tonRpcStatus());
 			})();
 			(async () => {
-				setRpcSolStatus(await solRpcStatus());
+				storeMain.setRpcSolStatus(await solRpcStatus());
 			})();
 			(async () => {
-				setRpcNearStatus(await nearRpcStatus());
+				storeMain.setRpcNearStatus(await nearRpcStatus());
 			})();
 			(async () => {
-				setRpcAuroraStatus(await auroraRpcStatus());
+				storeMain.setRpcAuroraStatus(await auroraRpcStatus());
 			})();
 			(async () => {
-				setRpcEthStatus(await ethRpcStatus());
+				storeMain.setRpcEthStatus(await ethRpcStatus());
 			})();
 			(async () => {
-				setRpcCosmosStatus(await cosmosRpcStatus());
+				storeMain.setRpcCosmosStatus(await cosmosRpcStatus());
 			})();
 			(async () => {
-				setBackStatus(await callBackStatus());
+				storeMain.setBackStatus(await callBackStatus());
 			})();
 		};
 		getStatuses();
@@ -218,11 +126,11 @@ const AppWrapper = () => {
 			getStatuses();
 		}, 30000);
 
-		getTONMaxAmount(setTONMaxAmount);
-		getSOLMaxAmount(setSOLMaxAmount);
-		getATOMMaxAmount(setATOMMaxAmount);
-		getAURMaxAmount(setAURMaxAmount);
-		getETHMaxAmount(setETHMaxAmount);
+		getTONMaxAmount(storeMain.setTONMaxAmount);
+		getSOLMaxAmount(storeMain.setSOLMaxAmount);
+		getATOMMaxAmount(storeMain.setATOMMaxAmount);
+		getAURMaxAmount(storeMain.setAURMaxAmount);
+		getETHMaxAmount(storeMain.setETHMaxAmount);
 
 		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		setInterval(() => {
@@ -240,27 +148,33 @@ const AppWrapper = () => {
 			//@ts-ignore
 			const storedData = JSON.parse(localStorage.getItem("tonana_data"));
 			sex(storedData.ex);
-			setSOLWalletKey(storedData.SOLwalletKey);
-			setTONwalletKey(storedData.TONwalletKey);
-			setAURwalletKey(storedData.AURwalletKey);
-			setNEARwalletKey(storedData.NEARwalletKey);
-			setATOMwalletKey(storedData.ATOMwalletKey);
-			setETHWalletKey(storedData.ETHwalletKey);
+			storeMain.setSOLwalletKey(storedData.SOLwalletKey);
+			storeMain.setTONwalletKey(storedData.TONwalletKey);
+			storeMain.setAURwalletKey(storedData.AURwalletKey);
+			storeMain.setNEARwalletKey(storedData.NEARwalletKey);
+			storeMain.setATOMwalletKey(storedData.ATOMwalletKey);
+			storeMain.setETHwalletKey(storedData.ETHwalletKey);
 			sHexString(storedData.hexString);
 			setNetworkSource(storedData.networkSource);
 			setNetworkDestination(storedData.networkDestination);
 		}
 
-		initializeWalletNEAR(setNEARMaxAmount, setNEARwalletKey, setUSNMaxAmount);
+		initializeWalletNEAR(storeMain.setNEARMaxAmount, storeMain.setNEARwalletKey, storeMain.setUSNMaxAmount);
 		if (isnear)
 			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
 		if (isusn)
 			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
-		// message.success("Use Chrome with TonWallet & Phantom extensions", 10);
-		// message.success("Connect both and make trx, then wait a little bit", 11);
+		message.success("Use Chrome with TonWallet & Phantom extensions", 5);
+		message.success("Connect both and make trx, then wait a little bit", 6);
 	}, []);
 
 	useEffect(() => {
+		const SOLwalletKey = storeMain.repository.get().SOLwalletKey;
+		const TONwalletKey = storeMain.repository.get().TONwalletKey;
+		const ETHwalletKey = storeMain.repository.get().ETHwalletKey;
+		const AURwalletKey = storeMain.repository.get().AURwalletKey;
+		const NEARwalletKey = storeMain.repository.get().NEARwalletKey;
+		const ATOMwalletKey = storeMain.repository.get().ATOMwalletKey;
 		localStorage.setItem(
 			"tonana_data",
 			JSON.stringify({
@@ -278,33 +192,16 @@ const AppWrapper = () => {
 		);
 	}, [
 		ex,
-		SOLwalletKey,
-		TONwalletKey,
-		AURwalletKey,
-		ETHwalletKey,
-		NEARwalletKey,
-		ATOMwalletKey,
+		storeMain.repository.get().SOLwalletKey,
+		storeMain.repository.get().TONwalletKey,
+		storeMain.repository.get().AURwalletKey,
+		storeMain.repository.get().ETHwalletKey,
+		storeMain.repository.get().NEARwalletKey,
+		storeMain.repository.get().ATOMwalletKey,
 		hexString,
 		networkSource,
 		networkDestination,
 	]);
-
-	const btnProps = {
-		setSOLWalletKey,
-		setETHWalletKey,
-		setTONwalletKey,
-		setAURwalletKey,
-		setNEARwalletKey,
-		setATOMwalletKey,
-		setMUMBwalletKey,
-		TONwalletKey,
-		AURwalletKey,
-		SOLwalletKey,
-		NEARwalletKey,
-		ATOMwalletKey,
-		ETHwalletKey,
-		MUMBwalletKey
-	};
 
 
 	const menuSource = menuBuilder(networkDestination, setNetworkSource, formType, false);
@@ -313,8 +210,8 @@ const AppWrapper = () => {
 	const coinIco = icoBuilder(networkSource);
 	const coinIcoDest = icoBuilder(networkDestination);
 
-	const btnDest = generateBtn(btnProps, networkDestination);
-	const btnSource = generateBtn(btnProps, networkSource);
+	const btnDest = GenerateBtn(networkDestination);
+	const btnSource = GenerateBtn(networkSource);
 
 	const swap = () => {
 		setNetworkDestination(networkSource);
@@ -327,11 +224,11 @@ const AppWrapper = () => {
 	const btnSelectSource = (
 		<>
 			<Dropdown overlay={menuSource} placement="bottom">
-				<Button id={"selectCoin"}>
-					<img src={coinIco} alt={"#"} />
+				<SelectCoin>
+				<img src={coinIco} alt={"#"} />
 					{networkSource}
 					<DownOutlined />
-				</Button>
+				</SelectCoin>
 			</Dropdown>
 		</>
 	);
@@ -339,36 +236,22 @@ const AppWrapper = () => {
 	const btnSelectDirection = (
 		<>
 			<Dropdown overlay={menuDestination} placement="bottom">
-				<Button id={"selectCoin"}>
+				<SelectCoin>
 					<img src={coinIcoDest} alt={"#"} />
 					{networkDestination}
 					<DownOutlined />
-				</Button>
+				</SelectCoin>
 			</Dropdown>
 		</>
 	);
 
 	const changeDirection = (
-		<div id={"directionBtn"}>
+		<DirectionBtn>
 			<SwapOutlined onClick={swap} />
-		</div>
+		</DirectionBtn>
 	);
 
 	const fromProps = {
-		ATOMwalletKey,
-		ETHwalletKey,
-		MUMBwalletKey,
-		SOLwalletKey,
-		TONwalletKey,
-		AURwalletKey,
-		NEARwalletKey,
-		ATOMMaxAmount,
-		SOLMaxAmount,
-		ETHMaxAmount,
-		AURMaxAmount,
-		TONMaxAmount,
-		USNMaxAmount,
-		NEARMaxAmount,
 		btnSelectSource,
 		btnSelectDirection,
 		btnDest,
@@ -384,7 +267,6 @@ const AppWrapper = () => {
 		setSecCurrAmount,
 		firstCurrAmount,
 		secCurrAmount,
-		rpcsStatuses,
 		formType
 	};
 
@@ -466,23 +348,23 @@ const AppWrapper = () => {
 	return (
 		<>
 			<Header />
-			<div className={'selector'}>
+			<Selector>
 				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
 				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
 				<Link to="/nft"><div onClick={() => setFormType('nft')}>NFT<span>testnet</span></div></Link>
-			</div>
-			<div className="App">
+			</Selector>
+			<AppDiv>
 				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
 				{location.pathname !== '/nft' ? <SwapForm {...fromProps} /> : <NftForm {...fromProps} />}
 				{isload ? <Loader src={bnn} /> : null}
-			</div>
-			<Rpcs rpcsStatuses={rpcsStatuses} />
+			</AppDiv>
+			<Rpcs rpcsStatuses={storeMain.repository.get().rpcsStatuses} />
 			<Social />
-			<div className="version">
+			<Version>
 				Tonana TVL: ${tvl.toFixed(2)}
 				<br />
 				v1.1.01 (alpha)
-			</div>
+			</Version>
 			<Gstyles />
 		</>
 	);

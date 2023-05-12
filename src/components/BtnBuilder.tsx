@@ -1,4 +1,5 @@
-import { Button } from "antd";
+import { useStores } from "../stores";
+import { ConnectWalletBtn } from "../styles/style";
 
 import phantom from "../static/img/phantom.png";
 import near from "../static/img/near.png";
@@ -14,80 +15,64 @@ import connectWalletTON from "../logic/wallet/connectWalletTON";
 import connectWalletNEAR from "../logic/wallet/connectWalletNEAR"
 import connectWalletETH from "../logic/wallet/connectWalletETH";
 
+
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
-export const generateBtn = (props: any, currencyName: string) => {
-	const {
-		setSOLWalletKey,
-		setETHWalletKey,
-		setTONwalletKey,
-		setAURwalletKey,
-		setNEARwalletKey,
-		setATOMwalletKey,
-		TONwalletKey,
-		AURwalletKey,
-		SOLwalletKey,
-		NEARwalletKey,
-		ATOMwalletKey,
-		ETHwalletKey,
-		setMUMBwalletKey,
-		MUMBwalletKey,
-	} = props;
-
-	const sortedBtnProps: any = {
-		sol: {
-			connect: connectWalletSOL,
-			set: setSOLWalletKey,
-			walletKey: SOLwalletKey,
-			img: phantom,
-		},
-		ton: {
-			connect: connectWalletTON,
-			set: setTONwalletKey,
-			walletKey: TONwalletKey,
-			img: tonIco,
-		},
-		atom: {
-			connect: connectWalletATOM,
-			set: setATOMwalletKey,
-			walletKey: ATOMwalletKey,
-			img: keplr,
-		},
-		aurora: {
-			connect: connectWalletAUR,
-			set: setAURwalletKey,
-			walletKey: AURwalletKey,
-			img: metamask
-		},
-		eth: {
-			connect: connectWalletETH,
-			set: setETHWalletKey,
-			walletKey: ETHwalletKey,
-			img: metamask,
-		},
-		near: {
-			connect: connectWalletNEAR,
-			set: setNEARwalletKey,
-			walletKey: NEARwalletKey,
-			img: near,
-		},
-		mumbai: {
-			connect: connectWalletETH,
-			set:  setMUMBwalletKey,
-			walletKey: MUMBwalletKey,
-			img: polygonIco
-		}
-	};
+export const GenerateBtn = (currencyName: string) => {
 
 	let key: string = currencyName.toLocaleLowerCase();
 	if (key.includes('ton')) { key = "ton" }
 	if (key.includes('usn')) { key = "near" }
 
+	const sortedBtnProps: any = {
+		sol: {
+			connect: connectWalletSOL,
+			set: useStores().storeMain.setSOLwalletKey,
+			walletKey: useStores().storeMain.repository.get().SOLwalletKey,
+			img: phantom,
+		},
+		ton: {
+			connect: connectWalletTON,
+			set: useStores().storeMain.setTONwalletKey,
+			walletKey: useStores().storeMain.repository.get().TONwalletKey,
+			img: tonIco,
+		},
+		atom: {
+			connect: connectWalletATOM,
+			set: useStores().storeMain.setATOMwalletKey,
+			walletKey: useStores().storeMain.repository.get().ATOMwalletKey,
+			img: keplr,
+		},
+		aurora: {
+			connect: connectWalletAUR,
+			set: useStores().storeMain.setAURwalletKey,
+			walletKey: useStores().storeMain.repository.get().AURwalletKey,
+			img: metamask,
+		},
+		eth: {
+			connect: connectWalletETH,
+			set: useStores().storeMain.setETHwalletKey,
+			walletKey: useStores().storeMain.repository.get().ETHwalletKey,
+			img: metamask,
+		},
+		near: {
+			connect: connectWalletNEAR,
+			set: useStores().storeMain.setNEARwalletKey,
+			walletKey: useStores().storeMain.repository.get().NEARwalletKey,
+			img: near,
+		},
+		mumbai: {
+			connect: connectWalletETH,
+			set: useStores().storeMain.setMUMBwalletKey,
+			walletKey: useStores().storeMain.repository.get().MUMBwalletKey,
+			img: polygonIco,
+		}
+	};
+
 	return (
 		<>
-			<Button
+			<ConnectWalletBtn
 				type="primary"
-				id={"connectWalletBtn"}
 				onClick={() => sortedBtnProps[key].connect(sortedBtnProps[key].set)}>
 				{sortedBtnProps[key].walletKey ? (
 					<>
@@ -97,7 +82,7 @@ export const generateBtn = (props: any, currencyName: string) => {
 				) : (
 					"Connect wallet"
 				)}
-			</Button>
+			</ConnectWalletBtn>
 		</>
 	);
 };
