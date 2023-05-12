@@ -105,10 +105,23 @@ const SwapForm = (props: any) => {
 			currencyName: "wUSN"
 		}
 	}
-	
 
-	
+	if (!(dirKey in swapConfig)) {
+		if (props.formType === 'bridge') {
+			dirKey = 'wnear'
+		} else {
+			dirKey = 'ton'
+		}
+	  }
 
+	  if (!(souKey in swapConfig)) {
+		if (props.formType === 'bridge') {
+			souKey = 'near'
+		} else {
+			souKey = 'near'
+		}
+	  }
+	
 	useEffect(() => {
 		setParams("");
 		setAddVal("");
@@ -119,8 +132,8 @@ const SwapForm = (props: any) => {
 		if (props.networkSource === "usn" && props.directionNetwork === "ton") setAddMessage(true);
 	}, [props.networkSource, props.directionNetwork]);
 
-	const walletDirKey = swapConfig[dirKey].walletKey;
 	const walletSouKey = swapConfig[souKey].walletKey;
+	const walletDirKey = swapConfig[dirKey].walletKey;
 	const secCurrency = swapConfig[dirKey].currency; //for Dir
 	const currency = swapConfig[souKey].currency; // for Sou
 	const MaxDirAmount = Number(swapConfig[dirKey].maxAmount); // only for Dir 

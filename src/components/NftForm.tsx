@@ -47,9 +47,12 @@ const SwapForm = (props: any) => {
 	}
 	if (souKey.includes('mumbai')) { souKey = 'eth' }
 
+	console.log(souKey);
+	console.log(dirKey);
+
 	const nftConfig: any = {
 		atom: {
-			walletKey: storeMain.repository.get().ATOMwalletKey,
+			walletKey: storeMain.repository.get().ATOMMaxAmount,
 			currency: storeMain.repository.get().au,
 			maxAmount: storeMain.repository.get().ATOMMaxAmount,
 			currencyName: "ATOM"
