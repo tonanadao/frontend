@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Form, Input, message, Button } from "antd";
 import makeTrx from "../logic/trxBuilder";
 import { useStores } from "../stores";
+import { SubmitBtn, NonactiveSubmitBtn } from "../styles/style";
 
 const SwapForm = (props: any) => {
 	const { storeMain } = useStores();
@@ -126,7 +127,7 @@ const SwapForm = (props: any) => {
 	const sourceCurrencyName = swapConfig[souKey].currencyName;
 	const directionCurrencyName = swapConfig[dirKey].currencyName;
 
-	const activeBtn =
+	const activeBtn: boolean =
 		(openData ? true : !!walletDirKey) &&
 		!!props.firstCurrAmount &&
 		!props.isload &&
@@ -146,6 +147,8 @@ const SwapForm = (props: any) => {
 		props.setFirstCurrAmount("");
 		props.setSecCurrAmount("");
 	}, [props.directionNetwork, props.networkSource]);
+
+	const StyledBtn = activeBtn ? SubmitBtn : NonactiveSubmitBtn;
 
 	return (
 		<Form name="control-hooks" layout="vertical">
@@ -264,9 +267,8 @@ const SwapForm = (props: any) => {
 				style={{
 					margin: "24px 0 0 0",
 				}}>
-				<Button
+				<StyledBtn
 					type="primary"
-					id={activeBtn ? "submitBtn" : "nonactivesubmitBtn"}
 					onClick={() =>
 						makeTrx(
 							activeBtn,
@@ -279,7 +281,7 @@ const SwapForm = (props: any) => {
 						)()
 					}>
 					Submit
-				</Button>
+				</StyledBtn>
 			</Form.Item>
 		</Form>
 	);

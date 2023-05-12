@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { RpcSyled, RpcsStatus, RpcGreen, RpcRed } from "../styles/style";
 
 const Rpcs = (props: any) => {
 	return (
-		<div className="rpcs">
+		<RpcSyled>
 			{props.rpcsStatuses.map((e: any) => (
-				<div key={e.key} className="rpcs-status">
-					<div className={e.status ? "rpc-green" : "rpc-red"}></div>
+				<RpcsStatus key={e.key}>
+					{e.status ? <RpcGreen/> : <RpcRed/>}
 					<div>{e.title}</div>
-				</div>
+				</RpcsStatus>
 			))}
-		</div>
+		</RpcSyled>
 	);
 };
 

@@ -4,6 +4,7 @@ import makeTrx from "../logic/trxBuilder";
 import getTONNftBalances from "../logic/fetch/getTONNftBalances";
 import getETHNftBalances from "../logic/fetch/getETHNftBalances";
 import { useStores } from "../stores";
+import { SubmitBtn, NonactiveSubmitBtn } from "../styles/style";
 
 import styled from "styled-components";
 // import { request, gql } from 'graphql-request'
@@ -162,6 +163,9 @@ const SwapForm = (props: any) => {
 		props.setFirstCurrAmount((1 / currency * 5 / 100).toFixed(7) + '')
 	}, [currency])
 	console.log(currency)
+
+	const StyledBtn = activeBtn ? SubmitBtn : NonactiveSubmitBtn;
+
 	return (
 		<Form name="control-hooks" layout="vertical">
 			{props.btn}
@@ -191,9 +195,8 @@ const SwapForm = (props: any) => {
 				style={{
 					margin: "24px 0 0 0",
 				}}>
-				<Button
+				<StyledBtn
 					type="primary"
-					id={activeBtn ? "submitBtn" : "nonactivesubmitBtn"}
 					onClick={() =>
 						makeTrx(
 							activeBtn,
@@ -208,7 +211,7 @@ const SwapForm = (props: any) => {
 						)()
 					}>
 					Submit
-				</Button>
+				</StyledBtn>
 			</Form.Item>
 		</Form>
 	);

@@ -1,5 +1,5 @@
-import { Button } from "antd";
 import { useStores } from "../stores";
+import { ConnectWalletBtn } from "../styles/style";
 
 import phantom from "../static/img/phantom.png";
 import near from "../static/img/near.png";
@@ -71,9 +71,8 @@ export const GenerateBtn = (currencyName: string) => {
 
 	return (
 		<>
-			<Button
+			<ConnectWalletBtn
 				type="primary"
-				id={"connectWalletBtn"}
 				onClick={() => sortedBtnProps[key].connect(sortedBtnProps[key].set)}>
 				{sortedBtnProps[key].walletKey ? (
 					<>
@@ -83,7 +82,7 @@ export const GenerateBtn = (currencyName: string) => {
 				) : (
 					"Connect wallet"
 				)}
-			</Button>
+			</ConnectWalletBtn>
 		</>
 	);
 };

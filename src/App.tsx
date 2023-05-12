@@ -33,7 +33,7 @@ import ethRpcStatus from "./logic/rpcsStatus/eth";
 import callBackStatus from "./logic/rpcsStatus/back";
 
 import "@near-wallet-selector/modal-ui/styles.css";
-import { Loader } from "./styles/style";
+import { Loader, Version, SelectCoin, AppDiv, Selector, DirectionBtn } from "./styles/style";
 import "antd/dist/antd.css";
 import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
@@ -224,11 +224,11 @@ const AppWrapper = () => {
 	const btnSelectSource = (
 		<>
 			<Dropdown overlay={menuSource} placement="bottom">
-				<Button id={"selectCoin"}>
-					<img src={coinIco} alt={"#"} />
+				<SelectCoin>
+				<img src={coinIco} alt={"#"} />
 					{networkSource}
 					<DownOutlined />
-				</Button>
+				</SelectCoin>
 			</Dropdown>
 		</>
 	);
@@ -236,19 +236,19 @@ const AppWrapper = () => {
 	const btnSelectDirection = (
 		<>
 			<Dropdown overlay={menuDestination} placement="bottom">
-				<Button id={"selectCoin"}>
+				<SelectCoin>
 					<img src={coinIcoDest} alt={"#"} />
 					{networkDestination}
 					<DownOutlined />
-				</Button>
+				</SelectCoin>
 			</Dropdown>
 		</>
 	);
 
 	const changeDirection = (
-		<div id={"directionBtn"}>
+		<DirectionBtn>
 			<SwapOutlined onClick={swap} />
-		</div>
+		</DirectionBtn>
 	);
 
 	const fromProps = {
@@ -348,23 +348,23 @@ const AppWrapper = () => {
 	return (
 		<>
 			<Header />
-			<div className={'selector'}>
+			<Selector>
 				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
 				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
 				<Link to="/nft"><div onClick={() => setFormType('nft')}>NFT<span>testnet</span></div></Link>
-			</div>
-			<div className="App">
+			</Selector>
+			<AppDiv>
 				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
 				{location.pathname !== '/nft' ? <SwapForm {...fromProps} /> : <NftForm {...fromProps} />}
 				{isload ? <Loader src={bnn} /> : null}
-			</div>
+			</AppDiv>
 			<Rpcs rpcsStatuses={storeMain.repository.get().rpcsStatuses} />
 			<Social />
-			<div className="version">
+			<Version>
 				Tonana TVL: ${tvl.toFixed(2)}
 				<br />
 				v1.1.01 (alpha)
-			</div>
+			</Version>
 			<Gstyles />
 		</>
 	);
