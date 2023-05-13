@@ -1,5 +1,5 @@
-import { useStores} from "../stores";
-import { useEffect } from "react";
+import { useStores } from "../stores";
+import { useEffect, useState } from "react";
 import { ConnectWalletBtn } from "../styles/style";
 
 import phantom from "../static/img/phantom.png";
@@ -75,9 +75,9 @@ export const GenerateBtn = (currencyName: string) => {
 
 	console.log(sortedBtnProps[key].walletKey);
 
-	let walletKey = sortedBtnProps[key].walletKey;
+	const [walletKey, setWalletKey] = useState(sortedBtnProps[key].walletKey);
 	useEffect(() => {
-		walletKey = sortedBtnProps[key].walletKey;
+		setWalletKey(sortedBtnProps[key].walletKey);
 	}, [sortedBtnProps[key].walletKey])
 
 	return (
