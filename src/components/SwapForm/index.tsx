@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Form, Input, message, Button } from "antd";
-import makeTrx from "../logic/trxBuilder";
-import { useStores } from "../stores";
-import { SubmitBtn, NonactiveSubmitBtn } from "../styles/style";
+import makeTrx from "../../logic/trxBuilder";
+import { useStores } from "../../stores";
+import { SubmitBtn, NonactiveSubmitBtn } from "./styles";
 
 const SwapForm = (props: any) => {
 	const { storeMain } = useStores();

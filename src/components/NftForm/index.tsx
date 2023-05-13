@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Form, Input, message, Button } from "antd";
-import makeTrx from "../logic/trxBuilder";
-import getTONNftBalances from "../logic/fetch/getTONNftBalances";
-import getETHNftBalances from "../logic/fetch/getETHNftBalances";
-import { useStores } from "../stores";
-import { SubmitBtn, NonactiveSubmitBtn } from "../styles/style";
+import makeTrx from "../../logic/trxBuilder";
+import getTONNftBalances from "../../logic/fetch/getTONNftBalances";
+import getETHNftBalances from "../../logic/fetch/getETHNftBalances";
+import { useStores } from "../../stores";
+import { SubmitBtn, NonactiveSubmitBtn } from "./styles";
 
 import styled from "styled-components";
 // import { request, gql } from 'graphql-request'

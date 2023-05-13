@@ -116,56 +116,6 @@ iframe{
 			
 		}
 	}
-	.social-icon {
-		list-style:none;
-		display:flex;
-		justify-content:center;
-		align-items:center;
-    padding-left: 0px;
-
-	}
-	.social-icon li a {
-		fill:#FFC916;
-		display: inline-block;
-		margin: 10px;
-		text-align: center;
-		-webkit-transition: all 0.4s ease;
-		transition: all 0.4s ease;
-		overflow: hidden;
-		position: relative;
-
-
-	  }
-	  
-	  .social-icon li a .fea-social {
-		stroke-width: 2;
-	  }
-	  
-	  .social-icon.social li a {
-		color: #fff;
-		border-color: #adb5bd;
-	  }
-	  
-	  .social-icon.foot-social-icon li a {
-		color: #ffffff !important;
-		border-color: transparent;
-	  }
-	  .social-icon svg {
-		width:32px;
-		height:32px;
-			:selection {
-				color: #FFC916 !important;
-			}
-			:hover {
-				color: #FFC916 !important;
-			}
-			:active {
-				color: #FFC916 !important;
-			}
-			:focus {
-				color: #FFC916 !important;
-			}
-	  } 
 	  
 	.Container {
 		width:100vw;
