@@ -8,34 +8,34 @@ import { SocialIconList, SocialIconListItem, SocialIconLink, GithubIcon, Twitter
 
 const Social = () => {
 	return (
-		<SocialIconList className="social-icon social">
-      <SocialIconListItem className="list-inline-item me-1">
+		<SocialIconList>
+      <SocialIconListItem>
         <SocialIconLink href="https://github.com/tonanadao" className="icon-hover rounded" target="_blank">
-          <GithubIcon className="fea icon-sm fea-social text-dark" />
+          <GithubIcon className="fea-social" />
         </SocialIconLink>
       </SocialIconListItem>
 
-      <SocialIconListItem className="list-inline-item me-1">
+      <SocialIconListItem>
         <SocialIconLink href="https://twitter.com/Tonanadao" target="_blank" className="icon-hover rounded">
-          <TwitterIcon className="fea icon-sm fea-social color-main" />
+          <TwitterIcon className="fea-social" />
         </SocialIconLink>
       </SocialIconListItem>
 
-      <SocialIconListItem className="list-inline-item me-1">
+      <SocialIconListItem>
         <SocialIconLink href="https://www.linkedin.com/company/tonana/" target="_blank" className="icon-hover rounded">
-          <LinkedinIcon className="fea icon-sm fea-social color-main" />
+          <LinkedinIcon className="fea-social" />
         </SocialIconLink>
       </SocialIconListItem>
 
-      <SocialIconListItem className="list-inline-item me-1">
+      <SocialIconListItem>
         <SocialIconLink href="https://t.me/tonanadao" target="_blank" className="icon-hover rounded">
-          <TelegramIcon className="fea icon-sm fea-social color-main" />
+          <TelegramIcon className="fea-social" />
         </SocialIconLink>
       </SocialIconListItem>
 
-      <SocialIconListItem className="list-inline-item me-1">
+      <SocialIconListItem>
         <SocialIconLink href="https://discord.gg/wy9x6jF8PC" target="_blank" className="icon-hover rounded">
-          <DiscordIcon className="fea icon-sm fea-social text-dark" />
+          <DiscordIcon className="fea-social" />
         </SocialIconLink>
       </SocialIconListItem>
     </SocialIconList>

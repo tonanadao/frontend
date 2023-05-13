@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import { Button } from "antd";
 import {
-	FaMediumM,
 	FaDiscord,
 	FaTwitter,
 	FaLinkedin,
