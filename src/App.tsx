@@ -12,7 +12,7 @@ import getATOMMaxAmount from "./logic/fetch/getATOMMaxAmount";
 import getSOLMaxAmount from "./logic/fetch/getSOLMaxAmount";
 import fetchMarkets from "./logic/fetch/fetchMarkets";
 
-import { menuBuilder } from "./components/MenuBuilder";
+import { menuBuilder } from "./components/MenuBuilder/";
 import { GenerateBtn } from "./components/BtnBuilder/";
 import { icoBuilder } from "./components/IcoBuilder";
 import { initializeWalletNEAR } from "./logic/wallet/initializeWalletNEAR";

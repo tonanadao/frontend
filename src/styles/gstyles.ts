@@ -32,10 +32,6 @@ iframe{
 		color: #FFFFFF !important;
 
 	}
-	.cantSelect{
-		color: gray;
-		cursor: not-allowed;
-	}
 	h1 {
 		color:  #FFFFFF !important;
 		text-align: center;
