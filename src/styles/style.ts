@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, message, Dropdown } from "antd";
+import { Button } from "antd";
 
 export const Loader = styled.img`
 	animation-name: spin;
@@ -35,36 +35,7 @@ export const SelectCoin = styled(Button)`
 	}
 `;
 
-export const RpcSyled = styled.div`
-	display: flex ;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	color: white;
-	margin: 0 0 24px 0;
-`;
 
-export const RpcsStatus = styled.div`
-	display: flex ;
-	justify-content: center;
-	align-items: center;
-`;
-
-export const RpcGreen = styled.div`
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	background: green;
-	margin: 0 8px 0 0;
-`;
-
-export const RpcRed = styled.div`
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	background: red;
-	margin: 0 8px 0 0;
-`;
 
 export const AppDiv = styled.div`
 	margin: 36px 0 36px 0;
@@ -109,21 +80,6 @@ export const Selector = styled.div`
   }
 `;
 
-export const ConnectWalletBtn = styled(Button)`
-	color: #212529 !important;
-	border: none !important;
-	background: #FFC916!important;
-	margin: -30px 12px 24px 0;
-	float: right;
-	span {
-	}
-	margin: 24px 0;
-	@media (max-width: 520px) {
-	margin: 24px 0;
-		
-	}
-
-`;
 
 export const DirectionBtn = styled.div`
 	display: flex;
@@ -133,43 +89,4 @@ export const DirectionBtn = styled.div`
 		height: 18px;
 	}
 	
-`;
-
-export const SubmitBtn = styled(Button)`
-	width: 100%;
-	background: #FFC916 !important;
-	&:hover {
-		color: black !important;
-  }
-
-`;
-
-export const NonactiveSubmitBtn = styled(Button)`
-	width: 100%;
-	background: #FFC916 !important;
-	filter: grayscale(100%) contrast(50%) !important;
-	opacity: .3;
-	&:hover {
-		color: black !important;
-  }
-
-`;
-
-export const Topnav = styled.header`
-	width:100%;
-	height:12vh;
-		@media (max-width: 1024px) {
-	margin: 0 0 64px 0;
-}
-`;
-
-export const LogoSC = styled.img`
-    left: 0;
-    position: absolute;
-		transform:   rotate3d(0, 1, 0, 180deg);
-		@media (max-width: 1024px) {
-			left: 50%;
-			transform: translate( -50%) rotate3d(0, 1, 0, 180deg);
-      margin: -30px 0 30px 0;
-    }
 `;

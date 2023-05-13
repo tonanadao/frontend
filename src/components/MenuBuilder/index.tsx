@@ -1,5 +1,6 @@
 import { Menu } from "antd";
-import arrOfChains from "../configs/configMenu"
+import arrOfChains from "../../configs/configMenu"
+import { Div } from "./styles"
 
 export const menuBuilder = (net: string, set: any, formType: string, isDestination: boolean) => (
 	<Menu
@@ -10,7 +11,7 @@ export const menuBuilder = (net: string, set: any, formType: string, isDestinati
 					{
 						key: item,
 						label: (
-							<div
+							<Div
 								className={
 									(formType === 'swap' && net !== `w${item} (TON)`) ||
 										(formType === 'bridge' && !isDestination)
@@ -24,7 +25,7 @@ export const menuBuilder = (net: string, set: any, formType: string, isDestinati
 										: null
 								}>
 								{item}
-							</div>
+							</Div>
 						),
 					}
 					
