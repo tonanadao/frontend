@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { RpcSyled, RpcsStatus, RpcGreen, RpcRed } from "./styles";
+import { RpcStyled, RpcsStatus, RpcGreen, RpcRed } from "./styles";
 
 const Rpcs = (props: any) => {
 	return (
-		<RpcSyled>
+		<RpcStyled>
 			{props.rpcsStatuses.map((e: any) => (
 				<RpcsStatus key={e.key}>
 					{e.status ? <RpcGreen/> : <RpcRed/>}
 					<div>{e.title}</div>
 				</RpcsStatus>
 			))}
-		</RpcSyled>
+		</RpcStyled>
 	);
 };
 

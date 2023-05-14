@@ -58,6 +58,7 @@ export const AppDiv = styled.div`
 `;
 
 export const Selector = styled.div`
+  margin-top: 36px;
   display: flex;
   justify-content: space-around;
   position: relative;

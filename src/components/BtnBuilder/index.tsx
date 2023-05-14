@@ -73,8 +73,6 @@ export const GenerateBtn = (currencyName: string) => {
 		}
 	};
 
-	console.log(sortedBtnProps[key].walletKey);
-
 	const [walletKey, setWalletKey] = useState(sortedBtnProps[key].walletKey);
 	useEffect(() => {
 		setWalletKey(sortedBtnProps[key].walletKey);

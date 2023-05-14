@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Button, message, Dropdown } from "antd";
+import { Button, message, Dropdown, Switch, Form } from "antd";
 // import { useLocation } from 'react-router-dom'
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import { Routes, Route, useSearchParams, Link, useNavigation, Router } from "react-router-dom";
@@ -39,6 +39,7 @@ import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
 import bnn from "./static/img/logo.svg";
 import { RootStore, StoreProvider, useStores } from "./stores";
+import NetSwitch from "./components/NetSwitch";
 
 
 const AppWrapper = () => {
@@ -348,6 +349,9 @@ const AppWrapper = () => {
 	return (
 		<>
 			<Header />
+
+			<NetSwitch/>
+
 			<Selector>
 				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
 				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>

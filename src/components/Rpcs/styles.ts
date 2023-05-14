@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { Button } from "antd";
 
-export const RpcSyled = styled.div`
+export const RpcStyled = styled.div`
 	display: flex ;
 	flex-direction: column;
 	justify-content: center;
