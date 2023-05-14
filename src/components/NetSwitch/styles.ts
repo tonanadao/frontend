@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Switch } from "antd";
+
 
 
 export const NetSwitchForm = styled.div`
@@ -11,8 +11,4 @@ export const NetSwitchForm = styled.div`
 
 export const Text = styled.h2`
 	font-size: 14px
-`;
-
-export const Switcher = styled(Switch)`
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
 `;
