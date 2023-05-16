@@ -32,7 +32,7 @@ const SwapForm = (props: any) => {
 	const [addMessage, setAddMessage] = useState(false);
 	const [openData, setOpenData] = useState(false);
 	const [nftsToShow, setNfts] = useState([]);
-	const [selectedNft, selectNft] = useState(null);
+	const [selectedNft, selectNft] = useState<null | any>(null);
 	const { storeMain } = useStores();
 
 	let dirKey: string = props.directionNetwork;
@@ -188,7 +188,7 @@ const SwapForm = (props: any) => {
 				{selectedNft ?
 					<NftSelector>
 						<div>
-							<div onClick={() => selectNft(null)}><img src={selectedNft.image} /> {selectedNft.name}</div>
+							<div onClick={() => selectNft(null)}><img src={selectedNft?.image} /> {selectedNft.name}</div>
 						</div>
 					</NftSelector> : null}
 			</Form.Item>
