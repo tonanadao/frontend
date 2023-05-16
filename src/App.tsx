@@ -33,17 +33,18 @@ import ethRpcStatus from "./logic/rpcsStatus/eth";
 import callBackStatus from "./logic/rpcsStatus/back";
 
 import "@near-wallet-selector/modal-ui/styles.css";
-import { Loader, Version, SelectCoin, AppDiv, Selector, DirectionBtn } from "./styles/style";
+import { Loader, Version, SelectCoin, AppDiv, Selector, DirectionBtn, } from "./styles/style";
 import "antd/dist/antd.css";
 import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
 import bnn from "./static/img/logo.svg";
 import { RootStore, StoreProvider, useStores } from "./stores";
 import NetSwitch from "./components/NetSwitch";
+import NftLink from "./components/NftLink";
 
 
 const AppWrapper = () => {
-	const { storeMain } = useStores();
+	const { storeMain, storeSwitch } = useStores();
 	const [ex, sex] = useState(true);
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
@@ -345,6 +346,19 @@ const AppWrapper = () => {
 			}
 		}
 	}, [networkSource])
+	// useEffect(() => {
+	// 	if (storeSwitch.repository.get().isTestNet || formType === 'nft') {
+	// 		navigate("/swap");
+	// 	}
+	// }, [storeSwitch.repository.get().isTestNet])
+
+
+	const linkProps = {
+		formType,
+		setFormType
+	};
+
+	
 
 	return (
 		<>
@@ -355,7 +369,7 @@ const AppWrapper = () => {
 			<Selector>
 				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
 				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
-				<Link to="/nft"><div onClick={() => setFormType('nft')}>NFT<span>testnet</span></div></Link>
+				<NftLink {...linkProps} />				 
 			</Selector>
 			<AppDiv>
 				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
