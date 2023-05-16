@@ -46,6 +46,10 @@ import NftLink from "./components/NftLink";
 
 const AppWrapper = () => {
 	const { storeMain, storeSwitch } = useStores();
+	const storeMainRepository = useStoreNanoStores(storeMain.repository);
+
+
+
 	const [ex, sex] = useState(true);
 	const [firstCurrAmount, setFirstCurrAmount] = useState<string>("");
 	const [secCurrAmount, setSecCurrAmount] = useState<string>("");
@@ -61,22 +65,22 @@ const AppWrapper = () => {
 
 	useEffect(() => {
 	 storeMain.setRpcsStatuses([
-			storeMain.repository.get().backStatus,
-			storeMain.repository.get().rpcTonStatus,
-			storeMain.repository.get().rpcEthStatus,
-			storeMain.repository.get().rpcNearStatus,
-			storeMain.repository.get().rpcSolStatus,
-			storeMain.repository.get().rpcCosmosStatus,
-			storeMain.repository.get().rpcAuroraStatus,
+			storeMainRepository.backStatus,
+			storeMainRepository.rpcTonStatus,
+			storeMainRepository.rpcEthStatus,
+			storeMainRepository.rpcNearStatus,
+			storeMainRepository.rpcSolStatus,
+			storeMainRepository.rpcCosmosStatus,
+			storeMainRepository.rpcAuroraStatus,
 		]);
 	}, [
-		storeMain.repository.get().rpcAuroraStatus,
-		storeMain.repository.get().rpcNearStatus,
-		storeMain.repository.get().rpcSolStatus,
-		storeMain.repository.get().rpcTonStatus,
-		storeMain.repository.get().rpcCosmosStatus,
-		storeMain.repository.get().rpcEthStatus,
-		storeMain.repository.get().backStatus,
+		storeMainRepository.rpcAuroraStatus,
+		storeMainRepository.rpcNearStatus,
+		storeMainRepository.rpcSolStatus,
+		storeMainRepository.rpcTonStatus,
+		storeMainRepository.rpcCosmosStatus,
+		storeMainRepository.rpcEthStatus,
+		storeMainRepository.backStatus,
 	]);
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -86,14 +90,14 @@ const AppWrapper = () => {
 	const isnear = searchParams.get("isnear");
 
 	const tvl = useMemo(() => {
-		return storeMain.repository.get().AURMaxAmount * storeMain.repository.get().auru +
-		storeMain.repository.get().USNMaxAmount * storeMain.repository.get().usnu +
-		storeMain.repository.get().ETHMaxAmount * storeMain.repository.get().ethu +
-		storeMain.repository.get().NEARMaxAmount * storeMain.repository.get().nu +
-		storeMain.repository.get().ATOMMaxAmount * storeMain.repository.get().au +
-		storeMain.repository.get().TONMaxAmount * storeMain.repository.get().tu +
-		storeMain.repository.get().SOLMaxAmount * storeMain.repository.get().su;
-	}, [storeMain.repository.get().ATOMMaxAmount, storeMain.repository.get().AURMaxAmount, storeMain.repository.get().ETHMaxAmount, storeMain.repository.get().NEARMaxAmount, storeMain.repository.get().SOLMaxAmount, storeMain.repository.get().TONMaxAmount, storeMain.repository.get().USNMaxAmount, storeMain.repository]);
+		return storeMainRepository.AURMaxAmount * storeMainRepository.auru +
+		storeMainRepository.USNMaxAmount * storeMainRepository.usnu +
+		storeMainRepository.ETHMaxAmount * storeMainRepository.ethu +
+		storeMainRepository.NEARMaxAmount * storeMainRepository.nu +
+		storeMainRepository.ATOMMaxAmount * storeMainRepository.au +
+		storeMainRepository.TONMaxAmount * storeMainRepository.tu +
+		storeMainRepository.SOLMaxAmount * storeMainRepository.su;
+	}, [storeMainRepository.ATOMMaxAmount, storeMainRepository.AURMaxAmount, storeMainRepository.ETHMaxAmount, storeMainRepository.NEARMaxAmount, storeMainRepository.SOLMaxAmount, storeMainRepository.TONMaxAmount, storeMainRepository.USNMaxAmount, storeMain.repository]);
 
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
@@ -172,12 +176,12 @@ const AppWrapper = () => {
 	}, []);
 
 	useEffect(() => {
-		const SOLwalletKey = storeMain.repository.get().SOLwalletKey;
-		const TONwalletKey = storeMain.repository.get().TONwalletKey;
-		const ETHwalletKey = storeMain.repository.get().ETHwalletKey;
-		const AURwalletKey = storeMain.repository.get().AURwalletKey;
-		const NEARwalletKey = storeMain.repository.get().NEARwalletKey;
-		const ATOMwalletKey = storeMain.repository.get().ATOMwalletKey;
+		const SOLwalletKey = storeMainRepository.SOLwalletKey;
+		const TONwalletKey = storeMainRepository.TONwalletKey;
+		const ETHwalletKey = storeMainRepository.ETHwalletKey;
+		const AURwalletKey = storeMainRepository.AURwalletKey;
+		const NEARwalletKey = storeMainRepository.NEARwalletKey;
+		const ATOMwalletKey = storeMainRepository.ATOMwalletKey;
 		localStorage.setItem(
 			"tonana_data",
 			JSON.stringify({
@@ -195,12 +199,12 @@ const AppWrapper = () => {
 		);
 	}, [
 		ex,
-		storeMain.repository.get().SOLwalletKey,
-		storeMain.repository.get().TONwalletKey,
-		storeMain.repository.get().AURwalletKey,
-		storeMain.repository.get().ETHwalletKey,
-		storeMain.repository.get().NEARwalletKey,
-		storeMain.repository.get().ATOMwalletKey,
+		storeMainRepository.SOLwalletKey,
+		storeMainRepository.TONwalletKey,
+		storeMainRepository.AURwalletKey,
+		storeMainRepository.ETHwalletKey,
+		storeMainRepository.NEARwalletKey,
+		storeMainRepository.ATOMwalletKey,
 		hexString,
 		networkSource,
 		networkDestination,
@@ -377,7 +381,7 @@ const AppWrapper = () => {
 				{location.pathname !== '/nft' ? <SwapForm {...fromProps} /> : <NftForm {...fromProps} />}
 				{isload ? <Loader src={bnn} /> : null}
 			</AppDiv>
-			<Rpcs rpcsStatuses={storeMain.repository.get().rpcsStatuses} />
+			<Rpcs rpcsStatuses={storeMainRepository.rpcsStatuses} />
 			<Social />
 			<Version>
 				Tonana TVL: ${tvl.toFixed(2)}
@@ -391,9 +395,8 @@ const AppWrapper = () => {
 
 const App = () => {
 	const rootStore = new RootStore();
-	const reactiveStore = useStoreNanoStores(rootStore);
 	return (
-		<StoreProvider store={reactiveStore}>
+		<StoreProvider store={rootStore}>
 			<AppWrapper />
 		</StoreProvider>
 	);

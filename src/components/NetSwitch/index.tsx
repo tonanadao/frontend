@@ -2,9 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useStores } from "../../stores";
 import { NetSwitchForm, Text } from "./styles";
 import { Switch, Popconfirm, message } from "antd";
+import { useStore as useStoreNanoStores } from '@nanostores/react'
 
 const NetSwitch = () => {
     const { storeSwitch } = useStores();
+    const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 
     const [check, setCheck] = useState(false);
 
@@ -18,7 +20,7 @@ const NetSwitch = () => {
     useEffect(() => {
         console.log("Current isTestNet param");
         console.log("FROM:");
-        console.log(storeSwitch.repository.get().isTestNet);
+        console.log(storeSwitchRepository.isTestNet);
 
         if (!check) {
             storeSwitch.setIsTestNet(false);
@@ -29,7 +31,7 @@ const NetSwitch = () => {
         }
 
         console.log("TO:");
-        console.log(storeSwitch.repository.get().isTestNet);
+        console.log(storeSwitchRepository.isTestNet);
 	}, [check])
 
 
