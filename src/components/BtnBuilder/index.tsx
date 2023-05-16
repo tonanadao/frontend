@@ -73,17 +73,12 @@ export const GenerateBtn = (currencyName: string) => {
 		}
 	};
 
-	const [walletKey, setWalletKey] = useState(sortedBtnProps[key].walletKey);
-	useEffect(() => {
-		setWalletKey(sortedBtnProps[key].walletKey);
-	}, [sortedBtnProps[key].walletKey])
-
 	return (
 		<>
 			<ConnectWalletBtn
 				type="primary"
 				onClick={() => sortedBtnProps[key].connect(sortedBtnProps[key].set)}>
-				{walletKey ? (
+				{sortedBtnProps[key].walletKey ? (
 					<>
 						<img src={sortedBtnProps[key].img} alt={"Wallet picture"} />
 						{zipName(sortedBtnProps[key].walletKey)}

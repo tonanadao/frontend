@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useStore as useStoreNanoStores } from '@nanostores/react'
 import { Button, message, Dropdown, Switch, Form } from "antd";
 // import { useLocation } from 'react-router-dom'
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
@@ -390,8 +391,9 @@ const AppWrapper = () => {
 
 const App = () => {
 	const rootStore = new RootStore();
+	const reactiveStore = useStoreNanoStores(rootStore);
 	return (
-		<StoreProvider store={rootStore}>
+		<StoreProvider store={reactiveStore}>
 			<AppWrapper />
 		</StoreProvider>
 	);
