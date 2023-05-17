@@ -357,7 +357,7 @@ const AppWrapper = () => {
 	// }, [storeSwitch.repository.get().isTestNet])
 
 
-	const linkProps = {
+	const formTypeProps = {
 		formType,
 		setFormType
 	};
@@ -368,12 +368,12 @@ const AppWrapper = () => {
 		<>
 			<Header />
 
-			<NetSwitch/>
+			<NetSwitch {...formTypeProps}/>
 
 			<Selector>
 				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
 				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
-				<NftLink {...linkProps} />				 
+				<NftLink {...formTypeProps} />				 
 			</Selector>
 			<AppDiv>
 				{/*<Route path="/swap" element={<SwapForm {...fromProps} />} />*/}
