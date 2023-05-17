@@ -73,62 +73,62 @@ const SwapForm = (props: any) => {
 		},
 		ton: {
 			walletKey: storeMainRepository.TONwalletKey,
-			currency: storeMain.repository.get().tu,
-			maxAmount: storeMain.repository.get().TONMaxAmount,
+			currency: storeMainRepository.tu,
+			maxAmount: storeMainRepository.TONMaxAmount,
 			currencyName: "TON"
 		},
 		aurora: {
-			walletKey: storeMain.repository.get().AURwalletKey,
-			currency: storeMain.repository.get().auru,
-			maxAmount: storeMain.repository.get().AURMaxAmount,
+			walletKey: storeMainRepository.AURwalletKey,
+			currency: storeMainRepository.auru,
+			maxAmount: storeMainRepository.AURMaxAmount,
 			currencyName: "AURORA"
 		},
 		usn: {
-			walletKey: storeMain.repository.get().NEARwalletKey,
-			currency: storeMain.repository.get().usnu,
-			maxAmount: storeMain.repository.get().USNMaxAmount,
+			walletKey: storeMainRepository.NEARwalletKey,
+			currency: storeMainRepository.usnu,
+			maxAmount: storeMainRepository.USNMaxAmount,
 			currencyName: "USN"
 		},
 		eth: {
-			walletKey: storeMain.repository.get().ETHwalletKey,
-			currency: storeMain.repository.get().maticu,
-			maxAmount: storeMain.repository.get().ETHMaxAmount,
+			walletKey: storeMainRepository.ETHwalletKey,
+			currency: storeMainRepository.maticu,
+			maxAmount: storeMainRepository.ETHMaxAmount,
 			currencyName: "ETH"
 		},
 		wsol: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().su,
-			maxAmount: storeMain.repository.get().SOLMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.su,
+			maxAmount: storeMainRepository.SOLMaxAmount,
 			currencyName: "wSOL"
 		},
 		weth: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().maticu,
-			maxAmount: storeMain.repository.get().ETHMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.maticu,
+			maxAmount: storeMainRepository.ETHMaxAmount,
 			currencyName: "wETH"
 		},
 		watom: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().au,
-			maxAmount: storeMain.repository.get().ATOMMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.au,
+			maxAmount: storeMainRepository.ATOMMaxAmount,
 			currencyName: "wATOM"
 		},
 		wnear: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().nu,
-			maxAmount: storeMain.repository.get().NEARMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.nu,
+			maxAmount: storeMainRepository.NEARMaxAmount,
 			currencyName: "wNEAR"
 		},
 		waurora: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().auru,
-			maxAmount: storeMain.repository.get().AURMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.auru,
+			maxAmount: storeMainRepository.AURMaxAmount,
 			currencyName: "wAURORA"
 		},
 		wusn: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().usnu,
-			maxAmount: storeMain.repository.get().USNMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.usnu,
+			maxAmount: storeMainRepository.USNMaxAmount,
 			currencyName: "wUSN"
 		}
 	}

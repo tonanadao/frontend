@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useStore as useStoreNanoStores } from '@nanostores/react'
-import { Button, message, Dropdown, Switch, Form } from "antd";
+import { message, Dropdown } from "antd";
 // import { useLocation } from 'react-router-dom'
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
-import { Routes, Route, useSearchParams, Link, useNavigation, Router } from "react-router-dom";
-import { Connection, clusterApiUrl } from "@solana/web3.js";
+import { useSearchParams, Link, } from "react-router-dom";
+import { Connection, } from "@solana/web3.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import SwapForm from "./components/SwapForm/";
 import NftForm from "./components/NftForm/";
@@ -36,7 +36,6 @@ import callBackStatus from "./logic/rpcsStatus/back";
 import "@near-wallet-selector/modal-ui/styles.css";
 import { Loader, Version, SelectCoin, AppDiv, Selector, DirectionBtn, } from "./styles/style";
 import "antd/dist/antd.css";
-import { useWalletSelector } from "./contexts/WalletSelectorContext";
 
 import bnn from "./static/img/logo.svg";
 import { RootStore, StoreProvider, useStores } from "./stores";
@@ -45,7 +44,7 @@ import NftLink from "./components/NftLink";
 
 
 const AppWrapper = () => {
-	const { storeMain, storeSwitch } = useStores();
+	const { storeMain, } = useStores();
 	const storeMainRepository = useStoreNanoStores(storeMain.repository);
 
 
