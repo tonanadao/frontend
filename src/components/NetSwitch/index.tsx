@@ -21,9 +21,9 @@ const NetSwitch = (props : any) => {
 
 
     useEffect(() => {
-        console.log("Current isTestNet param");
-        console.log("FROM:");
-        console.log(storeSwitchRepository.isTestNet);
+        // console.log("Current isTestNet param");
+        // console.log("FROM:");
+        // console.log(storeSwitchRepository.isTestNet);
 
         if (!check) {
             storeSwitch.setIsTestNet(false);
@@ -33,8 +33,8 @@ const NetSwitch = (props : any) => {
             message.success("You are using TestNet ver. of Tonana", 5);
         }
 
-        console.log("TO:");
-        console.log(storeSwitchRepository.isTestNet);
+        // console.log("TO:");
+        // console.log(storeSwitchRepository.isTestNet);
 	}, [check])
 
 

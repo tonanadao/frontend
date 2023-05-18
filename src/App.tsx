@@ -3,7 +3,7 @@ import { useStore as useStoreNanoStores } from '@nanostores/react'
 import { message, Dropdown } from "antd";
 // import { useLocation } from 'react-router-dom'
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
-import { useSearchParams, Link, } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Connection, } from "@solana/web3.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import SwapForm from "./components/SwapForm/";
@@ -41,6 +41,8 @@ import bnn from "./static/img/logo.svg";
 import { RootStore, StoreProvider, useStores } from "./stores";
 import NetSwitch from "./components/NetSwitch";
 import NftLink from "./components/NftLink";
+import SwapLink from "./components/SwapLink";
+import BridgeLink from "./components/BridgeLink";
 
 
 const AppWrapper = () => {
@@ -362,8 +364,6 @@ const AppWrapper = () => {
 		setFormType
 	};
 
-	
-
 	return (
 		<>
 			<Header />
@@ -371,8 +371,8 @@ const AppWrapper = () => {
 			<NetSwitch {...formTypeProps}/>
 
 			<Selector>
-				<Link to="/swap"><div onClick={() => setFormType('swap')}>Swap</div></Link>
-				<Link to="/bridge"><div onClick={() => setFormType('bridge')}>Bridge</div></Link>
+				<SwapLink {...formTypeProps}/>
+				<BridgeLink {...formTypeProps}/>
 				<NftLink {...formTypeProps} />				 
 			</Selector>
 			<AppDiv>
