@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Button } from "antd";
+import { Link } from "react-router-dom";
 
 export const Loader = styled.img`
 	animation-name: spin;
@@ -58,6 +59,7 @@ export const AppDiv = styled.div`
 `;
 
 export const Selector = styled.div`
+  margin-top: 36px;
   display: flex;
   justify-content: space-around;
   position: relative;

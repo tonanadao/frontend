@@ -3,6 +3,7 @@
  */
 import {
     Main,
+    Switch
 } from './modules';
   
 /**
@@ -10,8 +11,10 @@ import {
  */
 export class RootStore {
     storeMain: Main;
+    storeSwitch: Switch;
 
     constructor() {
         this.storeMain = new Main(this);
+        this.storeSwitch = new Switch(this);
     }
 }

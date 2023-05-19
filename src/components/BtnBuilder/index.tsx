@@ -1,6 +1,7 @@
 import { useStores } from "../../stores";
 import { useEffect, useState } from "react";
 import { ConnectWalletBtn } from "./styles";
+import { useStore as useStoreNanoStores } from '@nanostores/react'
 
 import phantom from "../../static/img/phantom.png";
 import near from "../../static/img/near.png";
@@ -21,6 +22,7 @@ const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
 export const GenerateBtn = (currencyName: string) => {
 	const { storeMain } = useStores();
+	const storeMainRepository = useStoreNanoStores(storeMain.repository);
 
 	let key: string = currencyName.toLocaleLowerCase();
 	if (key.includes('ton')) { key = "ton" }
@@ -32,60 +34,53 @@ export const GenerateBtn = (currencyName: string) => {
 		sol: {
 			connect: connectWalletSOL,
 			set: storeMain.setSOLwalletKey,
-			walletKey: storeMain.repository.get().SOLwalletKey,
+			walletKey: storeMainRepository.SOLwalletKey,
 			img: phantom,
 		},
 		ton: {
 			connect: connectWalletTON,
 			set: storeMain.setTONwalletKey,
-			walletKey: storeMain.repository.get().TONwalletKey,
+			walletKey: storeMainRepository.TONwalletKey,
 			img: tonIco,
 		},
 		atom: {
 			connect: connectWalletATOM,
 			set: storeMain.setATOMwalletKey,
-			walletKey: storeMain.repository.get().ATOMwalletKey,
+			walletKey: storeMainRepository.ATOMwalletKey,
 			img: keplr,
 		},
 		aurora: {
 			connect: connectWalletAUR,
 			set: storeMain.setAURwalletKey,
-			walletKey: storeMain.repository.get().AURwalletKey,
+			walletKey: storeMainRepository.AURwalletKey,
 			img: metamask,
 		},
 		eth: {
 			connect: connectWalletETH,
 			set: storeMain.setETHwalletKey,
-			walletKey: storeMain.repository.get().ETHwalletKey,
+			walletKey: storeMainRepository.ETHwalletKey,
 			img: metamask,
 		},
 		near: {
 			connect: connectWalletNEAR,
 			set: storeMain.setNEARwalletKey,
-			walletKey: storeMain.repository.get().NEARwalletKey,
+			walletKey: storeMainRepository.NEARwalletKey,
 			img: near,
 		},
 		mumbai: {
 			connect: connectWalletETH,
 			set: storeMain.setMUMBwalletKey,
-			walletKey: storeMain.repository.get().MUMBwalletKey,
+			walletKey: storeMainRepository.MUMBwalletKey,
 			img: polygonIco,
 		}
 	};
-
-	console.log(sortedBtnProps[key].walletKey);
-
-	const [walletKey, setWalletKey] = useState(sortedBtnProps[key].walletKey);
-	useEffect(() => {
-		setWalletKey(sortedBtnProps[key].walletKey);
-	}, [sortedBtnProps[key].walletKey])
 
 	return (
 		<>
 			<ConnectWalletBtn
 				type="primary"
 				onClick={() => sortedBtnProps[key].connect(sortedBtnProps[key].set)}>
-				{walletKey ? (
+				{sortedBtnProps[key].walletKey ? (
 					<>
 						<img src={sortedBtnProps[key].img} alt={"Wallet picture"} />
 						{zipName(sortedBtnProps[key].walletKey)}

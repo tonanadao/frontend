@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Form, Input, message, Button } from "antd";
+import { Form } from "antd";
 import makeTrx from "../../logic/trxBuilder";
 import getTONNftBalances from "../../logic/fetch/getTONNftBalances";
 import getETHNftBalances from "../../logic/fetch/getETHNftBalances";
 import { useStores } from "../../stores";
 import { SubmitBtn, NonactiveSubmitBtn } from "./styles";
+import { useStore as useStoreNanoStores } from '@nanostores/react'
 
 import styled from "styled-components";
 // import { request, gql } from 'graphql-request'
@@ -32,8 +33,9 @@ const SwapForm = (props: any) => {
 	const [addMessage, setAddMessage] = useState(false);
 	const [openData, setOpenData] = useState(false);
 	const [nftsToShow, setNfts] = useState([]);
-	const [selectedNft, selectNft] = useState(null);
+	const [selectedNft, selectNft] = useState<null | any>(null);
 	const { storeMain } = useStores();
+	const storeMainRepository = useStoreNanoStores(storeMain.repository);
 
 	let dirKey: string = props.directionNetwork;
 	if (dirKey.includes('(') && dirKey.includes(')')) {
@@ -52,81 +54,81 @@ const SwapForm = (props: any) => {
 
 	const nftConfig: any = {
 		atom: {
-			walletKey: storeMain.repository.get().ATOMMaxAmount,
-			currency: storeMain.repository.get().au,
-			maxAmount: storeMain.repository.get().ATOMMaxAmount,
+			walletKey: storeMainRepository.ATOMMaxAmount,
+			currency: storeMainRepository.au,
+			maxAmount: storeMainRepository.ATOMMaxAmount,
 			currencyName: "ATOM"
 		},
 		near: {
-			walletKey: storeMain.repository.get().NEARwalletKey,
-			currency: storeMain.repository.get().nu,
-			maxAmount: storeMain.repository.get().NEARMaxAmount,
+			walletKey: storeMainRepository.NEARwalletKey,
+			currency: storeMainRepository.nu,
+			maxAmount: storeMainRepository.NEARMaxAmount,
 			currencyName: "NEAR"
 		},
 		sol: {
-			walletKey: storeMain.repository.get().SOLwalletKey,
-			currency: storeMain.repository.get().su,
-			maxAmount: storeMain.repository.get().SOLMaxAmount,
+			walletKey: storeMainRepository.SOLwalletKey,
+			currency: storeMainRepository.su,
+			maxAmount: storeMainRepository.SOLMaxAmount,
 			currencyName: "SOL"
 		},
 		ton: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().tu,
-			maxAmount: storeMain.repository.get().TONMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.tu,
+			maxAmount: storeMainRepository.TONMaxAmount,
 			currencyName: "TON"
 		},
 		aurora: {
-			walletKey: storeMain.repository.get().AURwalletKey,
-			currency: storeMain.repository.get().auru,
-			maxAmount: storeMain.repository.get().AURMaxAmount,
+			walletKey: storeMainRepository.AURwalletKey,
+			currency: storeMainRepository.auru,
+			maxAmount: storeMainRepository.AURMaxAmount,
 			currencyName: "AURORA"
 		},
 		usn: {
-			walletKey: storeMain.repository.get().NEARwalletKey,
-			currency: storeMain.repository.get().usnu,
-			maxAmount: storeMain.repository.get().USNMaxAmount,
+			walletKey: storeMainRepository.NEARwalletKey,
+			currency: storeMainRepository.usnu,
+			maxAmount: storeMainRepository.USNMaxAmount,
 			currencyName: "USN"
 		},
 		eth: {
-			walletKey: storeMain.repository.get().ETHwalletKey,
-			currency: storeMain.repository.get().maticu,
-			maxAmount: storeMain.repository.get().ETHMaxAmount,
+			walletKey: storeMainRepository.ETHwalletKey,
+			currency: storeMainRepository.maticu,
+			maxAmount: storeMainRepository.ETHMaxAmount,
 			currencyName: "ETH"
 		},
 		wsol: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().su,
-			maxAmount: storeMain.repository.get().SOLMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.su,
+			maxAmount: storeMainRepository.SOLMaxAmount,
 			currencyName: "wSOL"
 		},
 		weth: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().maticu,
-			maxAmount: storeMain.repository.get().ETHMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.maticu,
+			maxAmount: storeMainRepository.ETHMaxAmount,
 			currencyName: "wETH"
 		},
 		watom: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().au,
-			maxAmount: storeMain.repository.get().ATOMMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.au,
+			maxAmount: storeMainRepository.ATOMMaxAmount,
 			currencyName: "wATOM"
 		},
 		wnear: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().nu,
-			maxAmount: storeMain.repository.get().NEARMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.nu,
+			maxAmount: storeMainRepository.NEARMaxAmount,
 			currencyName: "wNEAR"
 		},
 		waurora: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().auru,
-			maxAmount: storeMain.repository.get().AURMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.auru,
+			maxAmount: storeMainRepository.AURMaxAmount,
 			currencyName: "wAURORA"
 		},
 		wusn: {
-			walletKey: storeMain.repository.get().TONwalletKey,
-			currency: storeMain.repository.get().usnu,
-			maxAmount: storeMain.repository.get().USNMaxAmount,
+			walletKey: storeMainRepository.TONwalletKey,
+			currency: storeMainRepository.usnu,
+			maxAmount: storeMainRepository.USNMaxAmount,
 			currencyName: "wUSN"
 		}
 	}
@@ -188,7 +190,7 @@ const SwapForm = (props: any) => {
 				{selectedNft ?
 					<NftSelector>
 						<div>
-							<div onClick={() => selectNft(null)}><img src={selectedNft.image} /> {selectedNft.name}</div>
+							<div onClick={() => selectNft(null)}><img src={selectedNft?.image} /> {selectedNft.name}</div>
 						</div>
 					</NftSelector> : null}
 			</Form.Item>

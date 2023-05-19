@@ -96,6 +96,12 @@ iframe{
 			}
 	}
 }
+.ant-popover-buttons {
+	display: flex;
+	gap: 8px;
+	flex-direction: row;
+	justify-content: end;
+}
 	input {
 		background: #161c2d !important;
 		border-radius: 10px!important;
@@ -134,11 +140,16 @@ iframe{
     }
 	}
 
+.activeLinkBtn {
+	background: rgba(22, 31, 56, 1) !important; 
+}
+
 
 .selectorsoon {
   cursor: not-allowed !important;
 	color: gray !important;
 }
   `;
+
 
 export default Gstyles;
