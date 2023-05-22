@@ -144,6 +144,10 @@ iframe{
 	background: rgba(22, 31, 56, 1) !important; 
 }
 
+.ant-switch-handle::before {
+	background-color: rgb(255, 201, 22);
+}
+
 
 .selectorsoon {
   cursor: not-allowed !important;

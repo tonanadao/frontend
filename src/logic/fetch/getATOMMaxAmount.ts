@@ -1,4 +1,4 @@
-const getATOMMaxAmount = (setATOMMaxAmount: any) => {
+const getATOMMaxAmount = (setATOMMaxAmount: any, isTestNet: boolean) => {
   fetch(`https://proxy.tonana.org/https://api.cosmoscan.net/account/${process.env.REACT_APP_BACK_COSMOS_WALLET}`, {
     method: "GET",
   }).then((res) => res.json())

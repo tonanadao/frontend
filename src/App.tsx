@@ -46,8 +46,9 @@ import BridgeLink from "./components/BridgeLink";
 
 
 const AppWrapper = () => {
-	const { storeMain, } = useStores();
+	const { storeMain, storeSwitch } = useStores();
 	const storeMainRepository = useStoreNanoStores(storeMain.repository);
+	const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 
 
 
@@ -108,25 +109,25 @@ const AppWrapper = () => {
 	useEffect(() => {
 		const getStatuses = () => {
 			(async () => {
-				storeMain.setRpcTonStatus(await tonRpcStatus());
+				storeMain.setRpcTonStatus(await tonRpcStatus(storeSwitchRepository.isTestNet));
 			})();
 			(async () => {
-				storeMain.setRpcSolStatus(await solRpcStatus());
+				storeMain.setRpcSolStatus(await solRpcStatus(storeSwitchRepository.isTestNet));
 			})();
 			(async () => {
-				storeMain.setRpcNearStatus(await nearRpcStatus());
+				storeMain.setRpcNearStatus(await nearRpcStatus(storeSwitchRepository.isTestNet));
 			})();
 			(async () => {
-				storeMain.setRpcAuroraStatus(await auroraRpcStatus());
+				storeMain.setRpcAuroraStatus(await auroraRpcStatus(storeSwitchRepository.isTestNet));
 			})();
 			(async () => {
-				storeMain.setRpcEthStatus(await ethRpcStatus());
+				storeMain.setRpcEthStatus(await ethRpcStatus(storeSwitchRepository.isTestNet)); //need to replace rpc-fast
 			})();
 			(async () => {
-				storeMain.setRpcCosmosStatus(await cosmosRpcStatus());
+				storeMain.setRpcCosmosStatus(await cosmosRpcStatus(storeSwitchRepository.isTestNet)); // dont work
 			})();
 			(async () => {
-				storeMain.setBackStatus(await callBackStatus());
+				storeMain.setBackStatus(await callBackStatus(storeSwitchRepository.isTestNet));
 			})();
 		};
 		getStatuses();
@@ -134,11 +135,11 @@ const AppWrapper = () => {
 			getStatuses();
 		}, 30000);
 
-		getTONMaxAmount(storeMain.setTONMaxAmount);
-		getSOLMaxAmount(storeMain.setSOLMaxAmount);
-		getATOMMaxAmount(storeMain.setATOMMaxAmount);
-		getAURMaxAmount(storeMain.setAURMaxAmount);
-		getETHMaxAmount(storeMain.setETHMaxAmount);
+		getTONMaxAmount(storeMain.setTONMaxAmount, storeSwitchRepository.isTestNet); // done
+		getSOLMaxAmount(storeMain.setSOLMaxAmount, storeSwitchRepository.isTestNet); // done
+		getATOMMaxAmount(storeMain.setATOMMaxAmount, storeSwitchRepository.isTestNet); //cosmos doesn't work, new api required
+		getAURMaxAmount(storeMain.setAURMaxAmount, storeSwitchRepository.isTestNet); //done
+		getETHMaxAmount(storeMain.setETHMaxAmount, storeSwitchRepository.isTestNet); //done
 
 		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		setInterval(() => {

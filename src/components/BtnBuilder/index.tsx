@@ -1,5 +1,4 @@
 import { useStores } from "../../stores";
-import { useEffect, useState } from "react";
 import { ConnectWalletBtn } from "./styles";
 import { useStore as useStoreNanoStores } from '@nanostores/react'
 
@@ -21,8 +20,9 @@ import connectWalletETH from "../../logic/wallet/connectWalletETH";
 const zipName = (name: string) => `${name.slice(0, 5)}...${name.slice(-3)}`;
 
 export const GenerateBtn = (currencyName: string) => {
-	const { storeMain } = useStores();
+	const { storeMain, storeSwitch } = useStores();
 	const storeMainRepository = useStoreNanoStores(storeMain.repository);
+	const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 
 	let key: string = currencyName.toLocaleLowerCase();
 	if (key.includes('ton')) { key = "ton" }
@@ -79,7 +79,7 @@ export const GenerateBtn = (currencyName: string) => {
 		<>
 			<ConnectWalletBtn
 				type="primary"
-				onClick={() => sortedBtnProps[key].connect(sortedBtnProps[key].set)}>
+				onClick={() => sortedBtnProps[key].connect(sortedBtnProps[key].set, storeSwitchRepository.isTestNet)}>
 				{sortedBtnProps[key].walletKey ? (
 					<>
 						<img src={sortedBtnProps[key].img} alt={"Wallet picture"} />
