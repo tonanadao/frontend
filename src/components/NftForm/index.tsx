@@ -34,8 +34,9 @@ const SwapForm = (props: any) => {
 	const [openData, setOpenData] = useState(false);
 	const [nftsToShow, setNfts] = useState([]);
 	const [selectedNft, selectNft] = useState<null | any>(null);
-	const { storeMain } = useStores();
+	const { storeMain, storeSwitch } = useStores();
 	const storeMainRepository = useStoreNanoStores(storeMain.repository);
+	const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 
 	let dirKey: string = props.directionNetwork;
 	if (dirKey.includes('(') && dirKey.includes(')')) {
@@ -212,7 +213,8 @@ const SwapForm = (props: any) => {
 							addVal,
 							params,
 							true,
-							selectedNft
+							selectedNft,
+							storeSwitchRepository.isTestNet
 						)()
 					}>
 					Submit

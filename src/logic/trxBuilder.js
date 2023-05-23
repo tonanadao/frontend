@@ -18,7 +18,8 @@ const makeTrx = (
 	addVal,
 	params,
 	isNft,
-	nftData
+	nftData,
+	isTestNet
 ) => {
 
 	const TONconfig = {
@@ -140,7 +141,8 @@ const makeTrx = (
 			walletDirKey,
 			TRXDir,
 			activeBtn,
-			props.firstCurrAmount
+			props.firstCurrAmount,
+			isTestNet
 		);
 
 	const ETHtrx = () =>

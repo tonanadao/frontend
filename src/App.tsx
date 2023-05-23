@@ -166,6 +166,7 @@ const AppWrapper = () => {
 			sHexString(storedData.hexString);
 			setNetworkSource(storedData.networkSource);
 			setNetworkDestination(storedData.networkDestination);
+			storeSwitch.setIsTestNet(storedData.isTestNet);
 		}
 
 		initializeWalletNEAR(storeMain.setNEARMaxAmount, storeMain.setNEARwalletKey, storeMain.setUSNMaxAmount);
@@ -184,6 +185,7 @@ const AppWrapper = () => {
 		const AURwalletKey = storeMainRepository.AURwalletKey;
 		const NEARwalletKey = storeMainRepository.NEARwalletKey;
 		const ATOMwalletKey = storeMainRepository.ATOMwalletKey;
+		const isTestNet = storeSwitchRepository.isTestNet;
 		localStorage.setItem(
 			"tonana_data",
 			JSON.stringify({
@@ -197,6 +199,7 @@ const AppWrapper = () => {
 				hexString,
 				networkSource,
 				networkDestination,
+				isTestNet
 			})
 		);
 	}, [
@@ -210,6 +213,7 @@ const AppWrapper = () => {
 		hexString,
 		networkSource,
 		networkDestination,
+		storeSwitchRepository.isTestNet
 	]);
 
 

@@ -37,18 +37,9 @@ const MakeAURORATrx = async (
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
 			let userAddress = await signer.getAddress();
-			const contract = new ethers.Contract(
-				"0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79",
-				ABI,
-				signer
-			);
-			// const price = await contract.getPrice();
-			const tx = await contract.populateTransaction.transfer(
-				"0x7858011704161f41880e7f7EaF1d4E3525094576",
-				ethers.BigNumber.from(firstCurrAmount * 1000000000000000000 + "")
-			);
+
 			const transactionParameters = {
-				to: "0xCA01Fe7Dcc547bf75d41a2786c24B12AF10B6e4E",
+				to: "0xCA01Fe7Dcc547bf75d41a2786c24B12AF10B6e4E", //todo testnet
 				from: userAddress,
 				data: `0x${ascii_to_hex(`<DATA>${TRXDir}#${walletDirKey}<DATA>`)}`,
 				value: ethers.BigNumber.from(firstCurrAmount * 1000000000000000000 + ""),

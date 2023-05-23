@@ -15,7 +15,8 @@ const MakeAURORATrx = async (
 	walletDirKey: any,
 	TRXDir: any,
 	activeBtn: any,
-	firstCurrAmount: any
+	firstCurrAmount: any,
+	isTestNet: boolean  
 ) => {
 	if (activeBtn) {
 		setIsload(true);

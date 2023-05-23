@@ -149,6 +149,10 @@ iframe{
 }
 
 
+.ant-switch {
+	box-shadow: 0px 4px 8px rgba(0,0,0,0.35)!important;
+}
+
 .selectorsoon {
   cursor: not-allowed !important;
 	color: gray !important;
