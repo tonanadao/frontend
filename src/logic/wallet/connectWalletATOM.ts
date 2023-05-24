@@ -1,6 +1,6 @@
 import { message } from "antd";
 
-const connectWalletATOM = async (setATOMWalletKey: any) => {
+const connectWalletATOM = async (setATOMWalletKey: any, isTestNet: boolean) => {
   try {
     if (window["keplr"]) {
       const chainId = "cosmoshub-4"; //theta-testnet-001

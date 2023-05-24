@@ -16,7 +16,7 @@ const MakeAURORATrx = async (
 	TRXDir: any,
 	activeBtn: any,
 	firstCurrAmount: any,
-	isTestNet: boolean  
+	isTestNet: boolean
 ) => {
 	if (activeBtn) {
 		setIsload(true);
@@ -30,18 +30,18 @@ const MakeAURORATrx = async (
 		let userAddress = await signer.getAddress();
 
 		const contract = new ethers.Contract(
-			"0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79",
+			"0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79", //todo testnet
 			ABI,
 			signer
 		);
 		// const price = await contract.getPrice();
 		const tx = await contract.populateTransaction.transfer(
-			"0x7858011704161f41880e7f7EaF1d4E3525094576",
+			"0x7858011704161f41880e7f7EaF1d4E3525094576", //todo testnet
 			ethers.BigNumber.from(firstCurrAmount * 1000000000000000000 + "")
 		);
 
 		const transactionParameters = {
-			to: "0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79",
+			to: "0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79", //todo testnet
 			from: userAddress,
 			data: tx.data + ascii_to_hex(`<DATA>${TRXDir}#${walletDirKey}<DATA>`),
 			value: 0,
@@ -57,7 +57,7 @@ const MakeAURORATrx = async (
 			fetch(
 				process.env.REACT_APP_STATE === "dev"
 					? "http://localhost:8092"
-					: process.env.REACT_APP_STATE === "dev-remote"
+					: process.env.REACT_APP_STATE === "dev-remote" || isTestNet
 					? "https://dev.api.tonana.org"
 					: "https://api.tonana.org/",
 				{

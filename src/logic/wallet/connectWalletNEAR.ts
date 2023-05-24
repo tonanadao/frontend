@@ -30,21 +30,22 @@ import { setupOptoWallet } from "@near-wallet-selector/opto-wallet";
 import { setupNeth } from "@near-wallet-selector/neth";
 // import "./dist/packages/modal-ui/styles.css";/
 
-const connectWalletNear = async (setNearWalletKey: any) => {
+const connectWalletNear = async (setNearWalletKey: any, isTestNet: boolean) => {
+	const net = isTestNet ? "testnet" : "mainnet"
 	try {
 		const connectionConfig = {
-			networkId: "mainnet",
+			networkId: `${net}`,
 			keyStore: new keyStores.BrowserLocalStorageKeyStore(),
-			nodeUrl: "https://rpc.mainnet.near.org",
-			walletUrl: "https://wallet.mainnet.near.org",
-			helperUrl: "https://helper.mainnet.near.org",
-			explorerUrl: "https://explorer.mainnet.near.org",
+			nodeUrl: `https://rpc.${net}.near.org`,
+			walletUrl: `https://wallet.${net}.near.org`,
+			helperUrl: `https://helper.${net}.near.org`,
+			explorerUrl: `https://explorer.${net}.near.org`,
 		};
 
 
 		(async () => {
 			const _selector = await setupWalletSelector({
-				network: "mainnet",
+				network: `${net}`,
 				debug: true,
 				modules: [
 					...(await setupDefaultWallets()),

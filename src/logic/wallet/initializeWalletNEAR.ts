@@ -1,13 +1,14 @@
 import { connect, Contract, keyStores, WalletConnection } from "near-api-js";
 
-export const initializeWalletNEAR = async (setNEARMaxAmount: any, setNEARwalletKey: any, setUSNMaxAmount: any) => {
+export const initializeWalletNEAR = async (setNEARMaxAmount: any, setNEARwalletKey: any, setUSNMaxAmount: any, isTestNet: boolean) => {
+  const net = isTestNet ? "testnet" : "mainnet"
   const connectionConfig = {
-    networkId: "mainnet",
+    networkId: `${net}`,
     keyStore: new keyStores.BrowserLocalStorageKeyStore(),
-    nodeUrl: "https://rpc.mainnet.near.org",
-    walletUrl: "https://wallet.mainnet.near.org",
-    helperUrl: "https://helper.mainnet.near.org",
-    explorerUrl: "https://explorer.mainnet.near.org",
+    nodeUrl: `https://rpc.${net}.near.org`,
+    walletUrl: `https://wallet.${net}.near.org`,
+    helperUrl: `https://helper.${net}.near.org`,
+    explorerUrl: `https://explorer.${net}.near.org`,
   };
 
   const receiver = process.env.REACT_APP_NEAR_CONTRACT

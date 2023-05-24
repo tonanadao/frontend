@@ -169,11 +169,11 @@ const AppWrapper = () => {
 			storeSwitch.setIsTestNet(storedData.isTestNet);
 		}
 
-		initializeWalletNEAR(storeMain.setNEARMaxAmount, storeMain.setNEARwalletKey, storeMain.setUSNMaxAmount);
+		initializeWalletNEAR(storeMain.setNEARMaxAmount, storeMain.setNEARwalletKey, storeMain.setUSNMaxAmount, storeSwitchRepository.isTestNet);
 		if (isnear)
-			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
+			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams, storeSwitchRepository.isTestNet);
 		if (isusn)
-			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
+			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams, storeSwitchRepository.isTestNet);
 		message.success("Use Chrome with TonWallet & Phantom extensions", 5);
 		message.success("Connect both and make trx, then wait a little bit", 6);
 	}, []);

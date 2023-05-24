@@ -27,7 +27,8 @@ const MakeAURORATrx = async (
 	activeBtn: boolean,
 	firstCurrAmount: any,
 	isNft: boolean,
-	nftData: any
+	nftData: any,
+	isTestNet: boolean
 ) => {
 	if (activeBtn) {
 		setIsload(true);
@@ -104,7 +105,7 @@ const MakeAURORATrx = async (
 					"http://localhost:5050"
 					// process.env.REACT_APP_STATE === "dev"
 					// ? "http://localhost:8092"
-					// : process.env.REACT_APP_STATE === "dev-remote"
+					// : process.env.REACT_APP_STATE === "dev-remote" || isTestNet
 					// 	? "https://dev.api.tonana.org"
 					// 	: "https://api.tonana.org/",
 					, {

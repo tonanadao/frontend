@@ -71,6 +71,7 @@ const makeTrx = (
 
 	const TONTrx = () =>
 		MakeTONTrx(
+			isTestNet,
 			activeBtn,
 			props.setIsload,
 			props.firstCurrAmount,
@@ -93,7 +94,8 @@ const makeTrx = (
 			props.SOLwalletKey,
 			walletDirKey,
 			TRXDir,
-			props.firstCurrAmount
+			props.firstCurrAmount,
+			isTestNet
 		);
 
 	const NEARTrx = () =>
@@ -107,7 +109,8 @@ const makeTrx = (
 			props.hexString,
 			openData,
 			addVal,
-			params
+			params,
+			isTestNet
 		);
 
 	const ATOMtrx = () =>
@@ -118,7 +121,8 @@ const makeTrx = (
 			props.ATOMwalletKey,
 			walletDirKey,
 			TRXDir,
-			props.firstCurrAmount
+			props.firstCurrAmount,
+			isTestNet
 		);
 
 	const USNtrx = () =>
@@ -132,7 +136,8 @@ const makeTrx = (
 			props.hexString,
 			openData,
 			addVal,
-			params
+			params,
+			isTestNet
 		);
 
 	const AURORAtrx = () =>
@@ -154,6 +159,7 @@ const makeTrx = (
 			props.firstCurrAmount,
 			isNft,
 			nftData,
+			isTestNet
 		);
 
 	const TONJettonsBurnTrx = () =>
@@ -165,7 +171,8 @@ const makeTrx = (
 			props.firstCurrAmount,
 			props.TONwalletKey,
 			TRXDir,
-			walletDirKey
+			walletDirKey,
+			isTestNet
 		);
 
 

@@ -17,7 +17,8 @@ const MakeATOMTrx = async (
   ATOMwalletKey: any,
   walletTo: any,
   netTo: string,
-  ATOMAmount: any
+  ATOMAmount: any,
+  isTestNet: boolean
 ) => {
   if (activeBtn) {
     setIsload(true);
