@@ -19,8 +19,14 @@ import { setupNearFi } from "@near-wallet-selector/nearfi";
 import { setupCoin98Wallet } from "@near-wallet-selector/coin98-wallet";
 import { setupNeth } from "@near-wallet-selector/neth";
 import { setupOptoWallet } from "@near-wallet-selector/opto-wallet";
+
+import { useStores } from "../stores";
+import { useStore as useStoreNanoStores } from '@nanostores/react'
 // import { CONTRACT_ID } from "../constants";
-const CONTRACT_ID = "tonana.near";
+
+const CONTRACT_ID = "tonana.near"; 
+const CONTRACT_ID_TEST = ""; //todo testnet contract id
+
 declare global {
 	interface Window {
 		selector: WalletSelector;
@@ -44,10 +50,16 @@ export const WalletSelectorContextProvider: React.FC<{
 	const [selector, setSelector] = useState<WalletSelector | null>(null);
 	const [modal, setModal] = useState<WalletSelectorModal | null>(null);
 	const [accounts, setAccounts] = useState<Array<AccountState>>([]);
+	
+
+	const { storeSwitch } = useStores();
+	const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
+
+
 
 	const init = useCallback(async () => {
 		const _selector = await setupWalletSelector({
-			network: "mainnet",
+			network: storeSwitchRepository.isTestNet ? "testnet" : "mainnet",
 			debug: true,
 			modules: [
 				...(await setupDefaultWallets()),
@@ -85,7 +97,7 @@ export const WalletSelectorContextProvider: React.FC<{
 				}),
 			],
 		});
-		const _modal = setupModal(_selector, { contractId: CONTRACT_ID });
+		const _modal = setupModal(_selector, { contractId: storeSwitchRepository.isTestNet ? CONTRACT_ID_TEST : CONTRACT_ID});
 		const state = _selector.store.getState();
 		setAccounts(state.accounts);
 
