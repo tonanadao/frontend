@@ -29,29 +29,31 @@ const makeTrx = (
 		atom : {
 			TRX: "COSMOS",
 		},
+
+		//todo testnet in .env
 		wsol: {
 			TRX: "TONwSOL",
-			TONJettonContractAdd: "EQC4cCygTZPKIP9cCsWx7DW5i5MQPOsEcfKkKwBZKkRCCfaW",
+			TONJettonContractAdd: isTestNet ? "" : "EQC4cCygTZPKIP9cCsWx7DW5i5MQPOsEcfKkKwBZKkRCCfaW", 
 		},
 		weth: {
 			TRX: "TONwETH",
-			TONJettonContractAdd: "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U",
+			TONJettonContractAdd: isTestNet ? "" : "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U",
 		},
 		watom: {
 			TRX: "TONwATOM",
-			TONJettonContractAdd: "EQCa5-xswEfQM5x_CBb5f53ghfy8ZYTAMCohgqSO6rBYMlkD",
+			TONJettonContractAdd: isTestNet ? "" : "EQCa5-xswEfQM5x_CBb5f53ghfy8ZYTAMCohgqSO6rBYMlkD",
 		},
 		wnear: {
 			TRX: "TONwNEAR",
-			TONJettonContractAdd: "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi",
+			TONJettonContractAdd: isTestNet ? "" : "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi",
 		},
 		waurora: {
 			TRX: "TONwAURORA",
-			TONJettonContractAdd: "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut",
+			TONJettonContractAdd: isTestNet ? "" : "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut",
 		},
 		wusn: {
 			TRX: "TONwUSN",
-			TONJettonContractAdd: "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI",
+			TONJettonContractAdd: isTestNet ? "" : "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI",
 		}
 	}
 

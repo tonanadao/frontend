@@ -11,16 +11,18 @@ export const initializeWalletNEAR = async (setNEARMaxAmount: any, setNEARwalletK
     explorerUrl: `https://explorer.${net}.near.org`,
   };
 
-  const receiver = process.env.REACT_APP_NEAR_CONTRACT
+  const receiver = process.env.REACT_APP_NEAR_CONTRACT //todo testnet 
     ? process.env.REACT_APP_NEAR_CONTRACT
+    // : isTestNet ? process.env.REACT_APP_NEAR_TEST_CONTRACT
     : "";
 
   const nearConnection = await connect(connectionConfig as any);
   const walletConnection = new WalletConnection(nearConnection, receiver);
 
-  const account = await nearConnection.account(
+  const account = await nearConnection.account( //todo testnet
     process.env.REACT_APP_BACK_NEAR_WALLET
       ? process.env.REACT_APP_BACK_NEAR_WALLET
+      // : isTestNet ? process.env.REACT_APP_BACK_TEST_NEAR_WALLET
       : ""
   );
   setNEARMaxAmount(
