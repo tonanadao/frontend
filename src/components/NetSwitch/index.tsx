@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStores } from "../../stores";
 import { NetSwitchForm, Text } from "./styles";
-import { Switch, Popconfirm, message } from "antd";
+import { Switch, Popconfirm, message, Alert } from "antd";
 import { useStore as useStoreNanoStores } from '@nanostores/react'
 import { useNavigate, useLocation } from "react-router-dom";
 

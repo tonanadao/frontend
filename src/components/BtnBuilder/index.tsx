@@ -1,6 +1,7 @@
 import { useStores } from "../../stores";
 import { ConnectWalletBtn } from "./styles";
 import { useStore as useStoreNanoStores } from '@nanostores/react'
+import { useEffect } from "react";
 
 import phantom from "../../static/img/phantom.png";
 import near from "../../static/img/near.png";
@@ -74,6 +75,14 @@ export const GenerateBtn = (currencyName: string) => {
 			img: polygonIco,
 		}
 	};
+
+
+	useEffect(() => {
+		//wallet reset
+		sortedBtnProps[key].walletKey = '';
+		
+		
+	}, [storeSwitchRepository.isTestNet])
 
 	return (
 		<>

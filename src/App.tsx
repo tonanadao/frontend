@@ -320,6 +320,7 @@ const AppWrapper = () => {
 		// COIN -> COIN
 		// XCOIN none 
 	}, [formType])
+	
 
 	useEffect(() => {
 		// TODO
@@ -341,8 +342,14 @@ const AppWrapper = () => {
 		}
 
 		if (location.pathname === '/nft') {
-			navigate("/nft");
-			setFormType('nft')
+			if(storeSwitchRepository.isTestNet) {
+				navigate("/nft");
+				setFormType('nft')
+			} else {
+				navigate("/swap");
+				setFormType('swap')
+			}
+			
 		}
 	}, [location.pathname])
 	// console.log(navigation.location)
