@@ -153,6 +153,10 @@ iframe{
 	box-shadow: 0px 4px 8px rgba(0,0,0,0.35)!important;
 }
 
+.ant-popover-arrow {
+	display: none !important;
+}
+
 .selectorsoon {
   cursor: not-allowed !important;
 	color: gray !important;

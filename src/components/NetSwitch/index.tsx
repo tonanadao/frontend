@@ -13,28 +13,20 @@ const NetSwitch = (props : any) => {
 
     const [check, setCheck] = useState(false);
 
-    const switchHandler = () => {
-        if (!check) {
-            setCheck(true);
-        }
-    }
-
 
     useEffect(() => {
-        // console.log("Current isTestNet param");
-        // console.log("FROM:");
-        // console.log(storeSwitchRepository.isTestNet);
 
         if (!check) {
             storeSwitch.setIsTestNet(false);
+            // console.log("from test to main")
+            // console.log(storeSwitchRepository.isTestNet);
         }
-        else {
+        else if (check) {
             storeSwitch.setIsTestNet(true);
             message.success("You are using TestNet ver. of Tonana", 5);
+            // console.log("from main to test")
+            // console.log(storeSwitchRepository.isTestNet);
         }
-
-        // console.log("TO:");
-        // console.log(storeSwitchRepository.isTestNet);
 	}, [check])
 
 
@@ -42,7 +34,7 @@ const NetSwitch = (props : any) => {
         <NetSwitchForm>
 
             <Popconfirm
-            title="Do you really want to switch from TestNet to MainNet?"
+            title="`Do you really want to switch Net?`"
             okText="Yes"
             okType="default"
             cancelText="No"
@@ -53,8 +45,7 @@ const NetSwitch = (props : any) => {
                     props.setFormType('swap');    
                 }
                 setCheck((pre) => !pre)
-            }}
-            disabled = {!check}>
+            }}>
 
                 <Switch
                 style={{}}
@@ -62,8 +53,6 @@ const NetSwitch = (props : any) => {
                     checked= {check}
 			    	unCheckedChildren = {"Main Net"}
 			    	checkedChildren = {"Test Net"}
-
-                    onClick={() => {switchHandler()}}
 			    />
             </Popconfirm>
             
