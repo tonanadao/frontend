@@ -81,7 +81,8 @@ const listener = (
 	netTo: string,
 	userJWalletAdd: any,
 	JettonAmount: number,
-	setIsload: any
+	setIsload: any,
+	isTestNet: boolean
 ) => {
 	let trxs: any = [];
 	const int = setInterval(async () => {
@@ -181,7 +182,8 @@ const tonweb = new TonWeb(
 				netTo,
 				userJWalletAdd,
 				JettonAmount,
-				setIsload
+				setIsload,
+				isTestNet
 			);
 
 			// setIsload(false)

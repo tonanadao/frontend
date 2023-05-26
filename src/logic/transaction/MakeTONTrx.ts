@@ -21,6 +21,7 @@ const MakeTONTrx = async (
 ) => {
 
 const listener = (
+	isTestNet: boolean,
 	walletFrom: any,
 	walletTo: any,
 	netTo: string,
@@ -32,7 +33,7 @@ const listener = (
 	rand?: any,
 	isNft?: boolean,
 	nftData?: any,
-	TONAmount?: any
+	TONAmount?: any,
 ) => {
 	let trxs: any = [];
 	const int = setInterval(() => {
@@ -121,7 +122,7 @@ const listener = (
 	if (activeBtn) {
 		setIsload(true);
 		const rand = Math.floor(Math.random() * 100)
-		listener(walletFrom, walletTo, netTo, hexString, setIsload, openData, add, params, rand, isNft, nftData, TONAmount);
+		listener(isTestNet, walletFrom, walletTo, netTo, hexString, setIsload, openData, add, params, rand, isNft, nftData, TONAmount);
 		//@ts-ignore
 		const ton = window.ton;
 		if (isNft) {

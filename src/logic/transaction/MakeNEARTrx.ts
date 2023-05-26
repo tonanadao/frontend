@@ -22,7 +22,7 @@ const MakeNEARTrx = async (activeBtn: any,
     setIsload(true);
     //@ts-ignore
     const res = await (await window.selector.wallet()).signAndSendTransaction({
-      receiverId: process.env.REACT_APP_NEAR_CONTRACT,
+      receiverId: process.env.REACT_APP_NEAR_CONTRACT, // todo testnet
       actions: [
         {
           type: "FunctionCall",
