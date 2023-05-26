@@ -50,15 +50,13 @@ export const WalletSelectorContextProvider: React.FC<{
 	const [modal, setModal] = useState<WalletSelectorModal | null>(null);
 	const [accounts, setAccounts] = useState<Array<AccountState>>([]);
 	
-	//todo testnet
-	//The next two lines crash the application for some reason
-	// const { storeSwitch } = useStores();
-	// const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
+	const { storeSwitch } = useStores();
+	const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 
 
 	const init = useCallback(async () => {
 		const _selector = await setupWalletSelector({
-			network: "mainnet",
+			network: storeSwitchRepository.isTestNet ? "testnet" : "mainnet",
 			debug: true,
 			modules: [
 				...(await setupDefaultWallets()),
@@ -96,7 +94,7 @@ export const WalletSelectorContextProvider: React.FC<{
 				}),
 			],
 		});
-		const _modal = setupModal(_selector, { contractId: CONTRACT_ID});
+		const _modal = setupModal(_selector, { contractId: storeSwitchRepository.isTestNet ? CONTRACT_ID_TEST : CONTRACT_ID });
 		const state = _selector.store.getState();
 		setAccounts(state.accounts);
 

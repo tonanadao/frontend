@@ -86,7 +86,7 @@ const connectWalletNear = async (setNearWalletKey: any, isTestNet: boolean) => {
 			const _modal = setupModal(_selector, { contractId: "tonana.near" });
 			_modal.show();
 			const state = _selector.store.getState();
-			let accounts = state.accounts as any;
+			let accounts = state.accounts as any; 
 
 			//@ts-ignore
 			window.selector = _selector;
@@ -99,7 +99,7 @@ const connectWalletNear = async (setNearWalletKey: any, isTestNet: boolean) => {
 			console.log(accountId);
 
 			// const nearConnection = await connect(connectionConfig as any);
-			const receiver = process.env.REACT_APP_NEAR_CONTRACT
+			const receiver = process.env.REACT_APP_NEAR_CONTRACT //todo testnet
 				? process.env.REACT_APP_NEAR_CONTRACT
 				: "";
 			console.log(receiver)

@@ -33,6 +33,9 @@ import nearRpcStatus from "./logic/rpcsStatus/near";
 import ethRpcStatus from "./logic/rpcsStatus/eth";
 import callBackStatus from "./logic/rpcsStatus/back";
 
+import { WalletSelectorContextProvider } from "./contexts/WalletSelectorContext";
+
+
 import "@near-wallet-selector/modal-ui/styles.css";
 import { Loader, Version, SelectCoin, AppDiv, Selector, DirectionBtn, } from "./styles/style";
 import "antd/dist/antd.css";
@@ -408,7 +411,9 @@ const App = () => {
 	const rootStore = new RootStore();
 	return (
 		<StoreProvider store={rootStore}>
-			<AppWrapper />
+			<WalletSelectorContextProvider>
+				<AppWrapper />
+			</WalletSelectorContextProvider>
 		</StoreProvider>
 	);
 };
