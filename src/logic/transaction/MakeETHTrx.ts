@@ -53,7 +53,7 @@ const MakeAURORATrx = async (
 				fetch(
 					process.env.REACT_APP_STATE === "dev"
 						? "http://localhost:8092"
-						: process.env.REACT_APP_STATE === "dev-remote"
+						: process.env.REACT_APP_STATE === "dev-remote" || isTestNet
 							? "https://dev.api.tonana.org"
 							: "https://api.tonana.org/",
 					{
