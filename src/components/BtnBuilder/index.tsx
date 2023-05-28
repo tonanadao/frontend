@@ -79,7 +79,7 @@ export const GenerateBtn = (currencyName: string) => {
 
 	useEffect(() => {
 		//wallet reset
-		sortedBtnProps[key].walletKey = '';
+		sortedBtnProps[key].set('');
 		
 		
 	}, [storeSwitchRepository.isTestNet])
