@@ -383,7 +383,7 @@ const AppWrapper = () => {
 	return (
 		<>
 			<SwitchAlert/>
-			
+
 			<Header />
 
 			<NetSwitch {...formTypeProps}/>

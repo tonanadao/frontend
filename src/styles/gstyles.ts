@@ -185,6 +185,14 @@ iframe{
     border-color: rgb(22 28 45); 
 }
 
+.ant-message-notice-content {
+	background: rgb(22 31 56);
+}
+
+.ant-message {
+    color: #fff !important; 
+}
+
 .selectorsoon {
   cursor: not-allowed !important;
 	color: gray !important;
