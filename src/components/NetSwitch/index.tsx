@@ -12,7 +12,6 @@ const NetSwitch = (props : any) => {
     const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 
     const [check, setCheck] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
 
 
     useEffect(() => {
@@ -35,18 +34,18 @@ const NetSwitch = (props : any) => {
         <NetSwitchForm>
 
             <Popconfirm
-                title="Do you really want to switch Net?"
+                title="Do you want to switch Net?"
                 okText="Yes"
                 okType="default"
                 cancelText="Cancel"
                 onConfirm={() => {
                     if (check && location.pathname === "/nft") {
                        message.error("The NFT can only be used with TestNet", 5);
-                        navigate("/swap");
+                       navigate("/swap");
                        props.setFormType('swap');    
-                } else {
+                    } 
                     setCheck((pre) => !pre);
-                }
+                
                     
                 }}>
 

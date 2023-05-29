@@ -181,8 +181,8 @@ iframe{
     color: rgb(255 255 255) !important;
 }
 .ant-btn-ghost:hover, .ant-btn-ghost:focus {
-    color: rgb(22 28 45) !important;
-    border-color: rgb(22 28 45); 
+    color: rgb(255 255 255 / 40%) !important;
+    border-color: rgb(255 255 255 / 40%); 
 }
 
 .ant-message-notice-content {
@@ -203,6 +203,14 @@ color: rgb(255 255 255);
 
 .ant-popover-inner {
     background-color: rgb(22 31 56);
+}
+
+.ant-btn:hover, .ant-btn:focus, .ant-btn:active {
+    color: rgb(255 255 255 / 40%);
+}
+
+.ant-btn:hover, .ant-btn:focus {
+	border-color: rgb(255 255 255 / 40%);
 }
 
 .selectorsoon {

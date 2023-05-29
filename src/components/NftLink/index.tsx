@@ -21,7 +21,7 @@ const NftLink = (props: any) => {
         <Link to="/nft">
           <div className={activeClass} 
             onClick={(e)=> {
-            message.error("The NFT can only be used with TestNet", 5);
+            message.error("The NFT can only be used with TestNet", 2);
             e.preventDefault(); 
           }}
             >NFT<span>testnet</span></div>
