@@ -24,7 +24,7 @@ const NetSwitch = (props : any) => {
         }
         else if (check) {
             storeSwitch.setIsTestNet(true);
-            message.success("You are using TestNet ver. of Tonana", 5);
+            message.success("You are using TestNet ver. of Tonana", 2);
             // console.log("from main to test")
             // console.log(storeSwitchRepository.isTestNet);
         }
