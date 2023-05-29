@@ -157,6 +157,34 @@ iframe{
 	display: none !important;
 }
 
+.ant-alert {
+	position: fixed !important;
+	margin-top: 16px;
+    z-index: 1010;
+	width: 480px;
+	@media (max-width: 520px) {
+	width: 320px; 
+	}
+}
+
+.ant-alert-warning {
+	border: none;
+    background-color: rgb(22 31 56);
+	box-shadow: 0px 4px 8px rgba(0,0,0,0.35)!important;
+}
+
+.ant-alert-message {
+	color: #FFFFFF !important;
+}
+
+.ant-btn-ghost {
+    color: rgb(255 255 255 / 85%) !important;
+}
+.ant-btn-ghost:hover, .ant-btn-ghost:focus {
+    color: rgb(22 28 45) !important;
+    border-color: rgb(22 28 45); 
+}
+
 .selectorsoon {
   cursor: not-allowed !important;
 	color: gray !important;

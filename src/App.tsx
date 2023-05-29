@@ -46,6 +46,7 @@ import NetSwitch from "./components/NetSwitch";
 import NftLink from "./components/NftLink";
 import SwapLink from "./components/SwapLink";
 import BridgeLink from "./components/BridgeLink";
+import SwitchAlert from "./components/SwitchAlert";
 
 
 const AppWrapper = () => {
@@ -381,6 +382,8 @@ const AppWrapper = () => {
 
 	return (
 		<>
+			<SwitchAlert/>
+			
 			<Header />
 
 			<NetSwitch {...formTypeProps}/>
