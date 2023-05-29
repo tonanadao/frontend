@@ -178,7 +178,7 @@ iframe{
 }
 
 .ant-btn-ghost {
-    color: rgb(255 255 255 / 85%) !important;
+    color: rgb(255 255 255) !important;
 }
 .ant-btn-ghost:hover, .ant-btn-ghost:focus {
     color: rgb(22 28 45) !important;
@@ -191,6 +191,18 @@ iframe{
 
 .ant-message {
     color: #fff !important; 
+}
+
+.ant-popover-message {
+    color: rgb(255 255 255);
+}
+
+.ant-btn {
+color: rgb(255 255 255);
+}
+
+.ant-popover-inner {
+    background-color: rgb(22 31 56);
 }
 
 .selectorsoon {
