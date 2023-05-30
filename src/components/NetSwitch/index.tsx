@@ -12,7 +12,7 @@ const NetSwitch = (props : any) => {
     const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 
     const [check, setCheck] = useState(false);
-
+    const [net, setNet] = useState("");
 
     useEffect(() => {
 
@@ -20,21 +20,22 @@ const NetSwitch = (props : any) => {
             storeSwitch.setIsTestNet(false);
             // console.log("from test to main")
             // console.log(storeSwitchRepository.isTestNet);
+            setNet("Do you want to switch it to the Testnet");
         }
         else if (check) {
             storeSwitch.setIsTestNet(true);
             message.success("You are using TestNet ver. of Tonana", 2);
             // console.log("from main to test")
             // console.log(storeSwitchRepository.isTestNet);
+            setNet("Do you want to switch it to the Mainnet");
         }
 	}, [check])
-
 
     return (
         <NetSwitchForm>
 
             <Popconfirm
-                title="Do you want to switch Net?"
+                title={net}
                 okText="Yes"
                 okType="default"
                 cancelText="Cancel"
@@ -45,12 +46,9 @@ const NetSwitch = (props : any) => {
                        props.setFormType('swap');    
                     } 
                     setCheck((pre) => !pre);
-                
-                    
                 }}>
 
                 <Switch
-                style={{}}
 			    	defaultChecked = {false}
                     checked= {check}
 			    	unCheckedChildren = {"Main Net"}
