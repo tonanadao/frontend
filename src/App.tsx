@@ -108,7 +108,6 @@ const AppWrapper = () => {
 	var connection = new Connection(
 		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
 	);
-	console.log(location.pathname);
 
 	useEffect(() => {
 		const getStatuses = () => {

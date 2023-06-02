@@ -27,7 +27,6 @@ const fetchMarkets = async (stu: Setter<number>, ssu: Setter<number>, sau: Sette
 	const ethereumNearUsdPrice = (await CoinGeckoClient.coins.fetch("aurora-near", {})).data.market_data.current_price.usd;
 	sethu(ethereumNearUsdPrice);
 	const maticNearUsdPrice = (await CoinGeckoClient.coins.fetch("matic-network", {})).data.market_data.current_price.usd;
-	console.log(maticNearUsdPrice)
 	smaticu(maticNearUsdPrice);
 };
 

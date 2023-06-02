@@ -28,8 +28,6 @@ export const GenerateBtn = (currencyName: string) => {
 	let key: string = currencyName.toLocaleLowerCase();
 	if (key.includes('ton')) { key = "ton" }
 	if (key.includes('usn')) { key = "near" }
-	console.log('key:');
-	console.log(key);
 
 	const sortedBtnProps: any = {
 		sol: {

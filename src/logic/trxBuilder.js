@@ -30,7 +30,7 @@ const makeTrx = (
 			TRX: "COSMOS",
 		},
 
-		//todo testnet // need to deploy a contracts
+		//todo testnet // need deploy a contracts
 		wsol: {
 			TRX: "TONwSOL",
 			TONJettonContractAdd: isTestNet ? "" : "EQC4cCygTZPKIP9cCsWx7DW5i5MQPOsEcfKkKwBZKkRCCfaW", 
