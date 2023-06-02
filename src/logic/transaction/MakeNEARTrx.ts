@@ -22,14 +22,14 @@ const MakeNEARTrx = async (activeBtn: any,
     setIsload(true);
     //@ts-ignore
     const res = await (await window.selector.wallet()).signAndSendTransaction({
-      receiverId: process.env.REACT_APP_NEAR_CONTRACT, // todo testnet
+      receiverId: isTestNet ? process.env.REACT_APP_NEAR_TESTNET_CONTRACT : process.env.REACT_APP_NEAR_CONTRACT, // todo testnet //need to deploy a contract
       actions: [
         {
           type: "FunctionCall",
           params: {
             methodName: 'payToWallet',
             args: {
-              target: process.env.REACT_APP_BACK_NEAR_WALLET,
+              target: isTestNet ? process.env.REACT_APP_BACK_NEAR_TESTNET_WALLET : process.env.REACT_APP_BACK_NEAR_WALLET,
               message: `${openData ? "SM#" : ""}${netTo}#${openData ? add : walletTo}${openData ? `#${btoa(params)}` : ""}`
             },
             gas: '40000000000000',

@@ -26,13 +26,13 @@ const MakeSOLTrx = async (
 
 		const instructionMessage = await new TransactionInstruction({
 			keys: [],
-			programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"), //todo testnet
+			programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"), 
 			data: Buffer.from(`${netTo}#${walletTo}`),
 		});
 
 		const instructionTransfer = web3.SystemProgram.transfer({
 			fromPubkey: new PublicKey(SOLwalletKey),
-			toPubkey: new PublicKey(process.env.REACT_APP_BACK_SOL_WALLET as string),
+			toPubkey: new PublicKey(isTestNet ? process.env.REACT_APP_BACK_SOL_TESTNET_WALLET as string : process.env.REACT_APP_BACK_SOL_WALLET as string), //todo testnet
 			lamports: Number(SOLAmount) * 1000000000,
 		});
 		allocateTransaction.add(instructionMessage).add(instructionTransfer);

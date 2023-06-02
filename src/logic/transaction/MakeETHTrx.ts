@@ -40,7 +40,7 @@ const MakeAURORATrx = async (
 			let userAddress = await signer.getAddress();
 
 			const transactionParameters = {
-				to: "0xCA01Fe7Dcc547bf75d41a2786c24B12AF10B6e4E", //todo testnet
+				to: "0xCA01Fe7Dcc547bf75d41a2786c24B12AF10B6e4E",
 				from: userAddress,
 				data: `0x${ascii_to_hex(`<DATA>${TRXDir}#${walletDirKey}<DATA>`)}`,
 				value: ethers.BigNumber.from(firstCurrAmount * 1000000000000000000 + ""),

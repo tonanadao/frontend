@@ -39,7 +39,7 @@ const listener = (
 	const int = setInterval(() => {
 		message.success("Wait BE trx pending...", 2);
 		fetch(
-			`https://${!isNft && !isTestNet ? '' : 'testnet.'}toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=1&to_lt=0&archival=false`
+			`https://${!isNft && !isTestNet ? '' : 'testnet.'}toncenter.com/api/v2/getTransactions?address=${isTestNet ? process.env.REACT_APP_BACK_TON_TESTNET_WALLET : process.env.REACT_APP_BACK_TON_WALLET}&limit=1&to_lt=0&archival=false`
 		)
 			.then((e: any) => e.json())
 			.then((e: any) => {

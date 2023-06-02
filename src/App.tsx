@@ -180,7 +180,7 @@ const AppWrapper = () => {
 			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams, storeSwitchRepository.isTestNet);
 		message.success("Use Chrome with TonWallet & Phantom extensions", 5);
 		message.success("Connect both and make trx, then wait a little bit", 6);
-	}, []);
+	}, [storeSwitchRepository.isTestNet]);
 
 	useEffect(() => {
 		const SOLwalletKey = storeMainRepository.SOLwalletKey;

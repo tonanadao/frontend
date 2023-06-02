@@ -25,7 +25,7 @@ const MakeATOMTrx = async (
     try {
       if (window) {
         if (window["keplr"]) {
-          const chainId = "cosmoshub-4"; //theta-testnet-001
+          const chainId = isTestNet ? "theta-testnet-001" : "cosmoshub-4"; 
           await window.keplr.enable(chainId);
           //@ts-ignore
           if (typeof window === "undefined") return;

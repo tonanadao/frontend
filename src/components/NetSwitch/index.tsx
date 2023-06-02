@@ -51,8 +51,8 @@ const NetSwitch = (props : any) => {
                 <Switch
 			    	defaultChecked = {false}
                     checked= {check}
-			    	unCheckedChildren = {"Main Net"}
-			    	checkedChildren = {"Test Net"}
+			    	unCheckedChildren = {"Mainnet"}
+			    	checkedChildren = {"Testnet"}
 			    />
             </Popconfirm>
             

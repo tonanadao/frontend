@@ -11,7 +11,7 @@ export const initializeWalletNEAR = async (setNEARMaxAmount: any, setNEARwalletK
     explorerUrl: `https://explorer.${net}.near.org`,
   };
 
-  const receiver = process.env.REACT_APP_NEAR_CONTRACT //todo testnet 
+  const receiver = process.env.REACT_APP_NEAR_CONTRACT //todo testnet // need deploy
     ? process.env.REACT_APP_NEAR_CONTRACT
     // : isTestNet ? process.env.REACT_APP_NEAR_TEST_CONTRACT
     : "";
@@ -22,7 +22,7 @@ export const initializeWalletNEAR = async (setNEARMaxAmount: any, setNEARwalletK
   const account = await nearConnection.account( //todo testnet
     process.env.REACT_APP_BACK_NEAR_WALLET
       ? process.env.REACT_APP_BACK_NEAR_WALLET
-      // : isTestNet ? process.env.REACT_APP_BACK_TEST_NEAR_WALLET
+      // : isTestNet ? process.env.REACT_APP_BACK_NEAR_TESTNET_WALLET
       : ""
   );
   setNEARMaxAmount(
@@ -38,7 +38,7 @@ export const initializeWalletNEAR = async (setNEARMaxAmount: any, setNEARwalletK
     viewMethods: ['ft_balance_of'],
   }
   //@ts-ignore
-).ft_balance_of({account_id:'tonanawallet.near'}) / 1000000000000000000
+).ft_balance_of({account_id: isTestNet ? "tonana_wallet.testnet" : 'tonanawallet.near'}) / 1000000000000000000
 )
 
   if (walletConnection.isSignedIn()) {
