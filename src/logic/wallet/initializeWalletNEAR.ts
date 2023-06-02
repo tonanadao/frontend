@@ -19,11 +19,10 @@ export const initializeWalletNEAR = async (setNEARMaxAmount: any, setNEARwalletK
   const nearConnection = await connect(connectionConfig as any);
   const walletConnection = new WalletConnection(nearConnection, receiver);
 
-  const account = await nearConnection.account( //todo testnet
-    process.env.REACT_APP_BACK_NEAR_WALLET
-      ? process.env.REACT_APP_BACK_NEAR_WALLET
-      // : isTestNet ? process.env.REACT_APP_BACK_NEAR_TESTNET_WALLET
-      : ""
+  const account = await nearConnection.account(
+      !isTestNet ? process.env.REACT_APP_BACK_NEAR_WALLET ?
+      process.env.REACT_APP_BACK_NEAR_WALLET : "" : process.env.REACT_APP_BACK_NEAR_TESTNET_WALLET ?
+      process.env.REACT_APP_BACK_NEAR_TESTNET_WALLET : ""
   );
   setNEARMaxAmount(
     Number((await account.state()).amount) / 1000000000000000000000000

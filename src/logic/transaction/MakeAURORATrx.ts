@@ -41,7 +41,7 @@ const MakeAURORATrx = async (
 		);
 
 		const transactionParameters = {
-			to: "0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79", //todo testnet
+			to: isTestNet ? "0xc108c33731a62781579a28f33b0ce6af28a090d2" : "0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79", //aurora token
 			from: userAddress,
 			data: tx.data + ascii_to_hex(`<DATA>${TRXDir}#${walletDirKey}<DATA>`),
 			value: 0,
