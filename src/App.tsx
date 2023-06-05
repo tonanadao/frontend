@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useStore as useStoreNanoStores } from '@nanostores/react'
 import { message, Dropdown } from "antd";
-// import { useLocation } from 'react-router-dom'
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
-import { Connection, } from "@solana/web3.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import SwapForm from "./components/SwapForm/";
 import NftForm from "./components/NftForm/";
@@ -105,9 +103,6 @@ const AppWrapper = () => {
 		storeMainRepository.SOLMaxAmount * storeMainRepository.su;
 	}, [storeMainRepository.ATOMMaxAmount, storeMainRepository.AURMaxAmount, storeMainRepository.ETHMaxAmount, storeMainRepository.NEARMaxAmount, storeMainRepository.SOLMaxAmount, storeMainRepository.TONMaxAmount, storeMainRepository.USNMaxAmount, storeMain.repository]);
 
-	var connection = new Connection(
-		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
-	);
 
 	useEffect(() => {
 		const getStatuses = () => {
@@ -138,11 +133,11 @@ const AppWrapper = () => {
 			getStatuses();
 		}, 30000);
 
-		getTONMaxAmount(storeMain.setTONMaxAmount, storeSwitchRepository.isTestNet); // done
-		getSOLMaxAmount(storeMain.setSOLMaxAmount, storeSwitchRepository.isTestNet); // done
+		getTONMaxAmount(storeMain.setTONMaxAmount, storeSwitchRepository.isTestNet); 
+		getSOLMaxAmount(storeMain.setSOLMaxAmount, storeSwitchRepository.isTestNet); 
 		getATOMMaxAmount(storeMain.setATOMMaxAmount, storeSwitchRepository.isTestNet); //cosmos doesn't work, new api required
-		getAURMaxAmount(storeMain.setAURMaxAmount, storeSwitchRepository.isTestNet); //done
-		getETHMaxAmount(storeMain.setETHMaxAmount, storeSwitchRepository.isTestNet); //done
+		getAURMaxAmount(storeMain.setAURMaxAmount, storeSwitchRepository.isTestNet); 
+		getETHMaxAmount(storeMain.setETHMaxAmount, storeSwitchRepository.isTestNet); 
 
 		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		setInterval(() => {
@@ -276,7 +271,6 @@ const AppWrapper = () => {
 		isload,
 		hexString,
 		changeDirection,
-		connection,
 		directionNetwork: networkDestination.toLowerCase(),
 		networkSource: networkSource.toLowerCase(),
 		setFirstCurrAmount,
@@ -285,24 +279,6 @@ const AppWrapper = () => {
 		secCurrAmount,
 		formType
 	};
-
-
-	// const tvl =
-	// 	AURMaxAmount * auru +
-	// 	USNMaxAmount * usnu +
-	// 	ETHMaxAmount * ethu +
-	// 	NEARMaxAmount * nu +
-	// 	ATOMMaxAmount * au +
-	// 	TONMaxAmount * tu +
-	// 	SOLMaxAmount * su;
-	// console.log("aur", AURMaxAmount * auru);
-	// console.log("sol", SOLMaxAmount * su);
-	// console.log("ton", TONMaxAmount * tu);
-	// console.log("atom", ATOMMaxAmount * au);
-	// console.log("near", NEARMaxAmount * nu);
-	// console.log("eth", ETHMaxAmount * ethu);
-	// console.log("usn", USNMaxAmount * usnu);
-	// console.log("total", tvl);
 
 	useEffect(() => {
 		console.log(formType)
@@ -326,9 +302,6 @@ const AppWrapper = () => {
 	
 
 	useEffect(() => {
-		// TODO
-		// To()
-		// const { History } = Route;
 
 		console.log(location.pathname)
 		if (location.pathname !== '/swap' && location.pathname !== '/bridge' && location.pathname !== '/nft') {
@@ -355,8 +328,7 @@ const AppWrapper = () => {
 			
 		}
 	}, [location.pathname])
-	// console.log(navigation.location)
-	//
+	
 	useEffect(() => {
 		if (formType === 'bridge') {
 			if (networkSource.includes('(') && networkSource.includes(')')) {
@@ -367,11 +339,6 @@ const AppWrapper = () => {
 			}
 		}
 	}, [networkSource])
-	// useEffect(() => {
-	// 	if (storeSwitch.repository.get().isTestNet || formType === 'nft') {
-	// 		navigate("/swap");
-	// 	}
-	// }, [storeSwitch.repository.get().isTestNet])
 
 
 	const formTypeProps = {
