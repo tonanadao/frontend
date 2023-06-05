@@ -4,29 +4,9 @@ import makeTrx from "../../logic/trxBuilder";
 import getTONNftBalances from "../../logic/fetch/getTONNftBalances";
 import getETHNftBalances from "../../logic/fetch/getETHNftBalances";
 import { useStores } from "../../stores";
-import { SubmitBtn, NonactiveSubmitBtn } from "./styles";
+import { SubmitBtn, NonactiveSubmitBtn, NftSelector } from "./styles";
 import { useStore as useStoreNanoStores } from '@nanostores/react'
 
-import styled from "styled-components";
-// import { request, gql } from 'graphql-request'
-const NftSelector = styled.div`
-	img {
-		width: 100px;
-	}
- > div {
-	display: flex;
- overflow-x: scroll;
- color: white;
- > div {
- max-width: 100px;
- 		margin: 10px;
- }
- position: relative;
- }
- position: relative;
- overflow-x: scroll;
- width: 100%;
-`
 const SwapForm = (props: any) => {
 	const [addVal, setAddVal] = useState("");
 	const [params, setParams] = useState("");
