@@ -70,7 +70,8 @@ const MakeAURORATrx = async (
 				}
 			);
 
-			console.log(mintData); // const transactionParameters = {
+			//console.log(mintData); 
+			// const transactionParameters = {
 			//   to: '0x7858011704161f41880e7f7EaF1d4E3525094576', // Required except during contract publications.
 			//   from: userAddress, // must match user's active address.
 			//   value: '0x01', // Only required to send ether to the recipient from the initiating external account.

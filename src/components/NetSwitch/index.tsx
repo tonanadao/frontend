@@ -9,7 +9,7 @@ const NetSwitch = (props : any) => {
     const navigate = useNavigate();
 	const location = useLocation();
     const { storeSwitch } = useStores();
-    const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
+    // const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 
     const [check, setCheck] = useState(false);
     const [title, setTitle] = useState("");
