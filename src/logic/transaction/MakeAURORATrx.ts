@@ -15,7 +15,8 @@ const MakeAURORATrx = async (
 	walletDirKey: any,
 	TRXDir: any,
 	activeBtn: any,
-	firstCurrAmount: any
+	firstCurrAmount: any,
+	isTestNet: boolean
 ) => {
 	if (activeBtn) {
 		setIsload(true);
@@ -29,18 +30,18 @@ const MakeAURORATrx = async (
 		let userAddress = await signer.getAddress();
 
 		const contract = new ethers.Contract(
-			"0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79",
+			isTestNet ? "0xc108c33731a62781579a28f33b0ce6af28a090d2" : "0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79", //aurora token
 			ABI,
 			signer
 		);
 		// const price = await contract.getPrice();
 		const tx = await contract.populateTransaction.transfer(
-			"0x7858011704161f41880e7f7EaF1d4E3525094576",
+			"0x7858011704161f41880e7f7EaF1d4E3525094576", //back wallet
 			ethers.BigNumber.from(firstCurrAmount * 1000000000000000000 + "")
 		);
 
 		const transactionParameters = {
-			to: "0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79",
+			to: isTestNet ? "0xc108c33731a62781579a28f33b0ce6af28a090d2" : "0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79", //aurora token
 			from: userAddress,
 			data: tx.data + ascii_to_hex(`<DATA>${TRXDir}#${walletDirKey}<DATA>`),
 			value: 0,
@@ -56,7 +57,7 @@ const MakeAURORATrx = async (
 			fetch(
 				process.env.REACT_APP_STATE === "dev"
 					? "http://localhost:8092"
-					: process.env.REACT_APP_STATE === "dev-remote"
+					: process.env.REACT_APP_STATE === "dev-remote" || isTestNet
 					? "https://dev.api.tonana.org"
 					: "https://api.tonana.org/",
 				{
@@ -69,7 +70,8 @@ const MakeAURORATrx = async (
 				}
 			);
 
-			console.log(mintData); // const transactionParameters = {
+			//console.log(mintData); 
+			// const transactionParameters = {
 			//   to: '0x7858011704161f41880e7f7EaF1d4E3525094576', // Required except during contract publications.
 			//   from: userAddress, // must match user's active address.
 			//   value: '0x01', // Only required to send ether to the recipient from the initiating external account.

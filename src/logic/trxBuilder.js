@@ -18,7 +18,8 @@ const makeTrx = (
 	addVal,
 	params,
 	isNft,
-	nftData
+	nftData,
+	isTestNet
 ) => {
 
 	const TONconfig = {
@@ -28,29 +29,31 @@ const makeTrx = (
 		atom : {
 			TRX: "COSMOS",
 		},
+
+		//todo testnet // need deploy a contracts
 		wsol: {
 			TRX: "TONwSOL",
-			TONJettonContractAdd: "EQC4cCygTZPKIP9cCsWx7DW5i5MQPOsEcfKkKwBZKkRCCfaW",
+			TONJettonContractAdd: isTestNet ? "" : "EQC4cCygTZPKIP9cCsWx7DW5i5MQPOsEcfKkKwBZKkRCCfaW", 
 		},
 		weth: {
 			TRX: "TONwETH",
-			TONJettonContractAdd: "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U",
+			TONJettonContractAdd: isTestNet ? "" : "EQB6l24gEV_OIR0IlZHpoWAnNzj-xS2Nf_uSAEcTx_7B4k_U",
 		},
 		watom: {
 			TRX: "TONwATOM",
-			TONJettonContractAdd: "EQCa5-xswEfQM5x_CBb5f53ghfy8ZYTAMCohgqSO6rBYMlkD",
+			TONJettonContractAdd: isTestNet ? "" : "EQCa5-xswEfQM5x_CBb5f53ghfy8ZYTAMCohgqSO6rBYMlkD",
 		},
 		wnear: {
 			TRX: "TONwNEAR",
-			TONJettonContractAdd: "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi",
+			TONJettonContractAdd: isTestNet ? "" : "EQALr-K836vMmF5gOBzYmEHlS29-iG6AGsmHFzzgpMiy9ERi",
 		},
 		waurora: {
 			TRX: "TONwAURORA",
-			TONJettonContractAdd: "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut",
+			TONJettonContractAdd: isTestNet ? "" : "EQAlLZSs3HbZ6W5CoesPbqBoBLfS88FG1T0kLwaCC3fRF3ut",
 		},
 		wusn: {
 			TRX: "TONwUSN",
-			TONJettonContractAdd: "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI",
+			TONJettonContractAdd: isTestNet ? "" : "EQAfuJx-GWk0rn4T1r3g6SKmXRwBnW7I4jG2izu2qdoNH4aI",
 		}
 	}
 
@@ -70,6 +73,7 @@ const makeTrx = (
 
 	const TONTrx = () =>
 		MakeTONTrx(
+			isTestNet,
 			activeBtn,
 			props.setIsload,
 			props.firstCurrAmount,
@@ -92,7 +96,8 @@ const makeTrx = (
 			props.SOLwalletKey,
 			walletDirKey,
 			TRXDir,
-			props.firstCurrAmount
+			props.firstCurrAmount,
+			isTestNet
 		);
 
 	const NEARTrx = () =>
@@ -106,7 +111,8 @@ const makeTrx = (
 			props.hexString,
 			openData,
 			addVal,
-			params
+			params,
+			isTestNet
 		);
 
 	const ATOMtrx = () =>
@@ -117,7 +123,8 @@ const makeTrx = (
 			props.ATOMwalletKey,
 			walletDirKey,
 			TRXDir,
-			props.firstCurrAmount
+			props.firstCurrAmount,
+			isTestNet
 		);
 
 	const USNtrx = () =>
@@ -131,7 +138,8 @@ const makeTrx = (
 			props.hexString,
 			openData,
 			addVal,
-			params
+			params,
+			isTestNet
 		);
 
 	const AURORAtrx = () =>
@@ -140,7 +148,8 @@ const makeTrx = (
 			walletDirKey,
 			TRXDir,
 			activeBtn,
-			props.firstCurrAmount
+			props.firstCurrAmount,
+			isTestNet
 		);
 
 	const ETHtrx = () =>
@@ -152,6 +161,7 @@ const makeTrx = (
 			props.firstCurrAmount,
 			isNft,
 			nftData,
+			isTestNet
 		);
 
 	const TONJettonsBurnTrx = () =>
@@ -163,7 +173,8 @@ const makeTrx = (
 			props.firstCurrAmount,
 			props.TONwalletKey,
 			TRXDir,
-			walletDirKey
+			walletDirKey,
+			isTestNet
 		);
 
 

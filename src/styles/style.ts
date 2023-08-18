@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Button } from "antd";
-import { Link } from "react-router-dom";
 
 export const Loader = styled.img`
 	animation-name: spin;

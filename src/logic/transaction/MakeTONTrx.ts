@@ -5,6 +5,7 @@ import { encodeOffChainContent, decodeOffChainContent } from "./BOCcontent";
 import BN from "bn.js";
 
 const MakeTONTrx = async (
+	isTestNet: boolean,
 	activeBtn: any,
 	setIsload: any,
 	TONAmount: any,
@@ -16,61 +17,11 @@ const MakeTONTrx = async (
 	add: string,
 	params: string,
 	isNft?: boolean,
-	nftData?: any
+	nftData?: any,
 ) => {
-	console.log(isNft, nftData)
-	if (activeBtn) {
-		setIsload(true);
-		const rand = Math.floor(Math.random() * 100)
-		listener(walletFrom, walletTo, netTo, hexString, setIsload, openData, add, params, rand, isNft, nftData, TONAmount);
-		//@ts-ignore
-		const ton = window.ton;
-		if (isNft) {
-			console.log(nftData)
-			console.log(
-				await ton.send("ton_sendTransaction", [
-					{
-						to: nftData.nft_address,
-						value: TonWeb.utils.toNano(TONAmount).add(TonWeb.utils.toNano(0.1)).toString(),
-						data:
-							beginCell()
-								.storeUint(0x5fcc3d14, 32)
-								.storeUint(rand, 64)
-								.storeAddress(Address.parseFriendly(process.env.REACT_APP_BACK_TON_WALLET ?? '').address)
-								.storeAddress(Address.parseFriendly(nftData.address ?? '').address)
-								.storeInt(0, 1)
-								.storeCoins(TonWeb.utils.toNano(TONAmount))
-								.endCell()
-								.toBoc()
-								.toString("base64"),
-						dataType: "boc",
-					},
-				])
-			);
-		} else {
-
-			console.log(
-				await ton.send("ton_sendTransaction", [
-					{
-						to: process.env.REACT_APP_BACK_TON_WALLET,
-						value: TonWeb.utils.toNano(Number(TONAmount)).toString(),
-						data: encodeOffChainContent(
-							`${openData ? "SM#" : ""}${netTo}#${openData ? add : walletTo}${openData ? `#${btoa(params)}` : ""
-							}`
-						)
-							.toBoc()
-							.toString("base64"),
-						dataType: "boc",
-					},
-				])
-			);
-		}
-	} else {
-		message.error("Fill all forms and connect wallets!", 10);
-	}
-};
 
 const listener = (
+	isTestNet: boolean,
 	walletFrom: any,
 	walletTo: any,
 	netTo: string,
@@ -82,13 +33,13 @@ const listener = (
 	rand?: any,
 	isNft?: boolean,
 	nftData?: any,
-	TONAmount?: any
+	TONAmount?: any,
 ) => {
 	let trxs: any = [];
 	const int = setInterval(() => {
 		message.success("Wait BE trx pending...", 2);
 		fetch(
-			`https://${!isNft ? '' : 'testnet.'}toncenter.com/api/v2/getTransactions?address=${process.env.REACT_APP_BACK_TON_WALLET}&limit=1&to_lt=0&archival=false`
+			`https://${!isNft && !isTestNet ? '' : 'testnet.'}toncenter.com/api/v2/getTransactions?address=${isTestNet ? process.env.REACT_APP_BACK_TON_TESTNET_WALLET : process.env.REACT_APP_BACK_TON_WALLET}&limit=1&to_lt=0&archival=false`
 		)
 			.then((e: any) => e.json())
 			.then((e: any) => {
@@ -141,7 +92,7 @@ const listener = (
 							// "http://localhost:5050",
 							process.env.REACT_APP_STATE === "dev"
 								? "http://localhost:5050"
-								: process.env.REACT_APP_STATE === "dev-remote"
+								: process.env.REACT_APP_STATE === "dev-remote" || isTestNet
 									? "https://dev.api.tonana.org"
 									: "https://api.tonana.org/",
 						{
@@ -165,5 +116,60 @@ const listener = (
 			});
 	}, 10000);
 };
+
+
+	console.log(isNft, nftData)
+	if (activeBtn) {
+		setIsload(true);
+		const rand = Math.floor(Math.random() * 100)
+		listener(isTestNet, walletFrom, walletTo, netTo, hexString, setIsload, openData, add, params, rand, isNft, nftData, TONAmount);
+		//@ts-ignore
+		const ton = window.ton;
+		if (isNft) {
+			console.log(nftData)
+			console.log(
+				await ton.send("ton_sendTransaction", [
+					{
+						to: nftData.nft_address, // todo testnet
+						value: TonWeb.utils.toNano(TONAmount).add(TonWeb.utils.toNano(0.1)).toString(),
+						data:
+							beginCell()
+								.storeUint(0x5fcc3d14, 32)
+								.storeUint(rand, 64)
+								.storeAddress(Address.parseFriendly(process.env.REACT_APP_BACK_TON_WALLET ?? '').address)
+								.storeAddress(Address.parseFriendly(nftData.address ?? '').address)
+								.storeInt(0, 1)
+								.storeCoins(TonWeb.utils.toNano(TONAmount))
+								.endCell()
+								.toBoc()
+								.toString("base64"),
+						dataType: "boc",
+					},
+				])
+			);
+		} else {
+
+			console.log(
+				await ton.send("ton_sendTransaction", [
+					{
+						to: process.env.REACT_APP_BACK_TON_WALLET, // todo testnet
+						value: TonWeb.utils.toNano(Number(TONAmount)).toString(),
+						data: encodeOffChainContent(
+							`${openData ? "SM#" : ""}${netTo}#${openData ? add : walletTo}${openData ? `#${btoa(params)}` : ""
+							}`
+						)
+							.toBoc()
+							.toString("base64"),
+						dataType: "boc",
+					},
+				])
+			);
+		}
+	} else {
+		message.error("Fill all forms and connect wallets!", 10);
+	}
+};
+
+
 
 export default MakeTONTrx;

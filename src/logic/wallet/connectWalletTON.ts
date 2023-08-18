@@ -1,6 +1,6 @@
 import { message } from "antd";
 
-const connectWalletTON = async (setTONwalletKey: any) => {
+const connectWalletTON = async (setTONwalletKey: any, isTestNet: boolean) => {
   try {
     //@ts-ignore
     const ton = window.ton;

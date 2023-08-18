@@ -6,8 +6,9 @@ import { SubmitBtn, NonactiveSubmitBtn } from "./styles";
 import { useStore as useStoreNanoStores } from '@nanostores/react'
 
 const SwapForm = (props: any) => {
-	const { storeMain } = useStores();
+	const { storeMain, storeSwitch } = useStores();
 	const storeMainRepository = useStoreNanoStores(storeMain.repository);
+	const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 	const [addVal, setAddVal] = useState("");
 	const [params, setParams] = useState("");
 	const [addMessage, setAddMessage] = useState(false);
@@ -292,6 +293,7 @@ const SwapForm = (props: any) => {
 							openData,
 							addVal,
 							params,
+							storeSwitchRepository.isTestNet
 						)()
 					}>
 					Submit

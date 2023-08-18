@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useStore as useStoreNanoStores } from '@nanostores/react'
 import { message, Dropdown } from "antd";
-// import { useLocation } from 'react-router-dom'
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
-import { Connection, } from "@solana/web3.js";
 import { useNavigate, useLocation } from "react-router-dom";
 import SwapForm from "./components/SwapForm/";
 import NftForm from "./components/NftForm/";
@@ -33,6 +31,9 @@ import nearRpcStatus from "./logic/rpcsStatus/near";
 import ethRpcStatus from "./logic/rpcsStatus/eth";
 import callBackStatus from "./logic/rpcsStatus/back";
 
+import { WalletSelectorContextProvider } from "./contexts/WalletSelectorContext";
+
+
 import "@near-wallet-selector/modal-ui/styles.css";
 import { Loader, Version, SelectCoin, AppDiv, Selector, DirectionBtn, } from "./styles/style";
 import "antd/dist/antd.css";
@@ -43,11 +44,13 @@ import NetSwitch from "./components/NetSwitch";
 import NftLink from "./components/NftLink";
 import SwapLink from "./components/SwapLink";
 import BridgeLink from "./components/BridgeLink";
+import SwitchAlert from "./components/SwitchAlert";
 
 
 const AppWrapper = () => {
-	const { storeMain, } = useStores();
+	const { storeMain, storeSwitch } = useStores();
 	const storeMainRepository = useStoreNanoStores(storeMain.repository);
+	const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 
 
 
@@ -100,33 +103,29 @@ const AppWrapper = () => {
 		storeMainRepository.SOLMaxAmount * storeMainRepository.su;
 	}, [storeMainRepository.ATOMMaxAmount, storeMainRepository.AURMaxAmount, storeMainRepository.ETHMaxAmount, storeMainRepository.NEARMaxAmount, storeMainRepository.SOLMaxAmount, storeMainRepository.TONMaxAmount, storeMainRepository.USNMaxAmount, storeMain.repository]);
 
-	var connection = new Connection(
-		"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb"
-	);
-	console.log(location.pathname);
 
 	useEffect(() => {
 		const getStatuses = () => {
 			(async () => {
-				storeMain.setRpcTonStatus(await tonRpcStatus());
+				storeMain.setRpcTonStatus(await tonRpcStatus(storeSwitchRepository.isTestNet));
 			})();
 			(async () => {
-				storeMain.setRpcSolStatus(await solRpcStatus());
+				storeMain.setRpcSolStatus(await solRpcStatus(storeSwitchRepository.isTestNet));
 			})();
 			(async () => {
-				storeMain.setRpcNearStatus(await nearRpcStatus());
+				storeMain.setRpcNearStatus(await nearRpcStatus(storeSwitchRepository.isTestNet));
 			})();
 			(async () => {
-				storeMain.setRpcAuroraStatus(await auroraRpcStatus());
+				storeMain.setRpcAuroraStatus(await auroraRpcStatus(storeSwitchRepository.isTestNet));
 			})();
 			(async () => {
-				storeMain.setRpcEthStatus(await ethRpcStatus());
+				storeMain.setRpcEthStatus(await ethRpcStatus(storeSwitchRepository.isTestNet)); //need to replace rpc-fast
 			})();
 			(async () => {
-				storeMain.setRpcCosmosStatus(await cosmosRpcStatus());
+				storeMain.setRpcCosmosStatus(await cosmosRpcStatus(storeSwitchRepository.isTestNet)); // dont work
 			})();
 			(async () => {
-				storeMain.setBackStatus(await callBackStatus());
+				storeMain.setBackStatus(await callBackStatus(storeSwitchRepository.isTestNet));
 			})();
 		};
 		getStatuses();
@@ -134,11 +133,11 @@ const AppWrapper = () => {
 			getStatuses();
 		}, 30000);
 
-		getTONMaxAmount(storeMain.setTONMaxAmount);
-		getSOLMaxAmount(storeMain.setSOLMaxAmount);
-		getATOMMaxAmount(storeMain.setATOMMaxAmount);
-		getAURMaxAmount(storeMain.setAURMaxAmount);
-		getETHMaxAmount(storeMain.setETHMaxAmount);
+		getTONMaxAmount(storeMain.setTONMaxAmount, storeSwitchRepository.isTestNet); 
+		getSOLMaxAmount(storeMain.setSOLMaxAmount, storeSwitchRepository.isTestNet); 
+		getATOMMaxAmount(storeMain.setATOMMaxAmount, storeSwitchRepository.isTestNet); //cosmos doesn't work, new api required
+		getAURMaxAmount(storeMain.setAURMaxAmount, storeSwitchRepository.isTestNet); 
+		getETHMaxAmount(storeMain.setETHMaxAmount, storeSwitchRepository.isTestNet); 
 
 		fetchMarkets(storeMain.setTu, storeMain.setSu, storeMain.setAu, storeMain.setNu, storeMain.setAuru, storeMain.setUsnu, storeMain.setEthu, storeMain.smaticu);
 		setInterval(() => {
@@ -165,16 +164,17 @@ const AppWrapper = () => {
 			sHexString(storedData.hexString);
 			setNetworkSource(storedData.networkSource);
 			setNetworkDestination(storedData.networkDestination);
+			storeSwitch.setIsTestNet(storedData.isTestNet);
 		}
 
-		initializeWalletNEAR(storeMain.setNEARMaxAmount, storeMain.setNEARwalletKey, storeMain.setUSNMaxAmount);
+		initializeWalletNEAR(storeMain.setNEARMaxAmount, storeMain.setNEARwalletKey, storeMain.setUSNMaxAmount, storeSwitchRepository.isTestNet);
 		if (isnear)
-			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
+			makeNEARTrxAfterLoad(transactionHashes, setSearchParams, searchParams, storeSwitchRepository.isTestNet);
 		if (isusn)
-			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams);
+			makeUSNTrxAfterLoad(transactionHashes, setSearchParams, searchParams, storeSwitchRepository.isTestNet);
 		message.success("Use Chrome with TonWallet & Phantom extensions", 5);
 		message.success("Connect both and make trx, then wait a little bit", 6);
-	}, []);
+	}, [storeSwitchRepository.isTestNet]);
 
 	useEffect(() => {
 		const SOLwalletKey = storeMainRepository.SOLwalletKey;
@@ -183,6 +183,7 @@ const AppWrapper = () => {
 		const AURwalletKey = storeMainRepository.AURwalletKey;
 		const NEARwalletKey = storeMainRepository.NEARwalletKey;
 		const ATOMwalletKey = storeMainRepository.ATOMwalletKey;
+		const isTestNet = storeSwitchRepository.isTestNet;
 		localStorage.setItem(
 			"tonana_data",
 			JSON.stringify({
@@ -196,6 +197,7 @@ const AppWrapper = () => {
 				hexString,
 				networkSource,
 				networkDestination,
+				isTestNet
 			})
 		);
 	}, [
@@ -209,6 +211,7 @@ const AppWrapper = () => {
 		hexString,
 		networkSource,
 		networkDestination,
+		storeSwitchRepository.isTestNet
 	]);
 
 
@@ -268,7 +271,6 @@ const AppWrapper = () => {
 		isload,
 		hexString,
 		changeDirection,
-		connection,
 		directionNetwork: networkDestination.toLowerCase(),
 		networkSource: networkSource.toLowerCase(),
 		setFirstCurrAmount,
@@ -277,24 +279,6 @@ const AppWrapper = () => {
 		secCurrAmount,
 		formType
 	};
-
-
-	// const tvl =
-	// 	AURMaxAmount * auru +
-	// 	USNMaxAmount * usnu +
-	// 	ETHMaxAmount * ethu +
-	// 	NEARMaxAmount * nu +
-	// 	ATOMMaxAmount * au +
-	// 	TONMaxAmount * tu +
-	// 	SOLMaxAmount * su;
-	// console.log("aur", AURMaxAmount * auru);
-	// console.log("sol", SOLMaxAmount * su);
-	// console.log("ton", TONMaxAmount * tu);
-	// console.log("atom", ATOMMaxAmount * au);
-	// console.log("near", NEARMaxAmount * nu);
-	// console.log("eth", ETHMaxAmount * ethu);
-	// console.log("usn", USNMaxAmount * usnu);
-	// console.log("total", tvl);
 
 	useEffect(() => {
 		console.log(formType)
@@ -315,11 +299,9 @@ const AppWrapper = () => {
 		// COIN -> COIN
 		// XCOIN none 
 	}, [formType])
+	
 
 	useEffect(() => {
-		// TODO
-		// To()
-		// const { History } = Route;
 
 		console.log(location.pathname)
 		if (location.pathname !== '/swap' && location.pathname !== '/bridge' && location.pathname !== '/nft') {
@@ -336,12 +318,17 @@ const AppWrapper = () => {
 		}
 
 		if (location.pathname === '/nft') {
-			navigate("/nft");
-			setFormType('nft')
+			if(storeSwitchRepository.isTestNet) {
+				navigate("/nft");
+				setFormType('nft')
+			} else {
+				navigate("/swap");
+				setFormType('swap')
+			}
+			
 		}
 	}, [location.pathname])
-	// console.log(navigation.location)
-	//
+	
 	useEffect(() => {
 		if (formType === 'bridge') {
 			if (networkSource.includes('(') && networkSource.includes(')')) {
@@ -352,11 +339,6 @@ const AppWrapper = () => {
 			}
 		}
 	}, [networkSource])
-	// useEffect(() => {
-	// 	if (storeSwitch.repository.get().isTestNet || formType === 'nft') {
-	// 		navigate("/swap");
-	// 	}
-	// }, [storeSwitch.repository.get().isTestNet])
 
 
 	const formTypeProps = {
@@ -366,6 +348,8 @@ const AppWrapper = () => {
 
 	return (
 		<>
+			<SwitchAlert/>
+
 			<Header />
 
 			<NetSwitch {...formTypeProps}/>
@@ -396,7 +380,9 @@ const App = () => {
 	const rootStore = new RootStore();
 	return (
 		<StoreProvider store={rootStore}>
-			<AppWrapper />
+			<WalletSelectorContextProvider>
+				<AppWrapper />
+			</WalletSelectorContextProvider>
 		</StoreProvider>
 	);
 };

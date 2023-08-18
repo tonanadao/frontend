@@ -1,6 +1,6 @@
 import { message } from "antd";
 
-const connectWalletSOL = async (setSOLWalletKey: any) => {
+const connectWalletSOL = async (setSOLWalletKey: any, isTestNet: boolean) => {
   try {
     // @ts-ignore
     const solana = window.solana;

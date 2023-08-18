@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
 
-const connectWalletETH = async (setETHWalletKey: any)=>{
+const connectWalletETH = async (setETHWalletKey: any, isTestNet: boolean)=>{
 
   //@ts-ignore
   const provider = new ethers.providers.Web3Provider(window.ethereum)

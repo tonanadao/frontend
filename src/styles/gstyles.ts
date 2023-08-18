@@ -144,6 +144,74 @@ iframe{
 	background: rgba(22, 31, 56, 1) !important; 
 }
 
+.ant-switch-handle::before {
+	background-color: rgb(255, 201, 22);
+}
+
+
+.ant-switch {
+	box-shadow: 0px 4px 8px rgba(0,0,0,0.35)!important;
+}
+
+.ant-popover-arrow {
+	display: none !important;
+}
+
+.ant-alert {
+	position: fixed !important;
+	margin-top: 16px;
+    z-index: 1010;
+	width: 480px;
+	@media (max-width: 520px) {
+	width: 320px; 
+	}
+}
+
+.ant-alert-warning {
+	border: none;
+    background-color: rgb(22 31 56);
+	box-shadow: 0px 4px 8px rgba(0,0,0,0.35)!important;
+}
+
+.ant-alert-message {
+	color: #FFFFFF !important;
+}
+
+.ant-btn-ghost {
+    color: rgb(255 255 255) !important;
+}
+.ant-btn-ghost:hover, .ant-btn-ghost:focus {
+    color: rgb(255 255 255 / 40%) !important;
+    border-color: rgb(255 255 255 / 40%); 
+}
+
+.ant-message-notice-content {
+	background: rgb(22 31 56);
+}
+
+.ant-message {
+    color: #fff !important; 
+}
+
+.ant-popover-message {
+    color: rgb(255 255 255);
+}
+
+.ant-btn {
+color: rgb(255 255 255);
+}
+
+.ant-popover-inner {
+    background-color: rgb(22 31 56);
+}
+
+.ant-btn:hover, .ant-btn:focus, .ant-btn:active {
+    color: rgb(255 255 255 / 40%);
+}
+
+.ant-btn:hover, .ant-btn:focus {
+	border-color: rgb(255 255 255 / 40%);
+}
 
 .selectorsoon {
   cursor: not-allowed !important;

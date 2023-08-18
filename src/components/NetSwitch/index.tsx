@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStores } from "../../stores";
 import { NetSwitchForm, Text } from "./styles";
-import { Switch, Popconfirm, message } from "antd";
+import { Switch, Popconfirm, message, Alert, Button, Space } from "antd";
 import { useStore as useStoreNanoStores } from '@nanostores/react'
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -9,61 +9,50 @@ const NetSwitch = (props : any) => {
     const navigate = useNavigate();
 	const location = useLocation();
     const { storeSwitch } = useStores();
-    const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
+    // const storeSwitchRepository = useStoreNanoStores(storeSwitch.repository);
 
     const [check, setCheck] = useState(false);
-
-    const switchHandler = () => {
-        if (!check) {
-            setCheck(true);
-        }
-    }
-
+    const [title, setTitle] = useState("");
 
     useEffect(() => {
-        // console.log("Current isTestNet param");
-        // console.log("FROM:");
-        // console.log(storeSwitchRepository.isTestNet);
 
         if (!check) {
             storeSwitch.setIsTestNet(false);
+            // console.log("from test to main")
+            // console.log(storeSwitchRepository.isTestNet);
+            setTitle("Do you want to switch it to the Testnet?");
         }
-        else {
+        else if (check) {
             storeSwitch.setIsTestNet(true);
-            message.success("You are using TestNet ver. of Tonana", 5);
+            message.success("You are using TestNet ver. of Tonana", 2);
+            // console.log("from main to test")
+            // console.log(storeSwitchRepository.isTestNet);
+            setTitle("Do you want to switch it to the Mainnet?");
         }
-
-        // console.log("TO:");
-        // console.log(storeSwitchRepository.isTestNet);
 	}, [check])
-
 
     return (
         <NetSwitchForm>
 
             <Popconfirm
-            title="Do you really want to switch from TestNet to MainNet?"
-            okText="Yes"
-            okType="default"
-            cancelText="No"
-            onConfirm={() => {
-                if (check && location.pathname === "/nft") {
-                    message.error("The NFT can only be used with TestNet", 5);
-                    navigate("/swap");
-                    props.setFormType('swap');    
-                }
-                setCheck((pre) => !pre)
-            }}
-            disabled = {!check}>
+                title={title}
+                okText="Yes"
+                okType="default"
+                cancelText="Cancel"
+                onConfirm={() => {
+                    if (check && location.pathname === "/nft") {
+                       message.error("The NFT can only be used with TestNet", 5);
+                       navigate("/swap");
+                       props.setFormType('swap');    
+                    } 
+                    setCheck((pre) => !pre);
+                }}>
 
                 <Switch
-                style={{}}
 			    	defaultChecked = {false}
                     checked= {check}
-			    	unCheckedChildren = {"Main Net"}
-			    	checkedChildren = {"Test Net"}
-
-                    onClick={() => {switchHandler()}}
+			    	unCheckedChildren = {"Mainnet"}
+			    	checkedChildren = {"Testnet"}
 			    />
             </Popconfirm>
             

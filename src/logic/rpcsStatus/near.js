@@ -1,15 +1,16 @@
 import * as nearAPI from "near-api-js";
 
-const rpcsStatus = async () => {
+const rpcsStatus = async (isTestNet) => {
+	const net = isTestNet ? 'testnet' : 'mainnet'
 	const { connect, keyStores } = nearAPI;
 
 	const connectionConfig = {
 		networkId: "mainnet",
 		keyStore: new keyStores.BrowserLocalStorageKeyStore(),
-		nodeUrl: "https://rpc.mainnet.near.org",
-		walletUrl: "https://wallet.mainnet.near.org",
-		helperUrl: "https://helper.mainnet.near.org",
-		explorerUrl: "https://explorer.mainnet.near.org",
+		nodeUrl: `https://rpc.${net}.near.org`,
+		walletUrl: `https://wallet.${net}.near.org`,
+		helperUrl: `https://helper.${net}.near.org`,
+		explorerUrl: `https://explorer.${net}.near.org`,
 	};
 	const nearConnection = await connect(connectionConfig);
 

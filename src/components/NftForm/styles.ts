@@ -21,3 +21,22 @@ export const NonactiveSubmitBtn = styled(Button)`
   }
 
 `;
+
+export const NftSelector = styled.div`
+	img {
+		width: 100px;
+	}
+ > div {
+	display: flex;
+ overflow-x: scroll;
+ color: white;
+ > div {
+ max-width: 100px;
+ 		margin: 10px;
+ }
+ position: relative;
+ }
+ position: relative;
+ overflow-x: scroll;
+ width: 100%;
+`

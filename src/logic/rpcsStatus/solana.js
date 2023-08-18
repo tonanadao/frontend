@@ -1,6 +1,7 @@
-const rpcsStatus = async () => {
+const rpcsStatus = async (isTestNet) => {
+	const net = isTestNet ? "devnet" : "mainnet"
 	const solres = await fetch(
-		`https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb`,
+		`https://solana-${net}.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb`,
 		{
 			method: "POST",
 			headers: {

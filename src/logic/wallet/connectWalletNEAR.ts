@@ -30,21 +30,22 @@ import { setupOptoWallet } from "@near-wallet-selector/opto-wallet";
 import { setupNeth } from "@near-wallet-selector/neth";
 // import "./dist/packages/modal-ui/styles.css";/
 
-const connectWalletNear = async (setNearWalletKey: any) => {
+const connectWalletNear = async (setNearWalletKey: any, isTestNet: boolean) => {
+	const net = isTestNet ? "testnet" : "mainnet"
 	try {
 		const connectionConfig = {
-			networkId: "mainnet",
+			networkId: `${net}`,
 			keyStore: new keyStores.BrowserLocalStorageKeyStore(),
-			nodeUrl: "https://rpc.mainnet.near.org",
-			walletUrl: "https://wallet.mainnet.near.org",
-			helperUrl: "https://helper.mainnet.near.org",
-			explorerUrl: "https://explorer.mainnet.near.org",
+			nodeUrl: `https://rpc.${net}.near.org`,
+			walletUrl: `https://wallet.${net}.near.org`,
+			helperUrl: `https://helper.${net}.near.org`,
+			explorerUrl: `https://explorer.${net}.near.org`,
 		};
 
 
 		(async () => {
 			const _selector = await setupWalletSelector({
-				network: "mainnet",
+				network: `${net}`,
 				debug: true,
 				modules: [
 					...(await setupDefaultWallets()),
@@ -85,7 +86,7 @@ const connectWalletNear = async (setNearWalletKey: any) => {
 			const _modal = setupModal(_selector, { contractId: "tonana.near" });
 			_modal.show();
 			const state = _selector.store.getState();
-			let accounts = state.accounts as any;
+			let accounts = state.accounts as any; 
 
 			//@ts-ignore
 			window.selector = _selector;
@@ -98,7 +99,7 @@ const connectWalletNear = async (setNearWalletKey: any) => {
 			console.log(accountId);
 
 			// const nearConnection = await connect(connectionConfig as any);
-			const receiver = process.env.REACT_APP_NEAR_CONTRACT
+			const receiver = process.env.REACT_APP_NEAR_CONTRACT //todo testnet
 				? process.env.REACT_APP_NEAR_CONTRACT
 				: "";
 			console.log(receiver)

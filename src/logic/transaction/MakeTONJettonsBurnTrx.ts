@@ -3,11 +3,7 @@ import { message } from "antd";
 import BN from "bn.js";
 import TonWeb from "tonweb";
 
-const tonweb = new TonWeb(
-	new TonWeb.HttpProvider("https://toncenter.com/api/v2/jsonRPC", {
-		apiKey: "0e864b650c2d3fed65729622d72fc8b40686f38242e0c187bf2aafe7a028ac59",
-	})
-);
+
 
 const prepareParams = (params: Cell[] = []) => {
 	return params.map((p) => {
@@ -75,8 +71,77 @@ const MakeTONJettonsBurnTrx = async (
 	JettonAmount: any,
 	TONwallet: any,
 	netTo: string,
-	walletTo: any
+	walletTo: any,
+	isTestNet: boolean
 ) => {
+
+const listener = (
+	sourceChain: string,
+	walletTo: any,
+	netTo: string,
+	userJWalletAdd: any,
+	JettonAmount: number,
+	setIsload: any,
+	isTestNet: boolean
+) => {
+	let trxs: any = [];
+	const int = setInterval(async () => {
+		message.success("Wait BE trx pending...", 2);
+
+		const trxsa = await tonweb.getTransactions(userJWalletAdd, 1);
+		const data = trxsa.filter(
+			(e: any) =>
+				atob(e.in_msg.msg_data.body).split("<DATA>")[1] ===
+				`${netTo}#${walletTo}#${JettonAmount}`
+		);
+
+		if (!data[0] && trxs.length === 0) {
+			trxs.push({ transaction_id: { hash: "test" } });
+		} else if (trxs.length === 0 && data[0]) {
+			trxs = data;
+		}
+
+		if (
+			data[0].transaction_id.hash !== trxs[0].transaction_id.hash &&
+			trxs.length !== 0
+		) {
+			clearInterval(int);
+
+			message.success("Done BE trx!", 10);
+
+			fetch(
+				process.env.REACT_APP_STATE === "dev"
+					? "http://localhost:8092"
+					: process.env.REACT_APP_STATE === "dev-remote" || isTestNet
+					? "https://dev.api.tonana.org"
+					: "https://api.tonana.org/",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						hash: data[0].transaction_id.hash,
+						sourceChain: sourceChain,
+					}),
+				}
+			);
+			// console.log(e);
+			setIsload(false);
+
+			message.success("Done trx!", 10);
+		}
+	}, 8000);
+};
+
+
+const net = isTestNet ? "testnet.toncenter" : "toncenter"
+const tonweb = new TonWeb(
+	new TonWeb.HttpProvider(`https://${net}.com/api/v2/jsonRPC`, {
+		apiKey: "0e864b650c2d3fed65729622d72fc8b40686f38242e0c187bf2aafe7a028ac59",
+	})
+);
+
+
+
 	if (activeBtn) {
 		try {
 			setIsload(true);
@@ -117,7 +182,8 @@ const MakeTONJettonsBurnTrx = async (
 				netTo,
 				userJWalletAdd,
 				JettonAmount,
-				setIsload
+				setIsload,
+				isTestNet
 			);
 
 			// setIsload(false)
@@ -130,60 +196,6 @@ const MakeTONJettonsBurnTrx = async (
 	}
 };
 
-const listener = (
-	sourceChain: string,
-	walletTo: any,
-	netTo: string,
-	userJWalletAdd: any,
-	JettonAmount: number,
-	setIsload: any
-) => {
-	let trxs: any = [];
-	const int = setInterval(async () => {
-		message.success("Wait BE trx pending...", 2);
 
-		const trxsa = await tonweb.getTransactions(userJWalletAdd, 1);
-		const data = trxsa.filter(
-			(e: any) =>
-				atob(e.in_msg.msg_data.body).split("<DATA>")[1] ===
-				`${netTo}#${walletTo}#${JettonAmount}`
-		);
-
-		if (!data[0] && trxs.length === 0) {
-			trxs.push({ transaction_id: { hash: "test" } });
-		} else if (trxs.length === 0 && data[0]) {
-			trxs = data;
-		}
-
-		if (
-			data[0].transaction_id.hash !== trxs[0].transaction_id.hash &&
-			trxs.length !== 0
-		) {
-			clearInterval(int);
-
-			message.success("Done BE trx!", 10);
-
-			fetch(
-				process.env.REACT_APP_STATE === "dev"
-					? "http://localhost:8092"
-					: process.env.REACT_APP_STATE === "dev-remote"
-					? "https://dev.api.tonana.org"
-					: "https://api.tonana.org/",
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						hash: data[0].transaction_id.hash,
-						sourceChain: sourceChain,
-					}),
-				}
-			);
-			// console.log(e);
-			setIsload(false);
-
-			message.success("Done trx!", 10);
-		}
-	}, 8000);
-};
 
 export default MakeTONJettonsBurnTrx;
