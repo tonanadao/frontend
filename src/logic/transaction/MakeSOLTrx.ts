@@ -12,7 +12,8 @@ const MakeSOLTrx = async (
 	SOLwalletKey: any,
 	walletTo: any,
 	netTo: string,
-	SOLAmount: any
+	SOLAmount: any,
+	isTestNet: boolean
 ) => {
 	if (activeBtn) {
 		setIsload(true);
@@ -25,13 +26,13 @@ const MakeSOLTrx = async (
 
 		const instructionMessage = await new TransactionInstruction({
 			keys: [],
-			programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
+			programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"), 
 			data: Buffer.from(`${netTo}#${walletTo}`),
 		});
 
 		const instructionTransfer = web3.SystemProgram.transfer({
 			fromPubkey: new PublicKey(SOLwalletKey),
-			toPubkey: new PublicKey(process.env.REACT_APP_BACK_SOL_WALLET as string),
+			toPubkey: new PublicKey(isTestNet ? process.env.REACT_APP_BACK_SOL_TESTNET_WALLET as string : process.env.REACT_APP_BACK_SOL_WALLET as string), //todo testnet
 			lamports: Number(SOLAmount) * 1000000000,
 		});
 		allocateTransaction.add(instructionMessage).add(instructionTransfer);
@@ -41,8 +42,9 @@ const MakeSOLTrx = async (
 		);
 		await connection.confirmTransaction(signature);
 		const int = setInterval(() => {
+			const net = isTestNet ? "devnet" : "mainnet";
 			fetch(
-				`https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb`,
+				`https://solana-${net}.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb`,
 				{
 					method: "POST",
 					headers: {
@@ -71,9 +73,9 @@ const MakeSOLTrx = async (
 						fetch(
 							process.env.REACT_APP_STATE === "dev"
 								? "http://localhost:8092"
-								: process.env.REACT_APP_STATE === "dev-remote"
-								? "https://dev.api.tonana.org"
-								: "https://api.tonana.org/",
+								: process.env.REACT_APP_STATE === "dev-remote" || isTestNet
+									? "https://dev.api.tonana.org"
+									: "https://api.tonana.org/",
 							{
 								method: "POST",
 								headers: { "Content-Type": "application/json" },

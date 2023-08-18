@@ -1,9 +1,9 @@
 import { message } from "antd";
 
-const connectWalletATOM = async (setATOMWalletKey: any) => {
+const connectWalletATOM = async (setATOMWalletKey: any, isTestNet: boolean) => {
   try {
     if (window["keplr"]) {
-      const chainId = "cosmoshub-4"; //theta-testnet-001
+      const chainId = isTestNet ? "theta-testnet-001" : "cosmoshub-4"; 
       await window.keplr.enable(chainId);
       //@ts-ignore
       if (typeof window === "undefined") return;

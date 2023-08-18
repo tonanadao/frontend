@@ -1,8 +1,9 @@
-const getSOLMaxAmount = async (setSOLMaxAmount: any) => {
+const getSOLMaxAmount = async (setSOLMaxAmount: any, isTestNet: boolean) => {
+	const CheinID: string = isTestNet ? "devnet" : "mainnet";
 	try {
 		(async () => {
 			const rs = await fetch(
-				"https://solana-mainnet.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb",
+				`https://solana-${CheinID}.g.alchemy.com/v2/B9sqdnSJnFWSdKlCTFqEQjMr8pnj7RAb`,
 				{
 					method: "POST",
 					headers: {

@@ -1,4 +1,4 @@
-const rpcsStatus = async () => {
+const rpcsStatus = async (isTestNet) => {
 	const csm = (
 		await fetch(
 			"https://proxy.tonana.org/https://rpc.cosmos.network/status?"

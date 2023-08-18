@@ -1,8 +1,9 @@
 import TonWeb from "tonweb";
 
-const getTONMaxAmount = (setTONMaxAmount: any) => {
+const getTONMaxAmount = (setTONMaxAmount: any, isTestNet: boolean) => {
+	const CheinID: string = isTestNet ? "testnet.toncenter" : "toncenter";
 	fetch(
-		`https://toncenter.com/api/v2/getAddressInformation?address=${process.env.REACT_APP_BACK_TON_WALLET}`,
+		`https://${CheinID}.com/api/v2/getAddressInformation?address=${process.env.REACT_APP_BACK_TON_WALLET}`,
 		{ method: "GET" }
 	)
 		.then((e) => e.json())

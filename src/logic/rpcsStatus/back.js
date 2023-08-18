@@ -1,6 +1,8 @@
-const rpcsStatus = async () => {
+const rpcsStatus = async (isTestNet) => {
+	const api = isTestNet ? 'api' : 'dev.api'
+	
 	const tnn = await fetch(
-		"https://proxy.tonana.org/https://api.tonana.org/ping",
+		`https://proxy.tonana.org/https://${api}.tonana.org/ping`,
 		{
 			method: "GET",
 			headers: {
